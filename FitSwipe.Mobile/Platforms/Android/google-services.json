@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "208950336220",
+    "project_id": "fit-swipe-161d7",
+    "storage_bucket": "fit-swipe-161d7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:208950336220:android:13a658b616f4a0654eb219",
+        "android_client_info": {
+          "package_name": "com.company.name"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkxjZ8T8uB5DtAVi7j2o2rYXukSxl1OH8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
