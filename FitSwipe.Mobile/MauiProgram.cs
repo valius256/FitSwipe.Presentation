@@ -1,6 +1,7 @@
 ﻿using Firebase.Auth;
 using Firebase.Auth.Providers;
 using FitSwipe.Mobile.Pages;
+using FitSwipe.Mobile.Pages.HomePages;
 using FitSwipe.Mobile.ViewModels;
 using Microsoft.Extensions.Logging;
 
@@ -37,6 +38,7 @@ namespace FitSwipe.Mobile
             builder.Services.AddSingleton<SignInViewModel>();
             builder.Services.AddSingleton<SignUpViewModel>();
 
+            builder.Services.AddSingleton<SwipeMatchView>();
 
             return builder.Build();
         }

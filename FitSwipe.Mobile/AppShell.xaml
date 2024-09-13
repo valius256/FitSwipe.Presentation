@@ -10,14 +10,18 @@
     Title="FitSwipe.Mobile">
 
 
+
     <ShellContent
         Title="Sign In"
         ContentTemplate="{DataTemplate pages:SignInView}"
         Route="SignIn" />
 
+
     <ShellContent
         ContentTemplate="{DataTemplate homePages:SwipeMatchView}"
         Route="SwipeMatch" />
+
+
 
 
     <ShellContent
