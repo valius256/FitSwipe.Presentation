@@ -20,6 +20,8 @@ namespace FitSwipe.Mobile
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            //builder.Services.AddHttpClient("api", HttpClient => new Uri("https://localhost:7151/api"));
+
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
@@ -32,6 +34,8 @@ namespace FitSwipe.Mobile
                     new EmailProvider()
                 },
             }));
+
+
 
             builder.Services.AddSingleton<SignInView>();
             builder.Services.AddSingleton<SignUpView>();
