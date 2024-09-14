@@ -8,13 +8,6 @@ public partial class SwipeMatchView : ContentPage
     public SwipeMatchView()
     {
         InitializeComponent();
-    }
-
-    private void OnCurrentItemChanged(object? sender, CurrentItemChangedEventArgs e)
-    {
-        InitializeComponent();
-
-        //matchView.CurrentItemChanged += OnCurrentItemChanged;
         Items = new List<ViewItem>()
         {
             new ViewItem {Id = 1, Name = "Jason", Picture="Images/pt1.png", Rating = 4.8, Age = 40, AvatarUrl="Images/pt1.png", Bio="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim "},
@@ -24,6 +17,11 @@ public partial class SwipeMatchView : ContentPage
             new ViewItem {Id = 4, Name = "Hambargah", Picture = "Images/pt5.png", Rating = 4.8, Age = 40, AvatarUrl = "Images/pt5.png", Bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim "},
         };
         BindingContext = this;
+    }
+
+    private void OnCurrentItemChanged(object? sender, CurrentItemChangedEventArgs e)
+    {
+        //matchView.CurrentItemChanged += OnCurrentItemChanged;
     }
 
     private void btnMatch_Clicked(object sender, EventArgs e)
@@ -39,5 +37,8 @@ public partial class SwipeMatchView : ContentPage
         }
     }
 
-
+    private async void btnBack_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PopModalAsync();
+    }
 }

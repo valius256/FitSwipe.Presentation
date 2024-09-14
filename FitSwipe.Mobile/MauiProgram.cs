@@ -38,7 +38,7 @@ namespace FitSwipe.Mobile
             builder.Services.AddSingleton<SignInViewModel>();
             builder.Services.AddSingleton<SignUpViewModel>();
 
-            builder.Services.AddSingleton<SwipeMatchView>();
+            //builder.Services.AddSingleton<SwipeMatchView>();
 
             return builder.Build();
         }

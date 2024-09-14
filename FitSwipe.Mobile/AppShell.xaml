@@ -9,20 +9,17 @@
     Shell.FlyoutBehavior="Disabled"
     Title="FitSwipe.Mobile">
 
-
+    <ShellContent
+        ContentTemplate="{DataTemplate homePages:PTList}"
+        Route="PTList" />
+    <ShellContent
+        ContentTemplate="{DataTemplate homePages:SwipeMatchView}"
+        Route="SwipeMatch" />
 
     <ShellContent
         Title="Sign In"
         ContentTemplate="{DataTemplate pages:SignInView}"
         Route="SignIn" />
-
-
-    <ShellContent
-        ContentTemplate="{DataTemplate homePages:SwipeMatchView}"
-        Route="SwipeMatch" />
-
-
-
 
     <ShellContent
         Title="Sign Up"

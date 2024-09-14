@@ -5,7 +5,12 @@ VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitSwipe.Shared", "FitSwipe.Shared\FitSwipe.Shared.csproj", "{CF40716B-4339-49BB-9E28-556A65A9C4C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitSwipe.Mobile", "FitSwipe.Mobile\FitSwipe.Mobile.csproj", "{57BF6703-349B-43A2-AF9B-A917ABBBCDFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitSwipe.Mobile", "FitSwipe.Mobile\FitSwipe.Mobile.csproj", "{57BF6703-349B-43A2-AF9B-A917ABBBCDFC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EE8D4118-E714-4006-83F4-F2FE432E38C6}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

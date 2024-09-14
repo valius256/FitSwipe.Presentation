@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="FitSwipe.Mobile.Controls.StarRatingControl"
+            x:Name="StarRatingView">
+
+    <StackLayout Orientation="Horizontal" Spacing="5">
+        <!-- Repeating Image for Star Ratings -->
+        <Image x:Name="Star1" 
+               WidthRequest="{Binding Source={x:Reference StarRatingView}, Path=Size}" 
+               HeightRequest="{Binding Source={x:Reference StarRatingView}, Path=Size}" 
+               Source="{Binding Source={x:Reference StarRatingView}, Path=StarImage1}" />
+        <Image x:Name="Star2" 
+               WidthRequest="{Binding Source={x:Reference StarRatingView}, Path=Size}" 
+               HeightRequest="{Binding Source={x:Reference StarRatingView}, Path=Size}"
+               Source="{Binding Source={x:Reference StarRatingView}, Path=StarImage2}" />
+        <Image x:Name="Star3" 
+               WidthRequest="{Binding Source={x:Reference StarRatingView}, Path=Size}" 
+               HeightRequest="{Binding Source={x:Reference StarRatingView}, Path=Size}" 
+               Source="{Binding Source={x:Reference StarRatingView}, Path=StarImage3}" />
+        <Image x:Name="Star4" 
+               WidthRequest="{Binding Source={x:Reference StarRatingView}, Path=Size}" 
+               HeightRequest="{Binding Source={x:Reference StarRatingView}, Path=Size}" 
+               Source="{Binding Source={x:Reference StarRatingView}, Path=StarImage4}" />
+        <Image x:Name="Star5" 
+               WidthRequest="{Binding Source={x:Reference StarRatingView}, Path=Size}" 
+               HeightRequest="{Binding Source={x:Reference StarRatingView}, Path=Size}" 
+               Source="{Binding Source={x:Reference StarRatingView}, Path=StarImage5}" />
+    </StackLayout>
+
+</ContentView>
