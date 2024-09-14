@@ -6,20 +6,57 @@
     xmlns:local="clr-namespace:FitSwipe.Mobile"
     xmlns:pages="clr-namespace:FitSwipe.Mobile.Pages"
     xmlns:homePages="clr-namespace:FitSwipe.Mobile.Pages.HomePages"
+    xmlns:chatPages="clr-namespace:FitSwipe.Mobile.Pages.ChatPages"
+    xmlns:schedulePages="clr-namespace:FitSwipe.Mobile.Pages.SchedulePages"
+    xmlns:trainingPages="clr-namespace:FitSwipe.Mobile.Pages.TrainingPages"
+    xmlns:profilePages="clr-namespace:FitSwipe.Mobile.Pages.ProfilePages"
     Shell.FlyoutBehavior="Disabled"
     Title="FitSwipe.Mobile">
 
-    <ShellContent
-        ContentTemplate="{DataTemplate homePages:PTList}"
-        Route="PTList" />
+    <!-- TabBar Definition -->
+    <TabBar>
+
+        <!-- First Tab (Trang chủ) -->
+        <Tab Title="Trang chủ" Icon="Images/back.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate homePages:PTList}"
+                Route="PTList" />
+        </Tab>
+
+        <!-- Second Tab (Chat) -->
+        <Tab Title="Chat" Icon="Images/remove.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate chatPages:ChatPage}"
+                Route="SignIn" />
+        </Tab>
+
+        <!-- Middle Tab (larger icon) -->
+        <Tab Title="Quản lý buổi tập" Icon="Images/back.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate trainingPages:TrainingPage}"
+                Route="PTList" />
+        </Tab>
+
+        <!-- Fourth Tab (Lịch trình) -->
+        <Tab Title="Lịch trình" Icon="Images/remove.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate schedulePages:TraineeSchedulePage}"
+                Route="SignIn" />
+        </Tab>
+
+        <!-- Fifth Tab (Tôi) -->
+        <Tab Title="Tôi" Icon="Images/back.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate profilePages:TraineeProfilePage}"
+                Route="SignIn" />
+        </Tab>
+
+    </TabBar>
+
     <ShellContent
         ContentTemplate="{DataTemplate homePages:SwipeMatchView}"
         Route="SwipeMatch" />
 
-    <ShellContent
-        Title="Sign In"
-        ContentTemplate="{DataTemplate pages:SignInView}"
-        Route="SignIn" />
 
     <ShellContent
         Title="Sign Up"

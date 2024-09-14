@@ -46,7 +46,7 @@ namespace FitSwipe.Mobile.ViewModels
                 var httpClient = new HttpClient();
 
                 // Send POST request to backend API
-                var response = await httpClient.PostAsync("http://localhost:5250/api/Authentication/verify-token", content);
+                var response = await httpClient.PostAsync("http://10.0.2.2:7151/api/Authentication/verify-token", content);
 
                 if (response.IsSuccessStatusCode)
                 {
