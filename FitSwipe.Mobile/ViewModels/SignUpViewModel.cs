@@ -24,11 +24,11 @@ namespace FitSwipe.Mobile.ViewModels
             {
 
                 await _authClient.CreateUserWithEmailAndPasswordAsync(Email, Password, Username);
-                Application.Current.MainPage.DisplayAlert("Thành Công", $"Bạn {Email} đã đăng ký thành công ", "OK");
+                await Application.Current.MainPage.DisplayAlert("Thành Công", $"Bạn {Email} đã đăng ký thành công ", "OK");
             }
             catch (Exception e)
             {
-                Application.Current.MainPage.DisplayAlert("Lỗi", $"", "OK");
+                await Application.Current.MainPage.DisplayAlert("Lỗi", $"", "OK");
 
             }
         }
