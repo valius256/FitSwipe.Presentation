@@ -8,19 +8,20 @@
             <DataTemplate>
                 <Grid BackgroundColor="ForestGreen">
                     <!-- Display the Picture -->
-                    <Image Source="{Binding Picture}" 
-                    Aspect="AspectFill"
-                    HorizontalOptions="FillAndExpand" 
-                    VerticalOptions="FillAndExpand" />
+                    <Image Source="{Binding Picture}"                       
+                        Aspect="AspectFill"
+                        HorizontalOptions="FillAndExpand" 
+                        VerticalOptions="FillAndExpand" 
+                           />
 
                     <VerticalStackLayout HorizontalOptions="Start" Padding="5">
-                        <!--<Image Source="Images/star.png"
-                            WidthRequest="40"></Image>-->
-                        <Button Text="Back"
-                             BackgroundColor="Green">
+                        <Button WidthRequest="50"
+                                ImageSource="Images/back.png"
+                                x:Name="btnBack"
+                                Clicked="btnBack_Clicked"
+                                BackgroundColor="White">
                         </Button>
                     </VerticalStackLayout>
-                    <!-- Display the Name -->
                     <VerticalStackLayout VerticalOptions="End" Padding="5,70,5,5">
                         <VerticalStackLayout.Background>
                             <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
@@ -30,8 +31,12 @@
                         </VerticalStackLayout.Background>
 
                         <VerticalStackLayout HorizontalOptions="End">
-                            <Image Source="Images/star.png"
-                                WidthRequest="40"></Image>
+                            <Label 
+                                Text="⭐"
+                                FontSize="40"
+                                HorizontalTextAlignment="Center"
+                                TextColor="Yellow"
+                                WidthRequest="40"></Label>
                             <Label Text="{Binding Rating, StringFormat='{0}/5'}" 
                              FontSize="20" 
                              FontAttributes="Bold" 
