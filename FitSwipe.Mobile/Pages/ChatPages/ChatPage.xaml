@@ -14,6 +14,6 @@
             Text="This is chat page"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
-        <controls:Navbar Grid.Row="1"></controls:Navbar>
+        <controls:Navbar Grid.Row="1"  ActiveTab="2"></controls:Navbar>
     </Grid>
 </ContentPage>

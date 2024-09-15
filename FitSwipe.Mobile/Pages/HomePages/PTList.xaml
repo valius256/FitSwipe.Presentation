@@ -4,7 +4,7 @@
              x:Class="FitSwipe.Mobile.Pages.HomePages.PTList"
              xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
              >
-    <AbsoluteLayout>
+    <AbsoluteLayout BackgroundColor="White">
         <Grid AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
             <!-- Define the layout with two rows: first row auto, second row * -->
             <Grid.RowDefinitions>
@@ -38,6 +38,7 @@
                     <!-- Align items at the top to allow height expansion -->
                     <Label FlexLayout.Basis="70%"
                         Text="Những HLV có thể hợp với bạn"
+                        TextColor="Black"
                         FontSize="15"
                         FontAttributes="Bold"
                         VerticalTextAlignment="Center"
@@ -84,43 +85,52 @@
                             </Frame>
                             <VerticalStackLayout>
                                 <Label Text="{Binding Name}" 
-                                FontSize="20" 
-                                FontAttributes="Bold" 
-                                HorizontalTextAlignment="Start" 
-                                BackgroundColor="Transparent"/>
+                                    FontSize="20" 
+                                    FontAttributes="Bold" 
+                                    HorizontalTextAlignment="Start" 
+                                    BackgroundColor="Transparent"
+                                    TextColor="Black"
+                                       />
                                 <Label Text="{Binding Age}"
-                                FontSize="12" 
-                                HorizontalTextAlignment="Start" 
-                                BackgroundColor="Transparent"/>
+                                    FontSize="12" 
+                                    HorizontalTextAlignment="Start" 
+                                    BackgroundColor="Transparent"
+                                    TextColor="Black"
+                                       />
                                 <FlexLayout HorizontalOptions="FillAndExpand">
                                     <controls:StarRatingControl 
-                                    Rating="{Binding Rating}" Size="20" 
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="Start"
-                                    FlexLayout.Grow="0.8"/>
+                                        Rating="{Binding Rating}" Size="20" 
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="Start"
+                                        FlexLayout.Grow="0.8"/>
                                     <Button x:Name="btnMatch"  
-                                    FlexLayout.Grow="0.2"
-                                    ImageSource="Icons/heart.png" 
-                                    Clicked="btnMatch_Clicked"                    
-                                    HeightRequest="30"
-                                    WidthRequest="30"
-                                    Padding="5"
-                                    BackgroundColor="White"
-                                    BorderColor="Green"
-                                    BorderWidth="3"
-                                    CornerRadius="5"
-                                    HorizontalOptions="End"
-                                    VerticalOptions="Center" 
-                                    CommandParameter="{Binding}"/>
+                                        FlexLayout.Grow="0.2"
+                                        ImageSource="Icons/heart.png" 
+                                        Clicked="btnMatch_Clicked"                    
+                                        HeightRequest="30"
+                                        WidthRequest="30"
+                                        Padding="5"
+                                        BackgroundColor="White"
+                                        BorderColor="Green"
+                                        BorderWidth="3"
+                                        CornerRadius="5"
+                                        HorizontalOptions="End"
+                                        VerticalOptions="Center" 
+                                        CommandParameter="{Binding}"/>
                                 </FlexLayout>
 
                             </VerticalStackLayout>
                         </VerticalStackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
+                <CollectionView.Footer>
+                    <BoxView HeightRequest="100" BackgroundColor="Transparent" />
+                    <!-- Adjust HeightRequest to the desired extra space -->
+                </CollectionView.Footer>
             </CollectionView>
         </Grid>
         <controls:Navbar
+            ActiveTab="1"
             AbsoluteLayout.LayoutBounds="0,1,1,AutoSize" 
             AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" ></controls:Navbar>
     </AbsoluteLayout>

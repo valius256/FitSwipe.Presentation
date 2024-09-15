@@ -14,6 +14,6 @@
             Text="This is Trainee Schedule Page"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
-        <controls:Navbar Grid.Row="1"></controls:Navbar>
+        <controls:Navbar Grid.Row="1" ActiveTab="4"></controls:Navbar>
     </Grid>
 </ContentPage>
