@@ -8,7 +8,7 @@ namespace FitSwipe.Mobile.Controls
             BindableProperty.Create(nameof(Rating), typeof(double), typeof(StarRatingControl), 0.0, propertyChanged: OnRatingChanged);
         
         public static readonly BindableProperty SizeProperty =
-            BindableProperty.Create(nameof(Size), typeof(int), typeof(StarRatingControl), 0, propertyChanged: OnRatingChanged);
+            BindableProperty.Create(nameof(Size), typeof(int), typeof(StarRatingControl), 0);
 
         public double Rating
         {
