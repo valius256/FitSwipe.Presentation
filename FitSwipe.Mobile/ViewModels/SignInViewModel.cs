@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Firebase.Auth;
 using FitSwipe.Shared.Dtos;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
@@ -45,8 +46,12 @@ namespace FitSwipe.Mobile.ViewModels
                 // Set up HttpClient
                 var httpClient = new HttpClient();
 
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", idToken);
+
                 // Send POST request to backend API
-                var response = await httpClient.PostAsync("http://10.0.2.2:7151/api/Authentication/verify-token", content);
+                // tam thoi m lay dia chi may m chay backend lam cai api xuat la dc
+                // gui lay role duoc roi chi co cho authen no dang loi 1 chut
+                var response = await httpClient.PostAsync("http://192.168.2.53:5250/api/Authentication/verify-token", content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -57,7 +62,11 @@ namespace FitSwipe.Mobile.ViewModels
 
                     // Adjust UI or store the role based on your application's needs
                     OnPropertyChanged(nameof(UserName));
+
+
+
                     await Application.Current.MainPage.DisplayAlert("Success", $"You {Email} have successfully logged in with role {userRole}", "OK");
+
                 }
                 else
                 {
