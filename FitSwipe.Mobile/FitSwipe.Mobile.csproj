@@ -71,6 +71,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Controls\Navbar.xaml.cs">
+	    <DependentUpon>Navbar.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Controls\Navbar.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Controls\StarRatingControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -4,100 +4,101 @@
              x:Class="FitSwipe.Mobile.Pages.HomePages.PTList"
              xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
              >
-    <Grid>
-        <!-- Define the layout with two rows: first row auto, second row * -->
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <!-- This will take only the required space -->
-            <RowDefinition Height="*" />
-            <!-- This will take the remaining space -->
-        </Grid.RowDefinitions>
-        <VerticalStackLayout Grid.Row="0">
-            <Frame BackgroundColor="Navy" CornerRadius="10" Padding="10" Margin="15,5,15,0">
-                <Frame.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="btnSwipeMatch_Clicked" />
-                </Frame.GestureRecognizers>
-                <VerticalStackLayout VerticalOptions="FillAndExpand">
-                    <Label Text="Thử ngay"
+    <AbsoluteLayout>
+        <Grid AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+            <!-- Define the layout with two rows: first row auto, second row * -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!-- This will take only the required space -->
+                <RowDefinition Height="*" />
+                <!-- This will take the remaining space -->
+            </Grid.RowDefinitions>
+            <VerticalStackLayout Grid.Row="0">
+                <Frame BackgroundColor="Navy" CornerRadius="10" Padding="10" Margin="15,5,15,0">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="btnSwipeMatch_Clicked" />
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout VerticalOptions="FillAndExpand">
+                        <Label Text="Thử ngay"
                        HorizontalTextAlignment="Center"
                        FontSize="20"
                        FontAttributes="Bold"
                    TextColor="White" />
-                    <Label Text="Chế độ Swipe and Match"
+                        <Label Text="Chế độ Swipe and Match"
                        HorizontalTextAlignment="Center"
                        FontSize="10"
                        FontAttributes="Bold"
                        TextColor="White" />
-                </VerticalStackLayout>
-            </Frame>
-            <FlexLayout HorizontalOptions="Fill"
-                Margin="15,5,15,0"
-                JustifyContent="SpaceBetween"
-            >
-                <!-- Align items at the top to allow height expansion -->
-                <Label FlexLayout.Basis="70%"
-                    Text="Những HLV có thể hợp với bạn"
-                    FontSize="15"
-                    FontAttributes="Bold"
-                    VerticalTextAlignment="Center"
-                    HorizontalTextAlignment="Start"
+                    </VerticalStackLayout>
+                </Frame>
+                <FlexLayout HorizontalOptions="Fill"
+                    Margin="15,5,15,0"
+                    JustifyContent="SpaceBetween"
+                >
+                    <!-- Align items at the top to allow height expansion -->
+                    <Label FlexLayout.Basis="70%"
+                        Text="Những HLV có thể hợp với bạn"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        VerticalTextAlignment="Center"
+                        HorizontalTextAlignment="Start"
+                    />
+                    <!-- Ensure WordWrap is applied for multiline text -->
+
+                    <Button FlexLayout.Basis="30%"
+                        x:Name="btnFilter"
+                        Text="Bộ lọc"
+                        Padding="20,0"
+                        FontAttributes="Bold"
+                        BackgroundColor="LimeGreen"
+                    />
+                </FlexLayout>
+
+
+                <BoxView
+                    HeightRequest="4"     
+                    HorizontalOptions="Fill"
+                    BackgroundColor="Green"
+                    Margin="0,10,50,0"
                 />
-                <!-- Ensure WordWrap is applied for multiline text -->
-
-                <Button FlexLayout.Basis="30%"
-                    x:Name="btnFilter"
-                    Text="Bộ lọc"
-                    Padding="20,0"
-                    FontAttributes="Bold"
-                    BackgroundColor="LimeGreen"
-                />
-            </FlexLayout>
 
 
-            <BoxView
-                HeightRequest="4"     
-                HorizontalOptions="Fill"
-                BackgroundColor="Green"
-                Margin="0,10,50,0"
-            />
+            </VerticalStackLayout>
+            <CollectionView ItemsSource="{Binding Items}" Grid.Row="1">
+                <!-- Define a grid layout with two columns -->
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="2" />
+                </CollectionView.ItemsLayout>
 
-            
-        </VerticalStackLayout>
-        <CollectionView ItemsSource="{Binding Items}" Grid.Row="1">
-            <!-- Define a grid layout with two columns -->
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="2" />
-            </CollectionView.ItemsLayout>
-
-            <!-- Define how each item should appear in the grid -->
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <VerticalStackLayout Margin="20">
-                        <Frame BorderColor="LimeGreen" Padding="0" CornerRadius="10"
+                <!-- Define how each item should appear in the grid -->
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <VerticalStackLayout Margin="20">
+                            <Frame BorderColor="LimeGreen" Padding="0" CornerRadius="10"
                             HeightRequest="200">
-                            <Image
+                                <Image
                                 Source="{Binding Picture}" 
                                 Aspect="AspectFill" 
                                 HorizontalOptions="FillAndExpand" 
                                 VerticalOptions="FillAndExpand" />
-                        </Frame>
-                        <VerticalStackLayout>
-                            <Label Text="{Binding Name}" 
+                            </Frame>
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Name}" 
                                 FontSize="20" 
                                 FontAttributes="Bold" 
                                 HorizontalTextAlignment="Start" 
                                 BackgroundColor="Transparent"/>
-                            <Label Text="{Binding Age}"
+                                <Label Text="{Binding Age}"
                                 FontSize="12" 
                                 HorizontalTextAlignment="Start" 
                                 BackgroundColor="Transparent"/>
-                            <FlexLayout HorizontalOptions="FillAndExpand">
-                                <controls:StarRatingControl 
+                                <FlexLayout HorizontalOptions="FillAndExpand">
+                                    <controls:StarRatingControl 
                                     Rating="{Binding Rating}" Size="20" 
                                     VerticalOptions="Center"
                                     HorizontalOptions="Start"
                                     FlexLayout.Grow="0.8"/>
-                                <Button x:Name="btnMatch"  
+                                    <Button x:Name="btnMatch"  
                                     FlexLayout.Grow="0.2"
                                     ImageSource="Icons/heart.png" 
                                     Clicked="btnMatch_Clicked"                    
@@ -111,12 +112,16 @@
                                     HorizontalOptions="End"
                                     VerticalOptions="Center" 
                                     CommandParameter="{Binding}"/>
-                            </FlexLayout>
-                            
+                                </FlexLayout>
+
+                            </VerticalStackLayout>
                         </VerticalStackLayout>
-                    </VerticalStackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+        <controls:Navbar
+            AbsoluteLayout.LayoutBounds="0,1,1,AutoSize" 
+            AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" ></controls:Navbar>
+    </AbsoluteLayout>
 </ContentPage>

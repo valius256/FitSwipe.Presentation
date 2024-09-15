@@ -14,50 +14,56 @@
     Title="FitSwipe.Mobile">
 
     <!-- TabBar Definition -->
-    <TabBar>
-
-        <!-- First Tab (Trang chủ) -->
+    <!--<TabBar>
         <Tab Title="Trang chủ" Icon="Images/back.png">
             <ShellContent
                 ContentTemplate="{DataTemplate homePages:PTList}"
                 Route="PTList" />
         </Tab>
 
-        <!-- Second Tab (Chat) -->
         <Tab Title="Chat" Icon="Images/remove.png">
             <ShellContent
                 ContentTemplate="{DataTemplate chatPages:ChatPage}"
-                Route="SignIn" />
+                Route="ChatPage" />
         </Tab>
 
-        <!-- Middle Tab (larger icon) -->
         <Tab Title="Quản lý buổi tập" Icon="Images/back.png">
             <ShellContent
                 ContentTemplate="{DataTemplate trainingPages:TrainingPage}"
                 Route="PTList" />
         </Tab>
 
-        <!-- Fourth Tab (Lịch trình) -->
         <Tab Title="Lịch trình" Icon="Images/remove.png">
             <ShellContent
                 ContentTemplate="{DataTemplate schedulePages:TraineeSchedulePage}"
-                Route="SignIn" />
+                Route="TraineeSchedulePage" />
         </Tab>
 
-        <!-- Fifth Tab (Tôi) -->
         <Tab Title="Tôi" Icon="Images/back.png">
             <ShellContent
                 ContentTemplate="{DataTemplate profilePages:TraineeProfilePage}"
-                Route="SignIn" />
+                Route="TraineeProfilePage" />
         </Tab>
 
-    </TabBar>
-
+    </TabBar>-->
+    <ShellContent
+        ContentTemplate="{DataTemplate homePages:PTList}"
+        Route="PTList" />
+    <ShellContent
+        ContentTemplate="{DataTemplate chatPages:ChatPage}"
+        Route="ChatPage" />
+    <ShellContent
+        ContentTemplate="{DataTemplate trainingPages:TrainingPage}"
+        Route="TrainingPage" />
+    <ShellContent
+        ContentTemplate="{DataTemplate schedulePages:TraineeSchedulePage}"
+        Route="TraineeSchedulePage" />
+    <ShellContent
+        ContentTemplate="{DataTemplate profilePages:TraineeProfilePage}"
+        Route="TraineeProfilePage" />
     <ShellContent
         ContentTemplate="{DataTemplate homePages:SwipeMatchView}"
         Route="SwipeMatch" />
-
-
     <ShellContent
         Title="Sign Up"
         ContentTemplate="{DataTemplate pages:SignUpView}"
