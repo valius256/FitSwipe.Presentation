@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:208950336220:android:13a658b616f4a0654eb219",
+        "mobilesdk_app_id": "1:208950336220:android:259d0f0b9867a8384eb219",
         "android_client_info": {
-          "package_name": "com.company.name"
+          "package_name": "com.companyname.fitswipe.mobile"
         }
       },
       "oauth_client": [],
