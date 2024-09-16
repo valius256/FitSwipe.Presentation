@@ -11,7 +11,7 @@ namespace FitSwipe.Mobile.ViewModels
     public partial class SignInViewModel : ObservableObject
     {
         private readonly FirebaseAuthClient _authClient;
-
+        private readonly HttpClient _httpClient;
         [ObservableProperty]
         private string _email;
         [ObservableProperty]
@@ -19,9 +19,10 @@ namespace FitSwipe.Mobile.ViewModels
 
         public string UserName => _authClient.User?.Info.DisplayName;
 
-        public SignInViewModel(FirebaseAuthClient authClient)
+        public SignInViewModel(FirebaseAuthClient authClient, IHttpClientFactory httpClientFactory)
         {
             _authClient = authClient;
+            _httpClient = httpClientFactory.CreateClient("BackendApiClient");
         }
 
         [RelayCommand]
@@ -52,7 +53,7 @@ namespace FitSwipe.Mobile.ViewModels
                 // tam thoi m lay dia chi may m chay backend lam cai api xuat la dc
                 // gui lay role duoc roi chi co cho authen no dang loi 1 chut
 
-                var response = await httpClient.PostAsync("http://192.168.1.10:5250/api/Authentication/verify-token", content);
+                var response = await _httpClient.PostAsync("api/Authentication/verify-token", content);
 
                 if (response.IsSuccessStatusCode)
                 {
