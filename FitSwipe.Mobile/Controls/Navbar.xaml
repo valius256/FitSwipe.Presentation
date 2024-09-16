@@ -79,9 +79,9 @@
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="50,50,50,50" />
                         </Border.StrokeShape>
-                        <Image Source="Images/dumbell_back.png"
-                       WidthRequest="40"
-                       HeightRequest="40">
+                        <Image Source="Images/dumbell_black.png"
+                       WidthRequest="50"
+                       HeightRequest="50">
                         </Image>
                     </Border>
                     <Label Text="Quản lý buổi tập" HorizontalTextAlignment="Center" TextColor="Black" FontSize="10"></Label>

@@ -39,11 +39,6 @@ namespace FitSwipe.Mobile.ViewModels
             await Shell.Current.GoToAsync("//SignIn");
         }
 
-        //[RelayCommand]
-        //private async Task NavigateSwipeMatch()
-        //{
-        //    await Shell.Current.GoToAsync("//SwipeMatch");
-        //}
     }
 
 }

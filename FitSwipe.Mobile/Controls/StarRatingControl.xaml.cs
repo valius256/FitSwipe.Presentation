@@ -42,7 +42,7 @@ namespace FitSwipe.Mobile.Controls
             StarImage5 = GetStarImage(Rating >= 5.0);
         }
 
-        private string GetStarImage(bool isFilled) => isFilled ? "Images/star.png" : "Images/remove.png";
+        private string GetStarImage(bool isFilled) => isFilled ? "Images/star.png" : "";
 
 
         private string _starImage1 = string.Empty;

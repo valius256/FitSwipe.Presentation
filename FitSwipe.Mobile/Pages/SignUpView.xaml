@@ -1,18 +1,247 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FitSwipe.Mobile.Pages.SignUpView"
-             Title="SignUpView">
-    <VerticalStackLayout Padding="10" Spacing="10">
-        <Label Text="Email" />
-        <Entry Text="{Binding Email}"></Entry>
-        <Label Text="Password" />
-        <Entry Text="{Binding Password}" IsPassword="True" ></Entry>
+             x:Class="FitSwipe.Mobile.Pages.SignUpView">
 
-        <Button Text="Sign In" Command="{Binding SignInCommand}"></Button>
-        <Button Text="Need an Account? Sign Up" Command="{Binding NavigateSignUpCommand}"></Button>
+    <AbsoluteLayout>
+        <!-- Background Image -->
+        <Image Source="signin_background.png" 
+               Aspect="AspectFill" 
+               AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+               AbsoluteLayout.LayoutFlags="All"
+                Opacity="0.5"/>
 
+        <!-- Green Overlay -->
+        <Border  BackgroundColor="#009900"
+                Opacity="0.2"
+                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                AbsoluteLayout.LayoutFlags="All" />
+        <VerticalStackLayout Padding="10"
+                Spacing="10"
+                VerticalOptions="CenterAndExpand"
+                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                AbsoluteLayout.LayoutFlags="All">
 
-        <Label Margin="0, 20, 0,0" Text="{Binding UserName}"></Label>
-    </VerticalStackLayout>
+            <!--#region ROLE CHOOSING-->
+            <HorizontalStackLayout Spacing="80"
+                                   HorizontalOptions="CenterAndExpand">
+                <!--Trainee-->
+                <StackLayout Orientation="Horizontal"
+                             VerticalOptions="Center">
+                    <RadioButton Value="trainee"
+                                 GroupName="userType" />
+                    <Label Text="Người tập"
+                           VerticalOptions="Center" />
+                </StackLayout>
+
+                <!--PT-->
+                <StackLayout Orientation="Horizontal"
+                             VerticalOptions="Center">
+                    <RadioButton Value="pt"
+                                 GroupName="userType" />
+                    <Label Text="PT"
+                           VerticalOptions="Center" />
+                </StackLayout>
+            </HorizontalStackLayout>
+            <!--#endregion-->
+
+            <!--#region INFORMATION INPUT-->
+            <VerticalStackLayout Spacing="20"
+                                 VerticalOptions="Center">
+                <!--Last Name-->
+                <StackLayout Orientation="Horizontal">
+                    <Border Padding="5"
+                            StrokeThickness="2"
+                            Stroke="Green">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="50" />
+                        </Border.StrokeShape>
+                        <Image Source="profile.png"
+                               WidthRequest="45"
+                               HeightRequest="45" />
+                    </Border>
+                    <Border Stroke="Green"
+                            StrokeThickness="2"
+                            Padding="7"
+                            HorizontalOptions="FillAndExpand">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8" />
+                        </Border.StrokeShape>
+                        <Entry Text="{Binding lastName}"
+                               Placeholder="Họ" />
+                    </Border>
+                </StackLayout>
+
+                <!--First Name-->
+                <StackLayout Orientation="Horizontal">
+                    <Border Padding="5"
+                            StrokeThickness="2"
+                            Stroke="Green">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="50" />
+                        </Border.StrokeShape>
+                        <Image Source="profile.png"
+                               WidthRequest="45"
+                               HeightRequest="45" />
+                    </Border>
+                    <Border Stroke="Green"
+                            StrokeThickness="2"
+                            Padding="7"
+                            HorizontalOptions="FillAndExpand">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8" />
+                        </Border.StrokeShape>
+                        <Entry Text="{Binding firstName}"
+                               Placeholder="Tên" />
+                    </Border>
+                </StackLayout>
+
+                <!--Email-->
+                <StackLayout Orientation="Horizontal">
+                    <Border Padding="5"
+                            StrokeThickness="2"
+                            Stroke="Green">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="50" />
+                        </Border.StrokeShape>
+                        <Image Source="email.png"
+                               WidthRequest="45"
+                               HeightRequest="45" />
+                    </Border>
+                    <Border Stroke="Green"
+                            StrokeThickness="2"
+                            Padding="7"
+                            HorizontalOptions="FillAndExpand">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8" />
+                        </Border.StrokeShape>
+                        <Entry Text="{Binding email}"
+                               Placeholder="Email" />
+                    </Border>
+                </StackLayout>
+
+                <!--Phone Number-->
+                <StackLayout Orientation="Horizontal">
+                    <Border Padding="5"
+                            StrokeThickness="2"
+                            Stroke="Green">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="50" />
+                        </Border.StrokeShape>
+                        <Image Source="phone.png"
+                               WidthRequest="45"
+                               HeightRequest="45" />
+                    </Border>
+                    <Border Stroke="Green"
+                            StrokeThickness="2"
+                            Padding="7"
+                            HorizontalOptions="FillAndExpand">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8" />
+                        </Border.StrokeShape>
+                        <Entry Text="{Binding phone}"
+                               Placeholder="SĐT" />
+                    </Border>
+                </StackLayout>
+
+                <!--Password-->
+                <StackLayout Orientation="Horizontal">
+                    <Border Padding="5"
+                            StrokeThickness="2"
+                            Stroke="Green">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="50" />
+                        </Border.StrokeShape>
+                        <Image Source="password.png"
+                               WidthRequest="45"
+                               HeightRequest="45" />
+                    </Border>
+                    <Border Stroke="Green"
+                            StrokeThickness="2"
+                            Padding="7"
+                            HorizontalOptions="FillAndExpand">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8" />
+                        </Border.StrokeShape>
+                        <Entry Text="{Binding Password}"
+                               IsPassword="True"
+                               Placeholder="Mật khẩu" />
+                    </Border>
+                </StackLayout>
+
+                <!--Confirm Password-->
+                <StackLayout Orientation="Horizontal">
+                    <Border Padding="5"
+                            StrokeThickness="2"
+                            Stroke="Green">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="50" />
+                        </Border.StrokeShape>
+                        <Image Source="password.png"
+                               WidthRequest="45"
+                               HeightRequest="45" />
+                    </Border>
+                    <Border Stroke="Green"
+                            StrokeThickness="2"
+                            Padding="7"
+                            HorizontalOptions="FillAndExpand">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="8" />
+                        </Border.StrokeShape>
+                        <Entry Text="{Binding confirmPassword}"
+                               IsPassword="True"
+                               Placeholder="Nhập lại mật khẩu" />
+                    </Border>
+                </StackLayout>
+            </VerticalStackLayout>
+            <!--#endregion-->
+
+            <!--#region TERMS AND SERVICES-->
+            <StackLayout Orientation="Horizontal">
+                <CheckBox Color="Green" />
+                <Label MaximumWidthRequest="350"
+                       VerticalOptions="End">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Bằng việc đăng ký, tôi đã đọc " />
+                            <Span Text="Điều khoản dịch vụ "
+                                  FontAttributes="Bold"
+                                  TextDecorations="Underline" />
+                            <Span Text="và " />
+                            <Span Text="Chính sách bảo mật."
+                                  FontAttributes="Bold"
+                                  TextDecorations="Underline" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </StackLayout>
+
+            <Button Text="Đăng ký"
+                    BorderWidth="1"
+                    BorderColor="Green"
+                    WidthRequest="150"
+                    TextColor="Black"
+                    BackgroundColor="White" 
+                    Command="{Binding SignUpCommand}"/>
+
+            <!--#region SIGNIN NAVIGATION-->
+            <HorizontalStackLayout HorizontalOptions="Center"
+                                   Spacing="20"
+                                   Margin="0, 20, 0, 0">
+                <Label Text="Đã có tài khoản?"
+                       FontAttributes="Bold,Italic"
+                       VerticalTextAlignment="Center" />
+                <Button Text="Đăng nhập"
+                        BorderWidth="1"
+                        BorderColor="Green"
+                        WidthRequest="150"
+                        TextColor="Black"
+                        BackgroundColor="White" 
+                        Command="{Binding NavigateSignInCommand}"/>
+            </HorizontalStackLayout>
+
+            <!--<Label Margin="0, 20, 0, 0"
+                   Text="{Binding UserName}"></Label>-->
+        </VerticalStackLayout>
+    </AbsoluteLayout>
 </ContentPage>
