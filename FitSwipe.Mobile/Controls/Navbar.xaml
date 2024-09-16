@@ -57,7 +57,7 @@
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="50,50,50,50" />
                         </Border.StrokeShape>
-                        <Image Source="Images/remove.png"
+                        <Image Source="Images/back.png"
                        WidthRequest="30"
                        HeightRequest="30">
                         </Image>
@@ -79,7 +79,7 @@
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="50,50,50,50" />
                         </Border.StrokeShape>
-                        <Image Source="Images/back.png"
+                        <Image Source="Images/dumbell_back.png"
                        WidthRequest="40"
                        HeightRequest="40">
                         </Image>
@@ -101,7 +101,7 @@
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="50,50,50,50" />
                         </Border.StrokeShape>
-                        <Image Source="Images/remove.png"
+                        <Image Source="Images/back.png"
                            WidthRequest="30"
                            HeightRequest="30">
                         </Image>
@@ -123,7 +123,7 @@
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="50,50,50,50" />
                         </Border.StrokeShape>
-                        <Image Source="Images/back.png"
+                        <Image Source="Images/profile.png"
                             WidthRequest="30"
                             HeightRequest="30">
                         </Image>

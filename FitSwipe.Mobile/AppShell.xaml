@@ -47,6 +47,10 @@
 
     </TabBar>-->
     <ShellContent
+        Title="Sign In"
+        ContentTemplate="{DataTemplate pages:SignInView}"
+        Route="SignIn" />
+    <ShellContent
         ContentTemplate="{DataTemplate homePages:PTList}"
         Route="PTList" />
     <ShellContent
@@ -68,6 +72,7 @@
         Title="Sign Up"
         ContentTemplate="{DataTemplate pages:SignUpView}"
         Route="SignUp" />
+
 
 
 </Shell>
