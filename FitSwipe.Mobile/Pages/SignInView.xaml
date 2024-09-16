@@ -2,20 +2,155 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FitSwipe.Mobile.Pages.SignInView"
-             Title="SignIn Pages for Fit Swipe"
-             >
+             Title="SignIn Pages for Fit Swipe">
 
-	<VerticalStackLayout Padding="10" Spacing="10">
-		<Label Text="Email" />
-		<Entry Text="{Binding Email}"></Entry>
-		<Label Text="Password" />
-		<Entry Text="{Binding Password}" IsPassword="True" ></Entry>
+    <VerticalStackLayout Padding="10"
+                         Spacing="10"
+                         VerticalOptions="Center">
 
-		<Button Text="Sign In" Command="{Binding SignInCommand}"></Button>
-		<Button Text="Need an Account? Sign Up" Command="{Binding NavigateSignUpCommand}"></Button>
+        <!--#region INFORMATION SECTION-->
+        <!--EMAIL/USERNAME-->
+        <VerticalStackLayout Spacing="20">
+            <StackLayout Orientation="Horizontal">
+                <Border Padding="5"
+                        StrokeThickness="2"
+                        Stroke="Green">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="50" />
+                    </Border.StrokeShape>
+                    <Image Source="profile.png"
+                           WidthRequest="45"
+                           HeightRequest="45" />
+                </Border>
+                <Border Stroke="Green"
+                        StrokeThickness="2"
+                        Padding="7"
+                        HorizontalOptions="FillAndExpand">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8" />
+                    </Border.StrokeShape>
+                    <Entry Text="{Binding Email}"
+                           Placeholder="Email / SĐT" />
+                </Border>
+            </StackLayout>
+
+            <!--PASSWORD-->
+            <StackLayout Orientation="Horizontal">
+                <Border Padding="5"
+                        StrokeThickness="2"
+                        Stroke="Green">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="50" />
+                    </Border.StrokeShape>
+                    <Image Source="passwod.png"
+                           WidthRequest="45"
+                           HeightRequest="45" />
+                </Border>
+                <Border Stroke="Green"
+                        StrokeThickness="2"
+                        Padding="5"
+                        HorizontalOptions="FillAndExpand">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8" />
+                    </Border.StrokeShape>
+                    <Entry Text="{Binding Password}"
+                           IsPassword="True"
+                           Placeholder="Mật khẩu" />
+                </Border>
+            </StackLayout>
+        </VerticalStackLayout>
+        <!--#endregion-->
+
+        <!--#region REMEMBER PASSWORD-->
+        <Grid ColumnSpacing="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Ghi nho dang nhap -->
+            <StackLayout Grid.Column="0"
+                         Orientation="Horizontal"
+                         VerticalOptions="Center">
+                <Label Text="Ghi nhớ đăng nhập?"
+                       VerticalOptions="Center" />
+                <CheckBox IsChecked="{Binding RememberMe}"
+                          Color="Green" />
+            </StackLayout>
+
+            <!-- Quen mat khau -->
+            <Label Grid.Column="1"
+                   HorizontalOptions="End"
+                   Text="Quên mật khẩu?"
+                   VerticalOptions="Center"
+                   TextDecorations="Underline"
+                   TextColor="Black">
+            </Label>
+        </Grid>
+        <!--#endregion-->
+
+        <!--#region ALTERNATIVE LOGIN METHOD-->
+        <VerticalStackLayout HorizontalOptions="Center">
+            <Label Text="hoặc đăng nhập bằng"
+                   Margin="0, 0, 0, 5" />
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center"
+                         Spacing="20">
+
+                <!--Facebook-->
+                <Frame HasShadow="True"
+                       CornerRadius="50"
+                       Padding="10"
+                       BorderColor="Green">
+                    <ImageButton Source="facebook.png"
+                                 WidthRequest="20"
+                                 HeightRequest="20" />
+                </Frame>
+
+                <!--Google-->
+                <Frame HasShadow="True"
+                       CornerRadius="50"
+                       Padding="10"
+                       BorderColor="Green">
+                    <ImageButton Source="google.png"
+                                 WidthRequest="20"
+                                 HeightRequest="20" />
+                </Frame>
+            </StackLayout>
+        </VerticalStackLayout>
+        <!--#endregion-->
+
+        <!--#region NOT HAVE ACCOUNT YET-->
+        <HorizontalStackLayout HorizontalOptions="Center"
+                               Spacing="50">
+            <Label Text="Chưa có tài khoản?"
+                   FontAttributes="Italic,Bold"
+                   VerticalOptions="Center" />
+
+            <Button Text="Đăng ký"
+                    BorderWidth="1"
+                    BorderColor="Green"
+                    WidthRequest="150"
+                    TextColor="Black"
+                    BackgroundColor="White"
+                    Command="{Binding NavigateSignUpCommand}" />
+
+        </HorizontalStackLayout>
+
+        <!--SIGN IN BUTTON-->
+        <Button Text="Đăng nhập"
+                BorderWidth="1"
+                Margin="0, 20, 0, 0"
+                BorderColor="Green"
+                WidthRequest="150"
+                TextColor="Black"
+                BackgroundColor="White"
+                Command="{Binding NavigateSignUpCommand}" />
+        <!--#endregion-->
 
 
-		<Label Margin="0, 20, 0,0" Text="{Binding UserName}"></Label>
-	</VerticalStackLayout>
+        <Label Margin="0, 20, 0,0"
+               Text="{Binding UserName}"></Label>
+    </VerticalStackLayout>
 
 </ContentPage>
