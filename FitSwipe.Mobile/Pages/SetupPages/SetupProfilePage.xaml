@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Pages.SetupPages.SetupProfilePage"
+             x:Name="SetupProfilePageView">
+    <FlexLayout BackgroundColor="LightGreen" Direction="Column">
+        <Label FlexLayout.Grow="1"
+            Text="Điền thông tin cơ bản"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+        <Button Margin="10" BackgroundColor="{Binding Source={x:Reference SetupProfilePageView}, Path=MainColor1}"
+                TextColor="White"
+                FontAttributes="Bold"
+                Text="Tiếp theo"></Button>
+    </FlexLayout>
+</ContentPage>

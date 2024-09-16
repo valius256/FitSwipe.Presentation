@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Controls.LoadingDialog"
+             IsVisible="False"
+             BackgroundColor="Black"
+             Opacity="0.8">
+    <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="15" Padding="50,5">
+        <ActivityIndicator IsRunning="True" Color="White" />
+        <Label Text="Loading..." TextColor="White" HorizontalOptions="Center" />
+    </StackLayout>
+</ContentView>

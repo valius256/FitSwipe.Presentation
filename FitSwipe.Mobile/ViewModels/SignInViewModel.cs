@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Firebase.Auth;
+using FitSwipe.Mobile.Controls;
 using FitSwipe.Shared.Dtos;
 using System.Net.Http.Headers;
 using System.Text;
@@ -13,11 +14,12 @@ namespace FitSwipe.Mobile.ViewModels
         private readonly FirebaseAuthClient _authClient;
         private readonly HttpClient _httpClient;
         [ObservableProperty]
-        private string _email;
+        private string _email = string.Empty;
         [ObservableProperty]
-        private string _password;
+        private string _password = string.Empty;
 
         public string UserName => _authClient.User?.Info.DisplayName;
+        public LoadingDialog LoadingDialog { get; set; } = new LoadingDialog();
 
         public SignInViewModel(FirebaseAuthClient authClient, IHttpClientFactory httpClientFactory)
         {
@@ -28,6 +30,7 @@ namespace FitSwipe.Mobile.ViewModels
         [RelayCommand]
         private async Task SignIn()
         {
+            LoadingDialog.IsVisible = true;
             try
             {
                 var result = await _authClient.SignInWithEmailAndPasswordAsync(Email, Password);
@@ -64,21 +67,25 @@ namespace FitSwipe.Mobile.ViewModels
 
                     // Adjust UI or store the role based on your application's needs
                     OnPropertyChanged(nameof(UserName));
-                    //await Application.Current.MainPage.DisplayAlert("Success", $"You {Email} have successfully logged in with role {userRole}", "OK");
-                    await Shell.Current.GoToAsync("//PTList");
 
+                    //await Application.Current.MainPage.DisplayAlert("Success", $"You {Email} have successfully logged in with role {userRole}", "OK");
+                    await Shell.Current.GoToAsync("//SetupProfile");
+                    LoadingDialog.IsVisible = false;
                 }
                 else
                 {
+                    LoadingDialog.IsVisible = false;
                     await Application.Current.MainPage.DisplayAlert("Error", $"Server error: {response.StatusCode}", "OK");
                 }
             }
             catch (HttpRequestException httpEx)
             {
+                LoadingDialog.IsVisible = false;
                 await Application.Current.MainPage.DisplayAlert("Network Error", $"Network error: {httpEx.Message}", "OK");
             }
             catch (Exception ex)
             {
+                LoadingDialog.IsVisible = false;
                 await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
             }
         }

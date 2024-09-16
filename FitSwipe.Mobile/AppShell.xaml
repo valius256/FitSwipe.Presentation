@@ -9,46 +9,16 @@
        xmlns:schedulePages="clr-namespace:FitSwipe.Mobile.Pages.SchedulePages"
        xmlns:trainingPages="clr-namespace:FitSwipe.Mobile.Pages.TrainingPages"
        xmlns:profilePages="clr-namespace:FitSwipe.Mobile.Pages.ProfilePages"
+       xmlns:setupPages="clr-namespace:FitSwipe.Mobile.Pages.SetupPages"
        Shell.FlyoutBehavior="Disabled"
        Title="FitSwipe.Mobile">
 
-    <!-- TabBar Definition -->
-    <!--<TabBar>
-        <Tab Title="Trang chủ" Icon="Images/back.png">
-            <ShellContent
-                ContentTemplate="{DataTemplate homePages:PTList}"
-                Route="PTList" />
-        </Tab>
-
-        <Tab Title="Chat" Icon="Images/remove.png">
-            <ShellContent
-                ContentTemplate="{DataTemplate chatPages:ChatPage}"
-                Route="ChatPage" />
-        </Tab>
-
-        <Tab Title="Quản lý buổi tập" Icon="Images/back.png">
-            <ShellContent
-                ContentTemplate="{DataTemplate trainingPages:TrainingPage}"
-                Route="PTList" />
-        </Tab>
-
-        <Tab Title="Lịch trình" Icon="Images/remove.png">
-            <ShellContent
-                ContentTemplate="{DataTemplate schedulePages:TraineeSchedulePage}"
-                Route="TraineeSchedulePage" />
-        </Tab>
-
-        <Tab Title="Tôi" Icon="Images/back.png">
-            <ShellContent
-                ContentTemplate="{DataTemplate profilePages:TraineeProfilePage}"
-                Route="TraineeProfilePage" />
-        </Tab>
-
-    </TabBar>-->
     <ShellContent ContentTemplate="{DataTemplate pages:SignInView}"
                   Route="SignIn" />
     <ShellContent ContentTemplate="{DataTemplate pages:SignUpView}"
                   Route="SignUp" />
+    <ShellContent ContentTemplate="{DataTemplate setupPages:SetupProfilePage}"
+               Route="SetupProfile" />
 
     <ShellContent ContentTemplate="{DataTemplate homePages:PTList}"
                   Route="PTList" />
