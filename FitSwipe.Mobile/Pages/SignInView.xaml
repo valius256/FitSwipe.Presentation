@@ -8,6 +8,8 @@
                          Spacing="10"
                          VerticalOptions="Center">
 
+        <Image Source="Background/signin_background.png" />
+
         <!--#region INFORMATION SECTION-->
         <!--EMAIL/USERNAME-->
         <VerticalStackLayout Spacing="20">
@@ -42,13 +44,13 @@
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="50" />
                     </Border.StrokeShape>
-                    <Image Source="passwod.png"
+                    <Image Source="password.png"
                            WidthRequest="45"
                            HeightRequest="45" />
                 </Border>
                 <Border Stroke="Green"
                         StrokeThickness="2"
-                        Padding="5"
+                        Padding="7"
                         HorizontalOptions="FillAndExpand">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="8" />
@@ -100,21 +102,21 @@
                 <!--Facebook-->
                 <Frame HasShadow="True"
                        CornerRadius="50"
-                       Padding="10"
+                       Padding="5"
                        BorderColor="Green">
                     <ImageButton Source="facebook.png"
-                                 WidthRequest="20"
-                                 HeightRequest="20" />
+                                 WidthRequest="40"
+                                 HeightRequest="40" />
                 </Frame>
 
                 <!--Google-->
                 <Frame HasShadow="True"
                        CornerRadius="50"
-                       Padding="10"
+                       Padding="5"
                        BorderColor="Green">
                     <ImageButton Source="google.png"
-                                 WidthRequest="20"
-                                 HeightRequest="20" />
+                                 WidthRequest="40"
+                                 HeightRequest="40" />
                 </Frame>
             </StackLayout>
         </VerticalStackLayout>
@@ -122,10 +124,12 @@
 
         <!--#region NOT HAVE ACCOUNT YET-->
         <HorizontalStackLayout HorizontalOptions="Center"
-                               Spacing="50">
+                               Spacing="40"
+                               Margin="0, 20, 0, 0">
             <Label Text="Chưa có tài khoản?"
                    FontAttributes="Italic,Bold"
-                   VerticalOptions="Center" />
+                   VerticalOptions="Center"
+                   MaximumHeightRequest="150" />
 
             <Button Text="Đăng ký"
                     BorderWidth="1"

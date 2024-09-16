@@ -45,6 +45,9 @@
         </Tab>
 
     </TabBar>-->
+    <ShellContent Title="Sign Up"
+                  ContentTemplate="{DataTemplate pages:SignUpView}"
+                  Route="SignUp" />
     <ShellContent Title="Sign In"
                   ContentTemplate="{DataTemplate pages:SignInView}"
                   Route="SignIn" />
@@ -60,9 +63,6 @@
                   Route="TraineeProfilePage" />
     <ShellContent ContentTemplate="{DataTemplate homePages:SwipeMatchView}"
                   Route="SwipeMatch" />
-    <ShellContent Title="Sign Up"
-                  ContentTemplate="{DataTemplate pages:SignUpView}"
-                  Route="SignUp" />
 
 
 </Shell>
