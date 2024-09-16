@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Shell
-    x:Class="FitSwipe.Mobile.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:FitSwipe.Mobile"
-    xmlns:pages="clr-namespace:FitSwipe.Mobile.Pages"
-    xmlns:homePages="clr-namespace:FitSwipe.Mobile.Pages.HomePages"
-    xmlns:chatPages="clr-namespace:FitSwipe.Mobile.Pages.ChatPages"
-    xmlns:schedulePages="clr-namespace:FitSwipe.Mobile.Pages.SchedulePages"
-    xmlns:trainingPages="clr-namespace:FitSwipe.Mobile.Pages.TrainingPages"
-    xmlns:profilePages="clr-namespace:FitSwipe.Mobile.Pages.ProfilePages"
-    Shell.FlyoutBehavior="Disabled"
-    Title="FitSwipe.Mobile">
+<Shell x:Class="FitSwipe.Mobile.AppShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:FitSwipe.Mobile"
+       xmlns:pages="clr-namespace:FitSwipe.Mobile.Pages"
+       xmlns:homePages="clr-namespace:FitSwipe.Mobile.Pages.HomePages"
+       xmlns:chatPages="clr-namespace:FitSwipe.Mobile.Pages.ChatPages"
+       xmlns:schedulePages="clr-namespace:FitSwipe.Mobile.Pages.SchedulePages"
+       xmlns:trainingPages="clr-namespace:FitSwipe.Mobile.Pages.TrainingPages"
+       xmlns:profilePages="clr-namespace:FitSwipe.Mobile.Pages.ProfilePages"
+       Shell.FlyoutBehavior="Disabled"
+       Title="FitSwipe.Mobile">
 
     <!-- TabBar Definition -->
     <!--<TabBar>
@@ -46,28 +45,24 @@
         </Tab>
 
     </TabBar>-->
-    <ShellContent
-        ContentTemplate="{DataTemplate homePages:PTList}"
-        Route="PTList" />
-    <ShellContent
-        ContentTemplate="{DataTemplate chatPages:ChatPage}"
-        Route="ChatPage" />
-    <ShellContent
-        ContentTemplate="{DataTemplate trainingPages:TrainingPage}"
-        Route="TrainingPage" />
-    <ShellContent
-        ContentTemplate="{DataTemplate schedulePages:TraineeSchedulePage}"
-        Route="TraineeSchedulePage" />
-    <ShellContent
-        ContentTemplate="{DataTemplate profilePages:TraineeProfilePage}"
-        Route="TraineeProfilePage" />
-    <ShellContent
-        ContentTemplate="{DataTemplate homePages:SwipeMatchView}"
-        Route="SwipeMatch" />
-    <ShellContent
-        Title="Sign Up"
-        ContentTemplate="{DataTemplate pages:SignUpView}"
-        Route="SignUp" />
+    <ShellContent Title="Sign In"
+                  ContentTemplate="{DataTemplate pages:SignInView}"
+                  Route="SignIn" />
+    <ShellContent ContentTemplate="{DataTemplate homePages:PTList}"
+                  Route="PTList" />
+    <ShellContent ContentTemplate="{DataTemplate chatPages:ChatPage}"
+                  Route="ChatPage" />
+    <ShellContent ContentTemplate="{DataTemplate trainingPages:TrainingPage}"
+                  Route="TrainingPage" />
+    <ShellContent ContentTemplate="{DataTemplate schedulePages:TraineeSchedulePage}"
+                  Route="TraineeSchedulePage" />
+    <ShellContent ContentTemplate="{DataTemplate profilePages:TraineeProfilePage}"
+                  Route="TraineeProfilePage" />
+    <ShellContent ContentTemplate="{DataTemplate homePages:SwipeMatchView}"
+                  Route="SwipeMatch" />
+    <ShellContent Title="Sign Up"
+                  ContentTemplate="{DataTemplate pages:SignUpView}"
+                  Route="SignUp" />
 
 
 </Shell>

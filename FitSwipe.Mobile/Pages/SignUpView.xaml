@@ -3,16 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FitSwipe.Mobile.Pages.SignUpView"
              Title="SignUpView">
-    <VerticalStackLayout Padding="10" Spacing="10">
+    <VerticalStackLayout Padding="10"
+                         Spacing="10"
+                         VerticalOptions="CenterAndExpand">
         <Label Text="Email" />
-        <Entry Text="{Binding Email}"></Entry>
+        <Entry Text="{Binding Email}"
+               Placeholder="Email / SDT" />
+
         <Label Text="Password" />
-        <Entry Text="{Binding Password}" IsPassword="True" ></Entry>
+        <Entry Text="{Binding Password}"
+               IsPassword="True"
+               Placeholder="Mật khẩu" />
 
-        <Button Text="Sign In" Command="{Binding SignInCommand}"></Button>
-        <Button Text="Need an Account? Sign Up" Command="{Binding NavigateSignUpCommand}"></Button>
+        <Button Text="Sign In"
+                Command="{Binding SignInCommand}"></Button>
+        <Button Text="Need an Account? Sign Up"
+                Command="{Binding NavigateSignUpCommand}"></Button>
 
-
-        <Label Margin="0, 20, 0,0" Text="{Binding UserName}"></Label>
+        <Label Margin="0, 20, 0, 0"
+               Text="{Binding UserName}"></Label>
     </VerticalStackLayout>
 </ContentPage>
