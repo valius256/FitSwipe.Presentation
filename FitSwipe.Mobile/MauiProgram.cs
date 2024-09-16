@@ -1,9 +1,9 @@
 ﻿using Firebase.Auth;
 using Firebase.Auth.Providers;
 using FitSwipe.Mobile.Pages;
-using FitSwipe.Mobile.Pages.HomePages;
 using FitSwipe.Mobile.ViewModels;
 using Microsoft.Extensions.Logging;
+using System.Net.Http.Headers;
 
 namespace FitSwipe.Mobile
 {
@@ -35,6 +35,11 @@ namespace FitSwipe.Mobile
                 },
             }));
 
+            builder.Services.AddHttpClient("BackendApiClient", client =>
+                {
+                    client.BaseAddress = new Uri("http://192.168.2.53:5250/");
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                });
 
 
             builder.Services.AddSingleton<SignInView>();
