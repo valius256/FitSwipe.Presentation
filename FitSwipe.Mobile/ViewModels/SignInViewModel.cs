@@ -33,55 +33,50 @@ namespace FitSwipe.Mobile.ViewModels
             LoadingDialog.IsVisible = true;
             try
             {
-                var result = await _authClient.SignInWithEmailAndPasswordAsync(Email, Password);
 
-                // Retrieve the Firebase ID token from the result
-                var idToken = await result.User.GetIdTokenAsync(false);
-
-                // Create the request body
-                var requestBody = new TokenVerificationRequest
+                var signInDto = new SignInDto
                 {
-                    Token = idToken
+                    Email = _email,
+                    Password = _password
                 };
 
-                // Serialize the request body
-                var content = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
+                var content = new StringContent(JsonSerializer.Serialize(signInDto), Encoding.UTF8, "application/json");
 
-                // Set up HttpClient
-                var httpClient = new HttpClient();
+                // Sign in with Firebase
+                var response = await _httpClient.PostAsync("api/Authentication/login-firebase", content);
 
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", idToken);
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var authResponse = JsonSerializer.Deserialize<AuthenResponseDto>(responseContent);
 
-                // Send POST request to backend API
-                // tam thoi m lay dia chi may m chay backend lam cai api xuat la dc
-                // gui lay role duoc roi chi co cho authen no dang loi 1 chut
-
-                var response = await _httpClient.PostAsync("api/Authentication/verify-token", content);
-
-                if (response.IsSuccessStatusCode)
+                if (authResponse != null)
                 {
-                    var responseContent = await response.Content.ReadAsStringAsync();
-                    var jsonResponse = JsonSerializer.Deserialize<ResponseRoleModel>(responseContent);
+                    // Handle the response
+                    if (authResponse.Code.Equals("OK"))
+                    {
+                        await SecureStorage.SetAsync("auth_token", authResponse.Message);
+                        
+                        var token = await SecureStorage.GetAsync("auth_token");
 
-                    var userRole = jsonResponse?.Role;
+                        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                        var testResponse = await _httpClient.GetAsync("api/Authentication/get-test");
+                        var result = await testResponse.Content.ReadAsStringAsync();
+                        // Successful login logic
+                        await Application.Current.MainPage.DisplayAlert("Success", $"{result}", "OK");
+                        // Optionally, navigate to another page or store token
 
-                    // Adjust UI or store the role based on your application's needs
-                    OnPropertyChanged(nameof(UserName));
-
-                    //await Application.Current.MainPage.DisplayAlert("Success", $"You {Email} have successfully logged in with role {userRole}", "OK");
-                    await Shell.Current.GoToAsync("//SetupProfile");
-                    LoadingDialog.IsVisible = false;
+                        await Shell.Current.GoToAsync("//PTList");
+                    }
+                    else
+                    {
+                        // Handle errors based on the message
+                        await Application.Current.MainPage.DisplayAlert("Error", authResponse.Message, "OK");
+                    }
                 }
                 else
                 {
-                    LoadingDialog.IsVisible = false;
-                    await Application.Current.MainPage.DisplayAlert("Error", $"Server error: {response.StatusCode}", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Error", "Unexpected response format.", "OK");
                 }
-            }
-            catch (HttpRequestException httpEx)
-            {
-                LoadingDialog.IsVisible = false;
-                await Application.Current.MainPage.DisplayAlert("Network Error", $"Network error: {httpEx.Message}", "OK");
+
             }
             catch (Exception ex)
             {
@@ -89,6 +84,8 @@ namespace FitSwipe.Mobile.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
             }
         }
+
+
 
 
 
