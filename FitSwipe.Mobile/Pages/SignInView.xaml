@@ -6,76 +6,106 @@
 
     <AbsoluteLayout>
         <!-- Background Image -->
-        
-        <Image x:Name="backgroundImage" Source="signin_background.png" 
-                Aspect="AspectFill" 
-                Opacity="0.5"
-                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                AbsoluteLayout.LayoutFlags="All"
-        />
+
+        <Image x:Name="backgroundImage"
+               Source="signin_background.png"
+               Aspect="AspectFill"
+               Opacity="0.5"
+               AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+               AbsoluteLayout.LayoutFlags="All" />
 
         <!-- Green Overlay -->
-        <Border x:Name="backgroundCover" BackgroundColor="#009900"
-                Opacity="0.2"
+        <Border x:Name="backgroundCover"
+                BackgroundColor="#83f683"
+                Opacity="0.15"
                 AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                 AbsoluteLayout.LayoutFlags="All" />
 
         <VerticalStackLayout Padding="10"
-                Spacing="10"
-                VerticalOptions="Center"
-                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                AbsoluteLayout.LayoutFlags="All">
+                             Spacing="10"
+                             VerticalOptions="Center"
+                             AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                             AbsoluteLayout.LayoutFlags="All">
             <!--#region INFORMATION SECTION-->
-            <!--EMAIL/USERNAME-->
+
+            <!-- App Icon -->
+            <Image Source="app_icon.png"
+                   WidthRequest="190"
+                   HeightRequest="190" />
+            <Label Text="FitSwipe"
+                   HorizontalOptions="Center"
+                   FontAttributes="Bold,Italic"
+                   WidthRequest="200"
+                   FontSize="50" />
+
+            <!-- Screen Title -->
+            <Label Text="Đăng nhập"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   WidthRequest="150"
+                   HorizontalTextAlignment="Center"
+                   HorizontalOptions="Center" />
+
+            <!-- Email/Username -->
             <VerticalStackLayout Spacing="20">
                 <StackLayout Orientation="Horizontal">
                     <Border Padding="5"
                             StrokeThickness="2"
-                            Stroke="Green">
+                            Stroke="Green"
+                            BackgroundColor="White">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="50" />
                         </Border.StrokeShape>
                         <Image Source="profile.png"
-                                WidthRequest="45"
-                                HeightRequest="45" />
+                               WidthRequest="45"
+                               HeightRequest="45" />
                     </Border>
                     <Border Stroke="Green"
                             StrokeThickness="2"
                             Padding="7"
-                            HorizontalOptions="FillAndExpand">
+                            HorizontalOptions="FillAndExpand"
+                            BackgroundColor="White"
+                            Opacity="0.6">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="8" />
                         </Border.StrokeShape>
                         <Entry Text="{Binding Email}"
-                                Placeholder="Email / SĐT" />
+                               Placeholder="Email / SĐT"
+                               PlaceholderColor="Black" />
                     </Border>
                 </StackLayout>
-                <!--PASSWORD-->
+
+                <!-- Password -->
                 <StackLayout Orientation="Horizontal">
                     <Border Padding="5"
                             StrokeThickness="2"
-                            Stroke="Green">
+                            Stroke="Green"
+                            BackgroundColor="White">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="50" />
                         </Border.StrokeShape>
                         <Image Source="password.png"
-                                WidthRequest="45"
-                                HeightRequest="45" />
+                               WidthRequest="45"
+                               HeightRequest="45" />
                     </Border>
                     <Border Stroke="Green"
                             StrokeThickness="2"
                             Padding="7"
-                            HorizontalOptions="FillAndExpand">
+                            HorizontalOptions="FillAndExpand"
+                            BackgroundColor="White"
+                            Opacity="0.6">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="8" />
                         </Border.StrokeShape>
                         <Entry Text="{Binding Password}"
-                                IsPassword="True"
-                                Placeholder="Mật khẩu" />
+                               IsPassword="True"
+                               Placeholder="Mật khẩu"
+                               PlaceholderColor="Black" />
                     </Border>
                 </StackLayout>
             </VerticalStackLayout>
             <!--#endregion-->
+
             <!--#region REMEMBER PASSWORD-->
             <Grid ColumnSpacing="10">
                 <Grid.ColumnDefinitions>
@@ -83,51 +113,53 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <!-- Ghi nho dang nhap -->
+                <!-- Remember signin information -->
                 <StackLayout Grid.Column="0"
-                                Orientation="Horizontal"
-                                VerticalOptions="Center">
+                             Orientation="Horizontal"
+                             VerticalOptions="Center">
                     <Label Text="Ghi nhớ đăng nhập?"
-                            VerticalOptions="Center" />
+                           VerticalOptions="Center" />
                     <CheckBox IsChecked="{Binding RememberMe}"
-                                Color="Green" />
+                              Color="Green" />
                 </StackLayout>
-                <!-- Quen mat khau -->
+
+                <!-- Forget Password -->
                 <Label Grid.Column="1"
-                    HorizontalOptions="End"
-                    Text="Quên mật khẩu?"
-                    VerticalOptions="Center"
-                    TextDecorations="Underline"
-                    TextColor="Black">
+                       HorizontalOptions="End"
+                       Text="Quên mật khẩu?"
+                       VerticalOptions="Center"
+                       TextDecorations="Underline"
+                       TextColor="Black">
                 </Label>
             </Grid>
             <!--#endregion-->
+
             <!--#region ALTERNATIVE LOGIN METHOD-->
             <VerticalStackLayout HorizontalOptions="Center">
                 <Label Text="hoặc đăng nhập bằng"
-                        Margin="0, 0, 0, 5" />
+                       Margin="0, 0, 0, 5" />
                 <StackLayout Orientation="Horizontal"
-                                HorizontalOptions="Center"
-                                Spacing="20">
+                             HorizontalOptions="Center"
+                             Spacing="20">
 
-                    <!--Facebook-->
+                    <!-- Facebook -->
                     <Frame HasShadow="True"
-                            CornerRadius="50"
-                            Padding="5"
-                            BorderColor="Green">
+                           CornerRadius="50"
+                           Padding="5"
+                           BorderColor="Green">
                         <ImageButton Source="facebook.png"
-                                        WidthRequest="40"
-                                        HeightRequest="40" />
+                                     WidthRequest="40"
+                                     HeightRequest="40" />
                     </Frame>
 
-                    <!--Google-->
+                    <!-- Google -->
                     <Frame HasShadow="True"
-                            CornerRadius="50"
-                            Padding="5"
-                            BorderColor="Green">
+                           CornerRadius="50"
+                           Padding="5"
+                           BorderColor="Green">
                         <ImageButton Source="google.png"
-                                        WidthRequest="40"
-                                        HeightRequest="40" />
+                                     WidthRequest="40"
+                                     HeightRequest="40" />
                     </Frame>
                 </StackLayout>
             </VerticalStackLayout>
@@ -135,12 +167,12 @@
 
             <!--#region NOT HAVE ACCOUNT YET-->
             <HorizontalStackLayout HorizontalOptions="Center"
-                                    Spacing="40"
-                                    Margin="0, 20, 0, 0">
+                                   Spacing="40"
+                                   Margin="0, 20, 0, 0">
                 <Label Text="Chưa có tài khoản?"
-                        FontAttributes="Italic,Bold"
-                        VerticalOptions="Center"
-                        MaximumHeightRequest="150" />
+                       FontAttributes="Italic,Bold"
+                       VerticalOptions="Center"
+                       MaximumHeightRequest="150" />
 
                 <Button Text="Đăng ký"
                         BorderWidth="1"
@@ -152,7 +184,7 @@
 
             </HorizontalStackLayout>
 
-            <!--SIGN IN BUTTON-->
+            <!-- Signin Button-->
             <Button Text="Đăng nhập"
                     BorderWidth="1"
                     Margin="0, 20, 0, 0"
@@ -162,12 +194,14 @@
                     BackgroundColor="White"
                     Command="{Binding SignInCommand}" />
             <!--#endregion-->
+
             <Label Margin="0, 20, 0,0"
-                    Text="{Binding UserName}"></Label>
+                   Text="{Binding UserName}"></Label>
         </VerticalStackLayout>
+
         <controls:LoadingDialog x:Name="loadingDialog"
-            IsVisible="False"
-            AbsoluteLayout.LayoutFlags="PositionProportional"
-            AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
-     </AbsoluteLayout>
+                                IsVisible="False"
+                                AbsoluteLayout.LayoutFlags="PositionProportional"
+                                AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
+    </AbsoluteLayout>
 </ContentPage>
