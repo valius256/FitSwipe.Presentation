@@ -26,7 +26,7 @@ namespace FitSwipe.Mobile.ViewModels
                 await _authClient.CreateUserWithEmailAndPasswordAsync(Email, Password, Username);
                 await Application.Current.MainPage.DisplayAlert("Thành Công", $"Bạn {Email} đã đăng ký thành công ", "OK");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 await Application.Current.MainPage.DisplayAlert("Lỗi", $"", "OK");
 
