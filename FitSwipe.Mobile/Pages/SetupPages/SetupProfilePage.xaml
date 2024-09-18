@@ -55,16 +55,19 @@
                     Margin="20,15,20,5"/>
                 <FlexLayout JustifyContent="SpaceBetween"  Margin="20,0,20,5">
                     <RadioButton x:Name="MaleCheckBox" 
-                     Content="Nam" 
-                     Value="0"
+                         Content="Nam" 
+                         Value="0"
+                         CheckedChanged="MaleCheckBox_CheckedChanged"
                      />
                     <RadioButton x:Name="FemaleCheckBox" 
-                     Content="Nữ" 
-                     Value="1"
+                         Content="Nữ" 
+                         Value="1"
+                         CheckedChanged="MaleCheckBox_CheckedChanged"
                      />
                     <RadioButton x:Name="OtherCheckBox" 
-                     Content="Khác" 
-                     Value="2"
+                         Content="Khác" 
+                         Value="2"
+                         CheckedChanged="MaleCheckBox_CheckedChanged"                           
                      />
                 </FlexLayout>
                 <!-- DatePicker for Date of Birth -->
@@ -74,6 +77,7 @@
                 <DatePicker x:Name="DateOfBirthPicker" 
                      Format="dd/MM/yyyy" 
                      Margin="20,0,20,15" 
+                     Date="{Binding DateOfBirth}"
                 />
 
                 <!-- Job Picker -->
@@ -83,7 +87,7 @@
                 <Picker x:Name="JobPicker" 
                     Title="Chọn nghề nghiệp" 
                     Margin="20,0,20,15"
-                    SelectedItem="{Binding Source={x:Reference SetupProfilePageView}, Path=Job}">
+                    SelectedItem="{Binding Job}">
                 </Picker>
 
                 <!-- Address: City, District, Ward -->
@@ -92,18 +96,18 @@
                     Margin="20,0,20,5"/>
                 <FlexLayout Margin="20,0,20,15" JustifyContent="SpaceBetween">
                     <Picker x:Name="CityPicker"
-                        SelectedItem="{Binding Source={x:Reference SetupProfilePageView}, Path=City}" Title="Thành phố" WidthRequest="100"/>
+                        SelectedItem="{Binding City}" Title="Thành phố" WidthRequest="100"/>
                     <Picker x:Name="DistrictPicker"
-                        SelectedItem="{Binding Source={x:Reference SetupProfilePageView}, Path=District}" Title="Quận" WidthRequest="100"/>
+                        SelectedItem="{Binding District}" Title="Quận" WidthRequest="100"/>
                     <Picker x:Name="WardPicker"
-                        SelectedItem="{Binding Source={x:Reference SetupProfilePageView}, Path=Ward}" Title="Phường" WidthRequest="100"/>
+                        SelectedItem="{Binding Ward}" Title="Phường" WidthRequest="100"/>
                 </FlexLayout>
 
                 <!-- Bio Text Input -->
                 <Label Text="Giới thiệu bản thân:"
                     FontAttributes="Bold"
                     Margin="20,0,20,5"/>
-                <Editor x:Name="BioEditor" Text="{Binding Source={x:Reference SetupProfilePageView}, Path=Bio}" Placeholder="Viết một vài điều về bản thân bạn..." Margin="20,0,20,15" AutoSize="TextChanges" HeightRequest="100"/>
+                <Editor x:Name="BioEditor" Text="{Binding Bio}" Placeholder="Viết một vài điều về bản thân bạn..." Margin="20,0,20,15" AutoSize="TextChanges" HeightRequest="100"/>
 
             </VerticalStackLayout>
         </ScrollView>

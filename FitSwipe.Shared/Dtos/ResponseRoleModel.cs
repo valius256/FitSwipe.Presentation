@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace FitSwipe.Shared.Models
+namespace FitSwipe.Shared.Dtos
 {
     public class ResponseRoleModel
     {

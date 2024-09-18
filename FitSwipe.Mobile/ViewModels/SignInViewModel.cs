@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Firebase.Auth;
 using FitSwipe.Mobile.Controls;
-using FitSwipe.Shared.Models;
+using FitSwipe.Shared.Dtos;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -61,10 +61,10 @@ namespace FitSwipe.Mobile.ViewModels
                         var testResponse = await _httpClient.GetAsync("api/Authentication/get-test");
                         var result = await testResponse.Content.ReadAsStringAsync();
                         // Successful login logic
-                        await Application.Current.MainPage.DisplayAlert("Success", $"{result}", "OK");
+                        //await Application.Current.MainPage.DisplayAlert("Success", $"{result}", "OK");
                         // Optionally, navigate to another page or store token
 
-                        await Shell.Current.GoToAsync("//PTList");
+                        await Shell.Current.GoToAsync("//SetupProfile");
                     }
                     else
                     {
@@ -80,9 +80,9 @@ namespace FitSwipe.Mobile.ViewModels
             }
             catch (Exception ex)
             {
-                LoadingDialog.IsVisible = false;
                 await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
             }
+            LoadingDialog.IsVisible = false;
         }
 
 

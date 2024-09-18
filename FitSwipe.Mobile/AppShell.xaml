@@ -13,14 +13,15 @@
        Shell.FlyoutBehavior="Disabled"
        Title="FitSwipe.Mobile">
 
+    <ShellContent ContentTemplate="{DataTemplate setupPages:SetupProfilePage}"
+               Route="SetupProfile" />
+
     <ShellContent ContentTemplate="{DataTemplate pages:StartedView}"
                   Route="Started" />
     <ShellContent ContentTemplate="{DataTemplate pages:SignInView}"
                   Route="SignIn" />
     <ShellContent ContentTemplate="{DataTemplate pages:SignUpView}"
                   Route="SignUp" />
-    <ShellContent ContentTemplate="{DataTemplate setupPages:SetupProfilePage}"
-               Route="SetupProfile" />
 
     <ShellContent ContentTemplate="{DataTemplate homePages:PTList}"
                   Route="PTList" />

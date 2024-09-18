@@ -1,4 +1,4 @@
-﻿namespace FitSwipe.Shared.Models
+﻿namespace FitSwipe.Shared.Dtos
 {
     //Test only
     public class ViewItem

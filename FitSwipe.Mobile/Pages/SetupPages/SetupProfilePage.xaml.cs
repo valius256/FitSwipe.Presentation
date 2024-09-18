@@ -1,4 +1,5 @@
-﻿using FitSwipe.Shared.Enums;
+﻿using FitSwipe.Shared.Dtos.Users;
+using FitSwipe.Shared.Enums;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -9,91 +10,13 @@ public partial class SetupProfilePage : ContentPage
 {
 	private string _mainColor1 = "LimeGreen";
 	private string _mainColor2 = "Green";
-    private Gender? _selectedGender;
-    private DateTime? _dateOfBirth;
-    private string? _job;
-    private string? _city;
-    private string? _district;
-    private string? _ward;
-    private string? _bio;
+
+    public UpdateUserProfileDto UserProfile { get; set; } = new UpdateUserProfileDto();
 
     public ObservableCollection<string> Jobs { get; set; } = new ObservableCollection<string>();
     public ObservableCollection<string> Cities { get; set; } = new ObservableCollection<string>();
     public ObservableCollection<string> Districts { get; set; } = new ObservableCollection<string>();
     public ObservableCollection<string> Wards { get; set; } = new ObservableCollection<string>();
-    public Gender? SelectedGender
-    {
-        get { return _selectedGender; }
-        set
-        {
-            if (_selectedGender != value)
-            {
-                _selectedGender = value;
-                OnPropertyChanged(nameof(SelectedGender));
-            }
-        }
-    }
-
-
-    public DateTime? DateOfBirth
-    {
-        get => _dateOfBirth;
-        set
-        {
-            _dateOfBirth = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string? Job
-    {
-        get => _job;
-        set
-        {
-            _job = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string? City
-    {
-        get => _city;
-        set
-        {
-            _city = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string? District
-    {
-        get => _district;
-        set
-        {
-            _district = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string? Ward
-    {
-        get => _ward;
-        set
-        {
-            _ward = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string? Bio
-    {
-        get => _bio;
-        set
-        {
-            _bio = value;
-            OnPropertyChanged();
-        }
-    }
 
     public string MainColor1 {
 		get => _mainColor1;
@@ -123,12 +46,23 @@ public partial class SetupProfilePage : ContentPage
         CityPicker.ItemsSource = Cities;
         WardPicker.ItemsSource = Wards;
         DistrictPicker.ItemsSource = Districts;
+
+        BindingContext = UserProfile;
         // Initialize with default values
-        DateOfBirth = DateTime.Now;
     }
 
     private void Button_Clicked(object sender, EventArgs e)
     {
-        DisplayAlert("Review",$"Your current info : Bio : {Bio}, Job : {Job}, City : {City}, District : {District}, Ward : {Ward}, Gender : {SelectedGender}","Ok baby");
+        //DisplayAlert("Review",$"Your current info : Bio : {UserProfile.Bio},\n Job : {UserProfile.Job},\n DateOfBirh : {UserProfile.DateOfBirth},\n " +
+        //    $"City : {UserProfile.City},\n District : {UserProfile.District},\n Ward : {UserProfile.Ward},\n Gender : {UserProfile.SelectedGender}","Ok baby");
+        Navigation.PushModalAsync(new SetupProfileStep2Page(UserProfile));
+    }
+
+    private void MaleCheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        var radioButton = (RadioButton)sender;
+        int radioValue = int.Parse((string)radioButton.Value);
+        UserProfile.SelectedGender = (Gender)radioValue;
+
     }
 }
