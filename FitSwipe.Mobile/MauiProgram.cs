@@ -1,4 +1,5 @@
-﻿using Firebase.Auth;
+﻿using CommunityToolkit.Maui;
+using Firebase.Auth;
 using Firebase.Auth.Providers;
 using FitSwipe.Mobile.Pages;
 using FitSwipe.Mobile.ViewModels;
@@ -14,6 +15,7 @@ namespace FitSwipe.Mobile
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkitMediaElement()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
