@@ -1,4 +1,4 @@
-﻿namespace FitSwipe.Shared.Dtos
+﻿namespace FitSwipe.Shared.Models
 {
     public class TokenVerificationRequest
     {

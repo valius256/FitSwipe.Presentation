@@ -1,4 +1,4 @@
-using FitSwipe.Shared.Dtos;
+using FitSwipe.Shared.Models;
 
 namespace FitSwipe.Mobile.Pages.HomePages;
 

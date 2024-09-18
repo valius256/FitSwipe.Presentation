@@ -1,4 +1,4 @@
-using FitSwipe.Shared.Dtos;
+using FitSwipe.Shared.Models;
 using Syncfusion.Maui.Inputs;
 
 namespace FitSwipe.Mobile.Pages.HomePages;
