@@ -40,6 +40,7 @@
                 <Frame 
                      Padding="1"
                      Margin="20,0"
+                    BackgroundColor="Transparent"                 
                      BorderColor="{Binding Source={x:Reference SetupProfilePageView}, Path=MainColor1}">
                     <Label 
                          VerticalOptions="Center"
@@ -47,24 +48,30 @@
                          FontAttributes="Bold"
                          FontSize="15"
                          Padding="5"
-                         HorizontalOptions="Center" />
+                         BackgroundColor="Transparent"
+                         HorizontalOptions="Center" 
+                        TextColor="Black"/>
                 </Frame>
                 <!-- Gender Checkboxes -->
                 <Label Text="Giới tính:" 
                     FontAttributes="Bold" 
-                    Margin="20,15,20,5"/>
+                    Margin="20,15,20,5"
+                       TextColor="Black"/>
                 <FlexLayout JustifyContent="SpaceBetween"  Margin="20,0,20,5">
                     <RadioButton x:Name="MaleCheckBox" 
+                         TextColor="Black"
                          Content="Nam" 
                          Value="0"
                          CheckedChanged="MaleCheckBox_CheckedChanged"
                      />
                     <RadioButton x:Name="FemaleCheckBox" 
+                                 TextColor="Black"
                          Content="Nữ" 
                          Value="1"
                          CheckedChanged="MaleCheckBox_CheckedChanged"
                      />
                     <RadioButton x:Name="OtherCheckBox" 
+                                 TextColor="Black"
                          Content="Khác" 
                          Value="2"
                          CheckedChanged="MaleCheckBox_CheckedChanged"                           
@@ -73,48 +80,53 @@
                 <!-- DatePicker for Date of Birth -->
                 <Label Text="Ngày sinh:"
                     FontAttributes="Bold"
+                    TextColor="Black"
                     Margin="20,10,20,5"/>
                 <DatePicker x:Name="DateOfBirthPicker" 
                      Format="dd/MM/yyyy" 
                      Margin="20,0,20,15" 
+                     TextColor="Black"
                      Date="{Binding DateOfBirth}"
                 />
 
                 <!-- Job Picker -->
                 <Label Text="Nghề nghiệp:"
                     FontAttributes="Bold"
-                    Margin="20,0,20,5"/>
+                    Margin="20,0,20,5"
+                       TextColor="Black"/>
                 <Picker x:Name="JobPicker" 
                     Title="Chọn nghề nghiệp" 
                     Margin="20,0,20,15"
+                        TextColor="Black"
                     SelectedItem="{Binding Job}">
                 </Picker>
 
                 <!-- Address: City, District, Ward -->
                 <Label Text="Địa chỉ:"
                     FontAttributes="Bold"
-                    Margin="20,0,20,5"/>
+                    Margin="20,0,20,5"
+                       TextColor="Black"/>
                 <FlexLayout Margin="20,0,20,15" JustifyContent="SpaceBetween">
-                    <Picker x:Name="CityPicker"
+                    <Picker x:Name="CityPicker" TextColor="Black"
                         SelectedItem="{Binding City}" Title="Thành phố" WidthRequest="100"/>
-                    <Picker x:Name="DistrictPicker"
+                    <Picker x:Name="DistrictPicker" TextColor="Black"
                         SelectedItem="{Binding District}" Title="Quận" WidthRequest="100"/>
-                    <Picker x:Name="WardPicker"
+                    <Picker x:Name="WardPicker" TextColor="Black"
                         SelectedItem="{Binding Ward}" Title="Phường" WidthRequest="100"/>
                 </FlexLayout>
 
                 <!-- Bio Text Input -->
                 <Label Text="Giới thiệu bản thân:"
                     FontAttributes="Bold"
-                    Margin="20,0,20,5"/>
-                <Editor x:Name="BioEditor" Text="{Binding Bio}" Placeholder="Viết một vài điều về bản thân bạn..." Margin="20,0,20,15" AutoSize="TextChanges" HeightRequest="100"/>
+                    Margin="20,0,20,5"
+                       TextColor="Black"/>
+                <Editor x:Name="BioEditor" TextColor="Black" Text="{Binding Bio}" Placeholder="Viết một vài điều về bản thân bạn..." Margin="20,0,20,15" AutoSize="TextChanges" HeightRequest="100"/>
 
             </VerticalStackLayout>
         </ScrollView>
         <!-- Next Button -->
-        <VerticalStackLayout  Grid.Row="1" VerticalOptions="End">
+        <VerticalStackLayout  Grid.Row="1" VerticalOptions="End" Margin="10" >
             <Button
-                Margin="10" 
                 BackgroundColor="{Binding Source={x:Reference SetupProfilePageView}, Path=MainColor1}"
                 TextColor="White"
                 FontAttributes="Bold"

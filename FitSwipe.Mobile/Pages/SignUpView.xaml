@@ -28,8 +28,8 @@
 
                 <!-- App Icon -->
                 <Image Source="app_icon.png"
-                       WidthRequest="190"
-                       HeightRequest="190" />
+                       WidthRequest="150"
+                       HeightRequest="150" />
                 <Label Text="FitSwipe"
                        HorizontalOptions="Center"
                        FontAttributes="Bold,Italic"

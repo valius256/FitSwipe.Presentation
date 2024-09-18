@@ -12,6 +12,7 @@ public partial class SetupProfileStep2Page : ContentPage
     private string _mainColor1 = "LimeGreen";
     private string _mainColor2 = "LightGreen";
     public ObservableCollection<GetTagDto> Tags { get; set; } = new ObservableCollection<GetTagDto>();
+    public List<Guid> SelectedTags { get; set; } = [];
     public string MainColor1
     {
         get => _mainColor1;
@@ -48,6 +49,10 @@ public partial class SetupProfileStep2Page : ContentPage
             new GetTagDto {Id = new Guid(), Name = "Chạy bộ", TagImage="Images/dotnet_bot.png",TagType = TagType.Hobby},
             new GetTagDto {Id = new Guid(), Name = "Xem phim", TagImage="Images/dotnet_bot.png",TagType = TagType.Hobby},
         };
+        foreach (var tag in Tags)
+        {
+            tag.DisplaySize = Math.Min(20, 8 / Math.Max(1, tag.Name.Length) * 20);
+        }
     }
     private void btnPrev_Clicked(object sender, EventArgs e)
     {
@@ -56,7 +61,8 @@ public partial class SetupProfileStep2Page : ContentPage
 
     private void btnNext_Clicked(object sender, EventArgs e)
     {
-
+        //DisplayAlert("Information",$"Current User : {_currentUser}, Selected Tag : {SelectedTags}","OK");
+        Navigation.PushModalAsync(new SetupProfileStep3Page(_currentUser, SelectedTags));
     }
 
     private void tagFrame_Tapped(object sender, TappedEventArgs e)
@@ -72,9 +78,20 @@ public partial class SetupProfileStep2Page : ContentPage
                 var boundItem = tapGestureRecognizer?.CommandParameter as GetTagDto;
                 if (boundItem != null)
                 {
-                    boundItem.IsSelected = !boundItem.IsSelected;
+                    if (boundItem.IsSelected)
+                    {
+                        boundItem.IsSelected = false;
+                        SelectedTags.Remove(boundItem.Id);
+                    }
+                    else
+                    {
+                        boundItem.IsSelected = true;
+                        SelectedTags.Add(boundItem.Id);
+                    }
                 }
             }
         }
     }
+
+
 }

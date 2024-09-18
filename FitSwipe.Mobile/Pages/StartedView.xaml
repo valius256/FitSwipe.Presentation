@@ -26,8 +26,8 @@
 
             <!-- App Icon -->
             <Image Source="app_icon.png"
-                   WidthRequest="190"
-                   HeightRequest="190" />
+                   WidthRequest="150"
+                   HeightRequest="150" />
 
             <!-- App Name -->
             <Label Text="Chào mừng đến với "

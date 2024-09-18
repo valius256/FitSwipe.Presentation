@@ -2,11 +2,100 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FitSwipe.Mobile.Pages.SetupPages.SetupProfileStep3Page"
-             Title="SetupProfileStep3Page">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             x:Name="SetupProfileStep3PageView">
+    <Grid BackgroundColor="{Binding Source={x:Reference SetupProfileStep3PageView}, Path=MainColor2}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <VerticalStackLayout Grid.Row="0" >
+            <Label 
+             Text="Mục tiêu tập luyện của bạn là gì?"
+             VerticalOptions="Start" 
+             HorizontalOptions="Start" 
+             Margin="20"
+            FontSize="20"
+            TextColor="Black"             
+            FontAttributes="Bold"/>
+            <Label 
+             Text="Chúng tôi sẽ chỉ sử dụng những thông tin này để xuất cho bạn những Huấn luyện viên phù hợp cũng như tối ưu hóa trải nghiệm của bạn"
+             VerticalOptions="Start" 
+             HorizontalOptions="Start" 
+             Margin="20,10"
+             FontSize="10"
+            TextColor="Black"
+             FontAttributes="Italic"/>
+        </VerticalStackLayout>
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Tags}">
+            <!-- Define a grid layout with two columns -->
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2" />
+            </CollectionView.ItemsLayout>
+
+            <!-- Define how each item should appear in the grid -->
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout Margin="10">
+                        <Frame BorderColor="{Binding Source={x:Reference SetupProfileStep3PageView}, Path=MainColor1}"
+                            Padding="0" CornerRadius="10" HeightRequest="200">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer x:Name="tagFrame" Tapped="tagFrame_Tapped" CommandParameter="{Binding}"/>
+                            </Frame.GestureRecognizers>
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Image Grid.Row="0"
+                                    Source="{Binding TagImage}" 
+                                    Aspect="AspectFill" />
+                                <Image Grid.Row="0" 
+                                    VerticalOptions="Start"
+                                    HorizontalOptions="End"
+                                    Source="Images/check_with_no_background.png"
+                                    WidthRequest="50" 
+                                    HeightRequest="50"
+                                    IsVisible="{Binding IsSelected}" 
+
+                                 ></Image>
+                                <Label Grid.Row="1" Text="{Binding Name}" 
+                                         HeightRequest="50" 
+                                         FontSize="{Binding DisplaySize}"  
+                                         FontAutoScalingEnabled="True"
+                                         FontAttributes="Bold" 
+                                         HorizontalTextAlignment="Center" 
+                                         VerticalTextAlignment="Center"
+                                         Opacity="0.75"
+                                         BackgroundColor="{Binding Source={x:Reference SetupProfileStep3PageView}, Path=MainColor1}"
+                                         TextColor="White"
+                                 />
+
+                            </Grid>
+                        </Frame>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <FlexLayout Grid.Row="2" Direction="Row" Margin="10" JustifyContent="SpaceBetween">
+            <Button FlexLayout.Grow="1"            
+            BackgroundColor="{Binding Source={x:Reference SetupProfileStep3PageView}, Path=MainColor1}"
+            TextColor="White"
+            FontAttributes="Bold"
+            Text="Trở lại"
+            x:Name="btnPrev"
+            Clicked="btnPrev_Clicked"
+            Margin="5,0"/>
+            <Button FlexLayout.Grow="1"             
+            BackgroundColor="{Binding Source={x:Reference SetupProfileStep3PageView}, Path=MainColor1}"
+            TextColor="White"
+            FontAttributes="Bold"
+            Text="Tiếp theo"
+            x:Name="btnNext"
+            Clicked="btnNext_Clicked"
+            Margin="5,0"/>
+        </FlexLayout>
+    </Grid>
 </ContentPage>
