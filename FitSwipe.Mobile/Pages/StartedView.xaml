@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Pages.StartedView">
+
+    <AbsoluteLayout>
+        <!-- Background Image -->
+        <Image Source="signin_background.png"
+               Aspect="AspectFill"
+               AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+               AbsoluteLayout.LayoutFlags="All"
+               Opacity="0.5" />
+
+        <!-- Green Overlay -->
+        <Border  BackgroundColor="#83f683"
+                 Opacity="0.15"
+                 AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                 AbsoluteLayout.LayoutFlags="All" />
+
+        <StackLayout Orientation="Vertical"
+                     Padding="10"
+                     Spacing="10"
+                     VerticalOptions="CenterAndExpand"
+                     AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                     AbsoluteLayout.LayoutFlags="All">
+
+            <!-- App Icon -->
+            <Image Source="app_icon.png"
+                   WidthRequest="190"
+                   HeightRequest="190" />
+
+            <!-- App Name -->
+            <Label Text="Chào mừng đến với "
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   FontAttributes="Bold,Italic"
+                   WidthRequest="320"
+                   FontSize="30" />
+            <Label Text="FitSwipe"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   FontAttributes="Bold,Italic"
+                   WidthRequest="200"
+                   FontSize="50" />
+
+            <!--#region ROLE CHOOSING-->
+            <!-- Question -->
+            <Label Text="Bạn là người tập hay PT?"
+                   FontAttributes="Italic,Bold"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   WidthRequest="300"
+                   Margin="0, 30, 0, 0"
+                   FontSize="16" />
+
+            <!-- Buttons Contianer -->
+            <VerticalStackLayout WidthRequest="270"
+                                 Spacing="10">
+                <Button Text="Người tập"
+                        BackgroundColor="#52BB00" />
+
+                <Button Text="PT"
+                        BackgroundColor="#2E3192" />
+            </VerticalStackLayout>
+            <!--#endregion-->
+
+        </StackLayout>
+    </AbsoluteLayout>
+</ContentPage>

@@ -33,33 +33,50 @@ namespace FitSwipe.Mobile.ViewModels
             LoadingDialog.IsVisible = true;
             try
             {
-                var result = await _authClient.SignInWithEmailAndPasswordAsync(Email, Password);
 
-                // Retrieve the Firebase ID token from the result
-                var idToken = await result.User.GetIdTokenAsync(false);
-
-                // Create the request body
-                var requestBody = new TokenVerificationRequest
+                var signInDto = new SignInDto
                 {
-                    Token = idToken
+                    Email = _email,
+                    Password = _password
                 };
 
-                // Serialize the request body
-                var content = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
+                var content = new StringContent(JsonSerializer.Serialize(signInDto), Encoding.UTF8, "application/json");
 
-                // Set up HttpClient
-                var httpClient = new HttpClient();
+                // Sign in with Firebase
+                var response = await _httpClient.PostAsync("api/Authentication/login-firebase", content);
 
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", idToken);
-                //Get user here to naivgate accordingly
-                await Shell.Current.GoToAsync("//SetupProfile");
-                LoadingDialog.IsVisible = false;
-                
-            }
-            catch (HttpRequestException httpEx)
-            {
-                LoadingDialog.IsVisible = false;
-                await Application.Current.MainPage.DisplayAlert("Network Error", $"Network error: {httpEx.Message}", "OK");
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var authResponse = JsonSerializer.Deserialize<AuthenResponseDto>(responseContent);
+
+                if (authResponse != null)
+                {
+                    // Handle the response
+                    if (authResponse.Code.Equals("OK"))
+                    {
+                        await SecureStorage.SetAsync("auth_token", authResponse.Message);
+                        
+                        var token = await SecureStorage.GetAsync("auth_token");
+
+                        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                        var testResponse = await _httpClient.GetAsync("api/Authentication/get-test");
+                        var result = await testResponse.Content.ReadAsStringAsync();
+                        // Successful login logic
+                        await Application.Current.MainPage.DisplayAlert("Success", $"{result}", "OK");
+                        // Optionally, navigate to another page or store token
+
+                        await Shell.Current.GoToAsync("//PTList");
+                    }
+                    else
+                    {
+                        // Handle errors based on the message
+                        await Application.Current.MainPage.DisplayAlert("Error", authResponse.Message, "OK");
+                    }
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Unexpected response format.", "OK");
+                }
+
             }
             catch (Exception ex)
             {
@@ -67,6 +84,8 @@ namespace FitSwipe.Mobile.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
             }
         }
+
+
 
 
 
