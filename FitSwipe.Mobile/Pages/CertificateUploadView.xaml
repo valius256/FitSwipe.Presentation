@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:FitSwipe.Mobile.Converters"
              x:Class="FitSwipe.Mobile.Pages.CertificateUploadView">
+
+    <!-- Register the InverseBooleanConverter -->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <AbsoluteLayout Padding="20, 10">
         <VerticalStackLayout Padding="0"
                              VerticalOptions="FillAndExpand"
@@ -29,32 +38,48 @@
 
             <!--#region UPLOAD PICTURE FRAME-->
             <Frame HorizontalOptions="FillAndExpand"
-                   HeightRequest="200"
+                   HeightRequest="-1"
                    Margin="0, 18, 0, 0"
                    BorderColor="#323593"
                    VerticalOptions="Center">
                 <StackLayout>
-                    <Image Source="camera.png"
-                           WidthRequest="50"
-                           HeightRequest="50"
-                           VerticalOptions="Start" />
+                    <!-- Show the captured photo if available -->
+                    <Image Source="{Binding CapturedImageSource}"
+                           WidthRequest="300"
+                           HeightRequest="300"
+                           VerticalOptions="Start"
+                           IsVisible="{Binding IsPhotoCaptured}" />
 
-                    <!-- Upload Options -->
+                    <!-- Upload Options (hidden when photo is captured) -->
                     <StackLayout Spacing="10"
                                  Padding="10">
-                        <Button Text="Chụp hình"
-                                FontSize="Caption"
-                                BackgroundColor="#323593"
-                                CornerRadius="20" />
 
-                        <Button Text="Nhập hình từ điện thoại"
+                        <!-- Image Icon -->
+                        <Image Source="camera.png"
+                               WidthRequest="50"
+                               HeightRequest="50"
+                               VerticalOptions="Start"
+                               IsVisible="{Binding IsPhotoCaptured, Converter={StaticResource InverseBooleanConverter}}" />
+
+                        <Button x:Name="cameraPhotoButton"
+                                Text="Chụp hình"
                                 FontSize="Caption"
                                 BackgroundColor="#323593"
-                                CornerRadius="20" />
+                                CornerRadius="20"
+                                Clicked="cameraPhotoButton_Clicked" />
+
+                        <Button x:Name="galleryPhotoButton"
+                                Text="Nhập hình từ điện thoại"
+                                FontSize="Caption"
+                                BackgroundColor="#323593"
+                                CornerRadius="20"
+                                Clicked="galleryPhotoButton_Clicked" />
                     </StackLayout>
                 </StackLayout>
             </Frame>
 
+
+            <!-- Note Section -->
             <StackLayout Margin="0, 40, 0, 0"
                          Spacing="0">
                 <Label Text="Lưu ý:"
@@ -66,19 +91,42 @@
                        HorizontalOptions="Start"
                        FontAttributes="Italic"
                        FontSize="Caption" />
+
+                <Label Text="* Vui lòng tuân thủ theo quy tắc!"
+                       HorizontalOptions="Start"
+                       FontAttributes="Italic"
+                       FontSize="Caption"
+                       Margin="0, 10, 0, 0" />
             </StackLayout>
         </VerticalStackLayout>
 
+        <!-- If Picture Is Not Taken -->
         <!-- Button placed at the bottom right using AbsoluteLayout -->
         <Border Stroke="#323593"
                 StrokeShape="RoundRectangle 10"
                 Padding="0"
                 AbsoluteLayout.LayoutBounds="1, 1, AutoSize, AutoSize"
-                AbsoluteLayout.LayoutFlags="PositionProportional">
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                IsVisible="{Binding IsPhotoCaptured, Converter={StaticResource InverseBooleanConverter}}">
             <Button Text="Bỏ qua"
                     TextColor="Black"
                     BackgroundColor="Transparent"
                     Padding="40, 0, 40, 0" />
         </Border>
+
+        <!-- If Picture Is Taken -->
+        <Border Stroke="#323593"
+                StrokeShape="RoundRectangle 10"
+                Padding="0"
+                AbsoluteLayout.LayoutBounds="0.5, 0.97, AutoSize, AutoSize"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                BackgroundColor="#323593"
+                IsVisible="{Binding IsPhotoCaptured}">
+            <Button Text="Tải ảnh lên"
+                    TextColor="White"
+                    BackgroundColor="Transparent"
+                    Padding="40, 0, 40, 0" />
+        </Border>
+
     </AbsoluteLayout>
 </ContentPage>
