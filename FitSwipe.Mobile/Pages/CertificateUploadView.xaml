@@ -22,19 +22,44 @@
                          WidthRequest="30"
                          HorizontalOptions="Start" />
 
-            <Label Text="Chúng tôi cần thêm thông tin!"
-                   FontSize="Caption"
-                   Margin="0, 20, 0, 0" />
-            <Label Text="Vui lòng nhập hình bằng cấp của bạn"
-                   FontSize="Default"
-                   FontAttributes="Bold"
-                   Margin="0, 2, 0, 0" />
 
-            <Label Text="* Chúng tôi cần xác minh bạn có khả năng dạy cho các học viên các hoạt động khác có liên quan!"
-                   FontSize="Caption"
-                   FontAttributes="Italic"
-                   Margin="0, 10, 0, 0"
-                   TextColor="Red" />
+            <!--#region LABEL PICTURE IS NOT TAKEN -->
+            <StackLayout Spacing="5"
+                         IsVisible="{Binding IsPhotoCaptured, Converter={StaticResource InverseBooleanConverter}}">
+                <Label Text="Chúng tôi cần thêm thông tin!"
+                       FontSize="Caption"
+                       Margin="0, 20, 0, 0" />
+                <Label Text="Vui lòng nhập hình bằng cấp của bạn"
+                       FontSize="Default"
+                       FontAttributes="Bold" />
+
+                <Label Text="* Chúng tôi cần xác minh bạn có khả năng dạy cho các học viên các hoạt động khác có liên quan!"
+                       FontSize="Caption"
+                       FontAttributes="Italic"
+                       Margin="0, 10, 0, 0"
+                       TextColor="Red" />
+            </StackLayout>
+            <!--#endregion-->
+
+            <!--#region LABEL PICTURE IS TAKEN -->
+            <StackLayout Spacing="5"
+                         IsVisible="{Binding IsPhotoCaptured}">
+                <Label Text="Thông tin bằng cấp của bạn đã đúng chưa?"
+                       FontSize="Default"
+                       FontAttributes="Bold"
+                       Margin="0, 20, 0, 0" />
+
+                <Label Text="Vui lòng kiểm tra lại thông tin trước khi tiếp tục. Sau khi tải ảnh xong sẽ không thể hoàn tác!"
+                       FontSize="Caption"
+                       FontAttributes="Italic"
+                       Margin="0, 10, 0, 0"
+                       TextColor="Red" />
+
+                <Label Text="Ảnh của bạn"
+                       FontSize="Caption"
+                       FontAttributes="Bold" />
+            </StackLayout>
+            <!--#endregion-->
 
             <!--#region UPLOAD PICTURE FRAME-->
             <Frame HorizontalOptions="FillAndExpand"
