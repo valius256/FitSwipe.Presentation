@@ -10,9 +10,12 @@
        xmlns:trainingPages="clr-namespace:FitSwipe.Mobile.Pages.TrainingPages"
        xmlns:profilePages="clr-namespace:FitSwipe.Mobile.Pages.ProfilePages"
        xmlns:setupPages="clr-namespace:FitSwipe.Mobile.Pages.SetupPages"
+       xmlns:payingpages="clr-namespace:FitSwipe.Mobile.Pages.PayingPages"
        Shell.FlyoutBehavior="Disabled"
        Title="FitSwipe.Mobile">
 
+    <ShellContent ContentTemplate="{DataTemplate pages:PayingView}"
+               Route="PayingView" />
     <ShellContent ContentTemplate="{DataTemplate pages:TrailerVideoView}"
                   Route="TrailerVideo" />
     <ShellContent ContentTemplate="{DataTemplate pages:CertificateUploadView}"
