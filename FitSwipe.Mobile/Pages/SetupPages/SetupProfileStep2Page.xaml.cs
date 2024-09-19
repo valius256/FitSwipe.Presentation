@@ -43,15 +43,15 @@ public partial class SetupProfileStep2Page : ContentPage
         //Test data, replace by fetching in the future
         Tags = new ObservableCollection<GetTagDto>()
         {
-            new GetTagDto {Id = new Guid(), Name = "Đá bóng", TagImage="Images/dotnet_bot.png",TagType = TagType.Hobby},
-            new GetTagDto {Id = new Guid(), Name = "Chơi game", TagImage="Images/dotnet_bot.png",TagType = TagType.Hobby},
+            new GetTagDto {Id = new Guid(), Name = "Đá bóng", TagImage="Images/pt1.png",TagType = TagType.Hobby},
+            new GetTagDto {Id = new Guid(), Name = "Chơi game", TagImage="Images/pt2.png",TagType = TagType.Hobby},
             new GetTagDto {Id = new Guid(), Name = "Đọc sách", TagImage="Images/dotnet_bot.png",TagType = TagType.Hobby},
             new GetTagDto {Id = new Guid(), Name = "Chạy bộ", TagImage="Images/dotnet_bot.png",TagType = TagType.Hobby},
             new GetTagDto {Id = new Guid(), Name = "Xem phim", TagImage="Images/dotnet_bot.png",TagType = TagType.Hobby},
         };
         foreach (var tag in Tags)
         {
-            tag.DisplaySize = Math.Min(20, 8 / Math.Max(1, tag.Name.Length) * 20);
+            tag.DisplaySize = Math.Min(20, 20 / Math.Max(1, tag.Name.Length) * 20);
         }
     }
     private void btnPrev_Clicked(object sender, EventArgs e)

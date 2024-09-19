@@ -43,36 +43,45 @@
                                 <TapGestureRecognizer x:Name="tagFrame" Tapped="tagFrame_Tapped" CommandParameter="{Binding}"/>
                             </Frame.GestureRecognizers>
 
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Image Grid.Row="0"
-                                    Source="{Binding TagImage}" 
-                                    Aspect="AspectFill" />
-                                <Image Grid.Row="0" 
-                                    VerticalOptions="Start"
-                                    HorizontalOptions="End"
-                                    Source="Images/check_with_no_background.png"
-                                    WidthRequest="50" 
-                                    HeightRequest="50"
-                                    IsVisible="{Binding IsSelected}" 
-
-                                 ></Image>
+                            <AbsoluteLayout>
+                                <Grid
+        AbsoluteLayout.LayoutBounds="0,0,1,1"
+        AbsoluteLayout.LayoutFlags="All">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Image Grid.Row="0"
+                                        Source="{Binding TagImage}" 
+                                        Aspect="AspectFill" />
+                                    <Image Grid.Row="0" 
+                                        VerticalOptions="Start"
+                                        HorizontalOptions="End"
+                                        Source="Images/check_with_no_background.png"
+                                        WidthRequest="50" 
+                                        HeightRequest="50"
+                                        IsVisible="{Binding IsSelected}" 
+                                    ></Image>   
+                                </Grid>
                                 <Label Grid.Row="1" Text="{Binding Name}" 
-                                         HeightRequest="50" 
                                          FontSize="{Binding DisplaySize}"  
                                          FontAutoScalingEnabled="True"
                                          FontAttributes="Bold" 
                                          HorizontalTextAlignment="Center" 
                                          VerticalTextAlignment="Center"
                                          Opacity="0.75"
-                                         BackgroundColor="{Binding Source={x:Reference SetupProfileStep3PageView}, Path=MainColor1}"
                                          TextColor="White"
-                                 />
-
-                            </Grid>
+                                       AbsoluteLayout.LayoutBounds="0.5,1,1,-1" 
+                                        AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional"
+                                 >
+                                    <Label.Background>
+                                        <LinearGradientBrush EndPoint="0,1">
+                                            <GradientStop Color="Transparent" Offset="0.0" />
+                                            <GradientStop Color="Black" Offset="1.0" />
+                                        </LinearGradientBrush>
+                                    </Label.Background>
+                                </Label>
+                            </AbsoluteLayout>
                         </Frame>
                     </VerticalStackLayout>
                 </DataTemplate>

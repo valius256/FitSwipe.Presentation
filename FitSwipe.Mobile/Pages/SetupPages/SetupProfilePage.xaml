@@ -60,18 +60,21 @@
                 <FlexLayout JustifyContent="SpaceBetween"  Margin="20,0,20,5">
                     <RadioButton x:Name="MaleCheckBox" 
                          TextColor="Black"
+                         BorderColor="LimeGreen"
                          Content="Nam" 
                          Value="0"
                          CheckedChanged="MaleCheckBox_CheckedChanged"
                      />
                     <RadioButton x:Name="FemaleCheckBox" 
-                                 TextColor="Black"
+                         TextColor="Black"
+                         BorderColor="LimeGreen"                                
                          Content="Nữ" 
                          Value="1"
                          CheckedChanged="MaleCheckBox_CheckedChanged"
                      />
                     <RadioButton x:Name="OtherCheckBox" 
-                                 TextColor="Black"
+                         TextColor="Black"
+                         BorderColor="LimeGreen"                             
                          Content="Khác" 
                          Value="2"
                          CheckedChanged="MaleCheckBox_CheckedChanged"                           

@@ -51,6 +51,10 @@ public partial class SetupProfileStep4Page : ContentPage
             new GetTagDto {Id = new Guid(), Name = "Cardio", TagImage="Images/dotnet_bot.png",TagType = TagType.TrainingType},
             new GetTagDto {Id = new Guid(), Name = "HIIT", TagImage="Images/dotnet_bot.png",TagType = TagType.TrainingType},
         };
+        foreach (var tag in Tags)
+        {
+            tag.DisplaySize = Math.Min(20, 20 / Math.Max(1, tag.Name.Length) * 20);
+        }
     }
     private void btnPrev_Clicked(object sender, EventArgs e)
     {

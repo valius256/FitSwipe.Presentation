@@ -42,6 +42,10 @@ public partial class SetupProfileStepFinalPage : ContentPage
             message += "\n Selected : " + tag.ToString();
         }
         await DisplayAlert("Review", message, "Ok baby");
+        while (Shell.Current.Navigation.ModalStack.Count > 0)
+        {
+            await Shell.Current.Navigation.PopModalAsync(false); // Set false to prevent animation
+        }
         await Shell.Current.GoToAsync("//PTList");
     }
 
