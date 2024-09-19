@@ -55,7 +55,7 @@ public partial class SetupProfileStep3Page : ContentPage
         };
         foreach (var tag in Tags)
         {
-            tag.DisplaySize = Math.Min(20, 8 / Math.Max(1, tag.Name.Length) * 20);
+            tag.DisplaySize = Math.Min(20, 20 / Math.Max(1, tag.Name.Length) * 20);
         }
     }
     private void btnPrev_Clicked(object sender, EventArgs e)
