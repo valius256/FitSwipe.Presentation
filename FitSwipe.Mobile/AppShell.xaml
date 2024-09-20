@@ -13,13 +13,12 @@
        Shell.FlyoutBehavior="Disabled"
        Title="FitSwipe.Mobile">
 
+    <ShellContent ContentTemplate="{DataTemplate pages:CertificateUploadView}"
+                  Route="CertificateUpload" />
     <ShellContent ContentTemplate="{DataTemplate setupPages:SetupProfilePage}"
                   Route="SetupProfile" />
     <ShellContent ContentTemplate="{DataTemplate pages:TrailerVideoView}"
                   Route="TrailerVideo" />
-    <ShellContent ContentTemplate="{DataTemplate pages:CertificateUploadView}"
-                  Route="CertificateUpload" />
-
 
     <ShellContent ContentTemplate="{DataTemplate pages:StartedView}"
                   Route="Started" />

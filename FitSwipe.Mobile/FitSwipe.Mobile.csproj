@@ -144,4 +144,6 @@
 	  <Folder Include="Resources\Images\Background\" />
 	</ItemGroup>
 
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionFitSwipeMobileHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+
 </Project>
