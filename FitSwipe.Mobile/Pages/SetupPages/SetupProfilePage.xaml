@@ -10,7 +10,7 @@
             <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
-    <Grid BackgroundColor="White">
+    <Grid BackgroundColor="{Binding Source={x:Reference SetupProfilePageView}, Path=MainColor3}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <!-- This will take only the required space -->
@@ -60,21 +60,21 @@
                 <FlexLayout JustifyContent="SpaceBetween"  Margin="20,0,20,5">
                     <RadioButton x:Name="MaleCheckBox" 
                          TextColor="Black"
-                         BorderColor="LimeGreen"
+                         BackgroundColor="Transparent"                               
                          Content="Nam" 
                          Value="0"
                          CheckedChanged="MaleCheckBox_CheckedChanged"
                      />
                     <RadioButton x:Name="FemaleCheckBox" 
                          TextColor="Black"
-                         BorderColor="LimeGreen"                                
+                         BackgroundColor="Transparent"
                          Content="Nữ" 
                          Value="1"
                          CheckedChanged="MaleCheckBox_CheckedChanged"
                      />
                     <RadioButton x:Name="OtherCheckBox" 
                          TextColor="Black"
-                         BorderColor="LimeGreen"                             
+                         BackgroundColor="Transparent"
                          Content="Khác" 
                          Value="2"
                          CheckedChanged="MaleCheckBox_CheckedChanged"                           

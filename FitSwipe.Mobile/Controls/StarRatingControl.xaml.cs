@@ -35,14 +35,17 @@ namespace FitSwipe.Mobile.Controls
 
         private void UpdateStars()
         {
-            StarImage1 = GetStarImage(Rating >= 1.0);
-            StarImage2 = GetStarImage(Rating >= 2.0);
-            StarImage3 = GetStarImage(Rating >= 3.0);
-            StarImage4 = GetStarImage(Rating >= 4.0);
-            StarImage5 = GetStarImage(Rating >= 5.0);
+            StarImage1 = GetStarImage(Rating, 1);
+            StarImage2 = GetStarImage(Rating, 2);
+            StarImage3 = GetStarImage(Rating, 3);
+            StarImage4 = GetStarImage(Rating, 4);
+            StarImage5 = GetStarImage(Rating, 5);
         }
 
-        private string GetStarImage(bool isFilled) => isFilled ? "Images/star.png" : "";
+        private string GetStarImage(double rating, int portion)
+        {
+            return rating >= portion ? "star_filled.png" : (rating >= portion - 0.5 ? "star_half_filled.png" : "star_no_fill.png");
+        } 
 
 
         private string _starImage1 = string.Empty;

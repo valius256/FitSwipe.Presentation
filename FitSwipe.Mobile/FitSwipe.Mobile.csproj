@@ -57,8 +57,53 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\Icons\calendar_black.png" />
+	  <None Remove="Resources\Images\Icons\calendar_blue.png" />
+	  <None Remove="Resources\Images\Icons\calendar_green.png" />
+	  <None Remove="Resources\Images\Icons\calendar_white.png" />
+	  <None Remove="Resources\Images\Icons\chat.png" />
+	  <None Remove="Resources\Images\Icons\chat_black.png" />
+	  <None Remove="Resources\Images\Icons\chat_blue.png" />
+	  <None Remove="Resources\Images\Icons\chat_green.png" />
+	  <None Remove="Resources\Images\Icons\chat_white.png" />
+	  <None Remove="Resources\Images\Icons\dumbell_blue.png" />
+	  <None Remove="Resources\Images\Icons\dumbell_green.png" />
+	  <None Remove="Resources\Images\Icons\dumbell_white.png" />
+	  <None Remove="Resources\Images\Icons\home_black.png" />
+	  <None Remove="Resources\Images\Icons\home_blue.png" />
+	  <None Remove="Resources\Images\Icons\home_green.png" />
+	  <None Remove="Resources\Images\Icons\home_white.png" />
+	  <None Remove="Resources\Images\Icons\profile_blue.png" />
+	  <None Remove="Resources\Images\Icons\profile_green.png" />
+	  <None Remove="Resources\Images\Icons\profile_white.png" />
+	  <None Remove="Resources\Images\Stars\star_filled.png" />
+	  <None Remove="Resources\Images\Stars\star_half_filled.png" />
+	  <None Remove="Resources\Images\Stars\star_no_fill.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\Icons\app_icon.png" />
+	  <MauiImage Include="Resources\Images\Icons\calendar_black.png" />
+	  <MauiImage Include="Resources\Images\Icons\calendar_blue.png" />
+	  <MauiImage Include="Resources\Images\Icons\calendar_green.png" />
+	  <MauiImage Include="Resources\Images\Icons\calendar_white.png" />
+	  <MauiImage Include="Resources\Images\Icons\chat.png" />
+	  <MauiImage Include="Resources\Images\Icons\chat_black.png" />
+	  <MauiImage Include="Resources\Images\Icons\chat_white.png" />
+	  <MauiImage Include="Resources\Images\Icons\chat_green.png" />
+	  <MauiImage Include="Resources\Images\Icons\dumbell_blue.png" />
+	  <MauiImage Include="Resources\Images\Icons\dumbell_green.png" />
+	  <MauiImage Include="Resources\Images\Icons\dumbell_white.png" />
 	  <MauiImage Include="Resources\Images\Icons\facebook.png" />
 	  <MauiImage Include="Resources\Images\Icons\google.png" />
+	  <MauiImage Include="Resources\Images\Icons\home_black.png" />
+	  <MauiImage Include="Resources\Images\Icons\home_white.png" />
+	  <MauiImage Include="Resources\Images\Icons\profile_blue.png" />
+	  <MauiImage Include="Resources\Images\Icons\profile_green.png" />
+	  <MauiImage Include="Resources\Images\Icons\profile_white.png" />
+	  <MauiImage Include="Resources\Images\Stars\star_filled.png" />
+	  <MauiImage Include="Resources\Images\Stars\star_half_filled.png" />
+	  <MauiImage Include="Resources\Images\Stars\star_no_fill.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -142,6 +187,18 @@
 
 	<ItemGroup>
 	  <Folder Include="Resources\Images\Background\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\Icons\home_green.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\Icons\chat_blue.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\Icons\home_blue.png" />
 	</ItemGroup>
 
 </Project>

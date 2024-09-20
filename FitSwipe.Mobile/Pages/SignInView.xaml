@@ -34,8 +34,9 @@
                    HeightRequest="150" />
             <Label Text="FitSwipe"
                    HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
                    FontAttributes="Bold,Italic"
-                   WidthRequest="200"
+                   WidthRequest="250"
                    FontSize="50" />
 
             <!-- Screen Title -->
@@ -71,7 +72,8 @@
                         </Border.StrokeShape>
                         <Entry Text="{Binding Email}"
                                Placeholder="Email / SĐT"
-                               PlaceholderColor="Black" />
+                               PlaceholderColor="Black" 
+                               TextColor="Black"/>
                     </Border>
                 </StackLayout>
 
@@ -100,7 +102,8 @@
                         <Entry Text="{Binding Password}"
                                IsPassword="True"
                                Placeholder="Mật khẩu"
-                               PlaceholderColor="Black" />
+                               PlaceholderColor="Black"
+                               TextColor="Black"/>
                     </Border>
                 </StackLayout>
             </VerticalStackLayout>
