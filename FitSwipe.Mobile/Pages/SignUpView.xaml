@@ -10,6 +10,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <local:RoleToVisibilityConverter x:Key="RoleToVisibilityConverter" />
+            <local:RoleToTextColorConverter x:Key="RoleToTextColorConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <!--#endregion-->
@@ -473,7 +474,7 @@
                             </Style>
                         </CheckBox.Style>
                     </CheckBox>
-                    
+
                     <Label MaximumWidthRequest="300"
                            VerticalOptions="End">
                         <Label.FormattedText>
@@ -481,11 +482,13 @@
                                 <Span Text="Bằng việc đăng ký, tôi đã đọc " />
                                 <Span Text="Điều khoản dịch vụ "
                                       FontAttributes="Bold"
-                                      TextDecorations="Underline" />
+                                      TextDecorations="Underline"
+                                      TextColor="{Binding SelectedRole, Converter={StaticResource RoleToTextColorConverter}}" />
                                 <Span Text="và " />
                                 <Span Text="Chính sách bảo mật."
                                       FontAttributes="Bold"
-                                      TextDecorations="Underline" />
+                                      TextDecorations="Underline"
+                                      TextColor="{Binding SelectedRole, Converter={StaticResource RoleToTextColorConverter}}" />
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
