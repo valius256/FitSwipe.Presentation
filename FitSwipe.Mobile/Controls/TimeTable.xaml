@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Controls.TimeTable"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons">
+    <VerticalStackLayout>
+        <Border BackgroundColor="#2E3192" Stroke="#2E3192">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20,20,0,0"></RoundRectangle>
+            </Border.StrokeShape>
+            <FlexLayout JustifyContent="SpaceBetween">
+                <VerticalStackLayout HorizontalOptions="Center" Padding="5" FlexLayout.Basis="75%">
+                    <Label Text="Bạn đang xem từ ngày" 
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center" 
+                           TextColor="White" FontSize="10">
+                    </Label>
+                    <HorizontalStackLayout VerticalOptions="Center">
+                        <Button ImageSource="{mi:Fluent ArrowPrevious24}" BackgroundColor="Transparent">
+                        </Button>
+                        <Label Text="22/06/2024 - 29/06/2024"
+                               FontSize="15"
+                               FontAttributes="Bold"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center" TextColor="White">
+                        </Label>
+                        <Button ImageSource="{mi:Fluent ArrowNext24}" BackgroundColor="Transparent">
+                        </Button>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+                <HorizontalStackLayout VerticalOptions="Center">
+                    <Button ImageSource="{mi:Fluent ZoomIn24}" x:Name="btnZoomIn" Clicked="btnZoomIn_Clicked" BackgroundColor="Transparent"
+                            WidthRequest="50" HeightRequest="50">
+                    </Button>
+                    <Button ImageSource="{mi:Fluent ZoomOut24}" x:Name="btnZoomOut" Clicked="btnZoomOut_Clicked" BackgroundColor="Transparent"
+                           WidthRequest="50"  HeightRequest="50">
+                    </Button>
+                </HorizontalStackLayout>
+            </FlexLayout>
+        </Border>
+        <Border Padding="0" BackgroundColor="#EEEEEE">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="0,0,20,20"></RoundRectangle>
+            </Border.StrokeShape>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <!-- Add your content here, each item placed in its column -->
+                <Label Text="Thứ 2" TextColor="Black" FontAttributes="Bold,Italic" FontSize="10" HorizontalTextAlignment="Center" Grid.Row="0" Grid.Column="1" />
+                <Label Text="Thứ 3" TextColor="Black" FontAttributes="Bold,Italic" FontSize="10" HorizontalTextAlignment="Center" Grid.Row="0" Grid.Column="2" />
+                <Label Text="Thứ 4" TextColor="Black" FontAttributes="Bold,Italic" FontSize="10" HorizontalTextAlignment="Center" Grid.Row="0" Grid.Column="3" />
+                <Label Text="Thứ 5" TextColor="Black" FontAttributes="Bold,Italic" FontSize="10" HorizontalTextAlignment="Center" Grid.Row="0" Grid.Column="4" />
+                <Label Text="Thứ 6" TextColor="Black" FontAttributes="Bold,Italic" FontSize="10" HorizontalTextAlignment="Center" Grid.Row="0" Grid.Column="5" />
+                <Label Text="Thứ 7" TextColor="Black" FontAttributes="Bold,Italic" FontSize="10" HorizontalTextAlignment="Center" Grid.Row="0" Grid.Column="6" />
+                <Label Text="CN" TextColor="Black" FontAttributes="Bold,Italic" FontSize="10" HorizontalTextAlignment="Center" Grid.Row="0" Grid.Column="7" />
+                <HorizontalStackLayout Grid.Column="0" Grid.Row="1" >
+                    <VerticalStackLayout x:Name="timeStamps">
+                    </VerticalStackLayout>
+                    <BoxView WidthRequest="2" Color="LightGray" VerticalOptions="FillAndExpand" />
+                </HorizontalStackLayout>
+                <FlexLayout Grid.Column="1" Grid.Row="1" >
+                    <AbsoluteLayout x:Name="mondayColumn">
+                        <!--<Border
+                            AbsoluteLayout.LayoutBounds="0, 200, 1, 300" 
+                            AbsoluteLayout.LayoutFlags="WidthProportional"></Border>-->
+                    </AbsoluteLayout>
+                    <BoxView WidthRequest="2" Color="LightGray" VerticalOptions="FillAndExpand" />
+                </FlexLayout>
+                <FlexLayout Grid.Column="2" Grid.Row="1" >
+                    <AbsoluteLayout x:Name="tuesdayColumn"></AbsoluteLayout>
+                    <BoxView WidthRequest="2" Color="LightGray" VerticalOptions="FillAndExpand" />
+                </FlexLayout>
+                <FlexLayout Grid.Column="3" Grid.Row="1" >
+                    <AbsoluteLayout x:Name="wednesdayColumn"></AbsoluteLayout>
+                    <BoxView WidthRequest="2" Color="LightGray" VerticalOptions="FillAndExpand" />
+                </FlexLayout>
+                <FlexLayout Grid.Column="4" Grid.Row="1" >
+                    <AbsoluteLayout x:Name="thursdayColumn"></AbsoluteLayout>
+                    <BoxView WidthRequest="2" Color="LightGray" VerticalOptions="FillAndExpand" />
+                </FlexLayout>
+                <FlexLayout Grid.Column="5" Grid.Row="1" >
+                    <AbsoluteLayout x:Name="fridayColumn"></AbsoluteLayout>
+                    <BoxView WidthRequest="2" Color="LightGray" VerticalOptions="FillAndExpand" />
+                </FlexLayout>
+                <FlexLayout Grid.Column="6" Grid.Row="1" >
+                    <AbsoluteLayout x:Name="saturdayColumn"></AbsoluteLayout>
+                    <BoxView WidthRequest="2" Color="LightGray" VerticalOptions="FillAndExpand" />
+                </FlexLayout>
+                <FlexLayout Grid.Column="7" Grid.Row="1" >
+                    <AbsoluteLayout x:Name="sundayColumn"></AbsoluteLayout>
+                    <BoxView WidthRequest="2" Color="LightGray" VerticalOptions="FillAndExpand" />
+                </FlexLayout>
+                
+            </Grid>
+        </Border>
+
+    </VerticalStackLayout>
+</ContentView>
