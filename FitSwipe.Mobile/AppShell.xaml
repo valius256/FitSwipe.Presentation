@@ -14,8 +14,11 @@
        Shell.FlyoutBehavior="Disabled"
        Title="FitSwipe.Mobile">
 
-    <ShellContent ContentTemplate="{DataTemplate pages:PayingView}"
-               Route="PayingView" />
+    
+    <ShellContent ContentTemplate="{DataTemplate payingpages:PayingCheck}"
+                 Route="PayingCheck" />
+    <ShellContent ContentTemplate="{DataTemplate payingpages:PayingView}"
+                  Route="PayingView" />
     <ShellContent ContentTemplate="{DataTemplate pages:TrailerVideoView}"
                   Route="TrailerVideo" />
     <ShellContent ContentTemplate="{DataTemplate pages:CertificateUploadView}"
