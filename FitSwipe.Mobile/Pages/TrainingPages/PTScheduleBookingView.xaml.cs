@@ -10,8 +10,15 @@ public partial class PTScheduleBookingView : ContentPage
     public PTScheduleBookingView()
 	{
 		InitializeComponent();
+        SetupTimeTable();
         FetchSlots();
 	}
+
+    private void SetupTimeTable()
+    {
+        timeTable.RefModal = bookSlotModal;
+        timeTable.Mode = 0;
+    }
 
     private void FetchSlots()
     {
@@ -24,6 +31,7 @@ public partial class PTScheduleBookingView : ContentPage
             new GetSlotDto { StartTime =  new DateTime(2024,9,16,7,0,0), EndTime = new DateTime(2024,9,16,8,30,0), Color="#FF2E3192" }
         };
         timeTable.SetSlots(Slots);
+        
     }
 
     private void TestButton_Clicked(object sender, EventArgs e)

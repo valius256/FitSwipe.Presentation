@@ -29,6 +29,7 @@
                        FontSize="9"
                        HorizontalTextAlignment="Center"
                        Margin="5"
+                       TextColor="Black"
                        FontAttributes="Bold"></Label>
                 <Border Stroke="#52BB00" StrokeThickness="2" Margin="20,5" Padding="10">
                     <Border.StrokeShape>
@@ -36,9 +37,9 @@
                     </Border.StrokeShape>
                     <VerticalStackLayout>
                         <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                            <Label Text="6:00 a.m" FontAttributes="Bold" FontSize="15" ></Label>
-                            <Label Text="đến" FontSize="12"  Margin="5,0"></Label>
-                            <Label Text="11:00 a.m" FontAttributes="Bold" FontSize="15"></Label>
+                            <Label x:Name="labelStartTime" Text="6:00 a.m" FontAttributes="Bold" FontSize="15" TextColor="Black"></Label>
+                            <Label Text="đến" FontSize="12"  Margin="5,0" TextColor="Black"></Label>
+                            <Label x:Name="labelEndTime" Text="11:00 a.m" FontAttributes="Bold" FontSize="15" TextColor="Black"></Label>
                         </HorizontalStackLayout>
                         <Label Text="Chọn khung giờ"
                            FontSize="9"
@@ -50,11 +51,11 @@
                                 <RoundRectangle CornerRadius="10"></RoundRectangle>
                             </Border.StrokeShape>
                             <Border.GestureRecognizers>
-                                <TapGestureRecognizer x:Name="tapBegin" Tapped="tapBegin_Tapped"></TapGestureRecognizer>
+                                <TapGestureRecognizer x:Name="tapBegin" Tapped="tapBegin_Tapped" ></TapGestureRecognizer>
                             </Border.GestureRecognizers>
                             <FlexLayout JustifyContent="SpaceBetween" HorizontalOptions="Center">
-                                <Label Text="8:00 a.m"  Padding="5"></Label>
-                                <mi:MauiIcon  Icon="{mi:Fluent CalendarClock16}" IconSize="20"></mi:MauiIcon>
+                                <Label x:Name="timeBegin" Text="00:00 a.m"  Padding="5" TextColor="Black"></Label>
+                                <mi:MauiIcon  Icon="{mi:Fluent CalendarClock16}" IconSize="20" Padding="5" IconColor="Black"></mi:MauiIcon>
                             </FlexLayout>
 
                         </Border>
@@ -63,25 +64,27 @@
                                 <RoundRectangle CornerRadius="10"></RoundRectangle>
                             </Border.StrokeShape>
                             <Border.GestureRecognizers>
-                                <TapGestureRecognizer x:Name="tapEnd" Tapped="tapEnd_Tapped"></TapGestureRecognizer>
+                                <TapGestureRecognizer x:Name="tapEnd" Tapped="tapEnd_Tapped" ></TapGestureRecognizer>
                             </Border.GestureRecognizers>
                             <FlexLayout JustifyContent="SpaceBetween" HorizontalOptions="Center">
-                                <Label Text="11:00 a.m"  Padding="5"></Label>
-                                <mi:MauiIcon  Icon="{mi:Fluent CalendarClock16}" IconSize="20"></mi:MauiIcon>
+                                <Label x:Name="timeEnd" Text="00:00 a.m"  Padding="5" TextColor="Black"></Label>
+                                <mi:MauiIcon  Icon="{mi:Fluent CalendarClock16}" IconSize="20" Padding="5" IconColor="Black"></mi:MauiIcon>
                             </FlexLayout>
 
                         </Border>
                         <Label Text="(Tổng cộng 3 tiếng)"
                            FontSize="9"
+                            TextColor="Black"
                            HorizontalTextAlignment="Center"
                            Margin="5"
+                            x:Name="labelCalculating"
                            FontAttributes="Italic"></Label>
                         <TimePicker x:Name="tpBegin"  Opacity="0"  
                             PropertyChanged="tpBegin_PropertyChanged"
                             HeightRequest="1"
                             WidthRequest="1"></TimePicker>
                         <TimePicker x:Name="tpEnd" IsVisible="False" Opacity="0"  
-                                    PropertyChanged="tpEnd_PropertyChanged"
+                            PropertyChanged="tpEnd_PropertyChanged"
                             HeightRequest="1"
                             WidthRequest="1"></TimePicker>
                     </VerticalStackLayout>

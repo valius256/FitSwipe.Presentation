@@ -1,3 +1,4 @@
+using FitSwipe.Mobile.Pages.TrainingPages;
 using FitSwipe.Shared.Dtos.Slots;
 using MauiIcons.Core;
 using MauiIcons.Fluent;
@@ -11,6 +12,8 @@ public partial class TimeTable : ContentView
 {
 	public const int minHour = 4;
 	public const int maxHour = 22;
+	public int Mode { get; set; } = 0;
+	public object? RefModal { get; set; }
     public ObservableCollection<GetSlotDto> Slots = new ObservableCollection<GetSlotDto>();
 	public List<string> TimeStampDisplays {  get; set; } = new List<string>();
 	public int ZoomLevel { get; set; } = -1;
@@ -20,7 +23,6 @@ public partial class TimeTable : ContentView
 		ZoomIn(true);
         _ = new MauiIcon();
     }
-
 	public void ZoomIn(bool positive)
 	{
 		if ((positive && ZoomLevel < 2) || (!positive && ZoomLevel > -2))
@@ -153,7 +155,26 @@ public partial class TimeTable : ContentView
                 border.Content = content;
             }                 			
             dayColumn.Add(border , new Rect(0, y, 1, h), AbsoluteLayoutFlags.WidthProportional);
+			AddActionForSlot(border, slot);
         }
+    }
+	public void AddActionForSlot(Border border, GetSlotDto slot)
+	{
+		border.GestureRecognizers.Clear();
+		var tapGesture = new TapGestureRecognizer();
+		if (Mode == 0)
+		{
+			tapGesture.Tapped += (sender, e) =>
+			{
+				if (RefModal != null && RefModal.GetType() == typeof(BookSlotModal))
+				{
+					var bookSlotModal = (BookSlotModal)RefModal;
+					bookSlotModal.Show();
+					bookSlotModal.SetTime(slot.StartTime, slot.EndTime);
+				}
+			};
+		}
+		border.GestureRecognizers.Add(tapGesture);
     }
 	private string GetSimpleTime(DateTime time)
 	{
@@ -168,4 +189,9 @@ public partial class TimeTable : ContentView
     {
         ZoomIn(false);
     }
+
+	private void ModeOneAction(object sender, EventArgs e)
+	{
+
+	}
 }

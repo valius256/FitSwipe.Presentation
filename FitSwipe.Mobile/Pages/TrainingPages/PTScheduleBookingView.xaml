@@ -9,7 +9,6 @@
 
         <ScrollView>
             <VerticalStackLayout Margin="10" BackgroundColor="White">
-                <Button x:Name="TestButton" Clicked="TestButton_Clicked" Text="Click here"></Button>
                 <Label 
                     Text="Bạn đang đặt lịch với"
                     TextColor="Black"
