@@ -25,4 +25,9 @@ public partial class PTScheduleBookingView : ContentPage
         };
         timeTable.SetSlots(Slots);
     }
+
+    private void TestButton_Clicked(object sender, EventArgs e)
+    {
+        bookSlotModal.Show();
+    }
 }

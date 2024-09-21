@@ -3,98 +3,106 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FitSwipe.Mobile.Pages.TrainingPages.PTScheduleBookingView"
              xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
+             xmlns:trainingPages="clr-namespace:FitSwipe.Mobile.Pages.TrainingPages"
              x:Name="PTScheduleBooking">
-    <ScrollView>
-        <VerticalStackLayout Margin="10" BackgroundColor="White">
-            <Label 
-                Text="Bạn đang đặt lịch với"
-                TextColor="Black"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
-            <Label 
-                Text="PT Trần A"
-                FontAttributes="Bold"
-                TextColor="Black"
-                FontSize="30"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
-            <BoxView
-                HeightRequest="5"
-                BackgroundColor="LimeGreen"
-                Margin="50,0">
-            </BoxView>
-            <HorizontalStackLayout Margin="20,20,20,0" HorizontalOptions="Center">
-                <Border Stroke="#52BB00" StrokeThickness="5" WidthRequest="100">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="20"></RoundRectangle>
-                    </Border.StrokeShape>
-                    <Image Source="dotnet_bot.png"
-                               Aspect="AspectFill"
-                               WidthRequest="100"
-                               HeightRequest="140"></Image>
-                </Border>
-                <Border Stroke="#2E3192" StrokeThickness="5" WidthRequest="100">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="20"></RoundRectangle>
-                    </Border.StrokeShape>
-                    <Image Source="pt1.png"
-                                    Aspect="AspectFill"
-                                    WidthRequest="100"
-                                    HeightRequest="140"></Image>
-                </Border>
-            </HorizontalStackLayout>
-            <Grid HorizontalOptions="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Border Grid.Column="0" BackgroundColor="#52BB00" Padding="10,5">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="20"></RoundRectangle>
-                    </Border.StrokeShape>
-                    <FlexLayout JustifyContent="SpaceBetween">
-                        <Label Text="Nguyễn Văn A"
-                            Margin="0,0,20,0"
-                            VerticalOptions="Center"
-                           TextColor="White"
-                            FontAttributes="Bold"></Label>
-                        <Label Text="20"
-                            FontSize="10"
-                            VerticalOptions="Center"                                  
-                           TextColor="White"></Label>
-                    </FlexLayout>
-                </Border>
-                <Border Grid.Column="2" BackgroundColor="#2E3192" Padding="10,5">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="20"></RoundRectangle>
-                    </Border.StrokeShape>
-                    <FlexLayout JustifyContent="SpaceBetween">
-                        <Label Text="20"
-                            Margin="0,0,20,0"
-                            FontSize="10"
-                            VerticalOptions="Center"                                  
-                           TextColor="White"></Label>
-                        <Label Text="Nguyễn Văn A"
-                            VerticalOptions="Center"
-                           TextColor="White"
-                            FontAttributes="Bold"></Label>
-                    </FlexLayout>
-                </Border>
-            </Grid>
-            <HorizontalStackLayout Margin="10">
-                <Label Text="Lịch rảnh của PT"
-                       TextColor="Black"
-                       FontSize="20"
-                       FontAttributes="Bold"/>
+    <Grid>
+
+        <ScrollView>
+            <VerticalStackLayout Margin="10" BackgroundColor="White">
+                <Button x:Name="TestButton" Clicked="TestButton_Clicked" Text="Click here"></Button>
+                <Label 
+                    Text="Bạn đang đặt lịch với"
+                    TextColor="Black"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" />
+                <Label 
+                    Text="PT Trần A"
+                    FontAttributes="Bold"
+                    TextColor="Black"
+                    FontSize="30"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" />
                 <BoxView
-                    HeightRequest="3"
-                    WidthRequest="300"
-                    Margin="10,0"
-                    BackgroundColor="#2E3192">
+                    HeightRequest="5"
+                    BackgroundColor="LimeGreen"
+                    Margin="50,0">
                 </BoxView>
-            </HorizontalStackLayout>
-            <controls:TimeTable x:Name="timeTable"></controls:TimeTable>
-        </VerticalStackLayout>
-    </ScrollView>
+                <HorizontalStackLayout Margin="20,20,20,0" HorizontalOptions="Center">
+                    <Border Stroke="#52BB00" StrokeThickness="5" WidthRequest="100">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="20"></RoundRectangle>
+                        </Border.StrokeShape>
+                        <Image Source="dotnet_bot.png"
+                                   Aspect="AspectFill"
+                                   WidthRequest="100"
+                                   HeightRequest="140"></Image>
+                    </Border>
+                    <Border Stroke="#2E3192" StrokeThickness="5" WidthRequest="100">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="20"></RoundRectangle>
+                        </Border.StrokeShape>
+                        <Image Source="pt1.png"
+                                        Aspect="AspectFill"
+                                        WidthRequest="100"
+                                        HeightRequest="140"></Image>
+                    </Border>
+                </HorizontalStackLayout>
+                <Grid HorizontalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" BackgroundColor="#52BB00" Padding="10,5">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="20"></RoundRectangle>
+                        </Border.StrokeShape>
+                        <FlexLayout JustifyContent="SpaceBetween">
+                            <Label Text="Nguyễn Văn A"
+                                Margin="0,0,20,0"
+                                VerticalOptions="Center"
+                               TextColor="White"
+                                FontAttributes="Bold"></Label>
+                            <Label Text="20"
+                                FontSize="10"
+                                VerticalOptions="Center"                                  
+                               TextColor="White"></Label>
+                        </FlexLayout>
+                    </Border>
+                    <Border Grid.Column="2" BackgroundColor="#2E3192" Padding="10,5">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="20"></RoundRectangle>
+                        </Border.StrokeShape>
+                        <FlexLayout JustifyContent="SpaceBetween">
+                            <Label Text="20"
+                                Margin="0,0,20,0"
+                                FontSize="10"
+                                VerticalOptions="Center"                                  
+                               TextColor="White"></Label>
+                            <Label Text="Nguyễn Văn A"
+                                VerticalOptions="Center"
+                               TextColor="White"
+                                FontAttributes="Bold"></Label>
+                        </FlexLayout>
+                    </Border>
+                </Grid>
+                <HorizontalStackLayout Margin="10">
+                    <Label Text="Lịch rảnh của PT"
+                           TextColor="Black"
+                           FontSize="20"
+                           FontAttributes="Bold"/>
+                    <BoxView
+                        HeightRequest="3"
+                        WidthRequest="300"
+                        Margin="10,0"
+                        BackgroundColor="#2E3192">
+                    </BoxView>
+                </HorizontalStackLayout>
+                <controls:TimeTable x:Name="timeTable"></controls:TimeTable>
+
+            </VerticalStackLayout>
+            
+        </ScrollView>
+        <trainingPages:BookSlotModal x:Name="bookSlotModal"></trainingPages:BookSlotModal>
+    </Grid>
 </ContentPage>
