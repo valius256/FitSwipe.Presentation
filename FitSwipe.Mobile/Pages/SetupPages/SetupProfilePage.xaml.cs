@@ -10,6 +10,7 @@ public partial class SetupProfilePage : ContentPage
 {
 	private string _mainColor1 = "LimeGreen";
 	private string _mainColor2 = "Green";
+	private string _mainColor3 = "#eef5e4";
 
     public UpdateUserProfileDto UserProfile { get; set; } = new UpdateUserProfileDto();
 
@@ -31,9 +32,18 @@ public partial class SetupProfilePage : ContentPage
 		set
 		{
 			_mainColor2 = value;
-			OnPropertyChanged(nameof(MainColor2));
+			OnPropertyChanged(nameof(MainColor3));
 		}
-	} 
+	}
+    public string MainColor3
+    {
+        get => _mainColor3;
+        set
+        {
+            _mainColor3 = value;
+            OnPropertyChanged(nameof(MainColor3));
+        }
+    }
     public SetupProfilePage()
 	{
 		InitializeComponent();

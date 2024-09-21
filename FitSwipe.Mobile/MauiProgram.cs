@@ -3,6 +3,7 @@ using Firebase.Auth;
 using Firebase.Auth.Providers;
 using FitSwipe.Mobile.Pages;
 using FitSwipe.Mobile.ViewModels;
+using MauiIcons.Fluent;
 using Microsoft.Extensions.Logging;
 using System.Net.Http.Headers;
 
@@ -16,6 +17,7 @@ namespace FitSwipe.Mobile
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkitMediaElement()
+                .UseFluentMauiIcons()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -43,13 +45,10 @@ namespace FitSwipe.Mobile
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 });
 
-
             builder.Services.AddSingleton<SignInView>();
             builder.Services.AddSingleton<SignUpView>();
             builder.Services.AddSingleton<SignInViewModel>();
             builder.Services.AddSingleton<SignUpViewModel>();
-
-            //builder.Services.AddSingleton<SwipeMatchView>();
 
             return builder.Build();
         }

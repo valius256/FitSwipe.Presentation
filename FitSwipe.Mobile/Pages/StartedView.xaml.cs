@@ -6,4 +6,14 @@ public partial class StartedView : ContentPage
 	{
 		InitializeComponent();
 	}
+
+    private async void btnPT_Clicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("//TrailerVideo");
+    }
+
+    private async void btnTrainee_Clicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("//TrailerVideo");
+    }
 }
