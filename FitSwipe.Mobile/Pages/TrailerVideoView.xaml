@@ -70,8 +70,8 @@
                             <toolkit:MediaElement x:Name="videoPlayer"
                                                   Source="embed://rick_roll.mp4"
                                                   ShouldAutoPlay="False"
+                                                  ShouldShowPlaybackControls="True"
                                                   Aspect="AspectFill"
-                                                  ShouldShowPlaybackControls="False"
                                                   WidthRequest="300"
                                                   HeightRequest="200" />
 
