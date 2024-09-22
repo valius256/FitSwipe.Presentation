@@ -8,6 +8,7 @@ public partial class FeeedbackPage : ContentPage
     // Declare ImageItems as a class-level property
     public ObservableCollection<ImageItem> ImageItems { get; set; }
 
+
     public FeeedbackPage()
 	{
 		InitializeComponent();
@@ -17,10 +18,12 @@ public partial class FeeedbackPage : ContentPage
 
         // Bind the ImageItems collection to the CollectionView
         imageCollectionView.ItemsSource = ImageItems;
+
     }
 
     private async void Button_Clicked(object sender, EventArgs e)
     {
+      
         try
         {
             var result = await MediaPicker.PickPhotoAsync();
@@ -35,10 +38,13 @@ public partial class FeeedbackPage : ContentPage
         }
         catch (Exception ex)
         {
-            // Handle exceptions
+            // Handle exceptions (e.g., display an alert)
+            await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
         }
     }
 }
+
+
 public class ImageItem
 {
     public ImageSource ImageSource { get; set; }

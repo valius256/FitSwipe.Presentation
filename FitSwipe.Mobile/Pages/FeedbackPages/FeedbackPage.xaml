@@ -2,19 +2,19 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FitSwipe.Mobile.Pages.FeedbackPages.FeeedbackPage">
-    
+
     <ContentPage.Content>
         <ScrollView>
-        <StackLayout>
-            <!--Title-->
+            <StackLayout>
+                <!--Title-->
                 <VerticalStackLayout>
                     <Label FontAttributes="Bold"
                            FontSize="Title"
                            Text="Đánh giá PT của bạn"
                            HorizontalOptions="Center" />
                 </VerticalStackLayout>
-            
-            <!--Subtitle-->
+
+                <!--Subtitle-->
                 <VerticalStackLayout Padding="20,4">
                     <!--First Line-->
                     <BoxView HeightRequest="1"
@@ -25,19 +25,18 @@
                     <HorizontalStackLayout Margin="5,10,5,0">
                         <Image Source="images/profile.png"
                                MaximumWidthRequest="60"
-                               MaximumHeightRequest="60"/>
+                               MaximumHeightRequest="60" />
                         <!--Text subtile-->
                         <VerticalStackLayout>
                             <Label Text="Chúc mừng bạn đã hoàn thành khóa &#xa;học với PT của mình!"
-                               FontSize="16"
-                               FontAttributes="Bold"
-                               VerticalOptions="Center"
-                               Margin="5,0,20,0"
-                               />
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center"
+                                   Margin="5,0,20,0" />
                             <Label Text="Hãy giành ra ít phút để cho chúng tôi cảm nhận của bạn &#xa;sau những buổi tập với PT nhé"
-                               FontSize="8"
-                               VerticalOptions="Center"
-                               Margin="5,0"/>
+                                   FontSize="8"
+                                   VerticalOptions="Center"
+                                   Margin="5,0" />
                         </VerticalStackLayout>
                     </HorizontalStackLayout>
                     <!--Second Line-->
@@ -46,24 +45,24 @@
                              HorizontalOptions="Fill"
                              Margin="20,2" />
                 </VerticalStackLayout>
-            
-            <!--Bio Feel-->
+
+                <!--Bio Feel-->
                 <VerticalStackLayout Margin="22,30,22,4">
                     <!--Title Text-->
                     <HorizontalStackLayout>
                         <Image Source="images/dotnet_bot.png"
                                WidthRequest="35"
-                               HeightRequest="35"/>
+                               HeightRequest="35" />
                         <Label Text="Cảm nhận của bạn về "
                                FontSize="11"
                                FontAttributes="Bold"
-                               VerticalOptions="Center"/>
+                               VerticalOptions="Center" />
                         <Label Text="P.T Trần An"
                                TextDecorations="Underline"
                                FontSize="11"
                                FontAttributes="Bold"
                                VerticalOptions="Center"
-                               TextColor="#52BB00"/>
+                               TextColor="#52BB00" />
                     </HorizontalStackLayout>
                     <!--Bio Answer box-->
                     <Frame CornerRadius="10"
@@ -82,8 +81,8 @@
                                 IsVisible="Visible" />
                     </Frame>
                 </VerticalStackLayout>
-            
-            <!--Star Rate-->
+
+                <!--Star Rate-->
                 <VerticalStackLayout Margin="22,0">
                     <!--Title Text-->
                     <HorizontalStackLayout>
@@ -104,15 +103,14 @@
                                TextDecorations="Underline"
                                FontSize="11"
                                FontAttributes="Bold"
-                               VerticalOptions="Center"
-                                />
+                               VerticalOptions="Center" />
                     </HorizontalStackLayout>
                     <!--Star Choose-->
-                    
+
 
                 </VerticalStackLayout>
-            
-            <!--Upload Image-->
+
+                <!--Upload Image-->
                 <VerticalStackLayout Margin="22,0">
                     <!--Title Text-->
                     <HorizontalStackLayout>
@@ -131,30 +129,36 @@
                                VerticalOptions="Center"
                                TextColor="#52BB00" />
                     </HorizontalStackLayout>
-                    <!--Image Upload (max 5)-->
-                    <HorizontalStackLayout>
-                    <CollectionView ItemsLayout="HorizontalList"
-                                    x:Name="imageCollectionView">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Frame BorderColor="Black"
-                                       Padding="0"
-                                       WidthRequest="80"
-                                       HeightRequest="80">
-                                        <Image Source="images/dotnet_bot.png"
-                                           Aspect="AspectFill" />
-                                </Frame>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
 
-                    <Button Text="add"
-                            WidthRequest="100"
-                            HeightRequest="50"
-                            Clicked="Button_Clicked" />
+                    <!--Image Upload (max 5)-->
+                    <ScrollView Orientation="Horizontal">
+                    <HorizontalStackLayout>
+                        <CollectionView x:Name="imageCollectionView">
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout Orientation="Horizontal"
+                                                 Span="1"
+                                                 HorizontalItemSpacing="5"/>
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame BorderColor="#52BB00"
+                                           Padding="0"
+                                           WidthRequest="80"
+                                           HeightRequest="80">
+                                        <Image Source="{Binding ImageSource}"
+                                               Aspect="AspectFill" />
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
                     </HorizontalStackLayout>
+                    </ScrollView>
+                    <ImageButton Source="images/dotnet_bot.png"
+                                 WidthRequest="80"
+                                 HeightRequest="80"
+                                 Clicked="Button_Clicked" />
                 </VerticalStackLayout>
-            
+
                 <!--Send Button-->
                 <VerticalStackLayout Margin="18,30">
                     <Button Text="Gửi"
@@ -163,13 +167,13 @@
                             BackgroundColor="#52BB00"
                             HeightRequest="35" />
                 </VerticalStackLayout>
-            
-            
-            <!--Google Play Feedback-->
+
+
+                <!--Google Play Feedback-->
                 <VerticalStackLayout>
                     <BoxView HeightRequest="1"
                              BackgroundColor="#52BB00"
-                             HorizontalOptions="Fill"/>
+                             HorizontalOptions="Fill" />
                     <Grid RowDefinitions="auto,auto"
                           ColumnDefinitions="auto,*"
                           Margin="10">
@@ -186,7 +190,10 @@
                         </HorizontalStackLayout>
                         <Button Grid.Column="1"
                                 Text="Đánh Giá"
-                                Margin="20,0"/>
+                                Margin="20,0"
+                                BackgroundColor="#52BB00"
+                                FontAttributes="Bold"
+                                FontSize="14" />
                     </Grid>
                 </VerticalStackLayout>
             </StackLayout>

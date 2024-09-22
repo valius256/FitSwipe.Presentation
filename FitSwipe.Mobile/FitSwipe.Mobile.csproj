@@ -57,6 +57,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\plus.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiImage Include="Resources\Images\Icons\facebook.png" />
 	  <MauiImage Include="Resources\Images\Icons\google.png" />
 	</ItemGroup>
