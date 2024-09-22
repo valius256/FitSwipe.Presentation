@@ -1,5 +1,4 @@
 using FitSwipe.Mobile.ViewModels;
-using FitSwipe.Shared.Dtos;
 
 namespace FitSwipe.Mobile.Pages;
 
