@@ -33,7 +33,7 @@
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center"
                    FontAttributes="Bold,Italic"
-                   WidthRequest="200"
+                   WidthRequest="250"
                    FontSize="50" />
 
             <StackLayout>
@@ -92,7 +92,9 @@
                                 AbsoluteLayout.LayoutFlags="PositionProportional"
                                 Margin="10"
                                 BackgroundColor="White"
-                                TextColor="Black" />
+                                TextColor="Black" 
+                                x:Name="btnSkip"
+                                Clicked="btnSkip_Clicked"/>
                     </AbsoluteLayout>
                 </Frame>
             </AbsoluteLayout>

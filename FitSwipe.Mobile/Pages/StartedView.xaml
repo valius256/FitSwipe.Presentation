@@ -40,7 +40,7 @@
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center"
                    FontAttributes="Bold,Italic"
-                   WidthRequest="200"
+                   WidthRequest="250"
                    FontSize="50" />
 
             <!--#region ROLE CHOOSING-->
@@ -57,10 +57,16 @@
             <VerticalStackLayout WidthRequest="270"
                                  Spacing="10">
                 <Button Text="Người tập"
-                        BackgroundColor="#52BB00" />
+                        x:Name="btnTrainee"
+                        BackgroundColor="#52BB00"
+                        TextColor="White"
+                        Clicked="btnTrainee_Clicked"/>
 
                 <Button Text="PT"
-                        BackgroundColor="#2E3192" />
+                        BackgroundColor="#2E3192" 
+                        x:Name="btnPT"
+                        TextColor="White"
+                        Clicked="btnPT_Clicked"/>
             </VerticalStackLayout>
             <!--#endregion-->
 
