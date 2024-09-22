@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FitSwipe.Mobile.Pages.FeedbackPages.FeeedbackPage">
+             x:Class="FitSwipe.Mobile.Pages.FeedbackPages.FeeedbackPage"
+             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls">
 
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Row="0">
                 <!--Title-->
                 <VerticalStackLayout>
                     <Label FontAttributes="Bold"
@@ -49,10 +54,18 @@
                 <!--Bio Feel-->
                 <VerticalStackLayout Margin="22,30,22,4">
                     <!--Title Text-->
-                    <HorizontalStackLayout>
-                        <Image Source="images/dotnet_bot.png"
-                               WidthRequest="35"
-                               HeightRequest="35" />
+                    <HorizontalStackLayout VerticalOptions="Center">
+                        <Border BackgroundColor="#52BB00" Stroke="#52BB00" Padding="8,5" Margin="4,0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5"></RoundRectangle>
+                            </Border.StrokeShape>
+                            <Label Text="1"
+                               FontSize="15"
+                               FontAttributes="Bold"
+                                TextColor="White"
+                                VerticalOptions="Center" />
+                        </Border>
+                                                  
                         <Label Text="Cảm nhận của bạn về "
                                FontSize="11"
                                FontAttributes="Bold"
@@ -86,9 +99,16 @@
                 <VerticalStackLayout Margin="22,0">
                     <!--Title Text-->
                     <HorizontalStackLayout>
-                        <Image Source="images/dotnet_bot.png"
-                               WidthRequest="35"
-                               HeightRequest="35" />
+                        <Border BackgroundColor="#52BB00" Stroke="#52BB00" Padding="8,5" Margin="4,0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5"></RoundRectangle>
+                            </Border.StrokeShape>
+                            <Label Text="2"
+                               FontSize="15"
+                               FontAttributes="Bold"
+                                TextColor="White"
+                                VerticalOptions="Center" />
+                            </Border>
                         <Label Text="Ban sẽ đánh giá "
                                FontSize="11"
                                FontAttributes="Bold"
@@ -106,7 +126,7 @@
                                VerticalOptions="Center" />
                     </HorizontalStackLayout>
                     <!--Star Choose-->
-
+                    <controls:StarRatingControl Size="20" Rating="5"></controls:StarRatingControl>
 
                 </VerticalStackLayout>
 
@@ -114,9 +134,16 @@
                 <VerticalStackLayout Margin="22,0">
                     <!--Title Text-->
                     <HorizontalStackLayout>
-                        <Image Source="images/dotnet_bot.png"
-                               WidthRequest="35"
-                               HeightRequest="35" />
+                        <Border BackgroundColor="#52BB00" Stroke="#52BB00" Padding="8,5" Margin="4,0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5"></RoundRectangle>
+                            </Border.StrokeShape>
+                            <Label Text="3"
+                               FontSize="15"
+                               FontAttributes="Bold"
+                                TextColor="White"
+                                VerticalOptions="Center" />
+                        </Border>
                         <Label Text="(Không Bắt Buộc) Đăng ảnh thành tựu với "
                                FontSize="11"
                                FontAttributes="Bold"
@@ -169,34 +196,35 @@
                 </VerticalStackLayout>
 
 
-                <!--Google Play Feedback-->
-                <VerticalStackLayout>
-                    <BoxView HeightRequest="1"
-                             BackgroundColor="#52BB00"
-                             HorizontalOptions="Fill" />
-                    <Grid RowDefinitions="auto,auto"
-                          ColumnDefinitions="auto,*"
-                          Margin="10">
-                        <!--(Left) Text and image-->
-                        <HorizontalStackLayout Grid.Row="0"
-                                               Margin="20,0">
-                            <Image Source="images/dotnet_bot.png"
-                                   WidthRequest="35"
-                                   HeightRequest="35" />
-                            <Label Text="Đánh giá chúng tôi &#xa;qua Google Play "
-                                   FontSize="11"
-                                   FontAttributes="Bold"
-                                   VerticalOptions="Center" />
-                        </HorizontalStackLayout>
-                        <Button Grid.Column="1"
-                                Text="Đánh Giá"
-                                Margin="20,0"
-                                BackgroundColor="#52BB00"
-                                FontAttributes="Bold"
-                                FontSize="14" />
-                    </Grid>
-                </VerticalStackLayout>
+                
             </StackLayout>
-        </ScrollView>
+            <!--Google Play Feedback-->
+            <VerticalStackLayout Grid.Row="1">
+                <BoxView HeightRequest="1"
+                     BackgroundColor="#52BB00"
+                     HorizontalOptions="Fill" />
+                <Grid RowDefinitions="auto,auto"
+                      ColumnDefinitions="auto,*"
+                      Margin="10">
+                    <!--(Left) Text and image-->
+                    <HorizontalStackLayout Grid.Row="0"
+                               Margin="20,0">
+                        <Image Source="images/dotnet_bot.png"
+                           WidthRequest="35"
+                           HeightRequest="35" />
+                        <Label Text="Đánh giá chúng tôi &#xa;qua Google Play "
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <Button Grid.Column="1"
+                        Text="Đánh Giá"
+                        Margin="20,0"
+                        BackgroundColor="#52BB00"
+                        FontAttributes="Bold"
+                        FontSize="14" />
+                </Grid>
+            </VerticalStackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
