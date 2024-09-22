@@ -41,7 +41,7 @@ namespace FitSwipe.Mobile
 
             builder.Services.AddHttpClient("BackendApiClient", client =>
                 {
-                    client.BaseAddress = new Uri("http://192.168.1.10:5250/");
+                    client.BaseAddress = new Uri("https://fitandswipeapi.somee.com/");
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 });
 

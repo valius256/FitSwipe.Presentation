@@ -16,7 +16,7 @@
                 AbsoluteLayout.LayoutFlags="All">
             <VerticalStackLayout>
                 <Grid HorizontalOptions="Fill" BackgroundColor="#52BB00">
-                    <Label Text="Thêm buổi học" FontSize="20" 
+                    <Label Text="Thêm buổi tập" FontSize="20" 
                         TextColor="White"
                        FontAttributes="Bold"
                        Padding="10"

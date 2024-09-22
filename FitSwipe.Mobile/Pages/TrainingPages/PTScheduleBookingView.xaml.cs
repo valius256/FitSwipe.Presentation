@@ -38,4 +38,14 @@ public partial class PTScheduleBookingView : ContentPage
     {
         bookSlotModal.Show();
     }
+
+    private void btnApprove_Clicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private void btnClose_Clicked(object sender, EventArgs e)
+    {
+
+    }
 }
