@@ -79,6 +79,7 @@
 	  <None Remove="Resources\Images\Stars\star_filled.png" />
 	  <None Remove="Resources\Images\Stars\star_half_filled.png" />
 	  <None Remove="Resources\Images\Stars\star_no_fill.png" />
+	  <None Remove="Resources\Images\plus.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -94,6 +95,9 @@
 	  <MauiImage Include="Resources\Images\Icons\dumbell_blue.png" />
 	  <MauiImage Include="Resources\Images\Icons\dumbell_green.png" />
 	  <MauiImage Include="Resources\Images\Icons\dumbell_white.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiImage Include="Resources\Images\Icons\facebook.png" />
 	  <MauiImage Include="Resources\Images\Icons\google.png" />
 	  <MauiImage Include="Resources\Images\Icons\home_black.png" />
@@ -127,6 +131,9 @@
 	  <Compile Update="Controls\Navbar.xaml.cs">
 	    <DependentUpon>Navbar.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\FeedbackPages\FeedbackPage.xaml.cs">
+	    <DependentUpon>FeedbackPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -146,6 +153,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\ChatPages\ChatPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\FeedbackPages\FeedbackPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\HomePages\PTList.xaml">
