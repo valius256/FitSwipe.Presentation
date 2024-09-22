@@ -81,6 +81,9 @@
 	  <Compile Update="Controls\Navbar.xaml.cs">
 	    <DependentUpon>Navbar.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\FeedbackPages\FeedbackPage.xaml.cs">
+	    <DependentUpon>FeedbackPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -97,6 +100,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\ChatPages\ChatPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\FeedbackPages\FeedbackPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\HomePages\PTList.xaml">

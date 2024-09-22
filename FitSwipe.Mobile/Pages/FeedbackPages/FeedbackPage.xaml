@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Pages.FeedbackPages.NewPage1"
+             Title="NewPage1">
+    <ContentPage.Content>
+        <ScrollView>
+        <StackLayout>
+            <!--Title-->
+                <VerticalStackLayout>
+                    <Label FontAttributes="Bold"
+                           FontSize="Title"
+                           Text="Đánh giá PT của bạn"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            
+            <!--Subtitle-->
+                <VerticalStackLayout Padding="20,4">
+                    <!--First Line-->
+                    <BoxView HeightRequest="1"
+                             BackgroundColor="#52BB00"
+                             HorizontalOptions="Fill"
+                             Margin="20,2" />
+                    <!-- Details Subtile-->
+                    <HorizontalStackLayout Margin="5,10,5,0">
+                        <Image Source="images/profile.png"
+                               WidthRequest="30"
+                               HeightRequest="30"
+                               Margin="5,0"/>
+                        <Label Text="Chúc mừng bạn đã hoàn thành khóa học với PT của mình!"
+                               FontSize="16"
+                               VerticalOptions="Center"
+                               Margin="10,0" />
+                        <Label Text="Hãy giành ra ít phút để cho chúng tôi cảm nhận của bạn sau những buổi tập với PT nhé"
+                               FontSize="16"
+                               VerticalOptions="Center"
+                               Margin="10,0"/>
+                    </HorizontalStackLayout>
+                    <!--Second Line-->
+                    <BoxView HeightRequest="1"
+                             BackgroundColor="#52BB00"
+                             HorizontalOptions="Fill"
+                             Margin="20,2" />
+                </VerticalStackLayout>
+            
+            <!--Bio Feel-->
+                <VerticalStackLayout>
+                    <!--Title Text-->
+                    <HorizontalStackLayout>
+                        <Image />
+                        <Label />
+                        <Label />
+                    </HorizontalStackLayout>
+                    <!--Bio Answer box-->
+                </VerticalStackLayout>
+            
+            <!--Star Rate-->
+                <VerticalStackLayout>
+                    <!--Title Text-->
+                    <HorizontalStackLayout>
+                        <Image />
+                        <Label />
+                        <Label />
+                    </HorizontalStackLayout>
+                    <!--Star Choose-->
+                </VerticalStackLayout>
+            
+            <!--Upload Image-->
+                <VerticalStackLayout>
+                    <!--Title Text-->
+                    <HorizontalStackLayout>
+                        <Image />
+                        <Label />
+                        <Label />
+                    </HorizontalStackLayout>
+                    <!--Image Upload (max 5)-->
+                </VerticalStackLayout>
+                <!--Send Button-->
+                <VerticalStackLayout>
+                    <Button />
+                </VerticalStackLayout>
+            <!--Google Play Feedback-->
+                <VerticalStackLayout>
+                    <BoxView HeightRequest="1"
+                             BackgroundColor="#52BB00"
+                             HorizontalOptions="Fill"/>
+                    <Grid RowDefinitions="auto,auto"
+                          ColumnDefinitions="auto,*">
+                        <!--(Left) Text and image-->
+                        <HorizontalStackLayout Grid.Row="0">
+                            <Image />
+                            <Label />
+                        </HorizontalStackLayout>
+                        <Button Grid.Column="1"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
