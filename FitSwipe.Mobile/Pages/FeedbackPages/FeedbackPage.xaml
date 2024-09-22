@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FitSwipe.Mobile.Pages.FeedbackPages.NewPage1"
-             Title="NewPage1">
+             x:Class="FitSwipe.Mobile.Pages.FeedbackPages.FeeedbackPage">
+    
     <ContentPage.Content>
         <ScrollView>
         <StackLayout>
@@ -24,17 +24,21 @@
                     <!-- Details Subtile-->
                     <HorizontalStackLayout Margin="5,10,5,0">
                         <Image Source="images/profile.png"
-                               WidthRequest="30"
-                               HeightRequest="30"
+                               MaximumWidthRequest="60"
+                               MaximumHeightRequest="60"/>
+                        <!--Text subtile-->
+                        <VerticalStackLayout>
+                            <Label Text="Chúc mừng bạn đã hoàn thành khóa &#xa;học với PT của mình!"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"
+                               Margin="5,0,20,0"
+                               />
+                            <Label Text="Hãy giành ra ít phút để cho chúng tôi cảm nhận của bạn &#xa;sau những buổi tập với PT nhé"
+                               FontSize="8"
+                               VerticalOptions="Center"
                                Margin="5,0"/>
-                        <Label Text="Chúc mừng bạn đã hoàn thành khóa học với PT của mình!"
-                               FontSize="16"
-                               VerticalOptions="Center"
-                               Margin="10,0" />
-                        <Label Text="Hãy giành ra ít phút để cho chúng tôi cảm nhận của bạn sau những buổi tập với PT nhé"
-                               FontSize="16"
-                               VerticalOptions="Center"
-                               Margin="10,0"/>
+                        </VerticalStackLayout>
                     </HorizontalStackLayout>
                     <!--Second Line-->
                     <BoxView HeightRequest="1"
@@ -44,54 +48,145 @@
                 </VerticalStackLayout>
             
             <!--Bio Feel-->
-                <VerticalStackLayout>
+                <VerticalStackLayout Margin="22,30,22,4">
                     <!--Title Text-->
                     <HorizontalStackLayout>
-                        <Image />
-                        <Label />
-                        <Label />
+                        <Image Source="images/dotnet_bot.png"
+                               WidthRequest="35"
+                               HeightRequest="35"/>
+                        <Label Text="Cảm nhận của bạn về "
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+                        <Label Text="P.T Trần An"
+                               TextDecorations="Underline"
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"
+                               TextColor="#52BB00"/>
                     </HorizontalStackLayout>
                     <!--Bio Answer box-->
+                    <Frame CornerRadius="10"
+                           Padding="0"
+                           BorderColor="#52BB00"
+                           HasShadow="False"
+                           BackgroundColor="Transparent">
+                        <Editor Text=""
+                                Placeholder="Trả lời ở đây"
+                                BackgroundColor="Transparent"
+                                FontSize="14"
+                                TextColor="Black"
+                                HeightRequest="100"
+                                VerticalOptions="CenterAndExpand"
+                                Margin="0"
+                                IsVisible="Visible" />
+                    </Frame>
                 </VerticalStackLayout>
             
             <!--Star Rate-->
-                <VerticalStackLayout>
+                <VerticalStackLayout Margin="22,0">
                     <!--Title Text-->
                     <HorizontalStackLayout>
-                        <Image />
-                        <Label />
-                        <Label />
+                        <Image Source="images/dotnet_bot.png"
+                               WidthRequest="35"
+                               HeightRequest="35" />
+                        <Label Text="Ban sẽ đánh giá "
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center" />
+                        <Label Text="P.T Trần An"
+                               TextDecorations="Underline"
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"
+                               TextColor="#52BB00" />
+                        <Label Text=".bao nhiêu sao?"
+                               TextDecorations="Underline"
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"
+                                />
                     </HorizontalStackLayout>
                     <!--Star Choose-->
+                    
+
                 </VerticalStackLayout>
             
             <!--Upload Image-->
-                <VerticalStackLayout>
+                <VerticalStackLayout Margin="22,0">
                     <!--Title Text-->
                     <HorizontalStackLayout>
-                        <Image />
-                        <Label />
-                        <Label />
+                        <Image Source="images/dotnet_bot.png"
+                               WidthRequest="35"
+                               HeightRequest="35" />
+                        <Label Text="(Không Bắt Buộc) Đăng ảnh thành tựu với "
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center" />
+
+                        <Label Text="P.T Trần An"
+                               TextDecorations="Underline"
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"
+                               TextColor="#52BB00" />
                     </HorizontalStackLayout>
                     <!--Image Upload (max 5)-->
+                    <HorizontalStackLayout>
+                    <CollectionView ItemsLayout="HorizontalList"
+                                    x:Name="imageCollectionView">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame BorderColor="Black"
+                                       Padding="0"
+                                       WidthRequest="80"
+                                       HeightRequest="80">
+                                        <Image Source="images/dotnet_bot.png"
+                                           Aspect="AspectFill" />
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <Button Text="add"
+                            WidthRequest="100"
+                            HeightRequest="50"
+                            Clicked="Button_Clicked" />
+                    </HorizontalStackLayout>
                 </VerticalStackLayout>
+            
                 <!--Send Button-->
-                <VerticalStackLayout>
-                    <Button />
+                <VerticalStackLayout Margin="18,30">
+                    <Button Text="Gửi"
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            BackgroundColor="#52BB00"
+                            HeightRequest="35" />
                 </VerticalStackLayout>
+            
+            
             <!--Google Play Feedback-->
                 <VerticalStackLayout>
                     <BoxView HeightRequest="1"
                              BackgroundColor="#52BB00"
                              HorizontalOptions="Fill"/>
                     <Grid RowDefinitions="auto,auto"
-                          ColumnDefinitions="auto,*">
+                          ColumnDefinitions="auto,*"
+                          Margin="10">
                         <!--(Left) Text and image-->
-                        <HorizontalStackLayout Grid.Row="0">
-                            <Image />
-                            <Label />
+                        <HorizontalStackLayout Grid.Row="0"
+                                               Margin="20,0">
+                            <Image Source="images/dotnet_bot.png"
+                                   WidthRequest="35"
+                                   HeightRequest="35" />
+                            <Label Text="Đánh giá chúng tôi &#xa;qua Google Play "
+                                   FontSize="11"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center" />
                         </HorizontalStackLayout>
-                        <Button Grid.Column="1"/>
+                        <Button Grid.Column="1"
+                                Text="Đánh Giá"
+                                Margin="20,0"/>
                     </Grid>
                 </VerticalStackLayout>
             </StackLayout>
