@@ -98,7 +98,49 @@
                     </BoxView>
                 </HorizontalStackLayout>
                 <controls:TimeTable x:Name="timeTable"></controls:TimeTable>
-
+                <Border Margin="0,20"
+                    Stroke="LimeGreen"
+                    Padding="10">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"></RoundRectangle>
+                    </Border.StrokeShape>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Text="Thời gian" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"></Label>
+                        <Label Text="Tổng số buổi" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="1"></Label>
+                        <Label Text="Tổng thời lượng" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="2"></Label>
+                        <Label x:Name="sttTimeSpan" Text="1/1/2024 - 1/1/2025" FontSize="12" Grid.Column="1" Grid.Row="0"></Label>
+                        <Label x:Name="sttTotalSlots" Text="100" FontSize="12" Grid.Column="1" Grid.Row="1"></Label>
+                        <Label x:Name="sttTotalDuration" Text="300 tiếng" FontSize="12" Grid.Column="1" Grid.Row="2"></Label>
+                    </Grid>
+                </Border>
+                <HorizontalStackLayout HorizontalOptions="Center" Margin="5">
+                    <Button Text="Hủy bỏ"
+                         TextColor="White"
+                         BackgroundColor="Gray"
+                         Padding="25,0"
+                         HeightRequest="30"
+                         x:Name="btnClose"
+                         HorizontalOptions="Center"
+                         Clicked="btnClose_Clicked"
+                         Margin="0,0,20,0"/>
+                    <Button Text="Xác nhận"
+                         TextColor="White"
+                         BackgroundColor="#52BB00"
+                         Padding="25,0"
+                         HeightRequest="30"
+                         x:Name="btnApprove"
+                         HorizontalOptions="Center"
+                         Clicked="btnApprove_Clicked" />
+                </HorizontalStackLayout>
             </VerticalStackLayout>
             
         </ScrollView>
