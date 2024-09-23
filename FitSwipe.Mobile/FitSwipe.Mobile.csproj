@@ -149,7 +149,7 @@
 	  <MauiXaml Update="Controls\TimeTable.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\CertificateUploadView.xaml">
+	  <MauiXaml Update="Pages\SetupPages\CertificateUploadView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\ChatPages\ChatPage.xaml">
@@ -188,16 +188,19 @@
 	  <MauiXaml Update="Pages\SetupPages\SetupProfileStepFinalPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\StartedView.xaml">
+	  <MauiXaml Update="Pages\SetupPages\StartedView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\TrailerVideoView.xaml">
+	  <MauiXaml Update="Pages\SetupPages\TrailerVideoView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\TrainingPages\BookSlotModal.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\TrainingPages\PTScheduleBookingView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\TrainingPages\SlotDetailPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\TrainingPages\TrainingPage.xaml">

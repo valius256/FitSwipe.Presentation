@@ -5,6 +5,7 @@ using FitSwipe.Mobile.Pages;
 using FitSwipe.Mobile.ViewModels;
 using MauiIcons.Fluent;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Controls.Compatibility.Hosting;
 using System.Net.Http.Headers;
 
 namespace FitSwipe.Mobile
@@ -16,6 +17,7 @@ namespace FitSwipe.Mobile
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCompatibility()
                 .UseMauiCommunityToolkitMediaElement()
                 .UseFluentMauiIcons()
                 .ConfigureFonts(fonts =>
