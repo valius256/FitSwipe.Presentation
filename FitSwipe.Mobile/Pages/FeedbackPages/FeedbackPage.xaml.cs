@@ -1,3 +1,4 @@
+using FitSwipe.Mobile.Controls;
 using System.Collections.ObjectModel;
 
 namespace FitSwipe.Mobile.Pages.FeedbackPages;
@@ -10,8 +11,8 @@ public partial class FeeedbackPage : ContentPage
 
 
     public FeeedbackPage()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
 
         // Initialize the ImageItems collection
         ImageItems = new ObservableCollection<ImageItem>();
@@ -23,7 +24,7 @@ public partial class FeeedbackPage : ContentPage
 
     private async void Button_Clicked(object sender, EventArgs e)
     {
-      
+
         try
         {
             var result = await MediaPicker.PickPhotoAsync();
@@ -42,8 +43,12 @@ public partial class FeeedbackPage : ContentPage
             await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
         }
     }
+    private void starRating_StarChanged(object sender, EventArgs e)
+    {
+        //var starControl = (StarRatingControl)sender;
+        //DisplayAlert("Info", "Picked " + starControl.Rating, "OK");
+    }
 }
-
 
 public class ImageItem
 {

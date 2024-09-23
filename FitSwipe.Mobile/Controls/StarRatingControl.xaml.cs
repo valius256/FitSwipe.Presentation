@@ -10,6 +10,21 @@ namespace FitSwipe.Mobile.Controls
         public static readonly BindableProperty SizeProperty =
             BindableProperty.Create(nameof(Size), typeof(int), typeof(StarRatingControl), 0);
 
+        public static readonly BindableProperty ReadOnlyProperty =
+            BindableProperty.Create(nameof(ReadOnly), typeof(bool), typeof(StarRatingControl), false);
+
+        public event EventHandler? StarChanged;
+
+        public bool ReadOnly
+        {
+            get => (bool)GetValue(ReadOnlyProperty);
+            set => SetValue(ReadOnlyProperty, value);
+        }
+        protected virtual void OnStarChanged(EventArgs e)
+        {
+            // If there are any subscribers, raise the event
+            StarChanged?.Invoke(this, e);
+        }
         public double Rating
         {
             get => (double)GetValue(RatingProperty);
@@ -101,6 +116,36 @@ namespace FitSwipe.Mobile.Controls
                 _starImage5 = value;
                 OnPropertyChanged(nameof(StarImage5));
             }
+        }
+
+        private void tgrStar3_Tapped(object sender, TappedEventArgs e)
+        {
+            Rating = 3;
+            StarChanged?.Invoke(this, e);
+        }
+
+        private void tgrStar1_Tapped(object sender, TappedEventArgs e)
+        {
+            Rating = 1;
+            StarChanged?.Invoke(this, e);
+        }
+
+        private void tgrStar2_Tapped(object sender, TappedEventArgs e)
+        {
+            Rating = 2;
+            StarChanged?.Invoke(this, e);
+        }
+
+        private void tgrStar4_Tapped(object sender, TappedEventArgs e)
+        {
+            Rating = 4;
+            StarChanged?.Invoke(this, e);
+        }
+
+        private void tgrStar5_Tapped(object sender, TappedEventArgs e)
+        {
+            Rating = 5;
+            StarChanged?.Invoke(this, e);
         }
 
         //public event PropertyChangedEventHandler PropertyChanged;
