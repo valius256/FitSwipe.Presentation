@@ -5,7 +5,7 @@
              xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls">
 
     <ContentPage.Content>
-        <Grid>
+        <Grid BackgroundColor="White">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -16,6 +16,7 @@
                     <Label FontAttributes="Bold"
                            FontSize="Title"
                            Text="Đánh giá PT của bạn"
+                           TextColor="Black"
                            HorizontalOptions="Center" />
                 </VerticalStackLayout>
 
@@ -33,14 +34,18 @@
                                MaximumHeightRequest="60" />
                         <!--Text subtile-->
                         <VerticalStackLayout>
-                            <Label Text="Chúc mừng bạn đã hoàn thành khóa &#xa;học với PT của mình!"
+                            <Label Text="Chúc mừng bạn đã hoàn thành khóa học với PT của mình!"
                                    FontSize="16"
                                    FontAttributes="Bold"
                                    VerticalOptions="Center"
-                                   Margin="5,0,20,0" />
+                                   TextColor="Black"
+                                   Margin="5,0,20,0" 
+                                   LineBreakMode="WordWrap"
+                                   WidthRequest="280"/>
                             <Label Text="Hãy giành ra ít phút để cho chúng tôi cảm nhận của bạn &#xa;sau những buổi tập với PT nhé"
                                    FontSize="8"
                                    VerticalOptions="Center"
+                                   TextColor="Black"
                                    Margin="5,0" />
                         </VerticalStackLayout>
                     </HorizontalStackLayout>
@@ -69,7 +74,8 @@
                         <Label Text="Cảm nhận của bạn về "
                                FontSize="11"
                                FontAttributes="Bold"
-                               VerticalOptions="Center" />
+                               VerticalOptions="Center" 
+                               TextColor="Black"/>
                         <Label Text="P.T Trần An"
                                TextDecorations="Underline"
                                FontSize="11"
@@ -112,7 +118,8 @@
                         <Label Text="Ban sẽ đánh giá "
                                FontSize="11"
                                FontAttributes="Bold"
-                               VerticalOptions="Center" />
+                               VerticalOptions="Center" 
+                               TextColor="Black"/>
                         <Label Text="P.T Trần An"
                                TextDecorations="Underline"
                                FontSize="11"
@@ -123,10 +130,11 @@
                                TextDecorations="Underline"
                                FontSize="11"
                                FontAttributes="Bold"
-                               VerticalOptions="Center" />
+                               VerticalOptions="Center" 
+                               TextColor="Black"/>
                     </HorizontalStackLayout>
                     <!--Star Choose-->
-                    <controls:StarRatingControl Size="20" Rating="5"></controls:StarRatingControl>
+                    <controls:StarRatingControl x:Name="starRating" HorizontalOptions="Center" Size="50" Rating="0" StarChanged="starRating_StarChanged"></controls:StarRatingControl>
 
                 </VerticalStackLayout>
 
@@ -147,7 +155,8 @@
                         <Label Text="(Không Bắt Buộc) Đăng ảnh thành tựu với "
                                FontSize="11"
                                FontAttributes="Bold"
-                               VerticalOptions="Center" />
+                               VerticalOptions="Center" 
+                               TextColor="Black"/>
 
                         <Label Text="P.T Trần An"
                                TextDecorations="Underline"
@@ -180,10 +189,19 @@
                         </CollectionView>
                     </HorizontalStackLayout>
                     </ScrollView>
-                    <ImageButton Source="images/dotnet_bot.png"
-                                 WidthRequest="80"
-                                 HeightRequest="80"
-                                 Clicked="Button_Clicked" />
+                    <Frame WidthRequest="80"
+                        HeightRequest="80"
+                        Padding="0"
+                        Margin="0,5"
+                        HorizontalOptions="Start"
+                        BackgroundColor="Transparent">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Button_Clicked"></TapGestureRecognizer>
+                        </Frame.GestureRecognizers>
+                        <Label Text="+" HorizontalOptions="Center" VerticalOptions="Center"
+                               FontSize="50" FontAttributes="Bold" VerticalTextAlignment="Center"
+                               TextColor="Black"></Label>
+                    </Frame>
                 </VerticalStackLayout>
 
                 <!--Send Button-->
@@ -192,7 +210,7 @@
                             FontAttributes="Bold"
                             FontSize="14"
                             BackgroundColor="#52BB00"
-                            HeightRequest="35" />
+                            HeightRequest="40" />
                 </VerticalStackLayout>
 
 
@@ -215,7 +233,8 @@
                         <Label Text="Đánh giá chúng tôi &#xa;qua Google Play "
                            FontSize="11"
                            FontAttributes="Bold"
-                           VerticalOptions="Center" />
+                           VerticalOptions="Center" 
+                            TextColor="Black"/>
                     </HorizontalStackLayout>
                     <Button Grid.Column="1"
                         Text="Đánh Giá"
