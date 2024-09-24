@@ -1,4 +1,10 @@
+using CommunityToolkit.Maui.Core.Primitives;
+using CommunityToolkit.Maui.Views;
 using FitSwipe.Shared.Dtos;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.Internals;
+using Syncfusion.Maui.Core;
+using System;
 using System.Collections.ObjectModel;
 
 namespace FitSwipe.Mobile.Pages.TrainingPages;
@@ -7,9 +13,19 @@ public partial class SlotDetailPage : ContentPage
 {
     public ObservableCollection<Video> Videos { get; set; }
     public List<string> ThumbnailsSource { get; set; } = new List<string>();
-
+    private bool _isSwipe = true;
     private string _selectedThumbnail = string.Empty;
     public string SelectedThumbnail {
+        get => _selectedThumbnail;
+        set
+        {
+            _selectedThumbnail = value;
+            OnPropertyChanged(nameof(SelectedThumbnail)); // Notify UI of the change
+        }
+    }
+    private string _selectedVideo = string.Empty;
+    public string SelectedVideo
+    {
         get => _selectedThumbnail;
         set
         {
@@ -22,7 +38,7 @@ public partial class SlotDetailPage : ContentPage
 		InitializeComponent();
         Videos = new ObservableCollection<Video>
         {
-            new Video { VideoSource = "https://storage.googleapis.com/fit-swipe-161d7.appspot.com/videos/719ZkC7AKbYDxU3l1dpkxvKqG3H2/460148095_8452406541482038_4436287398299328142_n.mp4", ThumbnailSource = "https://storage.googleapis.com/ondemandtutor-a049e.appspot.com/images/yQm3GTCOQZSsuQ8F1su2nK7GJ1n2/Avartar_of_23_1720372252189" },
+            new Video { VideoSource = "", ThumbnailSource = "https://storage.googleapis.com/ondemandtutor-a049e.appspot.com/images/yQm3GTCOQZSsuQ8F1su2nK7GJ1n2/Avartar_of_23_1720372252189" },
             new Video { VideoSource = "https://storage.googleapis.com/fit-swipe-161d7.appspot.com/videos/719ZkC7AKbYDxU3l1dpkxvKqG3H2/354849733_6982381381780275_2790533324940314360_n.mp4", ThumbnailSource = "https://scontent.xx.fbcdn.net/v/t1.15752-9/355040793_259496903327765_2250752017545809869_n.png?_nc_cat=105&ccb=1-7&_nc_sid=0024fc&_nc_eui2=AeFWIdqK8j8eVscLc8mzanixyN2gcYzbhxPI3aBxjNuHE-vg5ogaE1Kei2SDQ56wInUQem5ZpiSepikZAOJVVAyl&_nc_ohc=eWECrjci1f0Q7kNvgFcXl8B&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&_nc_gid=A3thyrOJRKcOr59pUAg9l6r&oh=03_Q7cD1QH4ODdT7PIOWlfWqMHwhUrVAAYn6RiqRnbdDTXp8acbqw&oe=6719108B",
                 Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. Et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. Et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. Et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.Et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.Et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris "},
             new Video { VideoSource = "https://storage.googleapis.com/fit-swipe-161d7.appspot.com/videos/719ZkC7AKbYDxU3l1dpkxvKqG3H2/404568321_7252601748188284_6263480793654348234_n.mp4\r\n", ThumbnailSource = "https://scontent.xx.fbcdn.net/v/t1.15752-9/344313296_970403757648062_993748438218919599_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=0024fc&_nc_eui2=AeHkRpKxreKfZSzIo_do23Rr1WGB3sqI_iHVYYHeyoj-IU7iO9mwltKkRGI9XXR2BKbOLq9CZHZpn8fLvHFUwDxn&_nc_ohc=v-dcW18xGzIQ7kNvgESR0dI&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&_nc_gid=AF7_elesra83Rqv7boTY3Ef&oh=03_Q7cD1QEr8rHBlmmJYZKqKjoDalFlf6QhgkDO9vnOX8Xkq7s1Jw&oe=671919C9",
@@ -84,15 +100,91 @@ public partial class SlotDetailPage : ContentPage
             }
             var pos = ThumbnailsSource.FindIndex(ts => ts == boundedString);
             ChangedVideoSelected(pos);
+
         }
-       
+
     }
 
-    private void ChangedVideoSelected(int index)
+    private async void ChangedVideoSelected(int index)
     {
+        _isSwipe = false;
+        // Play or prepare the video at the new position
+        //PlayMediaElementAtPosition(index);
+
         videoCarousel.Position = index;
         SelectedThumbnail = Videos[index].ThumbnailSource;
         lblDescription.Text = Videos[index].Description;
+        //SetMediaElementSource(Videos[index].VideoSource);
+
+        await Task.Delay(500);
+        _isSwipe = true;
+    }
+
+    private void MediaElement_StateChanged(object sender, CommunityToolkit.Maui.Core.Primitives.MediaStateChangedEventArgs e)
+    {
+        var mediaElement = sender as MediaElement;
+        if (mediaElement != null)
+        {
+            var loadingIndicator = (ActivityIndicator)((Grid)mediaElement.Parent).Children[1];
+
+            // Show the loading indicator if the video is loading
+            if (mediaElement.CurrentState == MediaElementState.Opening)
+            {
+                loadingIndicator.IsVisible = true;
+                loadingIndicator.IsRunning = true;
+            }
+            else
+            {
+                // Hide the loading indicator once the video is ready to play
+                loadingIndicator.IsVisible = false;
+                loadingIndicator.IsRunning = false;
+            }
+        }
+        
+    }
+
+
+    //private void SetMediaElementSource(string newSource)
+    //{
+    //    var carouselContentView = videoCarousel.FindByName<ContentView>("carouselContentView");
+
+    //    if (carouselContentView != null)
+    //    {
+    //        // Now find the MediaElement in the DataTemplate
+    //        var mediaGrid = (Grid)carouselContentView.Content;
+    //        var mediaElement = (MediaElement)mediaGrid.Children[0];
+    //        if (mediaElement != null)
+    //        {
+    //            // Set the source for the MediaElement programmatically
+    //            mediaElement.Source = new Uri(newSource, UriKind.RelativeOrAbsolute);
+    //        }
+    //    }
+    //}
+
+    //private MediaElement? GetMediaElementAtPosition(int position)
+    //{
+    //    var currentView = (videoCarousel.View);
+    //    if (currentView.Count > 0)
+    //    {
+    //        var mediaGrid = (Grid)currentView[position];
+    //        var mediaElement = (MediaElement) mediaGrid.Children[0];    
+    //        return mediaElement;
+
+    //    }
+
+    //    return null;
+    //}
+
+    private void videoCarousel_CurrentItemChanged(object sender, CurrentItemChangedEventArgs e)
+    {
+        if (_isSwipe)
+        {
+            int newPosition = videoCarousel.Position;
+
+            SelectedThumbnail = Videos[newPosition].ThumbnailSource;
+            lblDescription.Text = Videos[newPosition].Description;
+            //SetMediaElementSource(Videos[newPosition].VideoSource);
+        }
 
     }
 }
