@@ -2,18 +2,123 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FitSwipe.Mobile.Pages.TrainingPages.TrainingPage"
-             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls">
-    <Grid BackgroundColor="DarkCyan">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <!-- This will take only the required space -->
-            <RowDefinition Height="*" />
-            <!-- This will take the remaining space -->
-        </Grid.RowDefinitions>
-        <Label Grid.Row="0"
-            Text="This is training page"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-        <controls:Navbar Grid.Row="1"  ActiveTab="3"></controls:Navbar>
-    </Grid>
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
+             xmlns:vm="clr-namespace:FitSwipe.Mobile.ViewModels"
+             xmlns:local="clr-namespace:FitSwipe.Mobile.Converters.TrainingPageConverter"
+             x:DataType="vm:TrainingPageViewModel">
+    <!--#region REGISTER FOR CONVERTER -->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:TabColorConverter x:Key="TabColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <!--#endregion-->
+
+    <AbsoluteLayout BackgroundColor="White">
+
+        <!-- Content of the page here -->
+        <controls:Navbar ActiveTab="3"
+                         AbsoluteLayout.LayoutBounds="0, 1, 1, AutoSize"
+                         AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" />
+
+        <!-- Layout -->
+        <StackLayout Padding="20"
+                     VerticalOptions="FillAndExpand"
+                     AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                     AbsoluteLayout.LayoutFlags="All">
+            <HorizontalStackLayout Spacing="12">
+                <Image Source="app_icon"
+                       HeightRequest="100"
+                       WidthRequest="100" />
+
+                <Label Text="FitSwipe"
+                       FontAttributes="Bold,Italic"
+                       FontSize="40"
+                       WidthRequest="210"
+                       VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <Label Text="Các học viên đã đặt lịch"
+                   FontSize="16"
+                   FontAttributes="Bold" />
+
+            <BoxView HeightRequest="1"
+                     Color="DarkBlue" />
+
+            <!--#region FILTER -->
+            <StackLayout HorizontalOptions="Start"
+                         Margin="0, 12, 0, 0">
+                <HorizontalStackLayout>
+                    <Image Source="filter.png"
+                           HeightRequest="35"
+                           Margin="0,0,6,0" />
+
+                    <!-- Filter Options -->
+                    <VerticalStackLayout Spacing="-10"
+                                         HorizontalOptions="Start">
+                        <Label Text="Sắp xếp theo:"
+                               FontSize="12" />
+
+                        <!-- Picker for the filter options -->
+                        <Picker Title="Chọn tiêu chí"
+                                ItemsSource="{Binding FilterOptions}"
+                                SelectedItem="{Binding SelectedFilter}"
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                TextColor="Black" />
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </StackLayout>
+            <!--#endregion-->
+
+            <StackLayout>
+                <Grid ColumnDefinitions="*,*"
+                      Padding="0"
+                      HeightRequest="50">
+
+                    <!-- First Tab -->
+                    <Frame CornerRadius="10"
+                           BackgroundColor="{Binding ActiveTab, Converter={StaticResource TabColorConverter}, ConverterParameter='0'}"
+                           HorizontalOptions="FillAndExpand"
+                           VerticalOptions="FillAndExpand"
+                           Padding="10"
+                           Grid.Column="0"
+                           HasShadow="False"
+                           HeightRequest="40">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectTabCommand}"
+                                                  CommandParameter="0" />
+                        </Frame.GestureRecognizers>
+                        <Label Text="Đã đặt lịch"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               TextColor="White"
+                               FontAttributes="Bold" />
+                    </Frame>
+
+                    <!-- Second Tab -->
+                    <Frame CornerRadius="10"
+                           BackgroundColor="{Binding ActiveTab, Converter={StaticResource TabColorConverter}, ConverterParameter='1'}"
+                           HorizontalOptions="FillAndExpand"
+                           VerticalOptions="FillAndExpand"
+                           Grid.Column="1"
+                           Padding="10"
+                           HasShadow="False"
+                           HeightRequest="40">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectTabCommand}"
+                                                  CommandParameter="1" />
+                        </Frame.GestureRecognizers>
+                        <Label Text="Yêu cầu đặt lịch"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               TextColor="White"
+                               FontAttributes="Bold" />
+                    </Frame>
+                </Grid>
+            </StackLayout>
+
+        </StackLayout>
+    </AbsoluteLayout>
 </ContentPage>

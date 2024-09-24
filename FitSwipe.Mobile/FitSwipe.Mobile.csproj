@@ -98,7 +98,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\Icons\filter.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiImage Include="Resources\Images\Icons\facebook.png" />
+	  <MauiImage Include="Resources\Images\Icons\filter.png" />
 	  <MauiImage Include="Resources\Images\Icons\google.png" />
 	  <MauiImage Include="Resources\Images\Icons\home_black.png" />
 	  <MauiImage Include="Resources\Images\Icons\home_white.png" />
