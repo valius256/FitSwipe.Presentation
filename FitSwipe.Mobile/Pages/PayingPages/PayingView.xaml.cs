@@ -4,10 +4,7 @@ public partial class PayingView : ContentPage
 {
     public PayingView()
     {
-    }
+        InitializeComponent();
 
-    public PayingView(PayingView payingView)
-	{
-		InitializeComponent();
-	}
+    }
 }

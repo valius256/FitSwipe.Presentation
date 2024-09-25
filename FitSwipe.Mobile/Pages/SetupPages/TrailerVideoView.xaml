@@ -33,7 +33,7 @@
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center"
                    FontAttributes="Bold,Italic"
-                   WidthRequest="200"
+                   WidthRequest="250"
                    FontSize="50" />
 
             <StackLayout>
@@ -70,8 +70,8 @@
                             <toolkit:MediaElement x:Name="videoPlayer"
                                                   Source="embed://rick_roll.mp4"
                                                   ShouldAutoPlay="False"
+                                                  ShouldShowPlaybackControls="True"
                                                   Aspect="AspectFill"
-                                                  ShouldShowPlaybackControls="False"
                                                   WidthRequest="300"
                                                   HeightRequest="200" />
 
@@ -92,7 +92,9 @@
                                 AbsoluteLayout.LayoutFlags="PositionProportional"
                                 Margin="10"
                                 BackgroundColor="White"
-                                TextColor="Black" />
+                                TextColor="Black" 
+                                x:Name="btnSkip"
+                                Clicked="btnSkip_Clicked"/>
                     </AbsoluteLayout>
                 </Frame>
             </AbsoluteLayout>

@@ -11,11 +11,17 @@ namespace FitSwipe.Mobile.ViewModels
         public SignUpViewModel(FirebaseAuthClient authClient)
         {
             _authClient = authClient;
+            selectedRole = "trainee";
         }
 
+        [ObservableProperty] private string _firstName;
+        [ObservableProperty] private string _lastName;
         [ObservableProperty] private string _email;
         [ObservableProperty] private string _username;
+        [ObservableProperty] private string _phoneNumber;
         [ObservableProperty] private string _password;
+        [ObservableProperty] private string _confirmPassword;
+        [ObservableProperty] private string selectedRole;
 
         [RelayCommand]
         private async Task SignUp()
@@ -26,7 +32,7 @@ namespace FitSwipe.Mobile.ViewModels
                 await _authClient.CreateUserWithEmailAndPasswordAsync(Email, Password, Username);
                 await Application.Current.MainPage.DisplayAlert("Thành Công", $"Bạn {Email} đã đăng ký thành công ", "OK");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 await Application.Current.MainPage.DisplayAlert("Lỗi", $"", "OK");
 

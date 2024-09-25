@@ -25,4 +25,9 @@ public partial class TrailerVideoView : ContentPage
         }
 
     }
+
+    private async void btnSkip_Clicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("//SignIn");
+    }
 }

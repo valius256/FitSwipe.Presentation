@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Pages.SetupPages.SetupProfileStep6Page"
+             x:Name="SetupProfileStep6PageView">
+    <Grid BackgroundColor="{Binding Source={x:Reference SetupProfileStep6PageView}, Path=MainColor2}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <VerticalStackLayout Grid.Row="0" >
+            <Label 
+             Text="Hãy mô tả bản thân bạn"
+             VerticalOptions="Start" 
+             HorizontalOptions="Start" 
+             Margin="20"
+            FontSize="20"
+                TextColor="Black"                
+            FontAttributes="Bold"/>
+            <Label 
+             Text="Chúng tôi sẽ chỉ sử dụng những thông tin này để xuất cho bạn những Huấn luyện viên phù hợp cũng như tối ưu hóa trải nghiệm của bạn"
+             VerticalOptions="Start" 
+             HorizontalOptions="Start" 
+             Margin="20,10"
+             FontSize="10"
+                TextColor="Black"   
+             FontAttributes="Italic"/>
+        </VerticalStackLayout>
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Tags}">
+            <CollectionView.ItemsLayout>
+                <!-- The horizontal layout allows wrapping items to the next line when necessary -->
+                <GridItemsLayout Orientation="Vertical" Span="2" VerticalItemSpacing="30" HorizontalItemSpacing="30"/>
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="10" BorderColor="{Binding TagColor}" Padding="10" CornerRadius="10" BackgroundColor="#88FFFFFF">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer x:Name="tagFrame" Tapped="tagFrame_Tapped" CommandParameter="{Binding}"/>
+                        </Frame.GestureRecognizers>
+                        <Grid VerticalOptions="Center">
+                            <!-- Label positioned normally in the layout -->
+                            <Label TextColor="Black"
+                           FontSize="15"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                            VerticalTextAlignment="Center"
+                            HorizontalTextAlignment="Center"
+                           Text="{Binding Name}"
+                        />
+
+                            <!-- Image positioned in the top-right corner of the Label -->
+                            <Image Source="check_with_no_background.png"
+                            WidthRequest="50"
+                           HeightRequest="50"
+                               VerticalOptions="Center"
+                               HorizontalOptions="End"
+                           IsVisible="{Binding IsSelected}"
+                            />
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <FlexLayout Grid.Row="2" Direction="Row" Margin="10" JustifyContent="SpaceBetween">
+            <Button FlexLayout.Grow="1"            
+            BackgroundColor="{Binding Source={x:Reference SetupProfileStep6PageView}, Path=MainColor1}"
+            TextColor="White"
+            FontAttributes="Bold"
+            Text="Trở lại"
+            x:Name="btnPrev"
+            Clicked="btnPrev_Clicked"
+            Margin="5,0"/>
+            <Button FlexLayout.Grow="1"             
+            BackgroundColor="{Binding Source={x:Reference SetupProfileStep6PageView}, Path=MainColor1}"
+            TextColor="White"
+            FontAttributes="Bold"
+            Text="Tiếp theo"
+            x:Name="btnNext"
+            Clicked="btnNext_Clicked"
+            Margin="5,0"/>
+        </FlexLayout>
+    </Grid>
+</ContentPage>

@@ -10,29 +10,39 @@
        xmlns:trainingPages="clr-namespace:FitSwipe.Mobile.Pages.TrainingPages"
        xmlns:profilePages="clr-namespace:FitSwipe.Mobile.Pages.ProfilePages"
        xmlns:setupPages="clr-namespace:FitSwipe.Mobile.Pages.SetupPages"
+       xmlns:feedbackPages="clr-namespace:FitSwipe.Mobile.Pages.FeedbackPages"
        xmlns:payingpages="clr-namespace:FitSwipe.Mobile.Pages.PayingPages"
        Shell.FlyoutBehavior="Disabled"
        Title="FitSwipe.Mobile">
 
-    
+
     <ShellContent ContentTemplate="{DataTemplate payingpages:PayingCheck}"
                  Route="PayingCheck" />
     <ShellContent ContentTemplate="{DataTemplate payingpages:PayingView}"
                   Route="PayingView" />
-    <ShellContent ContentTemplate="{DataTemplate pages:TrailerVideoView}"
-                  Route="TrailerVideo" />
-    <ShellContent ContentTemplate="{DataTemplate pages:CertificateUploadView}"
-                  Route="CertificateUpload" />
+
+
     <ShellContent ContentTemplate="{DataTemplate pages:StartedView}"
                   Route="Started" />
+    <ShellContent ContentTemplate="{DataTemplate pages:TrailerVideoView}"
+              Route="TrailerVideo" />
+    <ShellContent ContentTemplate="{DataTemplate pages:CertificateUploadView}"
+                  Route="CertificateUpload" />
+
     <ShellContent ContentTemplate="{DataTemplate pages:SignInView}"
                   Route="SignIn" />
     <ShellContent ContentTemplate="{DataTemplate pages:SignUpView}"
                   Route="SignUp" />
     <ShellContent ContentTemplate="{DataTemplate setupPages:SetupProfilePage}"
-                  Route="SetupProfile" />
+              Route="SetupProfile" />
+
+
     <ShellContent ContentTemplate="{DataTemplate homePages:PTList}"
                   Route="PTList" />
+    <ShellContent ContentTemplate="{DataTemplate trainingPages:PTScheduleBookingView}"
+                  Route="PTScheduleBooking" />
+    <ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"
+           Route="SlotDetail" />
     <ShellContent ContentTemplate="{DataTemplate chatPages:ChatPage}"
                   Route="ChatPage" />
     <ShellContent ContentTemplate="{DataTemplate trainingPages:TrainingPage}"
