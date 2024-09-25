@@ -6,11 +6,6 @@
              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              xmlns:converter="clr-namespace:FitSwipe.Mobile.Converters"
              x:Name="SlotDetailPageView">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <converter:SelectedThumbnailToColorConverter x:Key="SelectedThumbnailToColorConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
     <Grid BackgroundColor="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
