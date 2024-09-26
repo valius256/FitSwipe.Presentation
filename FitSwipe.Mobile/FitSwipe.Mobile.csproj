@@ -76,6 +76,7 @@
 	  <None Remove="Resources\Images\Icons\profile_blue.png" />
 	  <None Remove="Resources\Images\Icons\profile_green.png" />
 	  <None Remove="Resources\Images\Icons\profile_white.png" />
+	  <None Remove="Resources\Images\Icons\vnpay.png" />
 	  <None Remove="Resources\Images\Stars\star_filled.png" />
 	  <None Remove="Resources\Images\Stars\star_half_filled.png" />
 	  <None Remove="Resources\Images\Stars\star_no_fill.png" />
@@ -92,6 +93,7 @@
 	  <MauiImage Include="Resources\Images\Icons\chat_black.png" />
 	  <MauiImage Include="Resources\Images\Icons\chat_white.png" />
 	  <MauiImage Include="Resources\Images\Icons\chat_green.png" />
+	  <MauiImage Include="Resources\Images\Icons\check_with_no_background.png" />
 	  <MauiImage Include="Resources\Images\Icons\dumbell_blue.png" />
 	  <MauiImage Include="Resources\Images\Icons\dumbell_green.png" />
 	  <MauiImage Include="Resources\Images\Icons\dumbell_white.png" />
@@ -110,6 +112,7 @@
 	  <MauiImage Include="Resources\Images\Icons\profile_blue.png" />
 	  <MauiImage Include="Resources\Images\Icons\profile_green.png" />
 	  <MauiImage Include="Resources\Images\Icons\profile_white.png" />
+	  <MauiImage Include="Resources\Images\Icons\vnpay.png" />
 	  <MauiImage Include="Resources\Images\Stars\star_filled.png" />
 	  <MauiImage Include="Resources\Images\Stars\star_half_filled.png" />
 	  <MauiImage Include="Resources\Images\Stars\star_no_fill.png" />
@@ -164,6 +167,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\HomePages\PTList.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\PayingPages\PayingCheck.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\PayingPages\PayingView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\ProfilePages\TraineeProfilePage.xaml">

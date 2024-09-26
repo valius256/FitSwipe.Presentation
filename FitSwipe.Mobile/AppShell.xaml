@@ -11,7 +11,8 @@
        xmlns:profilePages="clr-namespace:FitSwipe.Mobile.Pages.ProfilePages"
        xmlns:setupPages="clr-namespace:FitSwipe.Mobile.Pages.SetupPages"
        xmlns:feedbackPages="clr-namespace:FitSwipe.Mobile.Pages.FeedbackPages"
-       Shell.FlyoutBehavior="Disabled" 
+       xmlns:payingpages="clr-namespace:FitSwipe.Mobile.Pages.PayingPages"
+       Shell.FlyoutBehavior="Disabled"
        Title="FitSwipe.Mobile">
 
     <ShellContent ContentTemplate="{DataTemplate trainingPages:TrainingPage}"
@@ -21,7 +22,6 @@
 
     <ShellContent ContentTemplate="{DataTemplate pages:StartedView}"
                   Route="Started" />
-    
     <ShellContent ContentTemplate="{DataTemplate pages:TrailerVideoView}"
               Route="TrailerVideo" />
     <ShellContent ContentTemplate="{DataTemplate pages:CertificateUploadView}"
@@ -39,6 +39,8 @@
                   Route="PTList" />
     <ShellContent ContentTemplate="{DataTemplate trainingPages:PTScheduleBookingView}"
                   Route="PTScheduleBooking" />
+    <ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"
+           Route="SlotDetail" />
     <ShellContent ContentTemplate="{DataTemplate chatPages:ChatPage}"
                   Route="ChatPage" />
     <ShellContent ContentTemplate="{DataTemplate profilePages:TraineeProfilePage}"

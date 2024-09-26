@@ -4,12 +4,8 @@
              x:Class="FitSwipe.Mobile.Pages.TrainingPages.SlotDetailPage"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
-             xmlns:converter="clr-namespace:FitSwipe.Mobile.Converters">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <converter:SelectedThumbnailToColorConverter x:Key="SelectedThumbnailToColorConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
+             xmlns:converter="clr-namespace:FitSwipe.Mobile.Converters"
+             x:Name="SlotDetailPageView">
     <Grid BackgroundColor="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -39,17 +35,28 @@
                           ItemsSource="{Binding Videos}" 
                           IsSwipeEnabled="True"
                           HorizontalOptions="FillAndExpand" 
-                          VerticalOptions="FillAndExpand">
+                          VerticalOptions="FillAndExpand"
+                                  CurrentItemChanged="videoCarousel_CurrentItemChanged">
 
                         <!-- Each item is a MediaElement (video player) -->
                         <CarouselView.ItemTemplate>
                             <DataTemplate>
-                                <Grid>
-                                    <toolkit:MediaElement Source="{Binding VideoSource}" 
-                                      ShouldAutoPlay="False" 
-                                      HeightRequest="300"
-                                      WidthRequest="400"                                
-                                      ShouldShowPlaybackControls="True"/>
+
+                                    <Grid>
+                                        <toolkit:MediaElement
+                                            ShouldAutoPlay="False" 
+                                            HeightRequest="300"
+                                            WidthRequest="400"                                
+                                            ShouldShowPlaybackControls="True"
+                                            StateChanged="MediaElement_StateChanged"
+                                            Source="{Binding VideoSource}"
+                                          />
+                                        <ActivityIndicator x:Name="loadingIndicator"
+                                               IsRunning="True"
+                                               IsVisible="True"
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="Center"
+                                               Color="Gray"/>
                                 </Grid>
                             </DataTemplate>
                         </CarouselView.ItemTemplate>
@@ -88,7 +95,7 @@
                                 <Frame BorderColor="#52BB00" BackgroundColor="#52BB00"
                                     Margin="5" Padding="3">
                                     <Frame Padding="0" BorderColor="#52BB00">
-                                        <Image Source="{Binding}" 
+                                        <Image Source="{Binding .}" 
                                             Aspect="AspectFill"
                                             HeightRequest="70" 
                                             WidthRequest="100" />

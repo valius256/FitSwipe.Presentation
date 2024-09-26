@@ -51,7 +51,7 @@
                             />
 
                             <!-- Image positioned in the top-right corner of the Label -->
-                            <Image Source="Images/check_with_no_background.png"
+                            <Image Source="check_with_no_background.png"
                                 WidthRequest="50"
                                HeightRequest="50"
                                    VerticalOptions="Center"

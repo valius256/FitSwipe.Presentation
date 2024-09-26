@@ -57,7 +57,7 @@
                                     <Image Grid.Row="0" 
                                         VerticalOptions="Start"
                                         HorizontalOptions="End"
-                                        Source="Images/check_with_no_background.png"
+                                        Source="check_with_no_background.png"
                                         WidthRequest="50" 
                                         HeightRequest="50"
                                         IsVisible="{Binding IsSelected}" 
