@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Firebase.Auth;
 using FitSwipe.Mobile.Controls;
 using FitSwipe.Shared.Dtos;
+using FitSwipe.Shared.Utils;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -43,7 +44,7 @@ namespace FitSwipe.Mobile.ViewModels
                 var content = new StringContent(JsonSerializer.Serialize(signInDto), Encoding.UTF8, "application/json");
 
                 // Sign in with Firebase
-                var response = await _httpClient.PostAsync("api/Authentication/login-firebase", content);
+                var response = await _httpClient.PostAsync(Constant.BaseUrl + "api/Authentication/login-firebase", content);
 
                 var responseContent = await response.Content.ReadAsStringAsync();
                 var authResponse = JsonSerializer.Deserialize<AuthenResponseDto>(responseContent);
@@ -54,12 +55,11 @@ namespace FitSwipe.Mobile.ViewModels
                     if (authResponse.Code.Equals("OK"))
                     {
                         await SecureStorage.SetAsync("auth_token", authResponse.Message);
-                        
                         var token = await SecureStorage.GetAsync("auth_token");
 
-                        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                        var testResponse = await _httpClient.GetAsync("api/Authentication/get-test");
-                        var result = await testResponse.Content.ReadAsStringAsync();
+                        //_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                        //var testResponse = await _httpClient.GetAsync("api/Authentication/get-test");
+                        //var result = await testResponse.Content.ReadAsStringAsync();
                         // Successful login logic
                         //await Application.Current.MainPage.DisplayAlert("Success", $"{result}", "OK");
                         // Optionally, navigate to another page or store token
