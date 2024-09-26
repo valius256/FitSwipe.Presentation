@@ -57,6 +57,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\upload.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiImage Include="Resources\Images\Icons\facebook.png" />
 	  <MauiImage Include="Resources\Images\Icons\google.png" />
 	</ItemGroup>
@@ -118,6 +122,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\TrainingPages\TrainingPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\UploadAvatar\TraineeUploadAavatar.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\UploadAvatar\UserUploadAvatar.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

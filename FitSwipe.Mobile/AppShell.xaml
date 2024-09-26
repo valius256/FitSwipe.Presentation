@@ -10,8 +10,12 @@
        xmlns:trainingPages="clr-namespace:FitSwipe.Mobile.Pages.TrainingPages"
        xmlns:profilePages="clr-namespace:FitSwipe.Mobile.Pages.ProfilePages"
        xmlns:setupPages="clr-namespace:FitSwipe.Mobile.Pages.SetupPages"
+       xmlns:UploadAvatar="clr-namespace:FitSwipe.Mobile.Pages.UploadAvatar"
        Shell.FlyoutBehavior="Disabled"
        Title="FitSwipe.Mobile">
+
+    <ShellContent ContentTemplate="{DataTemplate UploadAvatar:UserUploadAvatar}"
+                  Route="UserUploadAvatar" />
 
     <ShellContent ContentTemplate="{DataTemplate pages:TrailerVideoView}"
                   Route="TrailerVideo" />
