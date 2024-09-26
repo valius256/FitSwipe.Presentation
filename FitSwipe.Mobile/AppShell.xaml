@@ -16,11 +16,10 @@
        Title="FitSwipe.Mobile">
 
 
-    <ShellContent ContentTemplate="{DataTemplate payingpages:PayingCheck}"
-                 Route="PayingCheck" />
-    <ShellContent ContentTemplate="{DataTemplate payingpages:PayingView}"
-                  Route="PayingView" />
 
+
+    <ShellContent ContentTemplate="{DataTemplate homePages:PTList}"
+                  Route="PTList" />
 
     <ShellContent ContentTemplate="{DataTemplate pages:StartedView}"
                   Route="Started" />
@@ -37,8 +36,6 @@
               Route="SetupProfile" />
 
 
-    <ShellContent ContentTemplate="{DataTemplate homePages:PTList}"
-                  Route="PTList" />
     <ShellContent ContentTemplate="{DataTemplate trainingPages:PTScheduleBookingView}"
                   Route="PTScheduleBooking" />
     <ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"
@@ -53,4 +50,8 @@
                   Route="TraineeProfilePage" />
     <ShellContent ContentTemplate="{DataTemplate homePages:SwipeMatchView}"
                   Route="SwipeMatch" />
+    <ShellContent ContentTemplate="{DataTemplate payingpages:PayingCheck}"
+                 Route="PayingCheck" />
+    <ShellContent ContentTemplate="{DataTemplate payingpages:PayingView}"
+                  Route="PayingView" />
 </Shell>

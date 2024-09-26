@@ -4,7 +4,7 @@
              x:Class="FitSwipe.Mobile.Controls.TimeTable"
              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons">
     <VerticalStackLayout>
-        <Border BackgroundColor="#2E3192" Stroke="#2E3192">
+        <Border BackgroundColor="{Binding Theme}" Stroke="Transparent">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="20,20,0,0"></RoundRectangle>
             </Border.StrokeShape>
