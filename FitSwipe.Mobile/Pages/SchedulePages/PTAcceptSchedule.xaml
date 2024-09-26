@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Pages.SchedulePages.PTAcceptSchedule">
+    <VerticalStackLayout>
+        <!--Title-->
+        <VerticalStackLayout>
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Label Text="Duyệt lịch của "
+                       FontAttributes="Bold"
+                       FontSize="Title"
+                       TextColor="Black" />
+                <Label Text="Nguyễn A"
+                       FontAttributes="Bold"
+                       FontSize="Title"
+                       TextColor="#52BB00" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+
+
+        <!-- *Tips. Dùng padding = 0 cho frame được điều chỉnh dựa vào text trên <label>
+                    CornerRadius = 5 cho điều chỉnh bề cong của khung frame ( càng thấp càng thẳng )
+                    Muốn điều chỉnh vị trí trái phải (horizontal) trong StackLayout có 2 cách. 1.Dùng Grid bọc lại rồi dùng grid.column, grid.row
+                                                                                               2.Dùng Margin = "trái,trên,phải,dưới"
+        -->
+        <!-- Deal Price-->
+        <VerticalStackLayout Margin="20,5">
+            <BoxView HeightRequest="1"
+                     Color="#52BB00"
+                     Margin="0,7"
+                     HorizontalOptions="Fill" />
+            <!--Frame title and price-->
+            <Frame BackgroundColor="Transparent"
+                   BorderColor="Transparent">
+                <VerticalStackLayout>
+                    <Label Text="Giá cả đã thỏa thuận với học viên"
+                           HorizontalOptions="Start"
+                           FontAttributes="Bold"
+                           FontSize="Small"
+                           TextColor="Black" />
+                    <!-- Price -->
+                    <HorizontalStackLayout Margin="0,8">
+                        <Frame BorderColor="#2E3192"
+                               Padding="30,0"
+                               CornerRadius="4">
+                            <Label Text="150.000" />
+                        </Frame>
+                        <Label Text=" / Giờ"
+                               VerticalOptions="Center" />
+                        <Label Text=" (Đóng tiền theo buổi)"
+                               HorizontalOptions="StartAndExpand"
+                               Margin="35,0,0,0" />
+                    </HorizontalStackLayout>
+                    <Label Text="(*) Bạn sẽ không thể sửa giá này về sau nên hãy cân nhắc kỹ trước khi quyết định"
+                           FontSize="Micro" />
+                </VerticalStackLayout>
+            </Frame>
+            <BoxView HeightRequest="1"
+                     Color="#52BB00"
+                     Margin="0,7"
+                     HorizontalOptions="Fill" />
+        </VerticalStackLayout>
+
+        <ScrollView VerticalOptions="FillAndExpand">
+            <!--Title Accept Schedule-->
+            <VerticalStackLayout Margin="20,0,20,0">
+                <Label Text="Vui lòng cập nhật nội dung các buổi học để học viên dễ nắm bắt"
+                       FontAttributes="Bold" />
+                <!--list Accept Schedule-->
+
+                <VerticalStackLayout>
+
+                    <!--Box Accept Schedule-->
+                    <!--Schedule Detail 1-->
+                    <Frame BackgroundColor="#2E3192"
+                           Padding="10,5,0,5"
+                           Margin="0,8">
+                        <VerticalStackLayout>
+                            <!--Row 1-->
+                            <HorizontalStackLayout>
+                                <Label Text="Buổi 1"
+                                       FontSize="Medium"
+                                       FontAttributes="Bold"
+                                       TextColor="White"
+                                       VerticalOptions="Center" />
+                                <Frame CornerRadius="50"
+                                       Padding="-1,-17"
+                                       Margin="158,0,0,0"
+                                       BackgroundColor="White">
+                                    <Button Text="Chỉnh sửa"
+                                            BackgroundColor="White"
+                                            TextColor="Black"
+                                            FontAttributes="Bold"
+                                            FontSize="12"
+                                            Padding="42,0"
+                                            HorizontalOptions="Fill"
+                                            VerticalOptions="Fill" />
+                                </Frame>
+                            </HorizontalStackLayout>
+                            <!--Row 2-->
+                            <HorizontalStackLayout Margin="0,5">
+                                <!--Use images/clock.png-->
+                                <Image Source="images/dotnet_bot.png" 
+                                       WidthRequest="15"
+                                       HeightRequest="15"
+                                       VerticalOptions="Center"
+                                       Margin="0,0,5,0" />
+                                <Label Text="9:00:00  AM - 11:00:00 AM"
+                                       FontSize="12"
+                                       TextColor="White"
+                                       VerticalOptions="Center" />
+                                <Frame CornerRadius="50"
+                                       Padding="-1,-17"
+                                       Margin="46,0,0,0"
+                                       BackgroundColor="Red">
+                                    <Button Text="Xóa"
+                                            BackgroundColor="red"
+                                            TextColor="White"
+                                            FontAttributes="Bold"
+                                            FontSize="12"
+                                            Padding="60,0"
+                                            HorizontalOptions="Fill"
+                                            VerticalOptions="Fill" />
+                                </Frame>
+                            </HorizontalStackLayout>
+                            <!--Row 3-->
+                            <HorizontalStackLayout Margin="0,5">
+                                <!--Use images/calendar.png-->
+                                <Image Source="images/dotnet_bot.png"
+                                       WidthRequest="15"
+                                       HeightRequest="15"
+                                       VerticalOptions="Center"
+                                       Margin="0,0,5,0" />
+                                <Label Text="22 / 06 / 2024"
+                                       FontSize="12"
+                                       TextColor="White"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <!--Row 4-->
+                            <HorizontalStackLayout Margin="0,5">
+                                <!--Use images/location.png-->
+                                <Image Source="images/dotnet_bot.png"
+                                       WidthRequest="15"
+                                       HeightRequest="15"
+                                       VerticalOptions="Center"
+                                       Margin="0,0,5,0" />
+                                <Label Text="Phòng tập Vip pro abcxyz"
+                                       FontSize="12"
+                                       TextColor="White"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <!--Row 5-->
+                            <HorizontalStackLayout Margin="0,5">
+                                <!--Use images/online_video.png-->
+                                <Image Source="images/dotnet_bot.png"
+                                       WidthRequest="15"
+                                       HeightRequest="15"
+                                       VerticalOptions="Center"
+                                       Margin="0,0,5,0" />
+                                <Label Text="5 videos"
+                                       FontSize="12"
+                                       TextColor="White"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <!--Row 6-->
+                            <HorizontalStackLayout Margin="0,5">
+                                <Label Text="Nội dung: "
+                                       FontAttributes="Bold"
+                                       FontSize="12"
+                                       TextColor="White"
+                                       VerticalOptions="Center"
+                                       Margin="0,0,5,0" />
+                                <Label Text="100 squats, 100 push ups, 100 sit ups"
+                                       FontSize="12"
+                                       TextColor="White"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+                    <!--Schedule Detail 2-->
+                    <Frame BackgroundColor="#2E3192"
+                           Padding="10,5,0,5"
+                           Margin="0,8">
+                        <VerticalStackLayout>
+                            <!--Row 1-->
+                            <HorizontalStackLayout>
+                                <Label Text="Buổi 1"
+                                       FontSize="Medium"
+                                       FontAttributes="Bold"
+                                       TextColor="White"
+                                       VerticalOptions="Center" />
+                                <Frame CornerRadius="50"
+                                       Padding="-1,-17"
+                                       Margin="158,0,0,0"
+                                       BackgroundColor="White">
+                                    <Button Text="Chỉnh sửa"
+                                            BackgroundColor="White"
+                                            TextColor="Black"
+                                            FontAttributes="Bold"
+                                            FontSize="12"
+                                            Padding="42,0"
+                                            HorizontalOptions="Fill"
+                                            VerticalOptions="Fill" />
+                                </Frame>
+                            </HorizontalStackLayout>
+                            <!--Row 2-->
+                            <HorizontalStackLayout Margin="0,5">
+                                <Image Source="images/dotnet_bot.png"
+                                       WidthRequest="15"
+                                       HeightRequest="15"
+                                       VerticalOptions="Center"
+                                       Margin="0,0,5,0" />
+                                <Label Text="9:00:00  AM - 11:00:00 AM"
+                                       FontSize="12"
+                                       TextColor="White"
+                                       VerticalOptions="Center" />
+                                <Frame CornerRadius="50"
+                                       Padding="-1,-17"
+                                       Margin="46,0,0,0"
+                                       BackgroundColor="Red">
+                                    <Button Text="Xóa"
+                                            BackgroundColor="red"
+                                            TextColor="White"
+                                            FontAttributes="Bold"
+                                            FontSize="12"
+                                            Padding="60,0"
+                                            HorizontalOptions="Fill"
+                                            VerticalOptions="Fill" />
+                                </Frame>
+                            </HorizontalStackLayout>
+                            <!--Row 3-->
+                            <HorizontalStackLayout Margin="0,5">
+                                <Image Source="images/dotnet_bot.png"
+                                       WidthRequest="15"
+                                       HeightRequest="15"
+                                       VerticalOptions="Center"
+                                       Margin="0,0,5,0" />
+                                <Label Text="22 / 06 / 2024"
+                                       FontSize="12"
+                                       TextColor="White"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <!--Row 4-->
+                            <HorizontalStackLayout Margin="0,5">
+                                <Image Source="images/dotnet_bot.png"
+                                       WidthRequest="15"
+                                       HeightRequest="15"
+                                       VerticalOptions="Center"
+                                       Margin="0,0,5,0" />
+                                <Label Text="Phòng tập Vip pro abcxyz"
+                                       FontSize="12"
+                                       TextColor="White"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <!--Row 5-->
+                            <HorizontalStackLayout Margin="0,5">
+                                <Image Source="images/dotnet_bot.png"
+                                       WidthRequest="15"
+                                       HeightRequest="15"
+                                       VerticalOptions="Center"
+                                       Margin="0,0,5,0" />
+                                <Label Text="5 videos"
+                                       FontSize="12"
+                                       TextColor="White"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <!--Row 6-->
+                            <HorizontalStackLayout Margin="0,5">
+                                <Label Text="Nội dung: "
+                                       FontAttributes="Bold"
+                                       FontSize="12"
+                                       TextColor="White"
+                                       VerticalOptions="Center"
+                                       Margin="0,0,5,0" />
+                                <Label Text="100 squats, 100 push ups, 100 sit ups"
+                                       FontSize="12"
+                                       TextColor="White"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+                    <!--Schedule Detail 3-->
+
+
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Bottom Layout-->
+        <VerticalStackLayout>
+            <BoxView HeightRequest="1"
+                     Color="#52BB00"
+                     Margin="0,7"
+                     HorizontalOptions="Fill" />
+            <VerticalStackLayout Padding="120,10">
+                <Button Text="Hoàn Thành"
+                        BackgroundColor="#2E3192"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        FontSize="Small"
+                        Padding="10,-20"
+                        CornerRadius="50"
+                        VerticalOptions="Center" />
+            </VerticalStackLayout>
+            <BoxView HeightRequest="1"
+                     Color="#52BB00"
+                     Margin="0,7"
+                     HorizontalOptions="Fill" />
+        </VerticalStackLayout>
+        
+    </VerticalStackLayout>
+</ContentPage> 

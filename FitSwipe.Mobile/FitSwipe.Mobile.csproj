@@ -57,6 +57,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\calendar.png" />
+	  <None Remove="Resources\Images\clock.png" />
+	  <None Remove="Resources\Images\location.png" />
+	  <None Remove="Resources\Images\online_video.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiImage Include="Resources\Images\Icons\facebook.png" />
 	  <MauiImage Include="Resources\Images\Icons\google.png" />
 	</ItemGroup>
@@ -103,6 +110,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\ProfilePages\TraineeProfilePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\SchedulePages\PTAcceptSchedule.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\SchedulePages\TraineeSchedulePage.xaml">
