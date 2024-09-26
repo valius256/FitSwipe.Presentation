@@ -6,7 +6,6 @@
              xmlns:trainingPages="clr-namespace:FitSwipe.Mobile.Pages.TrainingPages"
              x:Name="PTScheduleBooking">
     <Grid>
-
         <ScrollView>
             <VerticalStackLayout Margin="10" BackgroundColor="White">
                 <Label 
@@ -97,7 +96,7 @@
                         BackgroundColor="#2E3192">
                     </BoxView>
                 </HorizontalStackLayout>
-                <controls:TimeTable x:Name="timeTable"></controls:TimeTable>
+                <controls:TimeTable x:Name="timeTable" Theme="#2E3192"></controls:TimeTable>
                 <Border Margin="0,20"
                     Stroke="LimeGreen"
                     Padding="10">

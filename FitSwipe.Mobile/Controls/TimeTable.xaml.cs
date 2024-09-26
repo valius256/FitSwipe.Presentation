@@ -17,11 +17,21 @@ public partial class TimeTable : ContentView
     public ObservableCollection<GetSlotDto> Slots = new ObservableCollection<GetSlotDto>();
 	public List<string> TimeStampDisplays {  get; set; } = new List<string>();
 	public int ZoomLevel { get; set; } = -1;
-	public TimeTable()
+
+    public static readonly BindableProperty ThemeProperty =
+            BindableProperty.Create(nameof(Theme), typeof(string), typeof(TimeTable), "#52BB00");
+
+    public string Theme
+    {
+        get => (string)GetValue(ThemeProperty);
+        set => SetValue(ThemeProperty, value);
+    }
+    public TimeTable()
 	{
 		InitializeComponent();
 		ZoomIn(true);
         _ = new MauiIcon();
+		BindingContext = this;
     }
 	public void ZoomIn(bool positive)
 	{
