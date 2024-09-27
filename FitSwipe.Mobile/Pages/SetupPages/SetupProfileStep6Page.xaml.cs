@@ -1,6 +1,7 @@
 ﻿using FitSwipe.Shared.Dtos.Tags;
 using FitSwipe.Shared.Dtos.Users;
 using FitSwipe.Shared.Enums;
+using FitSwipe.Shared.Utils;
 using System.Collections.ObjectModel;
 
 namespace FitSwipe.Mobile.Pages.SetupPages;
@@ -11,12 +12,20 @@ public partial class SetupProfileStep6Page : ContentPage
     private string _mainColor1 = "LimeGreen";
     private string _mainColor2 = "LightGreen";
     private string _question = "";
-    public ObservableCollection<GetTagDto> Tags { get; set; } = new ObservableCollection<GetTagDto>();
+    private ObservableCollection<GetTagDto> _tags = new ObservableCollection<GetTagDto>();
 
     public List<Guid> AlreadyTags;
     public List<Guid> NewTags = [];
 
-
+    public ObservableCollection<GetTagDto> Tags
+    {
+        get => _tags;
+        set
+        {
+            _tags = value;
+            OnPropertyChanged(nameof(Tags));
+        }
+    }
     public string MainColor1
     {
         get => _mainColor1;
@@ -62,23 +71,28 @@ public partial class SetupProfileStep6Page : ContentPage
 
         BindingContext = this;
     }
-    private void FetchHobbyTags()
+    private async void FetchHobbyTags()
     {
-        //Test data, replace by fetching in the future
-        Tags = new ObservableCollection<GetTagDto>()
+        pageContent.IsVisible = false;
+        loadingDialog.IsVisible = true;
+        try
         {
-            new GetTagDto {Id = new Guid(), Name = "Rảnh rỗi", TagImage="Images/dotnet_bot.png",TagType = TagType.SelfDescription},
-            new GetTagDto {Id = new Guid(), Name = "Kiên trì", TagImage="Images/dotnet_bot.png",TagType = TagType.SelfDescription},
-            new GetTagDto {Id = new Guid(), Name = "Siêng năng", TagImage="Images/dotnet_bot.png",TagType = TagType.SelfDescription},
-            new GetTagDto {Id = new Guid(), Name = "Hay học hỏi", TagImage="Images/dotnet_bot.png",TagType = TagType.SelfDescription},
-            new GetTagDto {Id = new Guid(), Name = "Năng động", TagImage="Images/dotnet_bot.png",TagType = TagType.SelfDescription},
-            new GetTagDto {Id = new Guid(), Name = "Rụt rè", TagImage="Images/dotnet_bot.png",TagType = TagType.SelfDescription},
-            new GetTagDto {Id = new Guid(), Name = "Hơi lười", TagImage="Images/dotnet_bot.png",TagType = TagType.SelfDescription},
-        };
-        foreach (var tag in Tags)
-        {
-            tag.TagColor = GetRandomColor();
+            var tags = await Fetcher.GetAsync<ObservableCollection<GetTagDto>>("api/tags?TagTypes=4");
+            if (tags != null)
+            {
+                Tags = tags;
+                foreach (var tag in Tags)
+                {
+                    tag.DisplaySize = Math.Min(20, 20 / Math.Max(1, tag.Name.Length) * 20);
+                }
+            }
         }
+        catch (Exception)
+        {
+            await DisplayAlert("Lỗi", "Có lỗi đã xảy ra! Vui lòng thử lại sau", "OK");
+        }
+        pageContent.IsVisible = true;
+        loadingDialog.IsVisible = false;
     }
     private string GetRandomColor()
     {

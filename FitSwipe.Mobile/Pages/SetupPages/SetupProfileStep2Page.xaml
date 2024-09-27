@@ -3,8 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="FitSwipe.Mobile.Pages.SetupPages"
              x:Class="FitSwipe.Mobile.Pages.SetupPages.SetupProfileStep2Page"
+             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
+             xmlns:converters="clr-namespace:FitSwipe.Mobile.Converters.Setups"
              x:Name="SetupProfileStep2PageView">
     <AbsoluteLayout>
+        <controls:LoadingDialog x:Name="loadingDialog"
+                     IsVisible="False"
+                     Message="Vui lòng chờ..."
+                     AbsoluteLayout.LayoutFlags="PositionProportional"
+                     AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
         <Image x:Name="backgroundImage"
                Source="signin_background.png"
                Aspect="AspectFill"
@@ -17,7 +24,7 @@
                 Opacity="0.3"
                 AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                 AbsoluteLayout.LayoutFlags="All" />
-        <Grid 
+        <Grid x:Name="pageContent"
               AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                 AbsoluteLayout.LayoutFlags="All">
             <Grid.RowDefinitions>
@@ -53,32 +60,39 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <VerticalStackLayout Margin="10">
-                            <Frame Padding="4" BackgroundColor="{Binding Source={x:Reference SetupProfileStep2PageView}, Path=MainColor1}">
-                                <Frame 
-                                    Padding="0" CornerRadius="10" HeightRequest="150">
+                            <Frame Padding="4" BackgroundColor="{Binding Source={x:Reference SetupProfileStep2PageView}, Path=MainColor1}" CornerRadius="10">
+                                <Frame Padding="0" CornerRadius="10" HeightRequest="150">
+
                                     <Frame.GestureRecognizers>
                                         <TapGestureRecognizer x:Name="tagFrame" Tapped="tagFrame_Tapped" CommandParameter="{Binding}"/>
                                     </Frame.GestureRecognizers>
+
                                     <AbsoluteLayout>
                                         <Grid
-                                        AbsoluteLayout.LayoutBounds="0,0,1,1"
-                                        AbsoluteLayout.LayoutFlags="All">
+                                            AbsoluteLayout.LayoutBounds="0,0,1,1"
+                                            AbsoluteLayout.LayoutFlags="All">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*" />
                                                 <RowDefinition Height="Auto" />
                                             </Grid.RowDefinitions>
+
+                                            <!-- Image part -->
                                             <Image Grid.Row="0"
                                             Source="{Binding TagImage}" 
                                             Aspect="AspectFill" />
+
+                                            <!-- Checkmark Image -->
                                             <Image Grid.Row="0" 
-                                            VerticalOptions="Start"
-                                            HorizontalOptions="End"
-                                            Source="check_with_no_background.png"
-                                            WidthRequest="50" 
-                                            HeightRequest="50"
-                                            IsVisible="{Binding IsSelected}" 
-                                        ></Image>
+                                                VerticalOptions="Start"
+                                                HorizontalOptions="End"
+                                                Source="check_with_no_background.png"
+                                                WidthRequest="50" 
+                                                HeightRequest="50"
+                                                IsVisible="{Binding IsSelected}" 
+                                            />
                                         </Grid>
+
+                                        <!-- Label part -->
                                         <Label Grid.Row="1" Text="{Binding Name}" 
                                              FontSize="{Binding DisplaySize}"  
                                              FontAutoScalingEnabled="True"
@@ -88,8 +102,7 @@
                                              Opacity="0.75"
                                              TextColor="White"
                                            AbsoluteLayout.LayoutBounds="0.5,1,1,-1" 
-                                            AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional"
-                                     >
+                                            AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional">
                                             <Label.Background>
                                                 <LinearGradientBrush EndPoint="0,1">
                                                     <GradientStop Color="Transparent" Offset="0.0" />
@@ -98,11 +111,11 @@
                                             </Label.Background>
                                         </Label>
                                     </AbsoluteLayout>
-
                                 </Frame>
                             </Frame>
                         </VerticalStackLayout>
                     </DataTemplate>
+
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
