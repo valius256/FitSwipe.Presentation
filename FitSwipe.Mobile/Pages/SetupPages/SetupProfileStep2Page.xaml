@@ -27,7 +27,7 @@
             </Grid.RowDefinitions>
             <VerticalStackLayout Grid.Row="0" >
                 <Label 
-                 Text="Sở thích của bạn là gì?"
+                 Text="{Binding Question}"
                  VerticalOptions="Start" 
                  HorizontalOptions="Start" 
                  Margin="20"

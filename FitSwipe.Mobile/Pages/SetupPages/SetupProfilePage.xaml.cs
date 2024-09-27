@@ -58,7 +58,7 @@ public partial class SetupProfilePage : ContentPage
         CityPicker.ItemsSource = Cities;
         WardPicker.ItemsSource = Wards;
         DistrictPicker.ItemsSource = Districts;
-
+        pageContent.IsVisible = false;
         CheckUser();
         BindingContext = UserProfile;
         // Initialize with default values
@@ -66,6 +66,7 @@ public partial class SetupProfilePage : ContentPage
     private async void CheckUser()
     {
         var token = await SecureStorage.GetAsync("auth_token");
+        loadingDialog.IsVisible = true;
         if (token == null)
         {
             await DisplayAlert("Something wrong", "ERROR : User is not authenticated", "Ok");
@@ -74,15 +75,31 @@ public partial class SetupProfilePage : ContentPage
         {
             try
             {
-
                 var user = await Fetcher.GetAsync<GetUserDto>("api/authentication/who-am-i", token);
-                await DisplayAlert("INFO" ,"User fetched :" + user, "Oki");
+                if (user == null)
+                {
+                    await DisplayAlert("Lỗi", "Đã xảy ra lỗi, vui lòng đăng nhập lại", "OK");
+                    await Shell.Current.GoToAsync("//SignIn");
+                } else
+                {
+                    pageContent.IsVisible = true;
+                    UserProfile.Role = user.Role;
+                    if (UserProfile.Role == Role.PT)
+                    {
+                        MainColor1 = "#2E3192";
+                        MainColor2 = "#1f00b8";
+                        MainColor3 = "#e8eeff";
+                    }
+                }
+               
+                //await DisplayAlert("INFO" ,"User fetched :" + user, "Oki");
             }
             catch (Exception ex)
             {
                 await DisplayAlert("ERROR","Error when loading data : " + ex.Message, "OK");
             }
         }
+        loadingDialog.IsVisible = false;
     }
     private void Button_Clicked(object sender, EventArgs e)
     {

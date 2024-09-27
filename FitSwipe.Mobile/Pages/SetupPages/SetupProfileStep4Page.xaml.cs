@@ -10,6 +10,7 @@ public partial class SetupProfileStep4Page : ContentPage
     private UpdateUserProfileDto _currentUser;
     private string _mainColor1 = "LimeGreen";
     private string _mainColor2 = "LightGreen";
+    private string _question = "";
     public ObservableCollection<GetTagDto> Tags { get; set; } = new ObservableCollection<GetTagDto>();
 
     public List<Guid> AlreadyTags;
@@ -32,12 +33,31 @@ public partial class SetupProfileStep4Page : ContentPage
             OnPropertyChanged(nameof(MainColor2));
         }
     }
+    public string Question
+    {
+        get => _question;
+        set
+        {
+            _question = value;
+            OnPropertyChanged(nameof(Question));
+        }
+    }
     public SetupProfileStep4Page(UpdateUserProfileDto updateUserProfileModel, List<Guid> alreadyTags)
     {
         InitializeComponent();
         FetchHobbyTags();
         _currentUser = updateUserProfileModel;
         AlreadyTags = alreadyTags;
+        if (_currentUser.Role == Role.PT)
+        {
+            MainColor1 = "#2E3192";
+            MainColor2 = "#1f00b8";
+            Question = "Chuyên môn của bạn gồm những gì?";
+        } else
+        {
+            Question = "Loại hình luyện tập yêu thích của bạn là gì?";
+        }
+
         BindingContext = this;
     }
     private void FetchHobbyTags()

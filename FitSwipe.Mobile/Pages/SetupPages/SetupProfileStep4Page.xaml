@@ -15,7 +15,7 @@
 
         <!-- Green Overlay -->
         <Border x:Name="backgroundCover"
-        BackgroundColor="#83f683"
+         BackgroundColor="{Binding Source={x:Reference SetupProfileStep4PageView}, Path=MainColor2}"
         Opacity="0.15"
         AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
         AbsoluteLayout.LayoutFlags="All" />
@@ -27,7 +27,7 @@
             </Grid.RowDefinitions>
             <VerticalStackLayout Grid.Row="0" >
                 <Label 
-             Text="Loại hình luyện tập yêu thích của bạn là gì?"
+             Text="{Binding Question}"
              VerticalOptions="Start" 
              HorizontalOptions="Start" 
              Margin="20"

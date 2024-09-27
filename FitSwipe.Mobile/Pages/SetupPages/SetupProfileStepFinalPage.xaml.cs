@@ -1,4 +1,6 @@
+using Firebase.Auth;
 using FitSwipe.Shared.Dtos.Users;
+using FitSwipe.Shared.Enums;
 
 namespace FitSwipe.Mobile.Pages.SetupPages;
 
@@ -6,6 +8,8 @@ public partial class SetupProfileStepFinalPage : ContentPage
 {
     private string _mainColor1 = "LimeGreen";
     private string _mainColor2 = "LightGreen";
+    private string _question = "";
+
     private UpdateUserProfileDto _updateUserProfileDto;
     private List<Guid> _selectedTags;
     public string MainColor1
@@ -26,12 +30,27 @@ public partial class SetupProfileStepFinalPage : ContentPage
             OnPropertyChanged(nameof(MainColor2));
         }
     }
+    public string Question
+    {
+        get => _question;
+        set
+        {
+            _question = value;
+            OnPropertyChanged(nameof(Question));
+        }
+    }
     public SetupProfileStepFinalPage(UpdateUserProfileDto updateUserProfileDto, List<Guid> selectedTags)
 	{
 		InitializeComponent();
         _updateUserProfileDto = updateUserProfileDto; 
         _selectedTags = selectedTags;
-	}
+        if (_updateUserProfileDto.Role == Role.PT)
+        {
+            MainColor1 = "#2E3192";
+            MainColor2 = "#1f00b8";
+        }
+
+    }
 
     private async void btnReady_Clicked(object sender, EventArgs e)
     {
@@ -46,7 +65,14 @@ public partial class SetupProfileStepFinalPage : ContentPage
         {
             await Shell.Current.Navigation.PopModalAsync(false); // Set false to prevent animation
         }
-        await Shell.Current.GoToAsync("//PTList");
+        if (_updateUserProfileDto.Role ==Role.PT)
+        {
+            await Shell.Current.GoToAsync("//TraineeProfilePage");
+        }
+        else
+        {
+            await Shell.Current.GoToAsync("//PTList");
+        }
     }
 
     private async void btnPrev_Clicked(object sender, EventArgs e)

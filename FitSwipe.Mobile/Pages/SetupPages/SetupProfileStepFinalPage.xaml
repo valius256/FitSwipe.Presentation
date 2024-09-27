@@ -15,7 +15,7 @@
 
         <!-- Green Overlay -->
         <Border x:Name="backgroundCover"
-             BackgroundColor="#83f683"
+            BackgroundColor="{Binding Source={x:Reference SetupProfileStepFinalPageView}, Path=MainColor2}"
              Opacity="0.15"
              AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
              AbsoluteLayout.LayoutFlags="All" />
