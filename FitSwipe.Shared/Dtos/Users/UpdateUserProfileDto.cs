@@ -11,6 +11,7 @@ namespace FitSwipe.Shared.Dtos.Users
         public string? District { get; set; }
         public string? Ward { get; set; }
         public string? Bio { get; set; }
+        public Role Role { get; set; }
         public List<Guid> TagIds { get; set; } = new List<Guid>();
     }
 }

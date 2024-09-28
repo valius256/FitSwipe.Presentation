@@ -14,8 +14,8 @@ namespace FitSwipe.Shared.Dtos.Users
         public string AvatarUrl { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
         public DateTime DateOfBirth { get; set; }
-        public double Weight { get; set; }
-        public double Height { get; set; }
+        public double? Weight { get; set; }
+        public double? Height { get; set; }
         public string? Bio { get; set; }
         public string City { get; set; } = string.Empty;
         public string District { get; set; } = string.Empty;

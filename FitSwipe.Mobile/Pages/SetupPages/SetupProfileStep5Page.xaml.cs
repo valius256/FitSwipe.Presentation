@@ -1,6 +1,8 @@
-﻿using FitSwipe.Shared.Dtos.Tags;
+﻿using CommunityToolkit.Maui.Core.Extensions;
+using FitSwipe.Shared.Dtos.Tags;
 using FitSwipe.Shared.Dtos.Users;
 using FitSwipe.Shared.Enums;
+using FitSwipe.Shared.Utils;
 using System.Collections.ObjectModel;
 
 namespace FitSwipe.Mobile.Pages.SetupPages;
@@ -10,12 +12,21 @@ public partial class SetupProfileStep5Page : ContentPage
     private UpdateUserProfileDto _currentUser;
     private string _mainColor1 = "LimeGreen";
     private string _mainColor2 = "LightGreen";
-    public ObservableCollection<GetTagDto> Tags { get; set; } = new ObservableCollection<GetTagDto>();
+    private string _question = "";
+    private ObservableCollection<GetTagDto> _tags = new ObservableCollection<GetTagDto>();
 
     public List<Guid> AlreadyTags;
     public List<Guid> NewTags = [];
 
-
+    public ObservableCollection<GetTagDto> Tags
+    {
+        get => _tags;
+        set
+        {
+            _tags = value;
+            OnPropertyChanged(nameof(Tags));
+        }
+    }
     public string MainColor1
     {
         get => _mainColor1;
@@ -34,31 +45,55 @@ public partial class SetupProfileStep5Page : ContentPage
             OnPropertyChanged(nameof(MainColor2));
         }
     }
+    public string Question
+    {
+        get => _question;
+        set
+        {
+            _question = value;
+            OnPropertyChanged(nameof(Question));
+        }
+    }
     public SetupProfileStep5Page(UpdateUserProfileDto updateUserProfileModel, List<Guid> alreadyTags)
     {
         InitializeComponent();
         FetchHobbyTags();
         _currentUser = updateUserProfileModel;
         AlreadyTags = alreadyTags;
+        if (_currentUser.Role == Role.PT)
+        {
+            MainColor1 = "#2E3192";
+            MainColor2 = "#1f00b8";
+            Question = "Hãy mô tả bản thân bạn với tư cách là Huấn luyện viên";
+        } else
+        {
+            Question = "Tiêu chí chọn PT của bạn là gì?";
+        }
+
         BindingContext = this;
     }
-    private void FetchHobbyTags()
+    private async void FetchHobbyTags()
     {
-        //Test data, replace by fetching in the future
-        Tags = new ObservableCollection<GetTagDto>()
+        pageContent.IsVisible = false;
+        loadingDialog.IsVisible = true;
+        try
         {
-            new GetTagDto {Id = new Guid(), Name = "Cùng giới", TagImage="Images/dotnet_bot.png",TagType = TagType.PTTaste},
-            new GetTagDto {Id = new Guid(), Name = "Giàu kinh nghiệm", TagImage="Images/dotnet_bot.png",TagType = TagType.PTTaste},
-            new GetTagDto {Id = new Guid(), Name = "Có tiếng", TagImage="Images/dotnet_bot.png",TagType = TagType.PTTaste},
-            new GetTagDto {Id = new Guid(), Name = "Siêng năng", TagImage="Images/dotnet_bot.png",TagType = TagType.PTTaste},
-            new GetTagDto {Id = new Guid(), Name = "Ngoại hình đẹp", TagImage="Images/dotnet_bot.png",TagType = TagType.PTTaste},
-            new GetTagDto {Id = new Guid(), Name = "Hòa đồng", TagImage="Images/dotnet_bot.png",TagType = TagType.PTTaste},
-            new GetTagDto {Id = new Guid(), Name = "Tâm huyết với học viên", TagImage="Images/dotnet_bot.png",TagType = TagType.PTTaste},
-        };
-        foreach (var tag in Tags)
-        {
-            tag.TagColor = GetRandomColor();
+            var tags = await Fetcher.GetAsync<ObservableCollection<GetTagDto>>("api/tags?TagTypes=3");
+            if (tags != null)
+            {
+                Tags = tags.Where(t => t.SpecialTag == null).ToObservableCollection();
+                foreach (var tag in Tags)
+                {
+                    tag.DisplaySize = Math.Min(20, 20 / Math.Max(1, tag.Name.Length) * 20);
+                }
+            }
         }
+        catch (Exception)
+        {
+            await DisplayAlert("Lỗi", "Có lỗi đã xảy ra! Vui lòng thử lại sau", "OK");
+        }
+        pageContent.IsVisible = true;
+        loadingDialog.IsVisible = false;
     }
     private string GetRandomColor()
     {
@@ -75,10 +110,17 @@ public partial class SetupProfileStep5Page : ContentPage
         Navigation.PopModalAsync();
     }
 
-    private void btnNext_Clicked(object sender, EventArgs e)
+    private async void btnNext_Clicked(object sender, EventArgs e)
     {
-        NewTags.ForEach(t => AlreadyTags.Add(t));
-        Navigation.PushModalAsync(new SetupProfileStep6Page(_currentUser, AlreadyTags));
+        if (NewTags.Count > 0)
+        {
+            NewTags.ForEach(t => AlreadyTags.Add(t));
+            await Navigation.PushModalAsync(new SetupProfileStep6Page(_currentUser, AlreadyTags));
+        }
+        else
+        {
+            await DisplayAlert("Thiếu thông tin", "Hãy vui lòng chọn ít nhất 1 thẻ", "OK");
+        }
     }
 
     private void tagFrame_Tapped(object sender, TappedEventArgs e)

@@ -16,11 +16,6 @@
        Title="FitSwipe.Mobile">
 
 
-
-
-    <ShellContent ContentTemplate="{DataTemplate homePages:PTList}"
-                  Route="PTList" />
-
     <ShellContent ContentTemplate="{DataTemplate pages:StartedView}"
                   Route="Started" />
     <ShellContent ContentTemplate="{DataTemplate pages:TrailerVideoView}"
@@ -36,6 +31,8 @@
               Route="SetupProfile" />
 
 
+    <ShellContent ContentTemplate="{DataTemplate homePages:PTList}"
+                  Route="PTList" />
     <ShellContent ContentTemplate="{DataTemplate trainingPages:PTScheduleBookingView}"
                   Route="PTScheduleBooking" />
     <ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"

@@ -120,32 +120,48 @@ namespace FitSwipe.Mobile.Controls
 
         private void tgrStar3_Tapped(object sender, TappedEventArgs e)
         {
-            Rating = 3;
-            StarChanged?.Invoke(this, e);
+            if (!ReadOnly)
+            {
+                Rating = 3;
+                StarChanged?.Invoke(this, e);
+            }
+            
         }
 
         private void tgrStar1_Tapped(object sender, TappedEventArgs e)
         {
-            Rating = 1;
-            StarChanged?.Invoke(this, e);
+            if (!ReadOnly)
+            {
+                Rating = 1;
+                StarChanged?.Invoke(this, e);
+            }
         }
 
         private void tgrStar2_Tapped(object sender, TappedEventArgs e)
         {
-            Rating = 2;
-            StarChanged?.Invoke(this, e);
+            if (!ReadOnly)
+            {
+                Rating = 2;
+                StarChanged?.Invoke(this, e);
+            }
         }
 
         private void tgrStar4_Tapped(object sender, TappedEventArgs e)
         {
-            Rating = 4;
-            StarChanged?.Invoke(this, e);
+            if (!ReadOnly)
+            {
+                Rating = 4;
+                StarChanged?.Invoke(this, e);
+            }
         }
 
         private void tgrStar5_Tapped(object sender, TappedEventArgs e)
         {
-            Rating = 5;
-            StarChanged?.Invoke(this, e);
+            if (!ReadOnly)
+            {
+                Rating = 5;
+                StarChanged?.Invoke(this, e);
+            }
         }
 
         //public event PropertyChangedEventHandler PropertyChanged;

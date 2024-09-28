@@ -168,24 +168,6 @@
             </VerticalStackLayout>
             <!--#endregion-->
 
-            <!--#region NOT HAVE ACCOUNT YET-->
-            <HorizontalStackLayout HorizontalOptions="Center"
-                                   Spacing="40"
-                                   Margin="0, 20, 0, 0">
-                <Label Text="Chưa có tài khoản?"
-                       FontAttributes="Italic,Bold"
-                       VerticalOptions="Center"
-                       MaximumHeightRequest="150" />
-
-                <Button Text="Đăng ký"
-                        BorderWidth="1"
-                        BorderColor="Green"
-                        WidthRequest="150"
-                        TextColor="Black"
-                        BackgroundColor="White"
-                        Command="{Binding NavigateSignUpCommand}" />
-
-            </HorizontalStackLayout>
 
             <!-- Signin Button-->
             <Button Text="Đăng nhập"
@@ -198,11 +180,33 @@
                     Command="{Binding SignInCommand}" />
             <!--#endregion-->
 
+            <!--#region NOT HAVE ACCOUNT YET-->
+            <HorizontalStackLayout HorizontalOptions="Center"
+                                   Spacing="40"
+                                   Margin="0, 20, 0, 0">
+                <Label Text="Chưa có tài khoản?"
+                       FontAttributes="Italic,Bold"
+                       VerticalOptions="Center"
+                       MaximumHeightRequest="150" />
+
+                <Button Text="Đăng ký"
+                        BorderWidth="1"
+                        HeightRequest="30"
+                        Padding="0"
+                        BorderColor="Green"
+                        WidthRequest="150"
+                        TextColor="Black"
+                        BackgroundColor="White"
+                        Command="{Binding NavigateSignUpCommand}" />
+
+            </HorizontalStackLayout>
+
             <Label Margin="0, 20, 0,0"
                    Text="{Binding UserName}"></Label>
         </VerticalStackLayout>
 
         <controls:LoadingDialog x:Name="loadingDialog"
+                                Message="Đang đăng nhập...."
                                 IsVisible="False"
                                 AbsoluteLayout.LayoutFlags="PositionProportional"
                                 AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
