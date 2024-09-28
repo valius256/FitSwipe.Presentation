@@ -20,7 +20,7 @@
   <AbsoluteLayout BackgroundColor="White">
     <ScrollView AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                 AbsoluteLayout.LayoutFlags="All">
-      <StackLayout Padding="20"
+      <StackLayout Padding="15"
                    VerticalOptions="FillAndExpand"
                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                    AbsoluteLayout.LayoutFlags="All">
@@ -146,7 +146,7 @@
                  Margin="0, 0, 0, 100"
                  IsVisible="{Binding IsFirstTabVisible}">
 
-            <StackLayout Padding="10">
+            <StackLayout>
               <ListView ItemsSource="{Binding UserList}"
                         HasUnevenRows="True"
                         BackgroundColor="Transparent"
@@ -159,7 +159,7 @@
                       <!-- Each Item Views -->
                       <AbsoluteLayout>
                         <StackLayout Spacing="10"
-                                     Padding="10"
+                                     Padding="8"
                                      VerticalOptions="FillAndExpand"
                                      AbsoluteLayout.LayoutBounds="0, 0, 1, AutoSize"
                                      AbsoluteLayout.LayoutFlags="WidthProportional">
@@ -173,7 +173,7 @@
                             <Grid ColumnDefinitions="Auto, Auto, *"
                                   ColumnSpacing="5">
                               <!-- Background Image -->
-                              <Border WidthRequest="130"
+                              <Border WidthRequest="160"
                                       Stroke="Transparent"
                                       Grid.Column="0">
                                 <Border.StrokeShape>
@@ -197,7 +197,8 @@
                                            VerticalOptions="FillAndExpand">
 
                                 <!-- Ensure it fills the parent space -->
-                                <StackLayout Spacing="10">
+                                <StackLayout Spacing="10"
+                                             Padding="0, 0, 20, 10">
                                   <AbsoluteLayout>
                                     <StackLayout AbsoluteLayout.LayoutBounds="0, 0, 1, AutoSize"
                                                  AbsoluteLayout.LayoutFlags="WidthProportional">
@@ -213,6 +214,7 @@
                                     <Label Text="20"
                                            TextColor="White"
                                            FontSize="12"
+                                           Padding="0, 0, -13, 0"
                                            AbsoluteLayout.LayoutBounds="1, 0, AutoSize, AutoSize"
                                            AbsoluteLayout.LayoutFlags="PositionProportional" />
                                   </AbsoluteLayout>
@@ -359,7 +361,8 @@
                                            VerticalOptions="FillAndExpand">
 
                                 <!-- Ensure it fills the parent space -->
-                                <StackLayout Spacing="10">
+                                <StackLayout Spacing="10"
+                                             Padding="0, 0, 20, 10">
                                   <AbsoluteLayout>
                                     <StackLayout AbsoluteLayout.LayoutBounds="0, 0, 1, AutoSize"
                                                  AbsoluteLayout.LayoutFlags="WidthProportional">
@@ -375,6 +378,7 @@
                                     <Label Text="20"
                                            TextColor="White"
                                            FontSize="12"
+                                           Padding="0, 0, -13, 0"
                                            AbsoluteLayout.LayoutBounds="1, 0, AutoSize, AutoSize"
                                            AbsoluteLayout.LayoutFlags="PositionProportional" />
                                   </AbsoluteLayout>

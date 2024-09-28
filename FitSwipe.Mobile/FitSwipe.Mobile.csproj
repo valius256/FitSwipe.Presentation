@@ -221,6 +221,9 @@
 	  <MauiXaml Update="Pages\TrainingPages\BookSlotModal.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\TrainingPages\MyPTListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\TrainingPages\PTScheduleBookingView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

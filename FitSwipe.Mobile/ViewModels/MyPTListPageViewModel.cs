@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace FitSwipe.Mobile.ViewModels
 {
-  public partial class TrainingPageViewModel : ObservableObject
+  public partial class MyPTListPageViewModel : ObservableObject
   {
     [ObservableProperty]
     private ObservableCollection<User> userList = new();
@@ -18,13 +18,11 @@ namespace FitSwipe.Mobile.ViewModels
 
     public bool IsFirstTabVisible => ActiveTab == 0;
     public bool IsSecondTabVisible => ActiveTab == 1;
-
     public string SelectedFilter
     {
       get => _selectedFilter;
       set => SetProperty(ref _selectedFilter, value);
     }
-
     public int ActiveTab
     {
       get => _activeTab;
@@ -37,7 +35,6 @@ namespace FitSwipe.Mobile.ViewModels
         }
       }
     }
-
     public ObservableCollection<string> FilterOptions { get; } = new ObservableCollection<string>
         {
             "Ngày gần đây nhất",
@@ -45,12 +42,13 @@ namespace FitSwipe.Mobile.ViewModels
             "Loại hình tập luyện"
         };
 
-    public TrainingPageViewModel ()
+    public MyPTListPageViewModel ()
     {
       userList = new ObservableCollection<User>
                 {
                     new User
                     {
+                        //Name = "Nguyễn Thanh Phong Phong Phong Phong Phong",
                         Name = "Nguyễn Thanh Phong",
                         Occupation = "Sinh viên",
                         DoB = "21/09/2003",
@@ -103,7 +101,6 @@ namespace FitSwipe.Mobile.ViewModels
       ActiveTab = 0;
     }
 
-    // RelayCommand to select tabs
     [RelayCommand]
     private void SelectTab (object parameter)
     {
