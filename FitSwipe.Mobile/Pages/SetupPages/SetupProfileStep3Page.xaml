@@ -3,7 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FitSwipe.Mobile.Pages.SetupPages.SetupProfileStep3Page"
              xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
+             xmlns:converters="clr-namespace:FitSwipe.Mobile.Converters.Setups"
              x:Name="SetupProfileStep3PageView">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <AbsoluteLayout>
         <!-- Background Image -->
         <controls:LoadingDialog x:Name="loadingDialog"
@@ -59,7 +65,13 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <VerticalStackLayout Margin="10">
-                            <Frame Padding="4" BackgroundColor="{Binding Source={x:Reference SetupProfileStep3PageView}, Path=MainColor1}">
+                            <Frame Padding="4">
+                                <Frame.BackgroundColor>
+                                    <MultiBinding Converter="{StaticResource BoolToColorConverter}">
+                                        <Binding Path="IsSelected"/>
+                                        <Binding Source="{x:Reference SetupProfileStep3PageView}" Path="MainColor1"/>
+                                    </MultiBinding>
+                                </Frame.BackgroundColor>
                                 <Frame 
                                 Padding="0" CornerRadius="10" HeightRequest="200">
                                     <Frame.GestureRecognizers>

@@ -1,4 +1,5 @@
-﻿using FitSwipe.Shared.Dtos.Tags;
+﻿using CommunityToolkit.Maui.Core.Extensions;
+using FitSwipe.Shared.Dtos.Tags;
 using FitSwipe.Shared.Dtos.Users;
 using FitSwipe.Shared.Enums;
 using FitSwipe.Shared.Utils;
@@ -80,7 +81,7 @@ public partial class SetupProfileStep5Page : ContentPage
             var tags = await Fetcher.GetAsync<ObservableCollection<GetTagDto>>("api/tags?TagTypes=3");
             if (tags != null)
             {
-                Tags = tags;
+                Tags = tags.Where(t => t.SpecialTag == null).ToObservableCollection();
                 foreach (var tag in Tags)
                 {
                     tag.DisplaySize = Math.Min(20, 20 / Math.Max(1, tag.Name.Length) * 20);

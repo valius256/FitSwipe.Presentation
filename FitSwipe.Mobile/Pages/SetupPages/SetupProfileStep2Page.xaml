@@ -6,6 +6,11 @@
              xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
              xmlns:converters="clr-namespace:FitSwipe.Mobile.Converters.Setups"
              x:Name="SetupProfileStep2PageView">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <AbsoluteLayout>
         <controls:LoadingDialog x:Name="loadingDialog"
                      IsVisible="False"
@@ -60,9 +65,14 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <VerticalStackLayout Margin="10">
-                            <Frame Padding="4" BackgroundColor="{Binding Source={x:Reference SetupProfileStep2PageView}, Path=MainColor1}" CornerRadius="10">
+                            <Frame Padding="4" CornerRadius="10">
+                                <Frame.BackgroundColor>
+                                    <MultiBinding Converter="{StaticResource BoolToColorConverter}">
+                                        <Binding Path="IsSelected"/>
+                                        <Binding Source="{x:Reference SetupProfileStep2PageView}" Path="MainColor1"/>
+                                    </MultiBinding>
+                                </Frame.BackgroundColor>
                                 <Frame Padding="0" CornerRadius="10" HeightRequest="150">
-
                                     <Frame.GestureRecognizers>
                                         <TapGestureRecognizer x:Name="tagFrame" Tapped="tagFrame_Tapped" CommandParameter="{Binding}"/>
                                     </Frame.GestureRecognizers>
