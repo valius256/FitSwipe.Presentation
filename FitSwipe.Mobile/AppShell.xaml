@@ -13,17 +13,12 @@
        xmlns:feedbackPages="clr-namespace:FitSwipe.Mobile.Pages.FeedbackPages"
        xmlns:payingpages="clr-namespace:FitSwipe.Mobile.Pages.PayingPages"
        Shell.FlyoutBehavior="Disabled"
-       xmlns:payingpages="clr-namespace:FitSwipe.Mobile.Pages.PayingPages"
-       Shell.FlyoutBehavior="Disabled"
        Title="FitSwipe.Mobile">
 
-
-
-
-    <ShellContent ContentTemplate="{DataTemplate homePages:PTList}"
-                  Route="PTList" />
     <ShellContent ContentTemplate="{DataTemplate trainingPages:TrainingPage}"
                   Route="TrainingPage" />
+    <ShellContent ContentTemplate="{DataTemplate homePages:PTList}"
+                  Route="PTList" />
     <ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"
            Route="SlotDetail" />
 

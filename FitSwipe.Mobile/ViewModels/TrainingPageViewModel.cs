@@ -53,33 +53,51 @@ namespace FitSwipe.Mobile.ViewModels
                     new User
                     {
                         Name = "Nguyễn Thanh Phong Phong",
-                        Email = "nthanhphong941@gmail.com"
+                        Occupation = "Sinh viên",
+                        Email = "nguynthanhfont@gmail.com",
+                        DoB = "01/01/2000",
+                        totalTime = "10 giờ"
                     },
 
                     new User
                     {
                         Name = "Nguyễn Văn A",
-                        Email = "nguynthanhfont@gmail.com"
+                        Occupation = "Sinh viên",
+                        Email = "nguynthanhfont@gmail.com",
+                        DoB = "01/01/2000",
+                        totalTime = "10 giờ"
                     },
                     new User
                     {
                         Name = "Nguyễn Văn B",
-                        Email = "nguynthanhfontt@gmail.com"
+                        Occupation = "Nhân viên văn phòng",
+                        Email = "nguynthanhfontt@gmail.com",
+                        DoB = "01/01/2000",
+                        totalTime = "10 giờ"
                     },
                     new User
                     {
                         Name = "Nguyễn Văn C",
-                        Email = "nguynthanhfontt@gmail.com"
+                        Occupation = "Nhân viên văn phòng",
+                        Email = "nguynthanhfontt@gmail.com",
+                        DoB = "01/01/2000",
+                        totalTime = "10 giờ"
                     },
                     new User
                     {
                         Name = "Nguyễn Văn D",
-                        Email = "nguynthanhfontt@gmail.com"
+                        Occupation = "Nhân viên văn phòng",
+                        Email = "nguynthanhfontt@gmail.com",
+                        DoB = "01/01/2000",
+                        totalTime = "10 giờ"
                     },
                     new User
                     {
                         Name = "Nguyễn Văn E",
-                        Email = "nguynthanhfontt@gmail.com"
+                        Occupation = "Nhân viên văn phòng",
+                        Email = "nguynthanhfontt@gmail.com",
+                        DoB = "01/01/2000",
+                        totalTime = "10 giờ"
                     }
 
                 };

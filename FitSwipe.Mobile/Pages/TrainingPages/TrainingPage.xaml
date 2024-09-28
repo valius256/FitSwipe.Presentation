@@ -158,7 +158,6 @@
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="{x:Type models:User}">
                                         <ViewCell>
-
                                             <!-- Each Item Views -->
                                             <AbsoluteLayout>
                                                 <StackLayout Spacing="10"
@@ -173,47 +172,76 @@
                                                         <Border.StrokeShape>
                                                             <RoundRectangle CornerRadius="10" />
                                                         </Border.StrokeShape>
-                                                        <Grid ColumnDefinitions="*,*"
-                                                              ColumnSpacing="10"
-                                                              VerticalOptions="FillAndExpand">
-
+                                                        <Grid ColumnDefinitions="Auto, Auto, *"
+                                                              ColumnSpacing="5">
                                                             <!-- Background Image -->
-                                                            <Border>
+                                                            <Border WidthRequest="130"
+                                                                    Stroke="Transparent"
+                                                                    Grid.Column="0">
                                                                 <Border.StrokeShape>
                                                                     <RoundRectangle CornerRadius="10" />
                                                                 </Border.StrokeShape>
 
                                                                 <StackLayout>
-                                                                    <Image Source="pt1"
+                                                                    <Image Source="pt2"
                                                                            Aspect="Fill"
-                                                                           VerticalOptions="FillAndExpand"
-                                                                           HorizontalOptions="FillAndExpand" />
+                                                                           VerticalOptions="FillAndExpand" />
                                                                 </StackLayout>
                                                             </Border>
 
-                                                            <HorizontalStackLayout Grid.Column="1"
-                                                                                   Spacing="10">
-                                                                <BoxView Color="Black"
-                                                                         WidthRequest="1.5"
-                                                                         HeightRequest="170" />
+                                                            <BoxView Color="White"
+                                                                     WidthRequest="1.1"
+                                                                     HeightRequest="180"
+                                                                     Grid.Column="1" />
 
-                                                                <StackLayout VerticalOptions="FillAndExpand"
-                                                                             Padding="0, 15">
-                                                                    <Label Text="{Binding Name}"
-                                                                           TextColor="White" />
-                                                                    <Label Text="Nguyen Van A"
-                                                                           TextColor="White" />
+                                                            <StackLayout Grid.Column="2"
+                                                                         Padding="5"
+                                                                         VerticalOptions="FillAndExpand">
 
-                                                                    <Button Text="Xem thêm"
-                                                                            HeightRequest="40"
-                                                                            Padding="0"
-                                                                            WidthRequest="130"
-                                                                            VerticalOptions="EndAndExpand"
-                                                                            BackgroundColor="White"
-                                                                            TextColor="Black"
-                                                                            CornerRadius="20" />
+                                                                <!-- Ensure it fills the parent space -->
+                                                                <StackLayout Spacing="10">
+                                                                    <StackLayout Spacing="2">
+                                                                        <Label Text="{Binding Name}"
+                                                                               TextColor="White"
+                                                                               VerticalOptions="Start"
+                                                                               FontAttributes="Bold"
+                                                                               FontSize="12" />
+
+                                                                        <Label Text="{Binding Occupation}"
+                                                                               TextColor="White"
+                                                                               VerticalOptions="Start"
+                                                                               FontSize="10" />
+                                                                    </StackLayout>
+
+                                                                    <StackLayout Spacing="5">
+                                                                        <Label Text="{Binding Email}"
+                                                                               TextColor="White"
+                                                                               VerticalOptions="Start"
+                                                                               FontSize="10" />
+
+                                                                        <Label Text="{Binding DoB}"
+                                                                               TextColor="White"
+                                                                               VerticalOptions="Start"
+                                                                               FontSize="10" />
+
+                                                                        <Label Text="{Binding totalTime}"
+                                                                               TextColor="White"
+                                                                               VerticalOptions="Start"
+                                                                               FontSize="10" />
+                                                                    </StackLayout>
+
                                                                 </StackLayout>
-                                                            </HorizontalStackLayout>
+                                                                <Button Text="Xem thêm"
+                                                                        HeightRequest="25"
+                                                                        WidthRequest="130"
+                                                                        Padding="0"
+                                                                        FontSize="10"
+                                                                        FontAttributes="Bold"
+                                                                        BackgroundColor="White"
+                                                                        VerticalOptions="EndAndExpand"
+                                                                        TextColor="Black"
+                                                                        CornerRadius="15" />
+                                                            </StackLayout>
                                                         </Grid>
                                                     </Border>
                                                 </StackLayout>
@@ -257,84 +285,150 @@
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="{x:Type models:User}">
                                         <ViewCell>
-                                            <StackLayout Spacing="10">
-                                                <Border HeightRequest="200"
-                                                        BackgroundColor="#479905"
-                                                        Stroke="DarkGray"
-                                                        Margin="0, 10, 0, 10">
-                                                    <Border.StrokeShape>
-                                                        <RoundRectangle CornerRadius="15" />
-                                                    </Border.StrokeShape>
-                                                    <Grid ColumnDefinitions="*,*"
-                                                          ColumnSpacing="10">
-                                                        <AbsoluteLayout Grid.Column="0"
-                                                                        Padding="20">
-                                                            <!-- Background Image -->
-                                                            <Image Source="pt1"
-                                                                   AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                                                                   AbsoluteLayout.LayoutFlags="All"
-                                                                   HeightRequest="150"
-                                                                   WidthRequest="120"
-                                                                   Aspect="AspectFill" />
 
-                                                            <Border AbsoluteLayout.LayoutBounds="-0.15, -0.15, AutoSize, AutoSize"
-                                                                    AbsoluteLayout.LayoutFlags="PositionProportional"
-                                                                    WidthRequest="50"
-                                                                    HeightRequest="50"
-                                                                    Stroke="#479905">
+                                            <!-- Each Item Views -->
+                                            <AbsoluteLayout>
+                                                <StackLayout Spacing="10"
+                                                             Padding="10"
+                                                             VerticalOptions="FillAndExpand"
+                                                             AbsoluteLayout.LayoutBounds="0, 0, 1, AutoSize"
+                                                             AbsoluteLayout.LayoutFlags="WidthProportional">
+                                                    <Border HeightRequest="200"
+                                                            BackgroundColor="#479905"
+                                                            Stroke="DarkGray"
+                                                            Margin="0, 10, 0, 10">
+                                                        <Border.StrokeShape>
+                                                            <RoundRectangle CornerRadius="10" />
+                                                        </Border.StrokeShape>
+                                                        <Grid ColumnDefinitions="Auto, Auto, *"
+                                                              ColumnSpacing="5">
+                                                            <!-- Background Image -->
+                                                            <Border WidthRequest="130"
+                                                                    Stroke="Transparent"
+                                                                    Grid.Column="0">
                                                                 <Border.StrokeShape>
-                                                                    <RoundRectangle CornerRadius="50" />
+                                                                    <RoundRectangle CornerRadius="10" />
                                                                 </Border.StrokeShape>
 
-                                                                <!-- Circular Icon -->
-                                                                <Image Source="pt5"
-                                                                       WidthRequest="55"
-                                                                       HeightRequest="55" />
+                                                                <StackLayout>
+                                                                    <Image Source="pt2"
+                                                                           Aspect="Fill"
+                                                                           VerticalOptions="FillAndExpand" />
+                                                                </StackLayout>
                                                             </Border>
 
-                                                        </AbsoluteLayout>
+                                                            <BoxView Color="White"
+                                                                     WidthRequest="1.1"
+                                                                     HeightRequest="180"
+                                                                     Grid.Column="1" />
 
-                                                        <HorizontalStackLayout Grid.Column="1"
-                                                                               Spacing="10">
-                                                            <BoxView Color="Black"
-                                                                     WidthRequest="1.5"
-                                                                     HeightRequest="170" />
+                                                            <StackLayout Grid.Column="2"
+                                                                         Padding="5"
+                                                                         VerticalOptions="FillAndExpand">
 
-                                                            <StackLayout VerticalOptions="FillAndExpand"
-                                                                         Padding="0, 15">
-                                                                <Label Text="{Binding Name}"
-                                                                       TextColor="White" />
-                                                                <Label Text="Nguyen Van A"
-                                                                       TextColor="White" />
-                                                                <HorizontalStackLayout VerticalOptions="EndAndExpand"
-                                                                                       Spacing="10">
-                                                                    <Button Text="Chi tiết"
+                                                                <!-- Ensure it fills the parent space -->
+                                                                <StackLayout Spacing="10">
+                                                                    <StackLayout Spacing="2">
+                                                                        <Label Text="{Binding Name}"
+                                                                               TextColor="White"
+                                                                               VerticalOptions="Start"
+                                                                               FontAttributes="Bold"
+                                                                               FontSize="12" />
+
+                                                                        <Label Text="{Binding Occupation}"
+                                                                               TextColor="White"
+                                                                               VerticalOptions="Start"
+                                                                               FontSize="10" />
+                                                                    </StackLayout>
+
+                                                                    <StackLayout Spacing="5">
+                                                                        <Label Text="{Binding Email}"
+                                                                               TextColor="White"
+                                                                               VerticalOptions="Start"
+                                                                               FontSize="10" />
+
+                                                                        <Label Text="{Binding DoB}"
+                                                                               TextColor="White"
+                                                                               VerticalOptions="Start"
+                                                                               FontSize="10" />
+
+                                                                        <Label Text="{Binding totalTime}"
+                                                                               TextColor="White"
+                                                                               VerticalOptions="Start"
+                                                                               FontSize="10" />
+                                                                    </StackLayout>
+
+                                                                </StackLayout>
+
+                                                                <FlexLayout VerticalOptions="EndAndExpand"
+                                                                            HorizontalOptions="CenterAndExpand">
+
+                                                                    <Border WidthRequest="40"
                                                                             HeightRequest="40"
-                                                                            HorizontalOptions="FillAndExpand"
-                                                                            BackgroundColor="White"
-                                                                            TextColor="Black"
-                                                                            CornerRadius="20" />
+                                                                            Margin="5, 0, 5, 0"
+                                                                            BackgroundColor="Transparent"
+                                                                            Stroke="Transparent">
+                                                                        <Border.StrokeShape>
+                                                                            <RoundRectangle CornerRadius="50" />
+                                                                        </Border.StrokeShape>
+                                                                        <ImageButton Source="information_icon"
+                                                                                     BackgroundColor="White"
+                                                                                     WidthRequest="40"
+                                                                                     HeightRequest="40"
+                                                                                     Pressed="ImageButton_Pressed"
+                                                                                     Released="ImageButton_Released" />
+                                                                    </Border>
 
-                                                                    <Button Text="Đồng ý"
+                                                                    <Border WidthRequest="40"
                                                                             HeightRequest="40"
-                                                                            HorizontalOptions="FillAndExpand"
-                                                                            BackgroundColor="White"
-                                                                            TextColor="Black"
-                                                                            CornerRadius="20" />
+                                                                            Margin="5, 0, 5, 0"
+                                                                            BackgroundColor="Transparent"
+                                                                            Stroke="Transparent">
+                                                                        <Border.StrokeShape>
+                                                                            <RoundRectangle CornerRadius="50" />
+                                                                        </Border.StrokeShape>
+                                                                        <ImageButton Source="accept_icon"
+                                                                                     BackgroundColor="White"
+                                                                                     WidthRequest="40"
+                                                                                     HeightRequest="40"
+                                                                                     Pressed="ImageButton_Pressed"
+                                                                                     Released="ImageButton_Released" />
+                                                                    </Border>
 
-                                                                    <Button Text="Từ chối"
+                                                                    <Border WidthRequest="40"
                                                                             HeightRequest="40"
-                                                                            HorizontalOptions="FillAndExpand"
-                                                                            BackgroundColor="White"
-                                                                            TextColor="Black"
-                                                                            CornerRadius="20" />
-                                                                </HorizontalStackLayout>
-
+                                                                            Margin="5, 0, 5, 0"
+                                                                            BackgroundColor="Transparent"
+                                                                            Stroke="Transparent">
+                                                                        <Border.StrokeShape>
+                                                                            <RoundRectangle CornerRadius="50" />
+                                                                        </Border.StrokeShape>
+                                                                        <ImageButton Source="cancel_icon"
+                                                                                     BackgroundColor="White"
+                                                                                     WidthRequest="40"
+                                                                                     HeightRequest="40"
+                                                                                     Pressed="ImageButton_Pressed"
+                                                                                     Released="ImageButton_Released" />
+                                                                    </Border>
+                                                                </FlexLayout>
                                                             </StackLayout>
-                                                        </HorizontalStackLayout>
-                                                    </Grid>
+                                                        </Grid>
+                                                    </Border>
+                                                </StackLayout>
+
+                                                <!-- Circular Icon -->
+                                                <Border WidthRequest="50"
+                                                        HeightRequest="50"
+                                                        Stroke="#479905">
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="50" />
+                                                    </Border.StrokeShape>
+
+                                                    <Image Source="pt5"
+                                                           WidthRequest="55"
+                                                           HeightRequest="55" />
                                                 </Border>
-                                            </StackLayout>
+                                            </AbsoluteLayout>
                                         </ViewCell>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
