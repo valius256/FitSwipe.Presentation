@@ -13,8 +13,15 @@
        xmlns:feedbackPages="clr-namespace:FitSwipe.Mobile.Pages.FeedbackPages"
        xmlns:payingpages="clr-namespace:FitSwipe.Mobile.Pages.PayingPages"
        Shell.FlyoutBehavior="Disabled"
+       xmlns:payingpages="clr-namespace:FitSwipe.Mobile.Pages.PayingPages"
+       Shell.FlyoutBehavior="Disabled"
        Title="FitSwipe.Mobile">
 
+
+
+
+    <ShellContent ContentTemplate="{DataTemplate homePages:PTList}"
+                  Route="PTList" />
     <ShellContent ContentTemplate="{DataTemplate trainingPages:TrainingPage}"
                   Route="TrainingPage" />
     <ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"
@@ -35,10 +42,10 @@
               Route="SetupProfile" />
 
 
-    <ShellContent ContentTemplate="{DataTemplate homePages:PTList}"
-                  Route="PTList" />
     <ShellContent ContentTemplate="{DataTemplate trainingPages:PTScheduleBookingView}"
                   Route="PTScheduleBooking" />
+    <ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"
+           Route="SlotDetail" />
     <ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"
            Route="SlotDetail" />
     <ShellContent ContentTemplate="{DataTemplate chatPages:ChatPage}"
@@ -47,4 +54,8 @@
                   Route="TraineeProfilePage" />
     <ShellContent ContentTemplate="{DataTemplate homePages:SwipeMatchView}"
                   Route="SwipeMatch" />
+    <ShellContent ContentTemplate="{DataTemplate payingpages:PayingCheck}"
+                 Route="PayingCheck" />
+    <ShellContent ContentTemplate="{DataTemplate payingpages:PayingView}"
+                  Route="PayingView" />
 </Shell>
