@@ -1,6 +1,7 @@
 ﻿using FitSwipe.Shared.Dtos.Tags;
 using FitSwipe.Shared.Dtos.Users;
 using FitSwipe.Shared.Enums;
+using FitSwipe.Shared.Utils;
 using System.Collections.ObjectModel;
 
 namespace FitSwipe.Mobile.Pages.SetupPages;
@@ -10,10 +11,20 @@ public partial class SetupProfileStep4Page : ContentPage
     private UpdateUserProfileDto _currentUser;
     private string _mainColor1 = "LimeGreen";
     private string _mainColor2 = "LightGreen";
-    public ObservableCollection<GetTagDto> Tags { get; set; } = new ObservableCollection<GetTagDto>();
+    private string _question = "";
+    private ObservableCollection<GetTagDto> _tags = new ObservableCollection<GetTagDto>();
 
     public List<Guid> AlreadyTags;
     public List<Guid> NewTags = [];
+    public ObservableCollection<GetTagDto> Tags
+    {
+        get => _tags;
+        set
+        {
+            _tags = value;
+            OnPropertyChanged(nameof(Tags));
+        }
+    }
     public string MainColor1
     {
         get => _mainColor1;
@@ -32,39 +43,74 @@ public partial class SetupProfileStep4Page : ContentPage
             OnPropertyChanged(nameof(MainColor2));
         }
     }
+    public string Question
+    {
+        get => _question;
+        set
+        {
+            _question = value;
+            OnPropertyChanged(nameof(Question));
+        }
+    }
     public SetupProfileStep4Page(UpdateUserProfileDto updateUserProfileModel, List<Guid> alreadyTags)
     {
         InitializeComponent();
         FetchHobbyTags();
         _currentUser = updateUserProfileModel;
         AlreadyTags = alreadyTags;
+        if (_currentUser.Role == Role.PT)
+        {
+            MainColor1 = "#2E3192";
+            MainColor2 = "#1f00b8";
+            Question = "Chuyên môn của bạn gồm những gì?";
+        } else
+        {
+            Question = "Loại hình luyện tập yêu thích của bạn là gì?";
+        }
+
         BindingContext = this;
     }
-    private void FetchHobbyTags()
+    private async void FetchHobbyTags()
     {
         //Test data, replace by fetching in the future
-        Tags = new ObservableCollection<GetTagDto>()
+        pageContent.IsVisible = false;
+        loadingDialog.IsVisible = true;
+        try
         {
-            new GetTagDto {Id = new Guid(), Name = "Tập sức mạnh", TagImage="Images/dotnet_bot.png",TagType = TagType.TrainingType},
-            new GetTagDto {Id = new Guid(), Name = "Yoga", TagImage="Images/dotnet_bot.png",TagType = TagType.TrainingType},
-            new GetTagDto {Id = new Guid(), Name = "Calisthenic", TagImage="Images/dotnet_bot.png",TagType = TagType.TrainingType},
-            new GetTagDto {Id = new Guid(), Name = "Cardio", TagImage="Images/dotnet_bot.png",TagType = TagType.TrainingType},
-            new GetTagDto {Id = new Guid(), Name = "HIIT", TagImage="Images/dotnet_bot.png",TagType = TagType.TrainingType},
-        };
-        foreach (var tag in Tags)
-        {
-            tag.DisplaySize = Math.Min(20, 20 / Math.Max(1, tag.Name.Length) * 20);
+            var tags = await Fetcher.GetAsync<ObservableCollection<GetTagDto>>("api/tags?TagTypes=2");
+            if (tags != null)
+            {
+                Tags = tags;
+                foreach (var tag in Tags)
+                {
+                    tag.DisplaySize = Math.Min(20, 20 / Math.Max(1, tag.Name.Length) * 20);
+                }
+            }
         }
+        catch (Exception)
+        {
+            await DisplayAlert("Lỗi", "Có lỗi đã xảy ra! Vui lòng thử lại sau", "OK");
+        }
+        pageContent.IsVisible = true;
+        loadingDialog.IsVisible = false;
     }
     private void btnPrev_Clicked(object sender, EventArgs e)
     {
         Navigation.PopModalAsync();
     }
 
-    private void btnNext_Clicked(object sender, EventArgs e)
+    private async void btnNext_Clicked(object sender, EventArgs e)
     {
-        NewTags.ForEach(t => AlreadyTags.Add(t));
-        Navigation.PushModalAsync(new SetupProfileStep5Page(_currentUser, AlreadyTags));
+        if (NewTags.Count > 0)
+        {
+            NewTags.ForEach(t => AlreadyTags.Add(t));
+            await Navigation.PushModalAsync(new SetupProfileStep5Page(_currentUser, AlreadyTags));
+        }
+        else
+        {
+            await DisplayAlert("Thiếu thông tin", "Hãy vui lòng chọn ít nhất 1 thẻ", "OK");
+        }
+        
     }
 
     private void tagFrame_Tapped(object sender, TappedEventArgs e)
