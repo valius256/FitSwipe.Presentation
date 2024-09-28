@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using FitSwipe.Mobile.MockData;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 namespace FitSwipe.Mobile.ViewModels
 {
@@ -20,7 +19,6 @@ namespace FitSwipe.Mobile.ViewModels
         public bool IsFirstTabVisible => ActiveTab == 0;
         public bool IsSecondTabVisible => ActiveTab == 1;
 
-        public Command<int> SelectTabCommand { get; }
         public string SelectedFilter
         {
             get => _selectedFilter;
@@ -32,11 +30,14 @@ namespace FitSwipe.Mobile.ViewModels
             get => _activeTab;
             set
             {
-                SetProperty(ref _activeTab, value);
-                OnPropertyChanged(nameof(IsFirstTabVisible));
-                OnPropertyChanged(nameof(IsSecondTabVisible));
+                if (SetProperty(ref _activeTab, value))
+                {
+                    OnPropertyChanged(nameof(IsFirstTabVisible));
+                    OnPropertyChanged(nameof(IsSecondTabVisible));
+                }
             }
         }
+
 
         public ObservableCollection<string> FilterOptions { get; } = new ObservableCollection<string>
         {
@@ -51,7 +52,7 @@ namespace FitSwipe.Mobile.ViewModels
                 {
                     new User
                     {
-                        Name = "Nguyễn Thanh Phong",
+                        Name = "Nguyễn Thanh Phong Phong",
                         Email = "nthanhphong941@gmail.com"
                     },
 
@@ -59,16 +60,40 @@ namespace FitSwipe.Mobile.ViewModels
                     {
                         Name = "Nguyễn Văn A",
                         Email = "nguynthanhfont@gmail.com"
+                    },
+                    new User
+                    {
+                        Name = "Nguyễn Văn B",
+                        Email = "nguynthanhfontt@gmail.com"
+                    },
+                    new User
+                    {
+                        Name = "Nguyễn Văn C",
+                        Email = "nguynthanhfontt@gmail.com"
+                    },
+                    new User
+                    {
+                        Name = "Nguyễn Văn D",
+                        Email = "nguynthanhfontt@gmail.com"
+                    },
+                    new User
+                    {
+                        Name = "Nguyễn Văn E",
+                        Email = "nguynthanhfontt@gmail.com"
                     }
+
                 };
-            ActiveTab = 0; // Default to first tab
-            SelectTabCommand = new Command<int>(SelectTab);
+            ActiveTab = 0;
         }
 
-        private void SelectTab (int tab)
+        // RelayCommand to select tabs
+        [RelayCommand]
+        private void SelectTab (object parameter)
         {
-            Debug.WriteLine($"Command executed for tab: {tab}");
-            ActiveTab = tab;
+            if (int.TryParse(parameter?.ToString(), out int tab))
+            {
+                ActiveTab = tab;
+            }
         }
     }
 }
