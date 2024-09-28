@@ -68,6 +68,8 @@
 	  <None Remove="Resources\Images\Icons\chat_blue.png" />
 	  <None Remove="Resources\Images\Icons\chat_green.png" />
 	  <None Remove="Resources\Images\Icons\chat_white.png" />
+	  <None Remove="Resources\Images\Icons\clock_icon.png" />
+	  <None Remove="Resources\Images\Icons\dob_icon.png" />
 	  <None Remove="Resources\Images\Icons\dumbell_blue.png" />
 	  <None Remove="Resources\Images\Icons\dumbell_green.png" />
 	  <None Remove="Resources\Images\Icons\dumbell_white.png" />
@@ -99,6 +101,8 @@
 	  <MauiImage Include="Resources\Images\Icons\chat_white.png" />
 	  <MauiImage Include="Resources\Images\Icons\chat_green.png" />
 	  <MauiImage Include="Resources\Images\Icons\check_with_no_background.png" />
+	  <MauiImage Include="Resources\Images\Icons\clock_icon.png" />
+	  <MauiImage Include="Resources\Images\Icons\dob_icon.png" />
 	  <MauiImage Include="Resources\Images\Icons\dumbell_blue.png" />
 	  <MauiImage Include="Resources\Images\Icons\dumbell_green.png" />
 	  <MauiImage Include="Resources\Images\Icons\dumbell_white.png" />

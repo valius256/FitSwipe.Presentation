@@ -5,113 +5,113 @@ using System.Collections.ObjectModel;
 
 namespace FitSwipe.Mobile.ViewModels
 {
-    public partial class TrainingPageViewModel : ObservableObject
+  public partial class TrainingPageViewModel : ObservableObject
+  {
+    [ObservableProperty]
+    private ObservableCollection<User> userList = new();
+
+    [ObservableProperty]
+    private User user = new();
+
+    private string _selectedFilter;
+    private int _activeTab;
+
+    public bool IsFirstTabVisible => ActiveTab == 0;
+    public bool IsSecondTabVisible => ActiveTab == 1;
+
+    public string SelectedFilter
     {
-        [ObservableProperty]
-        private ObservableCollection<User> userList = new();
+      get => _selectedFilter;
+      set => SetProperty(ref _selectedFilter, value);
+    }
 
-        [ObservableProperty]
-        private User user = new();
-
-        private string _selectedFilter;
-        private int _activeTab;
-
-        public bool IsFirstTabVisible => ActiveTab == 0;
-        public bool IsSecondTabVisible => ActiveTab == 1;
-
-        public string SelectedFilter
+    public int ActiveTab
+    {
+      get => _activeTab;
+      set
+      {
+        if (SetProperty(ref _activeTab, value))
         {
-            get => _selectedFilter;
-            set => SetProperty(ref _selectedFilter, value);
+          OnPropertyChanged(nameof(IsFirstTabVisible));
+          OnPropertyChanged(nameof(IsSecondTabVisible));
         }
-
-        public int ActiveTab
-        {
-            get => _activeTab;
-            set
-            {
-                if (SetProperty(ref _activeTab, value))
-                {
-                    OnPropertyChanged(nameof(IsFirstTabVisible));
-                    OnPropertyChanged(nameof(IsSecondTabVisible));
-                }
-            }
-        }
+      }
+    }
 
 
-        public ObservableCollection<string> FilterOptions { get; } = new ObservableCollection<string>
+    public ObservableCollection<string> FilterOptions { get; } = new ObservableCollection<string>
         {
             "Ngày gần đây nhất",
             "Tên người tập",
             "Loại hình tập luyện"
         };
 
-        public TrainingPageViewModel ()
-        {
-            userList = new ObservableCollection<User>
+    public TrainingPageViewModel ()
+    {
+      userList = new ObservableCollection<User>
                 {
                     new User
                     {
                         Name = "Nguyễn Thanh Phong Phong",
                         Occupation = "Sinh viên",
-                        Email = "nguynthanhfont@gmail.com",
-                        DoB = "01/01/2000",
-                        totalTime = "10 giờ"
+                        DoB = "21/09/2003",
+                        DurationPerSection = 21,
+                        PracticeTime = 20
                     },
 
                     new User
                     {
                         Name = "Nguyễn Văn A",
                         Occupation = "Sinh viên",
-                        Email = "nguynthanhfont@gmail.com",
-                        DoB = "01/01/2000",
-                        totalTime = "10 giờ"
+                        DoB = "21/09/2003",
+                        DurationPerSection = 21,
+                        PracticeTime = 20
                     },
                     new User
                     {
                         Name = "Nguyễn Văn B",
                         Occupation = "Nhân viên văn phòng",
-                        Email = "nguynthanhfontt@gmail.com",
-                        DoB = "01/01/2000",
-                        totalTime = "10 giờ"
+                        DoB = "21/09/2003",
+                        DurationPerSection = 21,
+                        PracticeTime = 20
                     },
                     new User
                     {
                         Name = "Nguyễn Văn C",
                         Occupation = "Nhân viên văn phòng",
-                        Email = "nguynthanhfontt@gmail.com",
-                        DoB = "01/01/2000",
-                        totalTime = "10 giờ"
+                        DoB = "21/09/2003",
+                        DurationPerSection = 21,
+                        PracticeTime = 20
                     },
                     new User
                     {
                         Name = "Nguyễn Văn D",
                         Occupation = "Nhân viên văn phòng",
-                        Email = "nguynthanhfontt@gmail.com",
-                        DoB = "01/01/2000",
-                        totalTime = "10 giờ"
+                        DoB = "21/09/2003",
+                        DurationPerSection = 21,
+                        PracticeTime = 20
                     },
                     new User
                     {
                         Name = "Nguyễn Văn E",
                         Occupation = "Nhân viên văn phòng",
-                        Email = "nguynthanhfontt@gmail.com",
-                        DoB = "01/01/2000",
-                        totalTime = "10 giờ"
+                        DoB = "21/09/2003",
+                        DurationPerSection = 21,
+                        PracticeTime = 20
                     }
 
                 };
-            ActiveTab = 0;
-        }
-
-        // RelayCommand to select tabs
-        [RelayCommand]
-        private void SelectTab (object parameter)
-        {
-            if (int.TryParse(parameter?.ToString(), out int tab))
-            {
-                ActiveTab = tab;
-            }
-        }
+      ActiveTab = 0;
     }
+
+    // RelayCommand to select tabs
+    [RelayCommand]
+    private void SelectTab (object parameter)
+    {
+      if (int.TryParse(parameter?.ToString(), out int tab))
+      {
+        ActiveTab = tab;
+      }
+    }
+  }
 }
