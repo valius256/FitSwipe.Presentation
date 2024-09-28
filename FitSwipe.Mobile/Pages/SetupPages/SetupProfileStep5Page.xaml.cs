@@ -110,10 +110,17 @@ public partial class SetupProfileStep5Page : ContentPage
         Navigation.PopModalAsync();
     }
 
-    private void btnNext_Clicked(object sender, EventArgs e)
+    private async void btnNext_Clicked(object sender, EventArgs e)
     {
-        NewTags.ForEach(t => AlreadyTags.Add(t));
-        Navigation.PushModalAsync(new SetupProfileStep6Page(_currentUser, AlreadyTags));
+        if (NewTags.Count > 0)
+        {
+            NewTags.ForEach(t => AlreadyTags.Add(t));
+            await Navigation.PushModalAsync(new SetupProfileStep6Page(_currentUser, AlreadyTags));
+        }
+        else
+        {
+            await DisplayAlert("Thiếu thông tin", "Hãy vui lòng chọn ít nhất 1 thẻ", "OK");
+        }
     }
 
     private void tagFrame_Tapped(object sender, TappedEventArgs e)

@@ -17,9 +17,9 @@
               AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                 AbsoluteLayout.LayoutFlags="All">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <!-- This will take only the required space -->
                 <RowDefinition Height="*" />
+                <!-- This will take only the required space -->
+                <RowDefinition Height="Auto" />
                 <!-- This will take the remaining space -->
             </Grid.RowDefinitions>
             <ScrollView Grid.Row="0">

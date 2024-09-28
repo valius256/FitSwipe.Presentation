@@ -68,7 +68,7 @@
                 <Label Text="FitSwipe"
                        HorizontalOptions="Center"
                        FontAttributes="Bold,Italic"
-                       WidthRequest="200"
+                       WidthRequest="250"
                        FontSize="50" />
 
                 <!-- Screen Title -->

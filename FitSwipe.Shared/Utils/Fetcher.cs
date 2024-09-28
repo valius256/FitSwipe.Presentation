@@ -83,5 +83,74 @@ namespace FitSwipe.Shared.Utils
                 throw;
             }
         }
+
+        public static async Task PutAsync<RequestType>(string url, RequestType body, string token = "")
+        {
+            try
+            {
+                // Send Put request
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                string json = JsonSerializer.Serialize(body);
+                // Create the content object for the PUT request (with UTF8 encoding and application/json content type)
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                await _httpClient.PutAsync(Constant.BaseUrl + url, content);
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine($"Request error: {e.Message}");
+                throw;
+            }
+            catch (JsonException e)
+            {
+                Console.WriteLine($"Serialization error: {e.Message}");
+                throw;
+            }
+        }
+        public static async Task PatchAsync<RequestType>(string url, RequestType body, string token = "")
+        {
+            try
+            {
+                // Send PATCH request
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                string json = JsonSerializer.Serialize(body);
+                // Create the content object for the PATCH request (with UTF8 encoding and application/json content type)
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                await _httpClient.PatchAsync(Constant.BaseUrl + url, content);
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine($"Request error: {e.Message}");
+                throw;
+            }
+            catch (JsonException e)
+            {
+                Console.WriteLine($"Serialization error: {e.Message}");
+                throw;
+            }
+        }
+        public static async Task DeleteAsync<RequestType>(string url, string token = "")
+        {
+            try
+            {
+                // Send DELETE request
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                await _httpClient.DeleteAsync(Constant.BaseUrl + url);
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine($"Request error: {e.Message}");
+                throw;
+            }
+            catch (JsonException e)
+            {
+                Console.WriteLine($"Serialization error: {e.Message}");
+                throw;
+            }
+        }
+
     }
 }
