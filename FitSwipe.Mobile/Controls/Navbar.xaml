@@ -42,7 +42,7 @@
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="50,50,50,50" />
                         </Border.StrokeShape>
-                        <Image Source="Images/back.png"
+                        <Image Source="home_black.png"
                                WidthRequest="30"
                                HeightRequest="30">
                         </Image>
@@ -72,7 +72,7 @@
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="50,50,50,50" />
                         </Border.StrokeShape>
-                        <Image Source="Images/back.png"
+                        <Image Source="chat_black.png"
                        WidthRequest="30"
                        HeightRequest="30">
                         </Image>
@@ -132,7 +132,7 @@
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="50,50,50,50" />
                         </Border.StrokeShape>
-                        <Image Source="Images/back.png"
+                        <Image Source="calendar_black.png"
                            WidthRequest="30"
                            HeightRequest="30">
                         </Image>

@@ -165,6 +165,9 @@
 	  <MauiXaml Update="Controls\Navbar.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Controls\NavbarPT.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Controls\StarRatingControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -222,19 +225,19 @@
 	  <MauiXaml Update="Pages\SetupPages\TrailerVideoView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\TrainingPages\BookSlotModal.xaml">
+	  <MauiXaml Update="Pages\TrainingPages\Trainee\BookSlotModal.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\TrainingPages\MyPTListPage.xaml">
+	  <MauiXaml Update="Pages\TrainingPages\Trainee\MyPTListPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\TrainingPages\PTScheduleBookingView.xaml">
+	  <MauiXaml Update="Pages\TrainingPages\Trainee\PTScheduleBookingView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\TrainingPages\SlotDetailPage.xaml">
+	  <MauiXaml Update="Pages\TrainingPages\Trainee\SlotDetailPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\TrainingPages\TrainingPage.xaml">
+	  <MauiXaml Update="Pages\TrainingPages\PT\TrainingPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Resources\Themes\PTTheme.xaml">

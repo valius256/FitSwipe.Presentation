@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using FitSwipe.Mobile.MockData;
+using FitSwipe.Shared.Dtos.Slots;
+using FitSwipe.Shared.Dtos.Trainings;
+using FitSwipe.Shared.Dtos.Users;
 using System.Collections.ObjectModel;
 
 namespace FitSwipe.Mobile.ViewModels
@@ -8,10 +10,8 @@ namespace FitSwipe.Mobile.ViewModels
   public partial class TrainingPageViewModel : ObservableObject
   {
     [ObservableProperty]
-    private ObservableCollection<User> userList = new();
+    private ObservableCollection<GetTrainingDetailDto> _userList = new();
 
-    [ObservableProperty]
-    private User user = new();
 
     private string _selectedFilter;
     private int _activeTab;
@@ -47,60 +47,60 @@ namespace FitSwipe.Mobile.ViewModels
 
     public TrainingPageViewModel ()
     {
-      userList = new ObservableCollection<User>
+            
+        _userList = new ObservableCollection<GetTrainingDetailDto>
+        {
+            new GetTrainingDetailDto
+            {
+                Trainee = new GetUserDto
                 {
-                    new User
-                    {
-                        Name = "Nguyễn Thanh Phong",
-                        Occupation = "Sinh viên",
-                        DoB = "21/09/2003",
-                        DurationPerSection = 21,
-                        PracticeTime = 20
-                    },
+                    UserName = "Nguyễn Thanh Phong",
+                    Job = "Sinh viên",
+                    DateOfBirth = new DateTime(2003,9,21)
+                },
+                Slots = new ObservableCollection<GetSlotDto>
+                {
+                    new GetSlotDto{StartTime = new DateTime(2024,11,1,7,0,0), EndTime = new DateTime(2024,11,1,9,0,0)},
+                    new GetSlotDto{StartTime = new DateTime(2024,11,2,7,0,0), EndTime = new DateTime(2024,11,2,9,0,0)},
+                    new GetSlotDto{StartTime = new DateTime(2024,11,30,7,0,0), EndTime = new DateTime(2024,11,30,9,0,0)}
+                }
 
-                    new User
-                    {
-                        Name = "Nguyễn Văn A",
-                        Occupation = "Sinh viên",
-                        DoB = "21/09/2003",
-                        DurationPerSection = 21,
-                        PracticeTime = 20
-                    },
-                    new User
-                    {
-                        Name = "Nguyễn Văn B",
-                        Occupation = "Nhân viên văn phòng",
-                        DoB = "21/09/2003",
-                        DurationPerSection = 21,
-                        PracticeTime = 20
-                    },
-                    new User
-                    {
-                        Name = "Nguyễn Văn C",
-                        Occupation = "Nhân viên văn phòng",
-                        DoB = "21/09/2003",
-                        DurationPerSection = 21,
-                        PracticeTime = 20
-                    },
-                    new User
-                    {
-                        Name = "Nguyễn Văn D",
-                        Occupation = "Nhân viên văn phòng",
-                        DoB = "21/09/2003",
-                        DurationPerSection = 21,
-                        PracticeTime = 20
-                    },
-                    new User
-                    {
-                        Name = "Nguyễn Văn E",
-                        Occupation = "Nhân viên văn phòng",
-                        DoB = "21/09/2003",
-                        DurationPerSection = 21,
-                        PracticeTime = 20
-                    }
+                
+            },
+            new GetTrainingDetailDto
+            {
 
-                };
-      ActiveTab = 0;
+                Trainee = new GetUserDto
+                {
+                    UserName = "Nguyễn Văn A",
+                    Job = "Sinh viên",
+                    DateOfBirth = new DateTime(2003,9,21)
+                },
+                Slots = new ObservableCollection<GetSlotDto>
+                {
+                    new GetSlotDto{StartTime = new DateTime(2024,11,1,7,0,0), EndTime = new DateTime(2024,11,1,9,0,0)},
+                    new GetSlotDto{StartTime = new DateTime(2024,11,2,7,0,0), EndTime = new DateTime(2024,11,2,9,0,0)},
+                    new GetSlotDto{StartTime = new DateTime(2024,11,30,7,0,0), EndTime = new DateTime(2024,11,30,9,0,0)}
+                }
+            },
+            new GetTrainingDetailDto
+            {
+                Trainee = new GetUserDto
+                {
+                    UserName = "Nguyễn Văn C",
+                    Job = "Nhân viên văn phòng",
+                    DateOfBirth = new DateTime(2003,9,21)
+                },
+                Slots = new ObservableCollection<GetSlotDto>
+                {
+                    new GetSlotDto{StartTime = new DateTime(2024,11,1,7,0,0), EndTime = new DateTime(2024,11,1,9,0,0)},
+                    new GetSlotDto{StartTime = new DateTime(2024,11,2,7,0,0), EndTime = new DateTime(2024,11,2,9,0,0)},
+                    new GetSlotDto{StartTime = new DateTime(2024,11,30,7,0,0), EndTime = new DateTime(2024,11,30,9,0,0)}
+                }
+            }
+
+        };
+        ActiveTab = 0;
     }
 
     // RelayCommand to select tabs

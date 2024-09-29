@@ -98,7 +98,7 @@ namespace FitSwipe.Mobile.Controls
 
         private void navTraining_Tapped(object sender, TappedEventArgs e)
         {
-            Shell.Current.GoToAsync("//TrainingPage");
+            Shell.Current.GoToAsync("//MyPTList");
 
         }
 

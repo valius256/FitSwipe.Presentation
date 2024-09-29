@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Controls.NavbarPT"
+             x:Name="NavbarPTView">
+    <AbsoluteLayout>
+        <ContentView AbsoluteLayout.LayoutBounds="0,0,1,1"
+                 AbsoluteLayout.LayoutFlags="All">
+            <VerticalStackLayout VerticalOptions="End"
+                             Padding="0,60,0,0">
+                <VerticalStackLayout.Background>
+                    <LinearGradientBrush StartPoint="0,1"
+                                     EndPoint="0,0">
+                        <GradientStop Color="#2E3191"
+                                  Offset="0.5" />
+                        <GradientStop Color="Transparent"
+                                  Offset="1.0" />
+                    </LinearGradientBrush>
+                </VerticalStackLayout.Background>
+                <BoxView HeightRequest="50"
+                     HorizontalOptions="Fill"
+                     BackgroundColor="White" />
+            </VerticalStackLayout>
+        </ContentView>
+        <FlexLayout JustifyContent="SpaceBetween"
+                AbsoluteLayout.LayoutBounds="0,1,1,AutoSize"
+                AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional"
+                BackgroundColor="Transparent">
+            <Frame HasShadow="False"
+               BorderColor="Transparent"
+               Padding="5"
+               VerticalOptions="End"
+               BackgroundColor="Transparent">
+                <VerticalStackLayout HorizontalOptions="Center"
+                                 BackgroundColor="Transparent">
+                    <Border WidthRequest="50"
+                        HeightRequest="50"
+                        Stroke="#2E3191"
+                        StrokeThickness="3"
+                        BackgroundColor="{Binding Source={x:Reference NavbarPTView}, Path=BackgroundTab1}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="50,50,50,50" />
+                        </Border.StrokeShape>
+                        <Image Source="home_black.png"
+                           WidthRequest="30"
+                           HeightRequest="30">
+                        </Image>
+                    </Border>
+                    <Label Text="Trang chủ"
+                       HorizontalTextAlignment="Center"
+                       TextColor="Black"
+                       FontSize="10"></Label>
+                </VerticalStackLayout>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer x:Name="navHome"
+                                      Tapped="navHome_Tapped"></TapGestureRecognizer>
+                </Frame.GestureRecognizers>
+            </Frame>
+            <Frame  HasShadow="False"
+                BorderColor="Transparent"
+                Padding="5"
+                VerticalOptions="End"
+                BackgroundColor="Transparent">
+                <VerticalStackLayout HorizontalOptions="Center"
+                                 BackgroundColor="Transparent">
+                    <Border WidthRequest="50"
+                        HeightRequest="50"
+                        Stroke="#2E3191"
+                        StrokeThickness="3"
+                        BackgroundColor="{Binding Source={x:Reference NavbarPTView}, Path=BackgroundTab2}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="50,50,50,50" />
+                        </Border.StrokeShape>
+                        <Image Source="chat_black.png"
+                   WidthRequest="30"
+                   HeightRequest="30">
+                        </Image>
+                    </Border>
+                    <Label Text="Chat"
+                       HorizontalTextAlignment="Center"
+                       TextColor="Black"
+                       FontSize="10"></Label>
+                </VerticalStackLayout>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer x:Name="navChat"
+                                      Tapped="navChat_Tapped"></TapGestureRecognizer>
+                </Frame.GestureRecognizers>
+            </Frame>
+            <Frame  HasShadow="False"
+                BorderColor="Transparent"
+                Padding="5"
+                VerticalOptions="End"
+                BackgroundColor="Transparent">
+                <VerticalStackLayout HorizontalOptions="Center"
+                                 BackgroundColor="Transparent">
+                    <Border WidthRequest="70"
+                        HeightRequest="70"
+                        Stroke="#2E3191"
+                        StrokeThickness="3"
+                        BackgroundColor="{Binding Source={x:Reference NavbarPTView}, Path=BackgroundTab3}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="50,50,50,50" />
+                        </Border.StrokeShape>
+                        <Image Source="Images/dumbell_black.png"
+                           WidthRequest="50"
+                           HeightRequest="50">
+                        </Image>
+                    </Border>
+                    <Label Text="Quản lý buổi tập"
+                       HorizontalTextAlignment="Center"
+                       TextColor="Black"
+                       FontSize="10"></Label>
+                </VerticalStackLayout>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer x:Name="navTraining"
+                                      Tapped="navTraining_Tapped"></TapGestureRecognizer>
+                </Frame.GestureRecognizers>
+            </Frame>
+            <Frame  HasShadow="False"
+                BorderColor="Transparent"
+                Padding="5"
+                VerticalOptions="End"
+                BackgroundColor="Transparent">
+                <VerticalStackLayout HorizontalOptions="Center"
+                                 BackgroundColor="Transparent">
+                    <Border WidthRequest="50"
+                        HeightRequest="50"
+                        Stroke="#2E3191"
+                        StrokeThickness="3"
+                        BackgroundColor="{Binding Source={x:Reference NavbarPTView}, Path=BackgroundTab4}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="50,50,50,50" />
+                        </Border.StrokeShape>
+                        <Image Source="calendar_black.png"
+                       WidthRequest="30"
+                       HeightRequest="30">
+                        </Image>
+                    </Border>
+                    <Label Text="Lịch trình"
+                       HorizontalTextAlignment="Center"
+                       TextColor="Black"
+                       FontSize="10"></Label>
+                </VerticalStackLayout>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer x:Name="navSchedule"
+                                      Tapped="navSchedule_Tapped"></TapGestureRecognizer>
+                </Frame.GestureRecognizers>
+            </Frame>
+            <Frame  HasShadow="False"
+                BorderColor="Transparent"
+                Padding="5"
+                VerticalOptions="End"
+                BackgroundColor="Transparent">
+                <VerticalStackLayout HorizontalOptions="Center"
+                                 BackgroundColor="Transparent">
+                    <Border WidthRequest="50"
+                        HeightRequest="50"
+                        Stroke="#2E3191"
+                        StrokeThickness="3"
+                        BackgroundColor="{Binding Source={x:Reference NavbarPTView}, Path=BackgroundTab5}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="50,50,50,50" />
+                        </Border.StrokeShape>
+                        <Image Source="Images/profile.png"
+                           WidthRequest="30"
+                           HeightRequest="30">
+                        </Image>
+                    </Border>
+                    <Label Text="Tôi"
+                       HorizontalTextAlignment="Center"
+                       TextColor="Black"
+                       FontSize="10"></Label>
+                </VerticalStackLayout>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer x:Name="navProfile"
+                                      Tapped="navProfile_Tapped"></TapGestureRecognizer>
+                </Frame.GestureRecognizers>
+            </Frame>
+        </FlexLayout>
+    </AbsoluteLayout>
+</ContentView>
