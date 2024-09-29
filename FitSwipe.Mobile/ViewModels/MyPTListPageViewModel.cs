@@ -1,6 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FitSwipe.Mobile.MockData;
+using FitSwipe.Shared.Dtos.Slots;
+using FitSwipe.Shared.Dtos.Tags;
+using FitSwipe.Shared.Dtos.Trainings;
+using FitSwipe.Shared.Dtos.Users;
+using FitSwipe.Shared.Enums;
 using System.Collections.ObjectModel;
 
 namespace FitSwipe.Mobile.ViewModels
@@ -8,10 +13,7 @@ namespace FitSwipe.Mobile.ViewModels
   public partial class MyPTListPageViewModel : ObservableObject
   {
     [ObservableProperty]
-    private ObservableCollection<User> userList = new();
-
-    [ObservableProperty]
-    private User user = new();
+    private ObservableCollection<GetMatchedPTDto> _userList = new();
 
     private string _selectedFilter;
     private int _activeTab;
@@ -44,61 +46,84 @@ namespace FitSwipe.Mobile.ViewModels
 
     public MyPTListPageViewModel ()
     {
-      userList = new ObservableCollection<User>
+        var tags = new ObservableCollection<GetTagDto>
+        {
+            new GetTagDto{Name = "Đá bóng", TagType = TagType.Hobby},
+            new GetTagDto{Name = "Đá banh", TagType = TagType.Hobby},
+            new GetTagDto{Name = "Bóng chuyền", TagType = TagType.Hobby},
+            new GetTagDto{Name = "Bóng rổ", TagType = TagType.Hobby},
+            new GetTagDto{Name = "Cardio", TagType = TagType.TrainingType},
+            new GetTagDto{Name = "Yoga", TagType = TagType.TrainingType},
+        };
+
+        _userList = new ObservableCollection<GetMatchedPTDto>
+        {
+            new GetMatchedPTDto
+            {
+                PT = new GetUserWithTagDto
                 {
-                    new User
-                    {
-                        //Name = "Nguyễn Thanh Phong Phong Phong Phong Phong",
-                        Name = "Nguyễn Thanh Phong",
-                        Occupation = "Sinh viên",
-                        DoB = "21/09/2003",
-                        DurationPerSection = 21,
-                        PracticeTime = 20
-                    },
+                    UserName = "Nguyễn Thanh Phong",
+                    Ward = "Phướng 1",
+                    District = "Quận 1",
+                    City = "TPHCM",
+                    Bio = "*Some interesting and inspiring speech*",
+                    DateOfBirth = new DateTime(2003,9,21),
+                    AvatarUrl = "pt2",
+                    Tags = tags
+                },
+                Slots = new ObservableCollection<GetSlotDto>
+                {
+                    new GetSlotDto{StartTime = new DateTime(2024,11,1,7,0,0), EndTime = new DateTime(2024,11,1,9,0,0)},
+                    new GetSlotDto{StartTime = new DateTime(2024,11,2,7,0,0), EndTime = new DateTime(2024,11,2,9,0,0)},
+                    new GetSlotDto{StartTime = new DateTime(2024,11,30,7,0,0), EndTime = new DateTime(2024,11,30,9,0,0)}
+                }
 
-                    new User
-                    {
-                        Name = "Nguyễn Văn A",
-                        Occupation = "Sinh viên",
-                        DoB = "21/09/2003",
-                        DurationPerSection = 21,
-                        PracticeTime = 20
-                    },
-                    new User
-                    {
-                        Name = "Nguyễn Văn B",
-                        Occupation = "Nhân viên văn phòng",
-                        DoB = "21/09/2003",
-                        DurationPerSection = 21,
-                        PracticeTime = 20
-                    },
-                    new User
-                    {
-                        Name = "Nguyễn Văn C",
-                        Occupation = "Nhân viên văn phòng",
-                        DoB = "21/09/2003",
-                        DurationPerSection = 21,
-                        PracticeTime = 20
-                    },
-                    new User
-                    {
-                        Name = "Nguyễn Văn D",
-                        Occupation = "Nhân viên văn phòng",
-                        DoB = "21/09/2003",
-                        DurationPerSection = 21,
-                        PracticeTime = 20
-                    },
-                    new User
-                    {
-                        Name = "Nguyễn Văn E",
-                        Occupation = "Nhân viên văn phòng",
-                        DoB = "21/09/2003",
-                        DurationPerSection = 21,
-                        PracticeTime = 20
-                    }
 
-                };
-      ActiveTab = 0;
+            },
+            new GetMatchedPTDto
+            {
+
+                PT = new GetUserWithTagDto
+                {
+                    UserName = "Nguyễn Văn A",
+                    Ward = "Phướng 1",
+                    District = "Quận 1",
+                    City = "TPHCM",
+                    Bio = "*Some interesting and inspiring speech*",
+                    AvatarUrl = "pt1",
+                    DateOfBirth = new DateTime(2003,9,21),
+                    Tags = tags
+                },
+                Slots = new ObservableCollection<GetSlotDto>
+                {
+                    new GetSlotDto{StartTime = new DateTime(2024,11,1,7,0,0), EndTime = new DateTime(2024,11,1,9,0,0)},
+                    new GetSlotDto{StartTime = new DateTime(2024,11,2,7,0,0), EndTime = new DateTime(2024,11,2,9,0,0)},
+                    new GetSlotDto{StartTime = new DateTime(2024,11,30,7,0,0), EndTime = new DateTime(2024,11,30,9,0,0)}
+                }
+            },
+            new GetMatchedPTDto
+            {
+                PT = new GetUserWithTagDto
+                {
+                    UserName = "Nguyễn Văn C",
+                    Ward = "Phướng 1",
+                    District = "Quận 1",
+                    City = "TPHCM",
+                    Bio = "*Some interesting and inspiring speech*",
+                    DateOfBirth = new DateTime(2003,9,21),
+                    AvatarUrl = "pt3",
+                    Tags = tags
+                },
+                Slots = new ObservableCollection<GetSlotDto>
+                {
+                    new GetSlotDto{StartTime = new DateTime(2024,11,1,7,0,0), EndTime = new DateTime(2024,11,1,9,0,0)},
+                    new GetSlotDto{StartTime = new DateTime(2024,11,2,7,0,0), EndTime = new DateTime(2024,11,2,9,0,0)},
+                    new GetSlotDto{StartTime = new DateTime(2024,11,30,7,0,0), EndTime = new DateTime(2024,11,30,9,0,0)}
+                }
+            }
+
+        };
+        ActiveTab = 0;
     }
 
     [RelayCommand]

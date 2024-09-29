@@ -15,16 +15,6 @@
        Shell.FlyoutBehavior="Disabled"
        Title="FitSwipe.Mobile">
 
-    <ShellContent ContentTemplate="{DataTemplate trainingPages:TrainingPage}"
-                Route="TrainingPage" />
-    <ShellContent ContentTemplate="{DataTemplate trainingPages:MyPTListPage}"
-                Route="MyPTList" />
-
-  <ShellContent ContentTemplate="{DataTemplate homePages:PTList}"
-                Route="PTList" />
-  <ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"
-                Route="SlotDetail" />
-
   <ShellContent ContentTemplate="{DataTemplate pages:StartedView}"
                 Route="Started" />
   <ShellContent ContentTemplate="{DataTemplate pages:TrailerVideoView}"
@@ -36,11 +26,16 @@
                 Route="SignIn" />
   <ShellContent ContentTemplate="{DataTemplate pages:SignUpView}"
                 Route="SignUp" />
-  <ShellContent ContentTemplate="{DataTemplate setupPages:SetupProfilePage}"
+    <ShellContent ContentTemplate="{DataTemplate setupPages:SetupProfilePage}"
                 Route="SetupProfile" />
+    <ShellContent ContentTemplate="{DataTemplate trainingPages:MyPTListPage}"
+                Route="MyPTList" />
 
-
-  <ShellContent ContentTemplate="{DataTemplate trainingPages:PTScheduleBookingView}"
+    <ShellContent ContentTemplate="{DataTemplate homePages:PTList}"
+                Route="PTList" />
+    <ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"
+                Route="SlotDetail" />
+    <ShellContent ContentTemplate="{DataTemplate trainingPages:PTScheduleBookingView}"
                 Route="PTScheduleBooking" />
   <ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"
                 Route="SlotDetail" />
@@ -58,4 +53,6 @@
                 Route="PayingCheck" />
   <ShellContent ContentTemplate="{DataTemplate payingpages:PayingView}"
                 Route="PayingView" />
+    <ShellContent ContentTemplate="{DataTemplate trainingPages:TrainingPage}"
+                Route="TrainingPage" />
 </Shell>

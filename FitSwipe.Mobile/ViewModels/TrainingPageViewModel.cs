@@ -56,6 +56,7 @@ namespace FitSwipe.Mobile.ViewModels
                 {
                     UserName = "Nguyễn Thanh Phong",
                     Job = "Sinh viên",
+                    AvatarUrl = "pt3.png",
                     DateOfBirth = new DateTime(2003,9,21)
                 },
                 Slots = new ObservableCollection<GetSlotDto>
@@ -74,6 +75,7 @@ namespace FitSwipe.Mobile.ViewModels
                 {
                     UserName = "Nguyễn Văn A",
                     Job = "Sinh viên",
+                    AvatarUrl = "pt1.png",
                     DateOfBirth = new DateTime(2003,9,21)
                 },
                 Slots = new ObservableCollection<GetSlotDto>
@@ -89,6 +91,7 @@ namespace FitSwipe.Mobile.ViewModels
                 {
                     UserName = "Nguyễn Văn C",
                     Job = "Nhân viên văn phòng",
+                    AvatarUrl = "pt2",
                     DateOfBirth = new DateTime(2003,9,21)
                 },
                 Slots = new ObservableCollection<GetSlotDto>
