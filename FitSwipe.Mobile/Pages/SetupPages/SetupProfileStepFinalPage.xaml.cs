@@ -1,4 +1,5 @@
 ﻿using Firebase.Auth;
+using FitSwipe.Mobile.Utils;
 using FitSwipe.Shared.Dtos.Tags;
 using FitSwipe.Shared.Dtos.Users;
 using FitSwipe.Shared.Enums;
@@ -14,6 +15,7 @@ public partial class SetupProfileStepFinalPage : ContentPage
     private string _question = "";
 
     private UpdateUserProfileDto _updateUserProfileDto;
+    private string? _degreeUrl;
     private List<Guid> _selectedTags;
     public string MainColor1
     {
@@ -42,11 +44,12 @@ public partial class SetupProfileStepFinalPage : ContentPage
             OnPropertyChanged(nameof(Question));
         }
     }
-    public SetupProfileStepFinalPage(UpdateUserProfileDto updateUserProfileDto, List<Guid> selectedTags)
+    public SetupProfileStepFinalPage(UpdateUserProfileDto updateUserProfileDto, List<Guid> selectedTags, string? degreeUrl = null)
 	{
 		InitializeComponent();
         _updateUserProfileDto = updateUserProfileDto; 
         _selectedTags = selectedTags;
+        _degreeUrl = degreeUrl;
         if (_updateUserProfileDto.Role == Role.PT)
         {
             MainColor1 = "#2E3192";
@@ -70,7 +73,11 @@ public partial class SetupProfileStepFinalPage : ContentPage
                 NewTagIds = _selectedTags
             };
             await Fetcher.PutAsync("api/tags/upsert-user-tags", requestTags, token ?? string.Empty);
-
+            //Update PT degree
+            if (_degreeUrl != null)
+            {
+                await Fetcher.PatchAsync("api/users/update-degree", new UpdateImageUrlDto { Url = _degreeUrl }, token ?? string.Empty);
+            }
 
             while (Shell.Current.Navigation.ModalStack.Count > 0)
             {
