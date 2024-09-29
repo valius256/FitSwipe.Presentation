@@ -8,6 +8,7 @@ public partial class SignUpView : ContentPage
     public SignUpView (SignUpViewModel viewModel)
     {
         InitializeComponent();
+        viewModel.LoadingDialog = loadingDialog;
         BindingContext = viewModel; // Bind to ViewModel
     }
 
@@ -24,6 +25,17 @@ public partial class SignUpView : ContentPage
         if (e.Value)
         {
             ((SignUpViewModel)BindingContext).SelectedRole = "trainee";
+        }
+    }
+
+    private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        if (e.Value)
+        {
+            ((SignUpViewModel)BindingContext).IsAgreedWithTos = true;
+        } else
+        {
+            ((SignUpViewModel)BindingContext).IsAgreedWithTos = false;
         }
     }
 }

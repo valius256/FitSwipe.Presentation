@@ -22,10 +22,12 @@
   <ShellContent ContentTemplate="{DataTemplate pages:CertificateUploadView}"
                 Route="CertificateUpload" />
 
-  <ShellContent ContentTemplate="{DataTemplate pages:SignInView}"
-                Route="SignIn" />
-  <ShellContent ContentTemplate="{DataTemplate pages:SignUpView}"
-                Route="SignUp" />
+    <ShellContent ContentTemplate="{DataTemplate pages:SignInView}"
+                  Route="SignIn" />
+    <ShellContent ContentTemplate="{DataTemplate pages:SignUpView}"
+                  Route="SignUp" />
+    <ShellContent ContentTemplate="{DataTemplate setupPages:RegisterSucessfullyScreen}"
+                 Route="RegisterSuccessfully" />
     <ShellContent ContentTemplate="{DataTemplate setupPages:SetupProfilePage}"
                 Route="SetupProfile" />
     <ShellContent ContentTemplate="{DataTemplate trainingPages:MyPTListPage}"
