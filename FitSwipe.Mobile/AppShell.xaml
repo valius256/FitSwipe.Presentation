@@ -27,6 +27,8 @@
                   Route="SignIn" />
     <ShellContent ContentTemplate="{DataTemplate pages:SignUpView}"
                   Route="SignUp" />
+    <ShellContent ContentTemplate="{DataTemplate setupPages:RegisterSucessfullyScreen}"
+                 Route="RegisterSuccessfully" />
     <ShellContent ContentTemplate="{DataTemplate setupPages:SetupProfilePage}"
               Route="SetupProfile" />
 

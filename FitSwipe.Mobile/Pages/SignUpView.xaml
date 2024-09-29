@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:FitSwipe.Mobile.ViewModels"
              xmlns:local="clr-namespace:FitSwipe.Mobile.Converters.SignUpConverter"
+             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
              x:DataType="vm:SignUpViewModel"
              x:Class="FitSwipe.Mobile.Pages.SignUpView">
 
@@ -67,6 +68,7 @@
                        HeightRequest="150" />
                 <Label Text="FitSwipe"
                        HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
                        FontAttributes="Bold,Italic"
                        WidthRequest="250"
                        FontSize="50" />
@@ -450,7 +452,7 @@
 
                 <!--#region TERMS AND SERVICES-->
                 <StackLayout Orientation="Horizontal">
-                    <CheckBox>
+                    <CheckBox CheckedChanged="CheckBox_CheckedChanged">
                         <CheckBox.Style>
                             <Style TargetType="CheckBox">
                                 <Setter Property="Color"
@@ -537,6 +539,8 @@
                            WidthRequest="110" />
                     <Button Text="Đăng nhập"
                             BorderWidth="1"
+                            Padding="0"
+                            HeightRequest="30"
                             WidthRequest="150"
                             TextColor="Black"
                             BackgroundColor="White"
@@ -571,5 +575,10 @@
                    Text="{Binding UserName}"></Label>-->
             </VerticalStackLayout>
         </ScrollView>
+        <controls:LoadingDialog x:Name="loadingDialog"
+                        Message="Đang đăng ký...."
+                        IsVisible="False"
+                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
     </AbsoluteLayout>
 </ContentPage>
