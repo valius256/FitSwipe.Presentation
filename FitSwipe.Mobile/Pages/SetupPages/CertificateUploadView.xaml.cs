@@ -1,3 +1,7 @@
+﻿using FitSwipe.Mobile.Pages.SetupPages;
+using FitSwipe.Mobile.Utils;
+using FitSwipe.Shared.Dtos.Users;
+using Microsoft.Maui.Storage;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -7,10 +11,15 @@ public partial class CertificateUploadView : ContentPage, INotifyPropertyChanged
 {
     private bool _isPhotoCaptured;
     private ImageSource _capturedImageSource;
+    private UpdateUserProfileDto _currentUser;
+    private FileResult? _fileResult;
+    public List<Guid> AlreadyTags;
 
-    public CertificateUploadView ()
+    public CertificateUploadView (UpdateUserProfileDto updateUserProfileDto, List<Guid> tags)
     {
         InitializeComponent();
+        _currentUser = updateUserProfileDto;
+        AlreadyTags = tags;
         BindingContext = this;
     }
     public bool IsPhotoCaptured
@@ -41,6 +50,7 @@ public partial class CertificateUploadView : ContentPage, INotifyPropertyChanged
                 FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
                 if (photo != null)
                 {
+                    _fileResult = photo;
                     // Load the captured image into the Image control
                     var stream = await photo.OpenReadAsync();
                     CapturedImageSource = ImageSource.FromStream(() => stream);
@@ -63,6 +73,7 @@ public partial class CertificateUploadView : ContentPage, INotifyPropertyChanged
             var result = await MediaPicker.Default.PickPhotoAsync();
             if (result != null)
             {
+                _fileResult = result;
                 var stream = await result.OpenReadAsync();
                 CapturedImageSource = ImageSource.FromStream(() => stream);
                 IsPhotoCaptured = true;
@@ -74,11 +85,44 @@ public partial class CertificateUploadView : ContentPage, INotifyPropertyChanged
         }
     }
 
-    // Notify property changed for data binding
-    public event PropertyChangedEventHandler PropertyChanged;
-    protected void OnPropertyChanged ([CallerMemberName] string propertyName = null)
+    private async void btnBack_Clicked(object sender, EventArgs e)
     {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        await Navigation.PopModalAsync();
     }
+
+    private async void btnUpload_Clicked(object sender, EventArgs e)
+    {
+        if (_fileResult != null)
+        {
+            loadingDialog.IsVisible = true;
+            try
+            {
+                var token = await SecureStorage.GetAsync("auth_token");
+                var url = await MauiUtils.UploadImageAsync(_fileResult, token ?? string.Empty);
+                if (url == null)
+                {
+                    throw new Exception("Lỗi đăng ảnh");
+                }
+                await Navigation.PushModalAsync(new SetupProfileStepFinalPage(_currentUser, AlreadyTags, url.FileUrl));
+            }
+            catch (Exception)
+            {
+                await DisplayAlert("Lỗi", "Đăng ảnh thất bại, vui lòng thừ lại sau", "OK");
+            }
+            loadingDialog.IsVisible = false;
+        }
+    }
+
+    private async void btnSkip_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PushModalAsync(new SetupProfileStepFinalPage(_currentUser, AlreadyTags));
+    }
+
+    //// Notify property changed for data binding
+    //public event PropertyChangedEventHandler PropertyChanged;
+    //protected void OnPropertyChanged ([CallerMemberName] string propertyName = null)
+    //{
+    //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    //}
 
 }

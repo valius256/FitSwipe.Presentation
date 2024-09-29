@@ -114,7 +114,14 @@ public partial class SetupProfileStep6Page : ContentPage
         if (NewTags.Count > 0)
         {
             NewTags.ForEach(t => AlreadyTags.Add(t));
-            await Navigation.PushModalAsync(new SetupProfileStepFinalPage(_currentUser, AlreadyTags));
+            if (_currentUser.Role == Role.PT)
+            {
+                await Navigation.PushModalAsync(new CertificateUploadView(_currentUser, AlreadyTags));
+            }
+            else
+            {
+                await Navigation.PushModalAsync(new SetupProfileStepFinalPage(_currentUser, AlreadyTags));
+            }
         }
         else
         {

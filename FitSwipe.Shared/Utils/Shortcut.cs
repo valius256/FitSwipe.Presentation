@@ -10,5 +10,7 @@ namespace FitSwipe.Shared.Utils
         {
             return await Fetcher.GetAsync<GetUserDto>("api/authentication/who-am-i", token);
         }
+
+
     }
 }
