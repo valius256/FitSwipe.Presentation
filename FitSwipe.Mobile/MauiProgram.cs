@@ -12,7 +12,7 @@ namespace FitSwipe.Mobile
 {
     public static class MauiProgram
     {
-        public static MauiApp CreateMauiApp()
+        public static MauiApp CreateMauiApp ()
         {
             var builder = MauiApp.CreateBuilder();
             builder
@@ -20,6 +20,7 @@ namespace FitSwipe.Mobile
                 .UseMauiCompatibility()
                 .UseMauiCommunityToolkitMediaElement()
                 .UseFluentMauiIcons()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
