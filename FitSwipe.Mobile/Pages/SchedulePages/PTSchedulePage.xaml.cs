@@ -1,4 +1,4 @@
-using FitSwipe.Mobile.Controls;
+﻿using FitSwipe.Mobile.Controls;
 using FitSwipe.Shared.Dtos.Slots;
 using System.Collections.ObjectModel;
 
@@ -46,5 +46,53 @@ public partial class PTSchedulePage : ContentPage
         {
             await DisplayAlert("Selected Week",$"{timeTable.CurrentWeek.Display}","OKE");
         }
+    }
+
+    private void btnAdd_Tapped(object sender, TappedEventArgs e)
+    {
+        addSlotModal.Show();
+    }
+
+    private void btnDuplicate_Tapped(object sender, TappedEventArgs e)
+    {
+        duplicateSlotModal.Show();
+    }
+
+    private async void addSlotModal_OnAdded(object sender, EventArgs e)
+    {
+        var answer = await DisplayAlert("Thêm khung giờ", "Bạn có chắc chắn về hành động này?", "Có", "Không");
+        if (answer)
+        {
+            var addModal = sender as PTAddSlotModal;
+            if (addModal != null)
+            {
+                var timeFrames = addModal.GetTimeFrame();
+                if (timeFrames[0] >= timeFrames[1])
+                {
+                    await DisplayAlert("Lỗi", "Vui lòng chọn thời gian bắt đầu nhỏ hơn thời gian kết thúc","OK");
+                } else if (timeFrames[0].Hour < 4 && timeFrames[1].Hour > 22)
+                {
+                    await DisplayAlert("Lỗi", "Vui lòng chọn khung thời gian từ 4h - 22h", "OK");
+                } else
+                {
+                    //Test add slot
+                    Slots.Add(new GetSlotDto
+                    {
+                        StartTime = timeFrames[0],
+                        EndTime = timeFrames[1],
+                        Color = "FF2E3191"
+                    });
+                    timeTable.SetSlots(Slots);
+                    timeTable.GotoWeek(new DateOnly(timeFrames[0].Year, timeFrames[0].Month, timeFrames[0].Day));
+                    addModal.Hide();
+                }
+            }
+        }
+
+    }
+
+    private void btnDelete_Tapped(object sender, TappedEventArgs e)
+    {
+
     }
 }
