@@ -1,12 +1,12 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace FitSwipe.Shared.Dtos
+namespace FitSwipe.Shared.Dtos.Auth
 {
     public class AuthenResponseDto
     {
         [JsonPropertyName("code")]
         public string Code { get; set; } = string.Empty;
         [JsonPropertyName("message")]
-        public string Message { get; set; } = string.Empty ;
+        public string Message { get; set; } = string.Empty;
     }
 }

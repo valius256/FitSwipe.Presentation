@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using Firebase.Auth;
 using FitSwipe.Mobile.Controls;
 using FitSwipe.Shared.Dtos;
+using FitSwipe.Shared.Dtos.Auth;
 using FitSwipe.Shared.Utils;
 using System.Net.Http.Headers;
 using System.Text;

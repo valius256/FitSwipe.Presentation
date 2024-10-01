@@ -4,6 +4,17 @@
              x:Class="FitSwipe.Mobile.Controls.TimeTable"
              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons">
     <VerticalStackLayout>
+        <HorizontalStackLayout>
+            <Label Text="Chọn năm : " Margin="0,5" TextColor="Black" VerticalOptions="Center"></Label>
+            <Picker x:Name="yearPicker"
+                    Title="Hãy chọn 1 năm"
+                    FontSize="15"
+                    FontAttributes="Bold"
+                    VerticalTextAlignment="Center"
+                    HorizontalTextAlignment="Center" TextColor="Black"
+                    SelectedIndexChanged="yearPicker_SelectedIndexChanged">
+            </Picker>
+        </HorizontalStackLayout>
         <Border BackgroundColor="{Binding Theme}" Stroke="Transparent">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="20,20,0,0"></RoundRectangle>
@@ -16,15 +27,18 @@
                            TextColor="White" FontSize="10">
                     </Label>
                     <HorizontalStackLayout VerticalOptions="Center">
-                        <Button ImageSource="{mi:Fluent ArrowPrevious24}" BackgroundColor="Transparent">
+                        <Button ImageSource="{mi:Fluent ArrowPrevious24}" BackgroundColor="Transparent" x:Name="btnPrevWeek" Clicked="btnPrevWeek_Clicked">
                         </Button>
-                        <Label Text="22/06/2024 - 29/06/2024"
+                        <Picker x:Name="weekPicker"
+                                Title="Hãy chọn 1 tuần"
+                              ItemDisplayBinding="{Binding Display}" 
                                FontSize="15"
                                FontAttributes="Bold"
                                VerticalTextAlignment="Center"
-                               HorizontalTextAlignment="Center" TextColor="White">
-                        </Label>
-                        <Button ImageSource="{mi:Fluent ArrowNext24}" BackgroundColor="Transparent">
+                               HorizontalTextAlignment="Center" TextColor="White"
+                                SelectedIndexChanged="weekPicker_SelectedIndexChanged">
+                        </Picker>
+                        <Button ImageSource="{mi:Fluent ArrowNext24}" BackgroundColor="Transparent" x:Name="btnNextWeek" Clicked="btnNextWeek_Clicked">
                         </Button>
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
