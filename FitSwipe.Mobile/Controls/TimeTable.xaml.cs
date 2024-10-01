@@ -1,10 +1,12 @@
-using FitSwipe.Mobile.Pages.TrainingPages;
+﻿using FitSwipe.Mobile.Pages.TrainingPages;
+using FitSwipe.Shared.Dtos.Others;
 using FitSwipe.Shared.Dtos.Slots;
 using MauiIcons.Core;
 using MauiIcons.Fluent;
 using Microsoft.Maui.Controls.Shapes;
 using Microsoft.Maui.Layouts;
 using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace FitSwipe.Mobile.Controls;
 
@@ -16,20 +18,42 @@ public partial class TimeTable : ContentView
 	public object? RefModal { get; set; }
     public ObservableCollection<GetSlotDto> Slots = new ObservableCollection<GetSlotDto>();
 	public List<string> TimeStampDisplays {  get; set; } = new List<string>();
-	public int ZoomLevel { get; set; } = -1;
+    public GetWeekDto CurrentWeek { get; set; } = new GetWeekDto();
+	//public List<GetWeekDto> Weeks {  get; set; } = new List<GetWeekDto>();
+    public int ZoomLevel { get; set; } = -1;
 
     public static readonly BindableProperty ThemeProperty =
             BindableProperty.Create(nameof(Theme), typeof(string), typeof(TimeTable), "#52BB00");
 
+    public static readonly BindableProperty YearProperty =
+            BindableProperty.Create(nameof(Year), typeof(int), typeof(TimeTable), DateTime.Now.Year);
+
+    public event EventHandler? WeekChanged;
+
+    protected virtual void OnWeekChanged(EventArgs e)
+    {
+        // If there are any subscribers, raise the event
+        WeekChanged?.Invoke(this, e);
+    }
     public string Theme
     {
         get => (string)GetValue(ThemeProperty);
         set => SetValue(ThemeProperty, value);
     }
+
+    public int Year
+    {
+        get => (int)GetValue(YearProperty);
+        set => SetValue(YearProperty, value);
+    }
     public TimeTable()
 	{
 		InitializeComponent();
 		ZoomIn(true);
+
+        var currentYear = DateTime.Now.Year;
+        yearPicker.ItemsSource = new List<int> { currentYear, currentYear - 1, currentYear - 2, currentYear - 3};
+        yearPicker.SelectedIndex = 0;
         _ = new MauiIcon();
 		BindingContext = this;
     }
@@ -199,9 +223,85 @@ public partial class TimeTable : ContentView
     {
         ZoomIn(false);
     }
+    private List<GetWeekDto> GetWeeksOfYear(int year)
+    {
+        var weeks = new List<GetWeekDto>();
 
-	private void ModeOneAction(object sender, EventArgs e)
+        // Start from the first day of the year
+        DateOnly firstDayOfYear = new DateOnly(year, 1, 1);
+
+        // Find the first Monday of the year
+        int offset = ((int)DayOfWeek.Monday - (int)firstDayOfYear.DayOfWeek + 7) % 7;
+        DateOnly firstMonday = firstDayOfYear.AddDays(offset);
+
+        DateOnly currentStartDate = firstMonday;
+
+        while (currentStartDate.Year == year)
+        {
+            DateOnly currentEndDate = currentStartDate.AddDays(6);
+
+            weeks.Add(new GetWeekDto
+            {
+                StartDate = currentStartDate,
+                EndDate = currentEndDate
+            });
+
+            currentStartDate = currentStartDate.AddDays(7);
+        }
+
+        return weeks;
+    }
+    private GetWeekDto? GetCurrentWeek(List<GetWeekDto> weeks)
+    {
+        DateOnly today = DateOnly.FromDateTime(DateTime.Today);
+        return weeks.FirstOrDefault(week => today >= week.StartDate && today <= week.EndDate);
+    }
+    private void ModeOneAction(object sender, EventArgs e)
 	{
 
 	}
+
+    private void btnPrevWeek_Clicked(object sender, EventArgs e)
+    {
+        if (weekPicker.SelectedIndex > 0)
+        {
+            // Move to the previous week
+            weekPicker.SelectedIndex -= 1;
+        }
+    }
+
+    private void btnNextWeek_Clicked(object sender, EventArgs e)
+    {
+        if (weekPicker.SelectedIndex < weekPicker.ItemsSource.Count - 1)
+        {
+            // Move to the next week
+            weekPicker.SelectedIndex += 1;
+        }
+    }
+
+    private void weekPicker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        CurrentWeek = ((List<GetWeekDto>)weekPicker.ItemsSource)[weekPicker.SelectedIndex];
+        WeekChanged?.Invoke(this, e);
+    }
+
+    private void yearPicker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        Year = (int)yearPicker.SelectedItem;
+        var weeks = GetWeeksOfYear(Year);
+        weekPicker.ItemsSource = weeks;
+        if (Year == DateTime.Now.Year)
+        {
+            var currentWeek = GetCurrentWeek(weeks);
+            // Set the default selected item to the current week
+            if (currentWeek != null)
+            {
+                CurrentWeek = currentWeek;
+                weekPicker.SelectedItem = currentWeek;
+            }
+        } else
+        {
+            weekPicker.SelectedIndex = 0;
+        }
+    }
 }

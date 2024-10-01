@@ -84,7 +84,7 @@
                     </Border>
                 </Grid>
                 <HorizontalStackLayout Margin="10">
-                    <Label Text="Lịch rảnh của PT"
+                    <Label Text="Lịch trình của bạn"
                        TextColor="Black"
                        FontSize="20"
                        FontAttributes="Bold"/>

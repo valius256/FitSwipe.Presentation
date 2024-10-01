@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Pages.SchedulePages.PTSchedulePage"
+             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls">
+    <AbsoluteLayout BackgroundColor="White">
+
+        <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+            <VerticalStackLayout Margin="10" BackgroundColor="White">
+                
+                <HorizontalStackLayout Margin="10">
+                    <Label Text="Lịch trình của bạn"
+                    TextColor="Black"
+                    FontSize="20"
+                    FontAttributes="Bold"/>
+                    <BoxView
+                     HeightRequest="3"
+                     WidthRequest="300"
+                     Margin="10,0"
+                     BackgroundColor="#2E3192">
+                    </BoxView>
+                </HorizontalStackLayout>
+                <controls:TimeTable x:Name="timeTable" Theme="#2E3191" WeekChanged="timeTable_WeekChanged"></controls:TimeTable>
+                <!--<Border Margin="0,20"
+                 Stroke="#2E3191"
+                 Padding="10">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"></RoundRectangle>
+                    </Border.StrokeShape>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Text="Thời gian" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"></Label>
+                        <Label Text="Tổng số buổi" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="1"></Label>
+                        <Label Text="Tổng thời lượng" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="2"></Label>
+                        <Label x:Name="sttTimeSpan" Text="1/1/2024 - 1/1/2025" FontSize="12" Grid.Column="1" Grid.Row="0"></Label>
+                        <Label x:Name="sttTotalSlots" Text="100" FontSize="12" Grid.Column="1" Grid.Row="1"></Label>
+                        <Label x:Name="sttTotalDuration" Text="300 tiếng" FontSize="12" Grid.Column="1" Grid.Row="2"></Label>
+                    </Grid>
+                </Border>-->
+                <!--<FlexLayout Margin="5">
+                    <Button Text="Kết thúc tập"
+                      TextColor="White"
+                      BackgroundColor="Red"
+                      Padding="25,0"
+                      HeightRequest="30"
+                      x:Name="btnClose"
+                      Clicked="btnClose_Clicked"
+                      FlexLayout.Grow="1"/>
+                </FlexLayout>-->
+                <BoxView HeightRequest="100" BackgroundColor="Transparent"/>
+            </VerticalStackLayout>
+
+        </ScrollView>
+        <controls:Navbar ActiveTab="4"
+             AbsoluteLayout.LayoutBounds="0,1,1,AutoSize" 
+             AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional"></controls:Navbar>
+    </AbsoluteLayout>
+</ContentPage>
