@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="FitSwipe.Mobile.Pages.TrainingPages.MyPTListPage"
+             xmlns:vm="clr-namespace:FitSwipe.Mobile.ViewModels"
+             xmlns:models="clr-namespace:FitSwipe.Mobile.MockData"
+             xmlns:dtos="clr-namespace:FitSwipe.Shared.Dtos.Trainings;assembly=FitSwipe.Shared"
+             xmlns:local="clr-namespace:FitSwipe.Mobile.Converters.TrainingPageConverter"
+             xmlns:view="clr-namespace:FitSwipe.Mobile.ViewModels"
+             x:DataType="vm:TrainingPageViewModel">
+
+  <!--#region REGISTER FOR CONVERTER -->
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <local:TabColorConverterMyPTList x:Key="TabColorConverter" />
+    </ResourceDictionary>
+  </ContentPage.Resources>
+  <!--#endregion-->
+
+  <AbsoluteLayout BackgroundColor="White">
+    <ScrollView AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                AbsoluteLayout.LayoutFlags="All">
+            <StackLayout Padding="15"
+                   VerticalOptions="FillAndExpand"
+                   AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                   AbsoluteLayout.LayoutFlags="All">
+
+                <!--#region APP ICON -->
+        <HorizontalStackLayout Spacing="12">
+          <Image Source="app_icon"
+                 HeightRequest="100"
+                 WidthRequest="100" />
+
+          <Label Text="FitSwipe"
+                 FontAttributes="Bold,Italic"
+                 FontSize="40"
+                 WidthRequest="210"
+                 VerticalOptions="Center" />
+        </HorizontalStackLayout>
+
+        <Label Text="Danh sách PT của bạn"
+               FontSize="16"
+               FontAttributes="Bold" />
+
+        <BoxView HeightRequest="1"
+                 Color="#50B700" />
+        <!--#endregion-->
+
+        <!--#region FILTER -->
+        <StackLayout HorizontalOptions="Start"
+                     Margin="0, 12, 0, 0">
+          <HorizontalStackLayout>
+            <Image Source="filter.png"
+                   HeightRequest="35"
+                   Margin="0,0,6,0" />
+
+            <!-- Filter Options -->
+            <VerticalStackLayout Spacing="-10"
+                                 HorizontalOptions="Start">
+              <Label Text="Sắp xếp theo:"
+                     FontSize="12" />
+
+              <!-- Picker for the filter options -->
+              <Picker Title="Chọn tiêu chí"
+                      ItemsSource="{Binding FilterOptions}"
+                      SelectedItem="{Binding SelectedFilter}"
+                      FontAttributes="Bold"
+                      FontSize="14"
+                      TextColor="Black" />
+            </VerticalStackLayout>
+          </HorizontalStackLayout>
+        </StackLayout>
+        <!--#endregion-->
+
+        <StackLayout>
+          <!--#region VIEW TAB-->
+          <StackLayout Padding="20, 10, 20, 0">
+            <Grid ColumnDefinitions="*,*"
+                  Padding="0"
+                  HeightRequest="35"
+                  Margin="0">
+              <!-- Added spacing between tabs -->
+
+              <!-- First Tab -->
+              <Border Grid.Column="0"
+                      StrokeThickness="0"
+                      BackgroundColor="{Binding ActiveTab, Converter={StaticResource TabColorConverter}, ConverterParameter='0'}">
+                <Border.StrokeShape>
+                  <RoundRectangle CornerRadius="20, 20, 0, 0" />
+                </Border.StrokeShape>
+                <Frame HorizontalOptions="FillAndExpand"
+                       VerticalOptions="FillAndExpand"
+                       Padding="0"
+                       HasShadow="True"
+                       BackgroundColor="Transparent"
+                       BorderColor="Transparent"
+                       Margin="0">
+                  <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectTabCommand}"
+                                          CommandParameter="0" />
+                  </Frame.GestureRecognizers>
+                  <Label Text="Đã match"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center"
+                         TextColor="White"
+                         FontAttributes="Bold" />
+                </Frame>
+              </Border>
+
+              <!-- Second Tab -->
+              <Border Grid.Column="1"
+                      StrokeThickness="0"
+                      BackgroundColor="{Binding ActiveTab, Converter={StaticResource TabColorConverter}, ConverterParameter='1'}">
+                <Border.StrokeShape>
+                  <RoundRectangle CornerRadius="20, 20, 0, 0" />
+                </Border.StrokeShape>
+                <Frame HorizontalOptions="FillAndExpand"
+                       VerticalOptions="FillAndExpand"
+                       Padding="0"
+                       HasShadow="True"
+                       BackgroundColor="Transparent"
+                       BorderColor="Transparent"
+                       Margin="0">
+                  <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectTabCommand}"
+                                          CommandParameter="1" />
+                  </Frame.GestureRecognizers>
+                  <Label Text="Đã đặt lịch"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center"
+                         TextColor="White"
+                         FontAttributes="Bold" />
+                </Frame>
+              </Border>
+            </Grid>
+          </StackLayout>
+        </StackLayout>
+        <!--#endregion-->
+
+        <!--#region FIRST TAB CONTENT-->
+        <Frame BorderColor="#2E3191"
+               CornerRadius="15"
+               Padding="1"
+               VerticalOptions="FillAndExpand"
+               Margin="0, 0, 0, 100">
+
+          <StackLayout>
+            <ListView ItemsSource="{Binding UserList}"
+                      HasUnevenRows="True"
+                      BackgroundColor="Transparent"
+                      SelectionMode="None"
+                      SeparatorColor="Transparent"
+                      VerticalScrollBarVisibility="Never">
+              <ListView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type dtos:GetMatchedPTDto}">
+                  <ViewCell IsEnabled="False">
+                    <!-- Each Item Views -->
+                    <AbsoluteLayout Padding="0, 20">
+                      <StackLayout Spacing="10"
+                                   Padding="8, 20"
+                                   VerticalOptions="FillAndExpand"
+                                   AbsoluteLayout.LayoutBounds="0, 0, 1, AutoSize"
+                                   AbsoluteLayout.LayoutFlags="WidthProportional">
+                        <Border HeightRequest="-1"
+                                BackgroundColor="#2E3191"
+                                Stroke="DarkGray"
+                                Margin="0, 10, 0, 30">
+                          <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                          </Border.StrokeShape>
+                          <StackLayout Padding="6, 8">
+                            <Grid ColumnDefinitions="Auto, *"
+                                  ColumnSpacing="5">
+
+                              <!-- Avatar Image Section -->
+                              <StackLayout WidthRequest="120" />
+
+                              <!-- Information Section -->
+                              <StackLayout Grid.Column="2"
+                                           Padding="5"
+                                           VerticalOptions="FillAndExpand">
+                                <!-- Ensure it fills the parent space -->
+                                <StackLayout Spacing="10">
+                                  <StackLayout>
+                                    <!-- Name Label -->
+                                    <Label Text="{Binding PT.UserName, StringFormat='PT. {0}'}"
+                                           TextColor="White"
+                                           VerticalOptions="Start"
+                                           FontAttributes="Bold"
+                                           FontSize="16" />
+                                  </StackLayout>
+
+                                  <!-- Occupation Label -->
+                                  <StackLayout Padding="0, -12, 0, 0"
+                                               Margin="0, 5, 0, 0">
+                                    <Label Text="{Binding PT.AddressString}"
+                                           TextColor="White"
+                                           VerticalOptions="Start"
+                                           FontSize="12"
+                                           FontAttributes="Bold" />
+                                  </StackLayout>
+
+                                  <!-- Divine Line -->
+                                  <BoxView WidthRequest="-1"
+                                           HeightRequest="0.8"
+                                           Color="White" />
+
+                                  <!-- Sub Information -->
+                                  <StackLayout Spacing="5">
+                                    <Label Text="{Binding PT.Bio}"
+                                           TextColor="White"
+                                           HorizontalTextAlignment="Center"
+                                           Padding="0, -2, 0, 0"
+                                           FontSize="12" />
+
+                                    <!--<Label Text="This is detail information line 1 heheheheh so good"
+                                           TextColor="White"
+                                           VerticalOptions="CenterAndExpand"
+                                           FontSize="12" />
+                                    <Label Text="This is detail information line 2 hehehehe normal"
+                                           TextColor="White"
+                                           VerticalOptions="CenterAndExpand"
+                                           FontSize="12" />
+                                    <Label Text="This is detail information line 3 hehehehe not good at all :("
+                                           TextColor="White"
+                                           VerticalOptions="CenterAndExpand"
+                                           FontSize="12" />-->
+                                    <Label Text="{Binding CreatedDate, StringFormat='Bạn đã match với PT này vào {0}'}"
+                                           TextColor="LightGray"
+                                           FontAttributes="Italic"
+                                           VerticalOptions="CenterAndExpand"
+                                           FontSize="10" />
+                                  </StackLayout>
+                                </StackLayout>
+                              </StackLayout>
+                            </Grid>
+                            <!-- Schedule Status -->
+                            <StackLayout WidthRequest="140"
+                                         Grid.Column="0"
+                                         Padding="0, 0, 0, 0"
+                                         IsVisible="{Binding Source={RelativeSource AncestorType={x:Type view:MyPTListPageViewModel}}, Path=IsSecondTabVisible}">
+                              <Border Padding="2"
+                                      BackgroundColor="Gray"
+                                      Stroke="Transparent">
+                                <Border.StrokeShape>
+                                  <RoundRectangle CornerRadius="15" />
+                                </Border.StrokeShape>
+                                <Label Text="Đang chờ duyệt lịch"
+                                       WidthRequest="-1"
+                                       Padding="8, 4"
+                                       TextColor="White"
+                                       HorizontalTextAlignment="Center"
+                                       FontSize="12" />
+                              </Border>
+                            </StackLayout>
+                            <!-- Button Section 1 -->
+                            <HorizontalStackLayout HorizontalOptions="CenterAndExpand"
+                                                   Spacing="10"
+                                                   IsVisible="{Binding Source={RelativeSource AncestorType={x:Type view:MyPTListPageViewModel}}, Path=IsFirstTabVisible}">
+                              <Button Text="Chat"
+                                      HeightRequest="35"
+                                      WidthRequest="90"
+                                      Padding="0"
+                                      FontSize="12"
+                                      FontAttributes="Bold"
+                                      Margin="0, 10, 0, 0"
+                                      BackgroundColor="#5A5EDC"
+                                      VerticalOptions="EndAndExpand"
+                                      TextColor="White"
+                                      CornerRadius="12" />
+
+                              <Button Text="Đặt lịch tập"
+                                      HeightRequest="35"
+                                      WidthRequest="100"
+                                      Padding="0"
+                                      FontSize="12"
+                                      FontAttributes="Bold"
+                                      Margin="0, 10, 0, 0"
+                                      BackgroundColor="#52BB00"
+                                      VerticalOptions="EndAndExpand"
+                                      TextColor="White"
+                                      CornerRadius="12" />
+
+                              <Button Text="Xoá"
+                                      HeightRequest="35"
+                                      WidthRequest="90"
+                                      Padding="0"
+                                      FontSize="12"
+                                      FontAttributes="Bold"
+                                      Margin="0, 10, 0, 0"
+                                      BackgroundColor="#E30000"
+                                      VerticalOptions="EndAndExpand"
+                                      TextColor="White"
+                                      CornerRadius="12" />
+                            </HorizontalStackLayout>
+                              <!-- Button Section 2 -->
+                            <HorizontalStackLayout HorizontalOptions="CenterAndExpand"
+                                                   Spacing="10"
+                                                   IsVisible="{Binding Source={RelativeSource AncestorType={x:Type view:MyPTListPageViewModel}}, Path=IsSecondTabVisible}">
+                              <Button Text="Chat"
+                                      HeightRequest="35"
+                                      WidthRequest="90"
+                                      Padding="0"
+                                      FontSize="12"
+                                      FontAttributes="Bold"
+                                      Margin="0, 10, 0, 0"
+                                      BackgroundColor="#5A5EDC"
+                                      VerticalOptions="EndAndExpand"
+                                      TextColor="White"
+                                      CornerRadius="12" />
+
+                              <Button Text="Xem lịch"
+                                      HeightRequest="35"
+                                      WidthRequest="100"
+                                      Padding="0"
+                                      FontSize="12"
+                                      FontAttributes="Bold"
+                                      Margin="0, 10, 0, 0"
+                                      BackgroundColor="#52BB00"
+                                      VerticalOptions="EndAndExpand"
+                                      TextColor="White"
+                                      CornerRadius="12" />
+                            </HorizontalStackLayout>
+                          </StackLayout>
+                        </Border>
+                      </StackLayout>
+
+                      <Border WidthRequest="130"
+                              HeightRequest="130"
+                              AbsoluteLayout.LayoutBounds="0, -0.1, AutoSize, AutoSize"
+                              AbsoluteLayout.LayoutFlags="PositionProportional"
+                              Stroke="#2E3191">
+                        <Border.StrokeShape>
+                          <RoundRectangle CornerRadius="65" />
+                        </Border.StrokeShape>
+
+                        <Image Source="{Binding PT.AvatarUrl}"
+                               WidthRequest="130"
+                               HeightRequest="130"
+                               Aspect="AspectFill" />
+                      </Border>
+
+                    </AbsoluteLayout>
+                  </ViewCell>
+                </DataTemplate>
+              </ListView.ItemTemplate>
+            </ListView>
+          </StackLayout>
+        </Frame>
+        <!--#endregion-->
+      </StackLayout>
+    </ScrollView>
+
+    <!-- Nav Bar -->
+    <controls:Navbar ActiveTab="3"
+                     ZIndex="99"
+                     AbsoluteLayout.LayoutBounds="0, 1, 1, AutoSize"
+                     AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" />
+  </AbsoluteLayout>
+</ContentPage>

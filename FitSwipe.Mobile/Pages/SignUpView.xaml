@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:FitSwipe.Mobile.ViewModels"
+             xmlns:local="clr-namespace:FitSwipe.Mobile.Converters.SignUpConverter"
+             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
+             x:DataType="vm:SignUpViewModel"
              x:Class="FitSwipe.Mobile.Pages.SignUpView">
+
+    <!--#region REGISTER FOR CONVERTER -->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:RoleToVisibilityConverter x:Key="RoleToVisibilityConverter" />
+            <local:RoleToTextColorConverter x:Key="RoleToTextColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <!--#endregion-->
 
     <AbsoluteLayout>
         <!-- Background Image -->
@@ -12,28 +25,52 @@
                Opacity="0.5" />
 
         <!-- Green Overlay -->
-        <Border  BackgroundColor="#83f683"
-                 Opacity="0.15"
-                 AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                 AbsoluteLayout.LayoutFlags="All" />
+        <Border Opacity="0.2"
+                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                AbsoluteLayout.LayoutFlags="All">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="BackgroundColor"
+                            Value="#83f683" />
+                    <Style.Triggers>
+                        <DataTrigger TargetType="Border"
+                                     Binding="{Binding SelectedRole}"
+                                     Value="pt">
+                            <Setter Property="BackgroundColor"
+                                    Value="Blue" />
+                            <!-- Color for PT -->
+                        </DataTrigger>
+                        <DataTrigger TargetType="Border"
+                                     Binding="{Binding SelectedRole}"
+                                     Value="trainee">
+                            <Setter Property="BackgroundColor"
+                                    Value="#83f683" />
+                            <!-- Color for Trainee -->
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
 
         <ScrollView AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                     AbsoluteLayout.LayoutFlags="All">
 
-            <VerticalStackLayout Padding="10"
+            <VerticalStackLayout Padding="20"
                                  Spacing="10"
                                  VerticalOptions="CenterAndExpand"
                                  AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                                  AbsoluteLayout.LayoutFlags="All">
 
+                <!--#region APP ICON AND TITLE-->
                 <!-- App Icon -->
                 <Image Source="app_icon.png"
                        WidthRequest="150"
                        HeightRequest="150" />
                 <Label Text="FitSwipe"
                        HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
                        FontAttributes="Bold,Italic"
-                       WidthRequest="200"
+                       WidthRequest="250"
                        FontSize="50" />
 
                 <!-- Screen Title -->
@@ -43,6 +80,7 @@
                        WidthRequest="150"
                        HorizontalTextAlignment="Center"
                        HorizontalOptions="Center" />
+                <!--#endregion-->
 
                 <!--#region ROLE CHOOSING-->
                 <HorizontalStackLayout Spacing="80"
@@ -50,8 +88,11 @@
                     <!--Trainee-->
                     <StackLayout Orientation="Horizontal"
                                  VerticalOptions="Center">
-                        <RadioButton Value="trainee"
-                                     GroupName="userType" />
+                        <RadioButton x:Name="traineeRadioButton"
+                                     Value="trainee"
+                                     GroupName="userType"
+                                     IsChecked="True"
+                                     CheckedChanged="traineeRadioButton_CheckedChanged" />
                         <Label Text="Người tập"
                                VerticalOptions="Center" />
                     </StackLayout>
@@ -59,17 +100,20 @@
                     <!--PT-->
                     <StackLayout Orientation="Horizontal"
                                  VerticalOptions="Center">
-                        <RadioButton Value="pt"
-                                     GroupName="userType" />
+                        <RadioButton x:Name="ptRadioButton"
+                                     Value="pt"
+                                     GroupName="userType"
+                                     CheckedChanged="ptRadioButton_CheckedChanged" />
                         <Label Text="PT"
                                VerticalOptions="Center" />
                     </StackLayout>
                 </HorizontalStackLayout>
                 <!--#endregion-->
 
-                <!--#region INFORMATION INPUT-->
+                <!--#region INFORMATION INPUT "NGƯỜI TẬP"-->
                 <VerticalStackLayout Spacing="20"
-                                     VerticalOptions="Center">
+                                     VerticalOptions="Center"
+                                     IsVisible="{Binding SelectedRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter='trainee'}">
                     <!--Last Name-->
                     <StackLayout Orientation="Horizontal">
                         <Border Padding="5"
@@ -92,7 +136,7 @@
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="8" />
                             </Border.StrokeShape>
-                            <Entry Text="{Binding lastName}"
+                            <Entry Text="{Binding LastName}"
                                    Placeholder="Họ" />
                         </Border>
                     </StackLayout>
@@ -119,7 +163,7 @@
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="8" />
                             </Border.StrokeShape>
-                            <Entry Text="{Binding firstName}"
+                            <Entry Text="{Binding FirstName}"
                                    Placeholder="Tên" />
                         </Border>
                     </StackLayout>
@@ -146,7 +190,7 @@
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="8" />
                             </Border.StrokeShape>
-                            <Entry Text="{Binding email}"
+                            <Entry Text="{Binding Email}"
                                    Placeholder="Email" />
                         </Border>
                     </StackLayout>
@@ -156,8 +200,7 @@
                         <Border Padding="5"
                                 StrokeThickness="2"
                                 Stroke="Green"
-                                BackgroundColor="White"
-                                Opacity="0.6">
+                                BackgroundColor="White">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="50" />
                             </Border.StrokeShape>
@@ -174,7 +217,7 @@
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="8" />
                             </Border.StrokeShape>
-                            <Entry Text="{Binding phone}"
+                            <Entry Text="{Binding PhoneNumber}"
                                    Placeholder="SĐT" />
                         </Border>
                     </StackLayout>
@@ -229,7 +272,177 @@
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="8" />
                             </Border.StrokeShape>
-                            <Entry Text="{Binding confirmPassword}"
+                            <Entry Text="{Binding ConfirmPassword}"
+                                   IsPassword="True"
+                                   Placeholder="Nhập lại mật khẩu" />
+                        </Border>
+                    </StackLayout>
+                </VerticalStackLayout>
+                <!--#endregion-->
+
+                <!--#region INFORMATION INPUT "PT"-->
+                <VerticalStackLayout Spacing="20"
+                                     VerticalOptions="Center"
+                                     IsVisible="{Binding SelectedRole, Converter={StaticResource RoleToVisibilityConverter}, ConverterParameter='pt'}">
+                    <!-- Last Name -->
+                    <StackLayout Orientation="Horizontal">
+                        <Border Padding="5"
+                                StrokeThickness="2"
+                                Stroke="#323593"
+                                BackgroundColor="White">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="50" />
+                            </Border.StrokeShape>
+                            <Image Source="profile.png"
+                                   WidthRequest="45"
+                                   HeightRequest="45" />
+                        </Border>
+                        <Border Stroke="#323593"
+                                StrokeThickness="2"
+                                Padding="7"
+                                HorizontalOptions="FillAndExpand"
+                                BackgroundColor="White"
+                                Opacity="0.6">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8" />
+                            </Border.StrokeShape>
+                            <Entry Text="{Binding LastName}"
+                                   Placeholder="Họ" />
+                        </Border>
+                    </StackLayout>
+
+                    <!-- First Name -->
+                    <StackLayout Orientation="Horizontal">
+                        <Border Padding="5"
+                                StrokeThickness="2"
+                                Stroke="#323593"
+                                BackgroundColor="White">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="50" />
+                            </Border.StrokeShape>
+                            <Image Source="profile.png"
+                                   WidthRequest="45"
+                                   HeightRequest="45" />
+                        </Border>
+                        <Border Stroke="#323593"
+                                StrokeThickness="2"
+                                Padding="7"
+                                HorizontalOptions="FillAndExpand"
+                                BackgroundColor="White"
+                                Opacity="0.6">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8" />
+                            </Border.StrokeShape>
+                            <Entry Text="{Binding FirstName}"
+                                   Placeholder="Tên" />
+                        </Border>
+                    </StackLayout>
+
+                    <!-- Email -->
+                    <StackLayout Orientation="Horizontal">
+                        <Border Padding="5"
+                                StrokeThickness="2"
+                                Stroke="#323593"
+                                BackgroundColor="White">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="50" />
+                            </Border.StrokeShape>
+                            <Image Source="email.png"
+                                   WidthRequest="45"
+                                   HeightRequest="45" />
+                        </Border>
+                        <Border Stroke="#323593"
+                                StrokeThickness="2"
+                                Padding="7"
+                                HorizontalOptions="FillAndExpand"
+                                BackgroundColor="White"
+                                Opacity="0.6">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8" />
+                            </Border.StrokeShape>
+                            <Entry Text="{Binding Email}"
+                                   Placeholder="Email" />
+                        </Border>
+                    </StackLayout>
+
+                    <!-- Phone Number -->
+                    <StackLayout Orientation="Horizontal">
+                        <Border Padding="5"
+                                StrokeThickness="2"
+                                Stroke="#323593"
+                                BackgroundColor="White">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="50" />
+                            </Border.StrokeShape>
+                            <Image Source="phone.png"
+                                   WidthRequest="45"
+                                   HeightRequest="45" />
+                        </Border>
+                        <Border Stroke="#323593"
+                                StrokeThickness="2"
+                                Padding="7"
+                                HorizontalOptions="FillAndExpand"
+                                BackgroundColor="White"
+                                Opacity="0.6">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8" />
+                            </Border.StrokeShape>
+                            <Entry Text="{Binding PhoneNumber}"
+                                   Placeholder="SĐT" />
+                        </Border>
+                    </StackLayout>
+
+                    <!-- Password -->
+                    <StackLayout Orientation="Horizontal">
+                        <Border Padding="5"
+                                StrokeThickness="2"
+                                Stroke="#323593"
+                                BackgroundColor="White">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="50" />
+                            </Border.StrokeShape>
+                            <Image Source="password.png"
+                                   WidthRequest="45"
+                                   HeightRequest="45" />
+                        </Border>
+                        <Border Stroke="#323593"
+                                StrokeThickness="2"
+                                Padding="7"
+                                HorizontalOptions="FillAndExpand"
+                                BackgroundColor="White"
+                                Opacity="0.6">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8" />
+                            </Border.StrokeShape>
+                            <Entry Text="{Binding Password}"
+                                   IsPassword="True"
+                                   Placeholder="Mật khẩu" />
+                        </Border>
+                    </StackLayout>
+
+                    <!-- Confirm Password -->
+                    <StackLayout Orientation="Horizontal">
+                        <Border Padding="5"
+                                StrokeThickness="2"
+                                Stroke="#323593"
+                                BackgroundColor="White">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="50" />
+                            </Border.StrokeShape>
+                            <Image Source="password.png"
+                                   WidthRequest="45"
+                                   HeightRequest="45" />
+                        </Border>
+                        <Border Stroke="#323593"
+                                StrokeThickness="2"
+                                Padding="7"
+                                HorizontalOptions="FillAndExpand"
+                                BackgroundColor="White"
+                                Opacity="0.6">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8" />
+                            </Border.StrokeShape>
+                            <Entry Text="{Binding ConfirmPassword}"
                                    IsPassword="True"
                                    Placeholder="Nhập lại mật khẩu" />
                         </Border>
@@ -239,31 +452,82 @@
 
                 <!--#region TERMS AND SERVICES-->
                 <StackLayout Orientation="Horizontal">
-                    <CheckBox Color="Green" />
-                    <Label MaximumWidthRequest="350"
+                    <CheckBox CheckedChanged="CheckBox_CheckedChanged">
+                        <CheckBox.Style>
+                            <Style TargetType="CheckBox">
+                                <Setter Property="Color"
+                                        Value="Green" />
+                                <Style.Triggers>
+                                    <DataTrigger TargetType="CheckBox"
+                                                 Binding="{Binding SelectedRole}"
+                                                 Value="pt">
+                                        <Setter Property="Color"
+                                                Value="#323593" />
+                                        <!-- Color for PT -->
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="CheckBox"
+                                                 Binding="{Binding SelectedRole}"
+                                                 Value="trainee">
+                                        <Setter Property="Color"
+                                                Value="Green" />
+                                        <!-- Color for Trainee -->
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+                    </CheckBox>
+
+                    <Label MaximumWidthRequest="300"
                            VerticalOptions="End">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Bằng việc đăng ký, tôi đã đọc " />
                                 <Span Text="Điều khoản dịch vụ "
                                       FontAttributes="Bold"
-                                      TextDecorations="Underline" />
+                                      TextDecorations="Underline"
+                                      TextColor="{Binding SelectedRole, Converter={StaticResource RoleToTextColorConverter}}" />
                                 <Span Text="và " />
                                 <Span Text="Chính sách bảo mật."
                                       FontAttributes="Bold"
-                                      TextDecorations="Underline" />
+                                      TextDecorations="Underline"
+                                      TextColor="{Binding SelectedRole, Converter={StaticResource RoleToTextColorConverter}}" />
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
                 </StackLayout>
+                <!--#endregion-->
 
+                <!--#region SIGNUP BUTTON-->
                 <Button Text="Đăng ký"
                         BorderWidth="1"
-                        BorderColor="Green"
                         WidthRequest="150"
                         TextColor="Black"
                         BackgroundColor="White"
-                        Command="{Binding SignUpCommand}" />
+                        Command="{Binding SignUpCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="BorderColor"
+                                    Value="Green" />
+                            <Style.Triggers>
+                                <DataTrigger TargetType="Button"
+                                             Binding="{Binding SelectedRole}"
+                                             Value="pt">
+                                    <Setter Property="BorderColor"
+                                            Value="#323593" />
+                                    <!-- Color for PT -->
+                                </DataTrigger>
+                                <DataTrigger TargetType="Button"
+                                             Binding="{Binding SelectedRole}"
+                                             Value="trainee">
+                                    <Setter Property="BorderColor"
+                                            Value="Green" />
+                                    <!-- Color for Trainee -->
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <!--#endregion-->
 
                 <!--#region SIGNIN NAVIGATION-->
                 <HorizontalStackLayout HorizontalOptions="Center"
@@ -271,19 +535,50 @@
                                        Margin="0, 20, 0, 0">
                     <Label Text="Đã có tài khoản?"
                            FontAttributes="Bold,Italic"
-                           VerticalTextAlignment="Center" />
+                           VerticalTextAlignment="Center"
+                           WidthRequest="110" />
                     <Button Text="Đăng nhập"
                             BorderWidth="1"
-                            BorderColor="Green"
+                            Padding="0"
+                            HeightRequest="30"
                             WidthRequest="150"
                             TextColor="Black"
                             BackgroundColor="White"
-                            Command="{Binding NavigateSignInCommand}" />
+                            Command="{Binding NavigateSignInCommand}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="BorderColor"
+                                        Value="Green" />
+                                <Style.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding SelectedRole}"
+                                                 Value="pt">
+                                        <Setter Property="BorderColor"
+                                                Value="#323593" />
+                                        <!-- Color for PT -->
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding SelectedRole}"
+                                                 Value="trainee">
+                                        <Setter Property="BorderColor"
+                                                Value="Green" />
+                                        <!-- Color for Trainee -->
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                 </HorizontalStackLayout>
+                <!--#endregion-->
 
                 <!--<Label Margin="0, 20, 0, 0"
                    Text="{Binding UserName}"></Label>-->
             </VerticalStackLayout>
         </ScrollView>
+        <controls:LoadingDialog x:Name="loadingDialog"
+                        Message="Đang đăng ký...."
+                        IsVisible="False"
+                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
     </AbsoluteLayout>
 </ContentPage>

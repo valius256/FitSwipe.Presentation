@@ -9,23 +9,43 @@
         <Image x:Name="Star1" 
                WidthRequest="{Binding Source={x:Reference StarRatingView}, Path=Size}" 
                HeightRequest="{Binding Source={x:Reference StarRatingView}, Path=Size}" 
-               Source="{Binding Source={x:Reference StarRatingView}, Path=StarImage1}" />
+               Source="{Binding Source={x:Reference StarRatingView}, Path=StarImage1}">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer x:Name="tgrStar1" Tapped="tgrStar1_Tapped"></TapGestureRecognizer>
+            </Image.GestureRecognizers>
+        </Image>
         <Image x:Name="Star2" 
                WidthRequest="{Binding Source={x:Reference StarRatingView}, Path=Size}" 
                HeightRequest="{Binding Source={x:Reference StarRatingView}, Path=Size}"
-               Source="{Binding Source={x:Reference StarRatingView}, Path=StarImage2}" />
+               Source="{Binding Source={x:Reference StarRatingView}, Path=StarImage2}">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer x:Name="tgrStar2" Tapped="tgrStar2_Tapped"></TapGestureRecognizer>
+            </Image.GestureRecognizers>
+        </Image>
         <Image x:Name="Star3" 
                WidthRequest="{Binding Source={x:Reference StarRatingView}, Path=Size}" 
                HeightRequest="{Binding Source={x:Reference StarRatingView}, Path=Size}" 
-               Source="{Binding Source={x:Reference StarRatingView}, Path=StarImage3}" />
+               Source="{Binding Source={x:Reference StarRatingView}, Path=StarImage3}">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer x:Name="tgrStar3" Tapped="tgrStar3_Tapped"></TapGestureRecognizer>
+            </Image.GestureRecognizers>
+        </Image>
         <Image x:Name="Star4" 
                WidthRequest="{Binding Source={x:Reference StarRatingView}, Path=Size}" 
                HeightRequest="{Binding Source={x:Reference StarRatingView}, Path=Size}" 
-               Source="{Binding Source={x:Reference StarRatingView}, Path=StarImage4}" />
+               Source="{Binding Source={x:Reference StarRatingView}, Path=StarImage4}" >
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer x:Name="tgrStar4" Tapped="tgrStar4_Tapped"></TapGestureRecognizer>
+            </Image.GestureRecognizers>
+        </Image>
         <Image x:Name="Star5" 
                WidthRequest="{Binding Source={x:Reference StarRatingView}, Path=Size}" 
                HeightRequest="{Binding Source={x:Reference StarRatingView}, Path=Size}" 
-               Source="{Binding Source={x:Reference StarRatingView}, Path=StarImage5}" />
+               Source="{Binding Source={x:Reference StarRatingView}, Path=StarImage5}" >
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer x:Name="tgrStar5" Tapped="tgrStar5_Tapped"></TapGestureRecognizer>
+            </Image.GestureRecognizers>
+        </Image>
     </StackLayout>
 
 </ContentView>

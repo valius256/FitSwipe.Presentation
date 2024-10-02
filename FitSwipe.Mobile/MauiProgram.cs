@@ -3,19 +3,24 @@ using Firebase.Auth;
 using Firebase.Auth.Providers;
 using FitSwipe.Mobile.Pages;
 using FitSwipe.Mobile.ViewModels;
+using MauiIcons.Fluent;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Controls.Compatibility.Hosting;
 using System.Net.Http.Headers;
 
 namespace FitSwipe.Mobile
 {
     public static class MauiProgram
     {
-        public static MauiApp CreateMauiApp()
+        public static MauiApp CreateMauiApp ()
         {
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCompatibility()
                 .UseMauiCommunityToolkitMediaElement()
+                .UseFluentMauiIcons()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -39,17 +44,14 @@ namespace FitSwipe.Mobile
 
             builder.Services.AddHttpClient("BackendApiClient", client =>
                 {
-                    client.BaseAddress = new Uri("http://192.168.1.10:5250/");
+                    //client.BaseAddress = new Uri("https://fitandswipeapi.somee.com/");
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 });
-
 
             builder.Services.AddSingleton<SignInView>();
             builder.Services.AddSingleton<SignUpView>();
             builder.Services.AddSingleton<SignInViewModel>();
             builder.Services.AddSingleton<SignUpViewModel>();
-
-            //builder.Services.AddSingleton<SwipeMatchView>();
 
             return builder.Build();
         }

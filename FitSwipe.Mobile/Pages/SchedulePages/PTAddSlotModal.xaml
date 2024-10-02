@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Pages.SchedulePages.PTAddSlotModal"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons">
+    <AbsoluteLayout>
+
+        <!-- Background overlay for fade effect -->
+        <Border BackgroundColor="#88000000"
+                Stroke="#88000000"
+             AbsoluteLayout.LayoutBounds="0,0,1,1"
+             AbsoluteLayout.LayoutFlags="All" />
+
+        <!-- Modal Content -->
+        <Frame BackgroundColor="White" CornerRadius="10" Padding="0"
+               BorderColor="Transparent"
+           VerticalOptions="Center"
+           AbsoluteLayout.LayoutBounds="0.5,0.5,0.8,1" 
+            AbsoluteLayout.LayoutFlags="All">
+            <VerticalStackLayout>
+                <Grid HorizontalOptions="Fill" BackgroundColor="#2E3192">
+                    <Label Text="{Binding Title}" FontSize="20" 
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        Padding="10"
+                        HorizontalTextAlignment="Center"/>
+                    <Button HorizontalOptions="End" CornerRadius="50" WidthRequest="40" HeightRequest="30"
+                        ImageSource="Images/remove.png" BackgroundColor="White" Margin="0,0,5,0"
+                        Clicked="btnClose_Clicked">
+                    </Button>
+                </Grid>
+                <Label Text="{Binding Subtitle}"
+                   FontSize="9"
+                   HorizontalTextAlignment="Center"
+                   Margin="5"
+                   TextColor="Black"
+                   FontAttributes="Bold"></Label>
+                <Border Stroke="#2E3192" StrokeThickness="2" Margin="20,5" Padding="10">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10"></RoundRectangle>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout>
+                        <Label Text="Chọn khung giờ"
+                       FontSize="9"
+                       HorizontalTextAlignment="Center"
+                       Margin="5"
+                       FontAttributes="Bold"></Label>
+                        <Border Margin="50,5" Stroke="#2E3192" StrokeThickness="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"></RoundRectangle>
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer x:Name="tapDate" Tapped="tapDate_Tapped" ></TapGestureRecognizer>
+                            </Border.GestureRecognizers>
+                            <FlexLayout JustifyContent="SpaceBetween" HorizontalOptions="Center">
+                                <Label x:Name="timeDate" Text="--/--/----"  Padding="5" TextColor="Black"></Label>
+                                <mi:MauiIcon  Icon="{mi:Fluent CalendarClock16}" IconSize="20" Padding="5" IconColor="Black"></mi:MauiIcon>
+                            </FlexLayout>
+
+                        </Border>
+                        <Border Margin="50,5" Stroke="#2E3192" StrokeThickness="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"></RoundRectangle>
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer x:Name="tapBegin" Tapped="tapBegin_Tapped" ></TapGestureRecognizer>
+                            </Border.GestureRecognizers>
+                            <FlexLayout JustifyContent="SpaceBetween" HorizontalOptions="Center">
+                                <Label x:Name="timeBegin" Text="00:00 a.m"  Padding="5" TextColor="Black"></Label>
+                                <mi:MauiIcon  Icon="{mi:Fluent CalendarClock16}" IconSize="20" Padding="5" IconColor="Black"></mi:MauiIcon>
+                            </FlexLayout>
+
+                        </Border>
+                        <Border Margin="50,5" Stroke="#2E3192" StrokeThickness="1">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"></RoundRectangle>
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer x:Name="tapEnd" Tapped="tapEnd_Tapped" ></TapGestureRecognizer>
+                            </Border.GestureRecognizers>
+                            <FlexLayout JustifyContent="SpaceBetween" HorizontalOptions="Center">
+                                <Label x:Name="timeEnd" Text="00:00 a.m"  Padding="5" TextColor="Black"></Label>
+                                <mi:MauiIcon  Icon="{mi:Fluent CalendarClock16}" IconSize="20" Padding="5" IconColor="Black"></mi:MauiIcon>
+                            </FlexLayout>
+
+                        </Border>
+                        <Label Text="(Tổng cộng 3 tiếng)"
+                       FontSize="9"
+                        TextColor="Black"
+                       HorizontalTextAlignment="Center"
+                       Margin="5"
+                        x:Name="labelCalculating"
+                       FontAttributes="Italic"></Label>
+                        <DatePicker x:Name="dpDate"  Opacity="0"  
+                        PropertyChanged="dpDate_PropertyChanged"
+                        HeightRequest="1"
+                        WidthRequest="1"></DatePicker>
+                        <TimePicker x:Name="tpBegin"  Opacity="0"  
+                        PropertyChanged="tpBegin_PropertyChanged"
+                        HeightRequest="1"
+                        WidthRequest="1"></TimePicker>
+                        <TimePicker x:Name="tpEnd" IsVisible="False" Opacity="0"  
+                        PropertyChanged="tpEnd_PropertyChanged"
+                        HeightRequest="1"
+                        WidthRequest="1"></TimePicker>
+                    </VerticalStackLayout>
+
+                </Border>
+                <HorizontalStackLayout HorizontalOptions="Center" Margin="5">
+                    <Button Text="Hủy bỏ"
+                     TextColor="White"
+                     BackgroundColor="Gray"
+                     Padding="15,0"
+                     HeightRequest="30"
+                     x:Name="btnClose"
+                     HorizontalOptions="Center"
+                     Clicked="btnClose_Clicked"
+                     Margin="0,0,20,0"/>
+                    <Button Text="Xác nhận"
+                     TextColor="White"
+                     BackgroundColor="#2E3192"
+                     Padding="15,0"
+                     HeightRequest="30"
+                     x:Name="btnApprove"
+                     HorizontalOptions="Center"
+                     Clicked="btnApprove_Clicked" 
+                     Margin="0,0,20,0"/>
+                    <Button Text="Xóa"
+                     IsVisible="False"
+                     TextColor="White"
+                     BackgroundColor="OrangeRed" 
+                     Padding="15,0"
+                     HeightRequest="30"
+                     x:Name="btnDelete"
+                     HorizontalOptions="Center"
+                     Clicked="btnDelete_Clicked"
+                     />
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+        </Frame>
+    </AbsoluteLayout>
+</ContentView>

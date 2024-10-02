@@ -5,8 +5,8 @@
              IsVisible="False"
              BackgroundColor="Black"
              Opacity="0.8">
-    <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="15" Padding="50,5">
+    <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="15" Padding="60,30">
         <ActivityIndicator IsRunning="True" Color="White" />
-        <Label Text="Loading..." TextColor="White" HorizontalOptions="Center" />
+        <Label Text="{Binding Message}" TextColor="White" HorizontalOptions="Center" />
     </StackLayout>
 </ContentView>

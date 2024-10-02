@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Pages.SchedulePages.PTSchedulePage"
+             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
+             xmlns:schedulePages="clr-namespace:FitSwipe.Mobile.Pages.SchedulePages"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons">
+    <AbsoluteLayout BackgroundColor="White">
+        <schedulePages:PTAddSlotModal x:Name="addSlotModal"
+                                      ZIndex="99"
+                                      OnAdded="addSlotModal_OnAdded"
+                                      Mode="Adding"
+                                      Title="Thêm khung giờ rảnh"
+                                      Subtitle="Thêm khung giờ rảnh để học viên có thể dễ dàng theo dõi và book"
+                                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                                    AbsoluteLayout.LayoutFlags="All"></schedulePages:PTAddSlotModal>
+        <schedulePages:PTAddSlotModal x:Name="editSlotModal"
+                              ZIndex="99"
+                              OnAdded="editSlotModal_OnAdded"
+                              OnDeleted="editSlotModal_OnDeleted"
+                              Mode="Editing"
+                              Title="Chỉnh sửa khung giờ rảnh"
+                              Subtitle="Chỉnh sửa khung giờ rảnh để học viên có thể dễ dàng theo dõi và book"
+                            AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            AbsoluteLayout.LayoutFlags="All"></schedulePages:PTAddSlotModal>
+        <schedulePages:PTDuplicatingSlotModal x:Name="duplicateSlotModal"
+                              ZIndex="99"
+                            AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            AbsoluteLayout.LayoutFlags="All"></schedulePages:PTDuplicatingSlotModal>
+        <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+            
+            <VerticalStackLayout Margin="10" BackgroundColor="White">
+
+                <HorizontalStackLayout Margin="10">
+                    <Label Text="Lịch trình của bạn"
+                    TextColor="Black"
+                    FontSize="20"
+                    FontAttributes="Bold"/>
+                    <BoxView
+                     HeightRequest="3"
+                     WidthRequest="300"
+                     Margin="10,0"
+                     BackgroundColor="#2E3192">
+                    </BoxView>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                    <Border Padding="15,7" BackgroundColor="#2E3192" Stroke="Transparent">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10"></RoundRectangle>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer x:Name="btnAdd" Tapped="btnAdd_Tapped"></TapGestureRecognizer>
+                        </Border.GestureRecognizers>
+                        <HorizontalStackLayout>
+                            <Label Text="Thêm buổi mới" TextColor="White" Margin="0,5"/>
+                            <mi:MauiIcon  Icon="{mi:Fluent Add16}" IconSize="20" Padding="5" IconColor="White"></mi:MauiIcon>
+                        </HorizontalStackLayout>
+                    </Border>
+                    <Border Padding="15,7" BackgroundColor="#2E3192" Stroke="Transparent">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10"></RoundRectangle>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer x:Name="btnDuplicate" Tapped="btnDuplicate_Tapped"></TapGestureRecognizer>
+                        </Border.GestureRecognizers>
+                        <HorizontalStackLayout>
+                            <Label Text="Copy sang tuần khác" TextColor="White" Margin="0,5"/>
+                            <mi:MauiIcon  Icon="{mi:Fluent Copy16}" IconSize="20" Padding="5" IconColor="White"></mi:MauiIcon>
+                        </HorizontalStackLayout>
+                    </Border>
+                    
+                </HorizontalStackLayout>
+                
+                <controls:TimeTable x:Name="timeTable" Theme="#2E3191" WeekChanged="timeTable_WeekChanged"
+                                    SlotAction="timeTable_SlotAction"></controls:TimeTable>
+                <Border Margin="0,5" Padding="15,7" BackgroundColor="OrangeRed" Stroke="Transparent" HorizontalOptions="Center">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10"></RoundRectangle>
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer x:Name="btnDelete" Tapped="btnDelete_Tapped"></TapGestureRecognizer>
+                    </Border.GestureRecognizers>
+                    <HorizontalStackLayout>
+                        <Label Text="Xóa tất cả buổi rảnh tuần này" TextColor="White" Margin="0,5"/>
+                        <mi:MauiIcon  Icon="{mi:Fluent Delete32}" IconSize="20" Padding="5" IconColor="White"></mi:MauiIcon>
+                    </HorizontalStackLayout>
+                </Border>
+                <BoxView HeightRequest="100" BackgroundColor="Transparent"/>
+            </VerticalStackLayout>
+
+        </ScrollView>
+        <controls:Navbar ActiveTab="4"
+             AbsoluteLayout.LayoutBounds="0,1,1,AutoSize" 
+             AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional"></controls:Navbar>
+    </AbsoluteLayout>
+</ContentPage>

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Pages.FeedbackPages.FeeedbackPage"
+             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls">
+
+    <ContentPage.Content>
+        <Grid BackgroundColor="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Row="0">
+                <!--Title-->
+                <VerticalStackLayout>
+                    <Label FontAttributes="Bold"
+                           FontSize="Title"
+                           Text="Đánh giá PT của bạn"
+                           TextColor="Black"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+
+                <!--Subtitle-->
+                <VerticalStackLayout Padding="20,4">
+                    <!--First Line-->
+                    <BoxView HeightRequest="1"
+                             BackgroundColor="#52BB00"
+                             HorizontalOptions="Fill"
+                             Margin="20,2" />
+                    <!-- Details Subtile-->
+                    <HorizontalStackLayout Margin="5,10,5,0">
+                        <Image Source="images/profile.png"
+                               MaximumWidthRequest="60"
+                               MaximumHeightRequest="60" />
+                        <!--Text subtile-->
+                        <VerticalStackLayout>
+                            <Label Text="Chúc mừng bạn đã hoàn thành khóa học với PT của mình!"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center"
+                                   TextColor="Black"
+                                   Margin="5,0,20,0" 
+                                   LineBreakMode="WordWrap"
+                                   WidthRequest="280"/>
+                            <Label Text="Hãy giành ra ít phút để cho chúng tôi cảm nhận của bạn &#xa;sau những buổi tập với PT nhé"
+                                   FontSize="8"
+                                   VerticalOptions="Center"
+                                   TextColor="Black"
+                                   Margin="5,0" />
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                    <!--Second Line-->
+                    <BoxView HeightRequest="1"
+                             BackgroundColor="#52BB00"
+                             HorizontalOptions="Fill"
+                             Margin="20,2" />
+                </VerticalStackLayout>
+
+                <!--Bio Feel-->
+                <VerticalStackLayout Margin="22,30,22,4">
+                    <!--Title Text-->
+                    <HorizontalStackLayout VerticalOptions="Center">
+                        <Border BackgroundColor="#52BB00" Stroke="#52BB00" Padding="8,5" Margin="4,0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5"></RoundRectangle>
+                            </Border.StrokeShape>
+                            <Label Text="1"
+                               FontSize="15"
+                               FontAttributes="Bold"
+                                TextColor="White"
+                                VerticalOptions="Center" />
+                        </Border>
+                                                  
+                        <Label Text="Cảm nhận của bạn về "
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center" 
+                               TextColor="Black"/>
+                        <Label Text="P.T Trần An"
+                               TextDecorations="Underline"
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"
+                               TextColor="#52BB00" />
+                    </HorizontalStackLayout>
+                    <!--Bio Answer box-->
+                    <Frame CornerRadius="10"
+                           Padding="0"
+                           BorderColor="#52BB00"
+                           HasShadow="False"
+                           BackgroundColor="Transparent">
+                        <Editor Text=""
+                                Placeholder="Trả lời ở đây"
+                                BackgroundColor="Transparent"
+                                FontSize="14"
+                                TextColor="Black"
+                                HeightRequest="100"
+                                VerticalOptions="CenterAndExpand"
+                                Margin="0"
+                                IsVisible="Visible" />
+                    </Frame>
+                </VerticalStackLayout>
+
+                <!--Star Rate-->
+                <VerticalStackLayout Margin="22,0">
+                    <!--Title Text-->
+                    <HorizontalStackLayout>
+                        <Border BackgroundColor="#52BB00" Stroke="#52BB00" Padding="8,5" Margin="4,0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5"></RoundRectangle>
+                            </Border.StrokeShape>
+                            <Label Text="2"
+                               FontSize="15"
+                               FontAttributes="Bold"
+                                TextColor="White"
+                                VerticalOptions="Center" />
+                            </Border>
+                        <Label Text="Ban sẽ đánh giá "
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center" 
+                               TextColor="Black"/>
+                        <Label Text="P.T Trần An"
+                               TextDecorations="Underline"
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"
+                               TextColor="#52BB00" />
+                        <Label Text=".bao nhiêu sao?"
+                               TextDecorations="Underline"
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center" 
+                               TextColor="Black"/>
+                    </HorizontalStackLayout>
+                    <!--Star Choose-->
+                    <controls:StarRatingControl x:Name="starRating" HorizontalOptions="Center" Size="50" Rating="0" StarChanged="starRating_StarChanged"></controls:StarRatingControl>
+
+                </VerticalStackLayout>
+
+                <!--Upload Image-->
+                <VerticalStackLayout Margin="22,0">
+                    <!--Title Text-->
+                    <HorizontalStackLayout>
+                        <Border BackgroundColor="#52BB00" Stroke="#52BB00" Padding="8,5" Margin="4,0">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5"></RoundRectangle>
+                            </Border.StrokeShape>
+                            <Label Text="3"
+                               FontSize="15"
+                               FontAttributes="Bold"
+                                TextColor="White"
+                                VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="(Không Bắt Buộc) Đăng ảnh thành tựu với "
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center" 
+                               TextColor="Black"/>
+
+                        <Label Text="P.T Trần An"
+                               TextDecorations="Underline"
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"
+                               TextColor="#52BB00" />
+                    </HorizontalStackLayout>
+
+                    <!--Image Upload (max 5)-->
+                    <ScrollView Orientation="Horizontal">
+                    <HorizontalStackLayout>
+                        <CollectionView x:Name="imageCollectionView">
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout Orientation="Horizontal"
+                                                 Span="1"
+                                                 HorizontalItemSpacing="5"/>
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame BorderColor="#52BB00"
+                                           Padding="0"
+                                           WidthRequest="80"
+                                           HeightRequest="80">
+                                        <Image Source="{Binding ImageSource}"
+                                               Aspect="AspectFill" />
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </HorizontalStackLayout>
+                    </ScrollView>
+                    <Frame WidthRequest="80"
+                        HeightRequest="80"
+                        Padding="0"
+                        Margin="0,5"
+                        HorizontalOptions="Start"
+                        BackgroundColor="Transparent">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Button_Clicked"></TapGestureRecognizer>
+                        </Frame.GestureRecognizers>
+                        <Label Text="+" HorizontalOptions="Center" VerticalOptions="Center"
+                               FontSize="50" FontAttributes="Bold" VerticalTextAlignment="Center"
+                               TextColor="Black"></Label>
+                    </Frame>
+                </VerticalStackLayout>
+
+                <!--Send Button-->
+                <VerticalStackLayout Margin="18,30">
+                    <Button Text="Gửi"
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            BackgroundColor="#52BB00"
+                            HeightRequest="40" />
+                </VerticalStackLayout>
+
+
+                
+            </StackLayout>
+            <!--Google Play Feedback-->
+            <VerticalStackLayout Grid.Row="1">
+                <BoxView HeightRequest="1"
+                     BackgroundColor="#52BB00"
+                     HorizontalOptions="Fill" />
+                <Grid RowDefinitions="auto,auto"
+                      ColumnDefinitions="auto,*"
+                      Margin="10">
+                    <!--(Left) Text and image-->
+                    <HorizontalStackLayout Grid.Row="0"
+                               Margin="20,0">
+                        <Image Source="images/dotnet_bot.png"
+                           WidthRequest="35"
+                           HeightRequest="35" />
+                        <Label Text="Đánh giá chúng tôi &#xa;qua Google Play "
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center" 
+                            TextColor="Black"/>
+                    </HorizontalStackLayout>
+                    <Button Grid.Column="1"
+                        Text="Đánh Giá"
+                        Margin="20,0"
+                        BackgroundColor="#52BB00"
+                        FontAttributes="Bold"
+                        FontSize="14" />
+                </Grid>
+            </VerticalStackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
