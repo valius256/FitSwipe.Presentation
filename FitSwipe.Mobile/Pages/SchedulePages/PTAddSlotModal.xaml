@@ -19,7 +19,7 @@
             AbsoluteLayout.LayoutFlags="All">
             <VerticalStackLayout>
                 <Grid HorizontalOptions="Fill" BackgroundColor="#2E3192">
-                    <Label Text="Thêm khung giờ rảnh" FontSize="20" 
+                    <Label Text="{Binding Title}" FontSize="20" 
                         TextColor="White"
                         FontAttributes="Bold"
                         Padding="10"
@@ -29,7 +29,7 @@
                         Clicked="btnClose_Clicked">
                     </Button>
                 </Grid>
-                <Label Text="Thêm khung giờ rảnh để học viên có thể dễ dàng theo dõi và book"
+                <Label Text="{Binding Subtitle}"
                    FontSize="9"
                    HorizontalTextAlignment="Center"
                    Margin="5"
@@ -123,7 +123,18 @@
                      HeightRequest="30"
                      x:Name="btnApprove"
                      HorizontalOptions="Center"
-                     Clicked="btnApprove_Clicked" />
+                     Clicked="btnApprove_Clicked" 
+                     Margin="0,0,20,0"/>
+                    <Button Text="Xóa"
+                     IsVisible="False"
+                     TextColor="White"
+                     BackgroundColor="OrangeRed" 
+                     Padding="15,0"
+                     HeightRequest="30"
+                     x:Name="btnDelete"
+                     HorizontalOptions="Center"
+                     Clicked="btnDelete_Clicked"
+                     />
                 </HorizontalStackLayout>
 
             </VerticalStackLayout>

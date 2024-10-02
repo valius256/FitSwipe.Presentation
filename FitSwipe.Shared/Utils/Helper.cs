@@ -1,5 +1,6 @@
 ﻿
 using FitSwipe.Shared.Dtos.Others;
+using FitSwipe.Shared.Dtos.Slots;
 
 namespace FitSwipe.Shared.Utils
 {
@@ -37,6 +38,18 @@ namespace FitSwipe.Shared.Utils
             }
 
             return weeks;
+        }
+
+        public static bool IsConflict(DateTime startTime, DateTime endTime, ICollection<GetSlotDto> slots)
+        {
+            foreach (var slot in slots)
+            {
+                if (startTime <= slot.EndTime && endTime >= slot.StartTime)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 

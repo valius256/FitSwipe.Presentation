@@ -1,4 +1,6 @@
-﻿using Microsoft.Maui.Handlers;
+﻿using FitSwipe.Shared.Dtos.Slots;
+using FitSwipe.Shared.Enums;
+using Microsoft.Maui.Handlers;
 
 namespace FitSwipe.Mobile.Pages.SchedulePages;
 
@@ -8,12 +10,41 @@ public partial class PTAddSlotModal : ContentView
     private TimeSpan _timeEnd = TimeSpan.Zero;
     private DateTime _date = DateTime.Now;
 
+    public static readonly BindableProperty TitleProperty =
+            BindableProperty.Create(nameof(Title), typeof(string), typeof(PTAddSlotModal), string.Empty);
+
+    public static readonly BindableProperty SubtitleProperty =
+            BindableProperty.Create(nameof(Subtitle), typeof(string), typeof(PTAddSlotModal), string.Empty);
+
+    public static readonly BindableProperty ModeProperty =
+            BindableProperty.Create(nameof(Mode), typeof(SlotModalMode), typeof(PTAddSlotModal), SlotModalMode.Adding);
+
     public event EventHandler? OnAdded;
+    public event EventHandler? OnDeleted;
+
+    public GetSlotDto? RefSlot {  get; set; }
+
+    public SlotModalMode Mode
+    {
+        get => (SlotModalMode)GetValue(ModeProperty);
+        set => SetValue(ModeProperty, value);
+    }
+    public string Title
+    {
+        get => (string)GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
+    public string Subtitle
+    {
+        get => (string)GetValue(SubtitleProperty);
+        set => SetValue(SubtitleProperty, value);
+    }
 
     public PTAddSlotModal()
     {
         InitializeComponent();
         Hide();
+        BindingContext = this;
     }
     public List<DateTime> GetTimeFrame()
     {
@@ -27,6 +58,17 @@ public partial class PTAddSlotModal : ContentView
     {
         IsVisible = true;
         InputTransparent = false;
+        btnDelete.IsVisible = Mode == SlotModalMode.Editing;
+        if (RefSlot != null)
+        {
+            tpEnd.Time =  RefSlot.EndTime.TimeOfDay;
+            tpBegin.Time =  RefSlot.StartTime.TimeOfDay;
+            dpDate.Date = RefSlot.StartTime;
+            _timeEnd = tpEnd.Time;
+            _timeBegin = tpBegin.Time;
+            _date = dpDate.Date;
+
+        }
     }
 
     public void Hide()
@@ -104,5 +146,10 @@ public partial class PTAddSlotModal : ContentView
     private void btnApprove_Clicked(object sender, EventArgs e)
     {
         OnAdded?.Invoke(this, e);
+    }
+
+    private void btnDelete_Clicked(object sender, EventArgs e)
+    {
+        OnDeleted?.Invoke(this, e);
     }
 }

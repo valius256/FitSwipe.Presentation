@@ -16,8 +16,6 @@ public partial class PTScheduleBookingView : ContentPage
 
     private void SetupTimeTable()
     {
-        timeTable.RefModal = bookSlotModal;
-        timeTable.Mode = 0;
     }
 
     private void FetchSlots()
@@ -47,5 +45,22 @@ public partial class PTScheduleBookingView : ContentPage
     private void btnClose_Clicked(object sender, EventArgs e)
     {
 
+    }
+
+    private void timeTable_SlotAction(object sender, Controls.SlotEventArgs e)
+    {
+        var border = e.Border;
+        var slot = e.Slot;
+
+        border.GestureRecognizers.Clear();
+        var tapGesture = new TapGestureRecognizer();
+
+        tapGesture.Tapped += (sender, e) =>
+        {
+            bookSlotModal.Show();
+            bookSlotModal.SetTime(slot.StartTime, slot.EndTime);           
+        };      
+
+        border.GestureRecognizers.Add(tapGesture);
     }
 }

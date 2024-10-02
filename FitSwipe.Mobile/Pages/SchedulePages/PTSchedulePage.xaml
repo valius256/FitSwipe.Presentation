@@ -9,8 +9,20 @@
         <schedulePages:PTAddSlotModal x:Name="addSlotModal"
                                       ZIndex="99"
                                       OnAdded="addSlotModal_OnAdded"
+                                      Mode="Adding"
+                                      Title="Thêm khung giờ rảnh"
+                                      Subtitle="Thêm khung giờ rảnh để học viên có thể dễ dàng theo dõi và book"
                                     AbsoluteLayout.LayoutBounds="0,0,1,1"
                                     AbsoluteLayout.LayoutFlags="All"></schedulePages:PTAddSlotModal>
+        <schedulePages:PTAddSlotModal x:Name="editSlotModal"
+                              ZIndex="99"
+                              OnAdded="editSlotModal_OnAdded"
+                              OnDeleted="editSlotModal_OnDeleted"
+                              Mode="Editing"
+                              Title="Chỉnh sửa khung giờ rảnh"
+                              Subtitle="Chỉnh sửa khung giờ rảnh để học viên có thể dễ dàng theo dõi và book"
+                            AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            AbsoluteLayout.LayoutFlags="All"></schedulePages:PTAddSlotModal>
         <schedulePages:PTDuplicatingSlotModal x:Name="duplicateSlotModal"
                               ZIndex="99"
                             AbsoluteLayout.LayoutBounds="0,0,1,1"
@@ -59,7 +71,8 @@
                     
                 </HorizontalStackLayout>
                 
-                <controls:TimeTable x:Name="timeTable" Theme="#2E3191" WeekChanged="timeTable_WeekChanged"></controls:TimeTable>
+                <controls:TimeTable x:Name="timeTable" Theme="#2E3191" WeekChanged="timeTable_WeekChanged"
+                                    SlotAction="timeTable_SlotAction"></controls:TimeTable>
                 <Border Margin="0,5" Padding="15,7" BackgroundColor="OrangeRed" Stroke="Transparent" HorizontalOptions="Center">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="10"></RoundRectangle>

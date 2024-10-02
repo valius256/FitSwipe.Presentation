@@ -1,4 +1,5 @@
-﻿using FitSwipe.Mobile.Pages.TrainingPages;
+﻿using FitSwipe.Mobile.Pages.SchedulePages;
+using FitSwipe.Mobile.Pages.TrainingPages;
 using FitSwipe.Shared.Dtos.Others;
 using FitSwipe.Shared.Dtos.Slots;
 using FitSwipe.Shared.Utils;
@@ -15,8 +16,6 @@ public partial class TimeTable : ContentView
 {
 	public const int minHour = 4;
 	public const int maxHour = 22;
-	public int Mode { get; set; } = 0;
-	public object? RefModal { get; set; }
     public ObservableCollection<GetSlotDto> Slots = new ObservableCollection<GetSlotDto>();
 	public List<string> TimeStampDisplays {  get; set; } = new List<string>();
     public GetWeekDto CurrentWeek { get; set; } = new GetWeekDto();
@@ -30,6 +29,7 @@ public partial class TimeTable : ContentView
             BindableProperty.Create(nameof(Year), typeof(int), typeof(TimeTable), DateTime.Now.Year);
 
     public event EventHandler? WeekChanged;
+    public event EventHandler<SlotEventArgs>? SlotAction;
 
     protected virtual void OnWeekChanged(EventArgs e)
     {
@@ -193,23 +193,9 @@ public partial class TimeTable : ContentView
 			AddActionForSlot(border, slot);
         }
     }
-	public void AddActionForSlot(Border border, GetSlotDto slot)
+	private void AddActionForSlot(Border border, GetSlotDto slot)
 	{
-		border.GestureRecognizers.Clear();
-		var tapGesture = new TapGestureRecognizer();
-		if (Mode == 0)
-		{
-			tapGesture.Tapped += (sender, e) =>
-			{
-				if (RefModal != null && RefModal.GetType() == typeof(BookSlotModal))
-				{
-					var bookSlotModal = (BookSlotModal)RefModal;
-					bookSlotModal.Show();
-					bookSlotModal.SetTime(slot.StartTime, slot.EndTime);
-				}
-			};
-		}
-		border.GestureRecognizers.Add(tapGesture);
+        SlotAction?.Invoke(this, new SlotEventArgs(border, slot));
     }
     public void GotoWeek(DateOnly date)
     {
@@ -284,5 +270,17 @@ public partial class TimeTable : ContentView
         {
             weekPicker.SelectedIndex = 0;
         }
+    }
+}
+
+public class SlotEventArgs : EventArgs
+{
+    public Border Border { get; set; }
+    public GetSlotDto Slot { get; set; }
+
+    public SlotEventArgs(Border border, GetSlotDto slot)
+    {
+        Border = border;
+        Slot = slot;
     }
 }
