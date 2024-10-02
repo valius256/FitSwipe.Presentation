@@ -1,6 +1,7 @@
 ﻿
 using FitSwipe.Shared.Enums;
 using System.Data;
+using System.Net.NetworkInformation;
 
 namespace FitSwipe.Shared.Dtos.Users
 {

@@ -1,28 +1,34 @@
-using FitSwipe.Shared.Dtos;
+﻿using FitSwipe.Shared.Dtos;
+using FitSwipe.Shared.Dtos.Paging;
+using FitSwipe.Shared.Dtos.Tags;
+using FitSwipe.Shared.Dtos.Users;
+using FitSwipe.Shared.Utils;
+using Mapster;
 using Syncfusion.Maui.Inputs;
+using System.Collections.ObjectModel;
 
 namespace FitSwipe.Mobile.Pages.HomePages;
 
 public partial class PTList : ContentPage
 {
-    public List<ViewItem> Items { get; set; } = new List<ViewItem>();
+    private ObservableCollection<GetUserWithTagDto> _items = new ObservableCollection<GetUserWithTagDto>();
+    private bool isFetching = false;
+    private int CurrentPage = 1;
+    private int PageSize = 8;
+    private int MaxPage = 1;
+    public ObservableCollection<GetUserWithTagDto> Items
+    {
+        get => _items;
+        set
+        {
+            _items = value;
+            OnPropertyChanged(nameof(Items));
+        }
+    }
     public PTList()
 	{
         InitializeComponent();
-        Items = new List<ViewItem>()
-        {
-            new ViewItem {Id = 1, Name = "Jason", Picture="Images/pt1.png", Rating = 4.8, Age = 40, AvatarUrl="Images/pt1.png", Bio="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim "},
-            new ViewItem {Id = 2, Name = "Jack", Picture="Images/pt2.png", Rating = 3, Age = 40, AvatarUrl="Images/pt2.png", Bio="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim "},
-            new ViewItem {Id = 3, Name = "Geogre", Picture="Images/pt3.png", Rating = 4.8, Age = 40, AvatarUrl="Images/pt3.png", Bio="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim "},
-            new ViewItem {Id = 4, Name = "Will", Picture = "Images/pt4.png", Rating = 4.8, Age = 40, AvatarUrl = "Images/pt4.png", Bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim "},
-            new ViewItem {Id = 4, Name = "Hambargah", Picture = "Images/pt5.png", Rating = 4.8, Age = 40, AvatarUrl = "Images/pt5.png", Bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim "},
-            new ViewItem {Id = 1, Name = "Jason", Picture="Images/pt1.png", Rating = 2, Age = 40, AvatarUrl="Images/pt1.png", Bio="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim "},
-            new ViewItem {Id = 2, Name = "Jack", Picture="Images/pt2.png", Rating = 4.8, Age = 40, AvatarUrl="Images/pt2.png", Bio="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim "},
-            new ViewItem {Id = 3, Name = "Geogre", Picture="Images/pt3.png", Rating = 4.8, Age = 40, AvatarUrl="Images/pt3.png", Bio="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim "},
-            new ViewItem {Id = 4, Name = "Will", Picture = "Images/pt4.png", Rating = 1, Age = 40, AvatarUrl = "Images/pt4.png", Bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim "},
-            new ViewItem {Id = 4, Name = "Hambargah", Picture = "Images/pt5.png", Rating = 4.8, Age = 40, AvatarUrl = "Images/pt5.png", Bio = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim "},
-
-        };
+        FetchData();
         BindingContext = this;
     }
 
@@ -31,9 +37,72 @@ public partial class PTList : ContentPage
         Navigation.PushModalAsync(new SwipeMatchView());
         //await Shell.Current.GoToAsync("//SwipeMatchView");
     }
-
+    private async void FetchData()
+    {
+        loadingDialog.IsVisible = true;
+        isFetching = true;
+        try
+        {
+            var token = await SecureStorage.GetAsync("auth_token");
+            if (token == null)
+            {
+                throw new Exception("Có sự cố xảy ra. Vui lòng đăng nhập lại");
+            }
+            var response = await Fetcher.GetAsync<PagedResult<GetUserWithTagDto>>($"api/users/match-ordered?Filter.Roles=1&page={CurrentPage}&limit={PageSize}", token);
+            if (response != null)
+            {
+                await AppendList(response.Items);
+                MaxPage = (int)  Math.Ceiling((double) response.Total / response.Limit);
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Lỗi","Có sự cố xảy ra. Err : " + ex.Message,"OK");
+        }
+        loadingDialog.IsVisible = false;
+        isFetching = false;
+    }
+    private async Task ContinueFetchingData()
+    {
+        isFetching = true;
+        try
+        {
+            var token = await SecureStorage.GetAsync("auth_token");
+            if (token == null)
+            {
+                throw new Exception("Có sự cố xảy ra. Vui lòng đăng nhập lại");
+            }
+            var response = await Fetcher.GetAsync<PagedResult<GetUserWithTagDto>>($"api/users/match-ordered?Filter.Roles=1&page={CurrentPage}&limit={PageSize}", token);
+            if (response != null)
+            {
+                await AppendList(response.Items);
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Lỗi", "Có sự cố xảy ra. Err : " + ex.Message, "OK");
+        }
+        isFetching = false;
+    }
+    private async Task AppendList(IList<GetUserWithTagDto> users)
+    {
+        foreach (var user in users)
+        {
+            Items.Add(user);
+            await Task.Delay(300);
+        }
+    }
     private void btnMatch_Clicked(object sender, EventArgs e)
     {
 
+    }
+
+    private async void CollectionView_RemainingItemsThresholdReached(object sender, EventArgs e)
+    {
+        if (!isFetching && CurrentPage < MaxPage)
+        {
+            CurrentPage++;
+            await ContinueFetchingData();
+        }
     }
 }
