@@ -13,8 +13,17 @@ namespace FitSwipe.Shared.Dtos.Slots
         public SlotType Type { get; set; }
         public SlotStatus Status { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
+        public string? Location { get; set; }
+        public string? Content { get; set; }
         public double? Rating { get; set; }
         public string? Feedback { get; set; }
         public string? Color { get; set; }
+        public int TotalVideos { get; set; }
+        public string TimeString
+        {
+            get => StartTime.TimeOfDay + " tới " + EndTime.TimeOfDay;
+        }
+        public string DateString => $"{StartTime:dd/MM/yyyy}";
+        public int SlotNumber {  get; set; }
     }
 }

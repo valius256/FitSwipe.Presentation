@@ -16,6 +16,8 @@ namespace FitSwipe.Shared.Dtos.Slots
         public PaymentStatus PaymentStatus { get; set; }
         public double? Rating { get; set; }
         public string? Feedback { get; set; }
+        public string? Location { get; set; }
+        public string? Content { get; set; }
         public GetUserDto CreateBy { get; set; } = default!;
         public GetTrainingDto Training { get; set; } = default!;
         //View properties

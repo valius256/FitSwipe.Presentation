@@ -86,6 +86,11 @@
 	  <None Remove="Resources\Images\Stars\star_half_filled.png" />
 	  <None Remove="Resources\Images\Stars\star_no_fill.png" />
 	  <None Remove="Resources\Images\plus.png" />
+		<None Remove="Resources\Images\calendar.png" />
+		<None Remove="Resources\Images\clock.png" />
+		<None Remove="Resources\Images\location.png" />
+		<None Remove="Resources\Images\online_video.png" />
+		<None Remove="Resources\Images\Icons\filter.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -108,9 +113,6 @@
 	  <MauiImage Include="Resources\Images\Icons\dumbell_white.png" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Remove="Resources\Images\Icons\filter.png" />
-	</ItemGroup>
 
 	<ItemGroup>
 	  <MauiImage Include="Resources\Images\Icons\facebook.png" />
@@ -202,6 +204,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\ProfilePages\TraineeProfilePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\SchedulePages\PTAcceptSchedule.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\SchedulePages\TraineeSchedulePage.xaml">
