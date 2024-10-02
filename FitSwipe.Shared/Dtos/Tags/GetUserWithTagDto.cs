@@ -28,7 +28,13 @@ namespace FitSwipe.Shared.Dtos.Tags
         public DateTime? UpdatedDate { get; set; }
         public DateTime? DeletedDate { get; set; }
         public RecordStatus RecordStatus { get; set; }
+        //PT Exclusive
+        public PTStatus? PTStatus { get; set; }
+        public string? Description { get; set; }
+        public double? PTExperienceYear { get; set; }
+        public double? PTRating { get; set; }
         public ObservableCollection<GetTagDto> Tags { get; set; } = new ObservableCollection<GetTagDto>();
+        public int Age => DateTime.Now.Year - DateOfBirth.Year;
         public string AddressString
         {
             get => Ward + ", " + District + " ," + City;

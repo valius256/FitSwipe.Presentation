@@ -65,7 +65,9 @@
 
 
             </VerticalStackLayout>
-            <CollectionView ItemsSource="{Binding Items}" Grid.Row="1">
+            <CollectionView ItemsSource="{Binding Items}" Grid.Row="1"
+                            RemainingItemsThreshold="0"
+                            RemainingItemsThresholdReached="CollectionView_RemainingItemsThresholdReached">
                 <!-- Define a grid layout with two columns -->
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical" Span="2" />
@@ -78,13 +80,13 @@
                             <Frame BorderColor="LimeGreen" Padding="0" CornerRadius="10"
                             HeightRequest="200">
                                 <Image
-                                Source="{Binding Picture}" 
+                                Source="{Binding AvatarUrl}" 
                                 Aspect="AspectFill" 
                                 HorizontalOptions="FillAndExpand" 
                                 VerticalOptions="FillAndExpand" />
                             </Frame>
                             <VerticalStackLayout>
-                                <Label Text="{Binding Name}" 
+                                <Label Text="{Binding UserName}" 
                                     FontSize="20" 
                                     FontAttributes="Bold" 
                                     HorizontalTextAlignment="Start" 
@@ -99,7 +101,7 @@
                                        />
                                 <FlexLayout HorizontalOptions="FillAndExpand">
                                     <controls:StarRatingControl 
-                                        Rating="{Binding Rating}" Size="20" 
+                                        Rating="{Binding PTRating}" Size="20" 
                                         ReadOnly="True"
                                         VerticalOptions="Center"
                                         HorizontalOptions="Start"
@@ -134,5 +136,10 @@
             ActiveTab="1"
             AbsoluteLayout.LayoutBounds="0,1,1,AutoSize" 
             AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" ></controls:Navbar>
+        <controls:LoadingDialog x:Name="loadingDialog"
+                     IsVisible="False"
+                     Message="Đang chuẩn bị danh sách PT cho bạn..."
+                     AbsoluteLayout.LayoutFlags="PositionProportional"
+                     AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
     </AbsoluteLayout>
 </ContentPage>
