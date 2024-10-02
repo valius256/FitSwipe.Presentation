@@ -1,6 +1,8 @@
-﻿using FitSwipe.Mobile.Pages.TrainingPages;
+﻿using FitSwipe.Mobile.Pages.SchedulePages;
+using FitSwipe.Mobile.Pages.TrainingPages;
 using FitSwipe.Shared.Dtos.Others;
 using FitSwipe.Shared.Dtos.Slots;
+using FitSwipe.Shared.Utils;
 using MauiIcons.Core;
 using MauiIcons.Fluent;
 using Microsoft.Maui.Controls.Shapes;
@@ -14,8 +16,6 @@ public partial class TimeTable : ContentView
 {
 	public const int minHour = 4;
 	public const int maxHour = 22;
-	public int Mode { get; set; } = 0;
-	public object? RefModal { get; set; }
     public ObservableCollection<GetSlotDto> Slots = new ObservableCollection<GetSlotDto>();
 	public List<string> TimeStampDisplays {  get; set; } = new List<string>();
     public GetWeekDto CurrentWeek { get; set; } = new GetWeekDto();
@@ -29,6 +29,7 @@ public partial class TimeTable : ContentView
             BindableProperty.Create(nameof(Year), typeof(int), typeof(TimeTable), DateTime.Now.Year);
 
     public event EventHandler? WeekChanged;
+    public event EventHandler<SlotEventArgs>? SlotAction;
 
     protected virtual void OnWeekChanged(EventArgs e)
     {
@@ -192,23 +193,21 @@ public partial class TimeTable : ContentView
 			AddActionForSlot(border, slot);
         }
     }
-	public void AddActionForSlot(Border border, GetSlotDto slot)
+	private void AddActionForSlot(Border border, GetSlotDto slot)
 	{
-		border.GestureRecognizers.Clear();
-		var tapGesture = new TapGestureRecognizer();
-		if (Mode == 0)
-		{
-			tapGesture.Tapped += (sender, e) =>
-			{
-				if (RefModal != null && RefModal.GetType() == typeof(BookSlotModal))
-				{
-					var bookSlotModal = (BookSlotModal)RefModal;
-					bookSlotModal.Show();
-					bookSlotModal.SetTime(slot.StartTime, slot.EndTime);
-				}
-			};
-		}
-		border.GestureRecognizers.Add(tapGesture);
+        SlotAction?.Invoke(this, new SlotEventArgs(border, slot));
+    }
+    public void GotoWeek(DateOnly date)
+    {
+        var weeks = ((List<GetWeekDto>)weekPicker.ItemsSource);
+        foreach (var week in weeks)
+        {
+            if (week.StartDate <= date && week.EndDate >= date)
+            {
+                weekPicker.SelectedItem = week;
+                return;
+            }
+        }
     }
 	private string GetSimpleTime(DateTime time)
 	{
@@ -223,39 +222,7 @@ public partial class TimeTable : ContentView
     {
         ZoomIn(false);
     }
-    private List<GetWeekDto> GetWeeksOfYear(int year)
-    {
-        var weeks = new List<GetWeekDto>();
-
-        // Start from the first day of the year
-        DateOnly firstDayOfYear = new DateOnly(year, 1, 1);
-
-        // Find the first Monday of the year
-        int offset = ((int)DayOfWeek.Monday - (int)firstDayOfYear.DayOfWeek + 7) % 7;
-        DateOnly firstMonday = firstDayOfYear.AddDays(offset);
-
-        DateOnly currentStartDate = firstMonday;
-
-        while (currentStartDate.Year == year)
-        {
-            DateOnly currentEndDate = currentStartDate.AddDays(6);
-
-            weeks.Add(new GetWeekDto
-            {
-                StartDate = currentStartDate,
-                EndDate = currentEndDate
-            });
-
-            currentStartDate = currentStartDate.AddDays(7);
-        }
-
-        return weeks;
-    }
-    private GetWeekDto? GetCurrentWeek(List<GetWeekDto> weeks)
-    {
-        DateOnly today = DateOnly.FromDateTime(DateTime.Today);
-        return weeks.FirstOrDefault(week => today >= week.StartDate && today <= week.EndDate);
-    }
+ 
     private void ModeOneAction(object sender, EventArgs e)
 	{
 
@@ -288,11 +255,11 @@ public partial class TimeTable : ContentView
     private void yearPicker_SelectedIndexChanged(object sender, EventArgs e)
     {
         Year = (int)yearPicker.SelectedItem;
-        var weeks = GetWeeksOfYear(Year);
+        var weeks = Helper.GetWeeksOfYear(Year);
         weekPicker.ItemsSource = weeks;
         if (Year == DateTime.Now.Year)
         {
-            var currentWeek = GetCurrentWeek(weeks);
+            var currentWeek = Helper.GetCurrentWeek(weeks);
             // Set the default selected item to the current week
             if (currentWeek != null)
             {
@@ -303,5 +270,17 @@ public partial class TimeTable : ContentView
         {
             weekPicker.SelectedIndex = 0;
         }
+    }
+}
+
+public class SlotEventArgs : EventArgs
+{
+    public Border Border { get; set; }
+    public GetSlotDto Slot { get; set; }
+
+    public SlotEventArgs(Border border, GetSlotDto slot)
+    {
+        Border = border;
+        Slot = slot;
     }
 }

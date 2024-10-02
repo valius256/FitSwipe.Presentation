@@ -16,7 +16,6 @@ public partial class TraineeSchedulePage : ContentPage
 
     private void SetupTimeTable()
     {
-        timeTable.Mode = 1;
     }
 
     private void FetchSlots()
