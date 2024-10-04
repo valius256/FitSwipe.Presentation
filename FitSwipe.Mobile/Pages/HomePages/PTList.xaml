@@ -133,6 +133,7 @@
             </CollectionView>
         </Grid>
         <controls:Navbar
+            x:Name="navbar"
             ActiveTab="1"
             AbsoluteLayout.LayoutBounds="0,1,1,AutoSize" 
             AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" ></controls:Navbar>

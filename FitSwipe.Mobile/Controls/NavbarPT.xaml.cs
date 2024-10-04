@@ -4,7 +4,11 @@ public partial class NavbarPT : ContentView
 {
     public static readonly BindableProperty ActiveTabProperty =
            BindableProperty.Create(nameof(ActiveTab), typeof(int), typeof(NavbarPT), 0, propertyChanged: OnTabChanged);
-
+    public bool HomeFlag { get; set; } = false;
+    public bool ChatFlag { get; set; } = false;
+    public bool TrainingFlag { get; set; } = false;
+    public bool ScheduleFlag { get; set; } = false;
+    public bool ProfileFlage { get; set; } = false;
     public NavbarPT()
     {
         InitializeComponent();

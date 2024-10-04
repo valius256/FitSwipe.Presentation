@@ -29,5 +29,9 @@ namespace FitSwipe.Shared.Dtos.Users
         public DateTime? UpdatedDate { get; set; }
         public DateTime? DeletedDate { get; set; }
         public RecordStatus RecordStatus { get; set; }
+        public string AddressString
+        {
+            get => Ward + ", " + District + " ," + City;
+        }
     }
 }

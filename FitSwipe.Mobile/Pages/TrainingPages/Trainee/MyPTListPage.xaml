@@ -9,7 +9,7 @@
              xmlns:dtos="clr-namespace:FitSwipe.Shared.Dtos.Trainings;assembly=FitSwipe.Shared"
              xmlns:local="clr-namespace:FitSwipe.Mobile.Converters.TrainingPageConverter"
              xmlns:view="clr-namespace:FitSwipe.Mobile.ViewModels"
-             x:DataType="vm:TrainingPageViewModel">
+             x:DataType="vm:MyPTListPageViewModel">
 
   <!--#region REGISTER FOR CONVERTER -->
   <ContentPage.Resources>
@@ -20,7 +20,9 @@
   <!--#endregion-->
 
   <AbsoluteLayout BackgroundColor="White">
-    <ScrollView AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+    <ScrollView  x:Name="pageContent"
+                 Scrolled="pageContent_Scrolled"
+                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                 AbsoluteLayout.LayoutFlags="All">
             <StackLayout Padding="15"
                    VerticalOptions="FillAndExpand"
@@ -138,8 +140,6 @@
           </StackLayout>
         </StackLayout>
         <!--#endregion-->
-
-        <!--#region FIRST TAB CONTENT-->
         <Frame BorderColor="#2E3191"
                CornerRadius="15"
                Padding="1"
@@ -147,15 +147,15 @@
                Margin="0, 0, 0, 100">
 
           <StackLayout>
-            <ListView ItemsSource="{Binding UserList}"
-                      HasUnevenRows="True"
+            <CollectionView ItemsSource="{Binding UserList}"
                       BackgroundColor="Transparent"
                       SelectionMode="None"
-                      SeparatorColor="Transparent"
                       VerticalScrollBarVisibility="Never">
-              <ListView.ItemTemplate>
-                <DataTemplate x:DataType="{x:Type dtos:GetMatchedPTDto}">
-                  <ViewCell IsEnabled="False">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="5" Orientation="Vertical"></LinearItemsLayout>
+            </CollectionView.ItemsLayout>
+              <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type dtos:GetTrainingWithTraineeAndPT}">
                     <!-- Each Item Views -->
                     <AbsoluteLayout Padding="0, 20">
                       <StackLayout Spacing="10"
@@ -293,6 +293,9 @@
                                       BackgroundColor="#E30000"
                                       VerticalOptions="EndAndExpand"
                                       TextColor="White"
+                                      x:Name="btnDelete"
+                                      Clicked="btnDelete_Clicked"
+                                      CommandParameter="{Binding}"
                                       CornerRadius="12" />
                             </HorizontalStackLayout>
                               <!-- Button Section 2 -->
@@ -343,18 +346,22 @@
                       </Border>
 
                     </AbsoluteLayout>
-                  </ViewCell>
                 </DataTemplate>
-              </ListView.ItemTemplate>
-            </ListView>
+              </CollectionView.ItemTemplate>
+            </CollectionView>
           </StackLayout>
         </Frame>
         <!--#endregion-->
       </StackLayout>
     </ScrollView>
-
-    <!-- Nav Bar -->
+    <controls:LoadingDialog x:Name="loadingDialog"
+             IsVisible="False"
+             Message="Đang lấy dữ liệu..."
+             AbsoluteLayout.LayoutFlags="PositionProportional"
+             AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
+        <!-- Nav Bar -->
     <controls:Navbar ActiveTab="3"
+                     x:Name="navbar"
                      ZIndex="99"
                      AbsoluteLayout.LayoutBounds="0, 1, 1, AutoSize"
                      AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" />
