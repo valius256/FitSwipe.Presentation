@@ -1,6 +1,11 @@
-﻿using FitSwipe.Shared.Dtos;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Core.Extensions;
+using FitSwipe.Mobile.Controls;
+using FitSwipe.Shared.Dtos;
 using FitSwipe.Shared.Dtos.Paging;
 using FitSwipe.Shared.Dtos.Tags;
+using FitSwipe.Shared.Dtos.Trainings;
 using FitSwipe.Shared.Dtos.Users;
 using FitSwipe.Shared.Utils;
 using Mapster;
@@ -8,7 +13,7 @@ using Syncfusion.Maui.Inputs;
 using System.Collections.ObjectModel;
 
 namespace FitSwipe.Mobile.Pages.HomePages;
-
+[QueryProperty(nameof(PassedFlag), "flag")]
 public partial class PTList : ContentPage
 {
     private ObservableCollection<GetUserWithTagDto> _items = new ObservableCollection<GetUserWithTagDto>();
@@ -16,6 +21,8 @@ public partial class PTList : ContentPage
     private int CurrentPage = 1;
     private int PageSize = 8;
     private int MaxPage = 1;
+    public bool PassedFlag { get; set; } = false;
+
     public ObservableCollection<GetUserWithTagDto> Items
     {
         get => _items;
@@ -31,15 +38,30 @@ public partial class PTList : ContentPage
         FetchData();
         BindingContext = this;
     }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        if (PassedFlag)
+        {
+            Items.Clear();
+            FetchData();
+            PassedFlag = false;
+        }
+    }
 
     private void btnSwipeMatch_Clicked(object sender, EventArgs e)
     {
-        Navigation.PushModalAsync(new SwipeMatchView());
+        Navigation.PushModalAsync(new SwipeMatchView(this, navbar));
         //await Shell.Current.GoToAsync("//SwipeMatchView");
     }
+    /// <summary>
+    /// Fetch the data for the first time
+    /// </summary>
     private async void FetchData()
     {
+        CurrentPage = 1;
         loadingDialog.IsVisible = true;
+        loadingDialog.Message = "Đang chuẩn bị danh sách PT cho bạn...";
         isFetching = true;
         try
         {
@@ -92,9 +114,41 @@ public partial class PTList : ContentPage
             await Task.Delay(300);
         }
     }
-    private void btnMatch_Clicked(object sender, EventArgs e)
+    private async void btnMatch_Clicked(object sender, EventArgs e)
     {
+        var button = sender as Button;
+        // Retrieve the bound object via CommandParameter
+        var boundItem = button?.CommandParameter as GetUserWithTagDto;
 
+        if (boundItem != null)
+        {
+            loadingDialog.IsVisible = true;
+            loadingDialog.Message = "Đang thực hiện...";
+            isFetching = true;
+            try
+            {
+                var token = await SecureStorage.GetAsync("auth_token");
+                if (token == null)
+                {
+                    throw new Exception("Có sự cố xảy ra. Vui lòng đăng nhập lại");
+                }
+                await Fetcher.PostAsync($"api/trainings", new CreateTrainingDto
+                {
+                    PTId = boundItem.FireBaseId,
+                    Status = Shared.Enums.TrainingStatus.Matched
+                }, token);
+                var toast = Toast.Make("Thành công! Bạn đã match với " + boundItem.UserName, ToastDuration.Short);
+                await toast.Show();
+                Items = Items.Where(u => u.Id != boundItem.Id).ToObservableCollection();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Lỗi", "Có sự cố xảy ra. Err : " + ex.Message, "OK");
+            }
+            loadingDialog.IsVisible = false;
+            isFetching = false;
+            navbar.TrainingFlag = true;
+        }
     }
 
     private async void CollectionView_RemainingItemsThresholdReached(object sender, EventArgs e)

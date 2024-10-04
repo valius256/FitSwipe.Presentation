@@ -7,7 +7,11 @@ namespace FitSwipe.Mobile.Controls
     {
         public static readonly BindableProperty ActiveTabProperty =
             BindableProperty.Create(nameof(ActiveTab), typeof(int), typeof(Navbar), 0, propertyChanged: OnTabChanged);
-
+        public bool HomeFlag { get; set; } = false;
+        public bool ChatFlag { get; set; } = false;
+        public bool TrainingFlag { get; set; } = false;
+        public bool ScheduleFlag { get; set; } = false;
+        public bool ProfileFlag { get; set; } = false;
         public Navbar()
         {
             InitializeComponent();
@@ -87,30 +91,39 @@ namespace FitSwipe.Mobile.Controls
         }
         private void navHome_Tapped(object sender, TappedEventArgs e)
         {
-            Shell.Current.GoToAsync("//PTList");
+            Shell.Current.GoToAsync($"//PTList?flag={HomeFlag}");
+            HomeFlag = false;
         }
 
         private void navChat_Tapped(object sender, TappedEventArgs e)
         {
-            Shell.Current.GoToAsync("//ChatPage");
+            Shell.Current.GoToAsync($"//ChatPage?flag={ChatFlag}");
+            ChatFlag = false;
+
 
         }
 
         private void navTraining_Tapped(object sender, TappedEventArgs e)
         {
-            Shell.Current.GoToAsync("//MyPTList");
+            Shell.Current.GoToAsync($"//MyPTList?flag={TrainingFlag}");
+            TrainingFlag = false;
+
 
         }
 
         private void navSchedule_Tapped(object sender, TappedEventArgs e)
         {
-            Shell.Current.GoToAsync("//TraineeSchedulePage");
+            Shell.Current.GoToAsync($"//TraineeSchedulePage?flag={ScheduleFlag}");
+            ScheduleFlag = false;
+
 
         }
 
         private void navProfile_Tapped(object sender, TappedEventArgs e)
         {
-            Shell.Current.GoToAsync("//TraineeProfilePage");
+            Shell.Current.GoToAsync($"//TraineeProfilePage?flag={ProfileFlag}");
+            ProfileFlag = false;
+
 
         }
     }

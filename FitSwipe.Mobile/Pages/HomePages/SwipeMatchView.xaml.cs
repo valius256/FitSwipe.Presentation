@@ -1,6 +1,11 @@
-﻿using FitSwipe.Shared.Dtos;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Core.Extensions;
+using FitSwipe.Mobile.Controls;
+using FitSwipe.Shared.Dtos;
 using FitSwipe.Shared.Dtos.Paging;
 using FitSwipe.Shared.Dtos.Tags;
+using FitSwipe.Shared.Dtos.Trainings;
 using FitSwipe.Shared.Utils;
 using System.Collections.ObjectModel;
 
@@ -13,6 +18,8 @@ public partial class SwipeMatchView : ContentPage
     private int CurrentPage = 1;
     private int PageSize = 8;
     private int MaxPage = 1;
+    private PTList _ptList;
+    private Navbar _navbar;
     public ObservableCollection<GetUserWithTagDto> Items
     {
         get => _items;
@@ -22,10 +29,12 @@ public partial class SwipeMatchView : ContentPage
             OnPropertyChanged(nameof(Items));
         }
     }
-    public SwipeMatchView()
+    public SwipeMatchView(PTList pTList, Navbar navbar)
     {
         InitializeComponent();
         FetchData();
+        _ptList = pTList;
+        _navbar = navbar;
         BindingContext = this;
     }
 
@@ -34,7 +43,7 @@ public partial class SwipeMatchView : ContentPage
         //matchView.CurrentItemChanged += OnCurrentItemChanged;
     }
 
-    private void btnMatch_Clicked(object sender, EventArgs e)
+    private async void btnMatch_Clicked(object sender, EventArgs e)
     {
         var button = sender as Button;
         // Retrieve the bound object via CommandParameter
@@ -42,8 +51,33 @@ public partial class SwipeMatchView : ContentPage
 
         if (boundItem != null)
         {
-            // Display the name of the corresponding object
-            DisplayAlert("Match", $"You matched with: {boundItem.UserName}", "OK");
+            loadingDialog.IsVisible = true;
+            loadingDialog.Message = "Đang thực hiện...";
+            isFetching = true;
+            try
+            {
+                var token = await SecureStorage.GetAsync("auth_token");
+                if (token == null)
+                {
+                    throw new Exception("Có sự cố xảy ra. Vui lòng đăng nhập lại");
+                }
+                await Fetcher.PostAsync($"api/trainings", new  CreateTrainingDto
+                {
+                    PTId =  boundItem.FireBaseId,
+                    Status = Shared.Enums.TrainingStatus.Matched
+                }, token);
+                var toast = Toast.Make("Thành công! Bạn đã match với " + boundItem.UserName,ToastDuration.Short);
+                await toast.Show();
+                Items = Items.Where(u => u.Id != boundItem.Id).ToObservableCollection();
+                _ptList.Items = Items.ToObservableCollection();
+                _navbar.TrainingFlag = true;
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Lỗi", "Có sự cố xảy ra. Err : " + ex.Message, "OK");
+            }
+            loadingDialog.IsVisible = false;
+            isFetching = false;
         }
     }
     private async void FetchData()

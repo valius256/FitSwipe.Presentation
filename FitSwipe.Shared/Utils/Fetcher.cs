@@ -160,7 +160,7 @@ namespace FitSwipe.Shared.Utils
                 throw;
             }
         }
-        public static async Task DeleteAsync<RequestType>(string url, string token = "")
+        public static async Task DeleteAsync(string url, string token = "")
         {
             try
             {
