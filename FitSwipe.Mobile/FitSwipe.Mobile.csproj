@@ -155,6 +155,9 @@
 	  <Compile Update="Pages\FeedbackPages\FeedbackPage.xaml.cs">
 	    <DependentUpon>FeedbackPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\SchedulePages\EditWorkoutSessionDetailPage.xaml.cs">
+	    <DependentUpon>EditWorkoutSessionDetailPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Resources\Themes\PTTheme.xaml.cs">
 	    <DependentUpon>PTTheme.xaml</DependentUpon>
 	  </Compile>
@@ -174,6 +177,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Controls\TimeTable.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\SchedulePages\EditWorkoutSessionDetailPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\SchedulePages\CustomersRequestedSchedulePage.xaml">

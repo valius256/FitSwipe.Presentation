@@ -15,34 +15,37 @@
        Shell.FlyoutBehavior="Disabled"
        Title="FitSwipe.Mobile">
 
+  <ShellContent ContentTemplate="{DataTemplate schedulePages:EditWorkoutSessionDetailPage}"
+                Route="EditWorkoutSessionDetail" />
+
   <ShellContent ContentTemplate="{DataTemplate pages:StartedView}"
                 Route="Started" />
   <ShellContent ContentTemplate="{DataTemplate pages:TrailerVideoView}"
                 Route="TrailerVideo" />
-  <ShellContent ContentTemplate="{DataTemplate pages:CertificateUploadView}"
-                Route="CertificateUpload" />
-
   <ShellContent ContentTemplate="{DataTemplate pages:SignInView}"
                 Route="SignIn" />
   <ShellContent ContentTemplate="{DataTemplate pages:SignUpView}"
                 Route="SignUp" />
+  <ShellContent ContentTemplate="{DataTemplate pages:CertificateUploadView}"
+                Route="CertificateUpload" />
   <ShellContent ContentTemplate="{DataTemplate setupPages:RegisterSucessfullyScreen}"
                 Route="RegisterSuccessfully" />
   <ShellContent ContentTemplate="{DataTemplate setupPages:SetupProfilePage}"
                 Route="SetupProfile" />
   <ShellContent ContentTemplate="{DataTemplate trainingPages:MyPTListPage}"
                 Route="MyPTList" />
-
+  <ShellContent ContentTemplate="{DataTemplate schedulePages:PTAcceptSchedule}"
+                Route="PTAcceptSchedule" />
   <ShellContent ContentTemplate="{DataTemplate homePages:PTList}"
                 Route="PTList" />
   <ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"
                 Route="SlotDetail" />
   <ShellContent ContentTemplate="{DataTemplate trainingPages:PTScheduleBookingView}"
                 Route="PTScheduleBooking" />
-  <ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"
+  <!--<ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"
                 Route="SlotDetail" />
   <ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"
-                Route="SlotDetail" />
+                Route="SlotDetail" />-->
   <ShellContent ContentTemplate="{DataTemplate chatPages:ChatPage}"
                 Route="ChatPage" />
   <ShellContent ContentTemplate="{DataTemplate profilePages:TraineeProfilePage}"

@@ -1,10 +1,6 @@
 using CommunityToolkit.Maui.Core.Primitives;
 using CommunityToolkit.Maui.Views;
 using FitSwipe.Shared.Dtos;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Controls.Internals;
-using Syncfusion.Maui.Core;
-using System;
 using System.Collections.ObjectModel;
 
 namespace FitSwipe.Mobile.Pages.TrainingPages;
