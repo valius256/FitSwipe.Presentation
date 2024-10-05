@@ -15,29 +15,35 @@
        Shell.FlyoutBehavior="Disabled"
        Title="FitSwipe.Mobile">
 
-    <ShellContent ContentTemplate="{DataTemplate pages:StartedView}"
-                  Route="Started" />
-    <ShellContent ContentTemplate="{DataTemplate pages:TrailerVideoView}"
-                  Route="TrailerVideo" />
-    <ShellContent ContentTemplate="{DataTemplate pages:SignInView}"
-                  Route="SignIn" />
-    <ShellContent ContentTemplate="{DataTemplate pages:SignUpView}"
-                  Route="SignUp" />
-    <ShellContent ContentTemplate="{DataTemplate pages:CertificateUploadView}"
-                  Route="CertificateUpload" />
-    <ShellContent ContentTemplate="{DataTemplate setupPages:RegisterSucessfullyScreen}"
-                 Route="RegisterSuccessfully" />
-    <ShellContent ContentTemplate="{DataTemplate setupPages:SetupProfilePage}"
+  <ShellContent ContentTemplate="{DataTemplate schedulePages:CustomersRequestedSchedulePage}"
+                Route="CustomersRequestedSchedulePage" />
+
+  <ShellContent ContentTemplate="{DataTemplate schedulePages:PTSchedulePage}"
+                Route="PTSchedulePage" />
+
+  <ShellContent ContentTemplate="{DataTemplate pages:StartedView}"
+                Route="Started" />
+  <ShellContent ContentTemplate="{DataTemplate pages:TrailerVideoView}"
+                Route="TrailerVideo" />
+  <ShellContent ContentTemplate="{DataTemplate pages:CertificateUploadView}"
+                Route="CertificateUpload" />
+
+  <ShellContent ContentTemplate="{DataTemplate pages:SignInView}"
+                Route="SignIn" />
+  <ShellContent ContentTemplate="{DataTemplate pages:SignUpView}"
+                Route="SignUp" />
+  <ShellContent ContentTemplate="{DataTemplate setupPages:RegisterSucessfullyScreen}"
+                Route="RegisterSuccessfully" />
+  <ShellContent ContentTemplate="{DataTemplate setupPages:SetupProfilePage}"
                 Route="SetupProfile" />
-    <ShellContent ContentTemplate="{DataTemplate trainingPages:MyPTListPage}"
+  <ShellContent ContentTemplate="{DataTemplate trainingPages:MyPTListPage}"
                 Route="MyPTList" />
-    <ShellContent ContentTemplate="{DataTemplate schedulePages:PTAcceptSchedule}"
-                  Route="PTAcceptSchedule" />
-    <ShellContent ContentTemplate="{DataTemplate homePages:PTList}"
+
+  <ShellContent ContentTemplate="{DataTemplate homePages:PTList}"
                 Route="PTList" />
-    <ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"
+  <ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"
                 Route="SlotDetail" />
-    <ShellContent ContentTemplate="{DataTemplate trainingPages:PTScheduleBookingView}"
+  <ShellContent ContentTemplate="{DataTemplate trainingPages:PTScheduleBookingView}"
                 Route="PTScheduleBooking" />
   <ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"
                 Route="SlotDetail" />
@@ -47,7 +53,7 @@
                 Route="ChatPage" />
   <ShellContent ContentTemplate="{DataTemplate profilePages:TraineeProfilePage}"
                 Route="TraineeProfilePage" />
-    <ShellContent ContentTemplate="{DataTemplate schedulePages:TraineeSchedulePage}"
+  <ShellContent ContentTemplate="{DataTemplate schedulePages:TraineeSchedulePage}"
                 Route="TraineeSchedulePage" />
   <ShellContent ContentTemplate="{DataTemplate homePages:SwipeMatchView}"
                 Route="SwipeMatch" />
@@ -55,8 +61,8 @@
                 Route="PayingCheck" />
   <ShellContent ContentTemplate="{DataTemplate payingpages:PayingView}"
                 Route="PayingView" />
-    <ShellContent ContentTemplate="{DataTemplate trainingPages:TrainingPage}"
+  <ShellContent ContentTemplate="{DataTemplate trainingPages:TrainingPage}"
                 Route="TrainingPage" />
-    <ShellContent ContentTemplate="{DataTemplate schedulePages:PTSchedulePage}"
-            Route="PTSchedulePage" />
+  <ShellContent ContentTemplate="{DataTemplate schedulePages:PTSchedulePage}"
+                Route="PTSchedulePage" />
 </Shell>

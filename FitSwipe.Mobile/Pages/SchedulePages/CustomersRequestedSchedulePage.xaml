@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Pages.SchedulePages.CustomersRequestedSchedulePage"
+             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
+             x:DataType="vm:CustomersRequestedScheduleViewModel"
+             xmlns:model="clr-namespace:FitSwipe.Shared.Dtos.Trainings;assembly=FitSwipe.Shared"
+             xmlns:vm="clr-namespace:FitSwipe.Mobile.ViewModels">
+
+  <ScrollView>
+
+    <StackLayout Padding="15">
+      <ImageButton Source="back.png"
+                   WidthRequest="30"
+                   HeightRequest="30"
+                   HorizontalOptions="StartAndExpand" />
+
+      <!--#region USER INFORMATION -->
+      <StackLayout HorizontalOptions="CenterAndExpand"
+                   Spacing="8">
+        <!-- User Avatar -->
+        <Border WidthRequest="80"
+                HeightRequest="80"
+                Stroke="#52BB00"
+                StrokeThickness="2">
+          <Border.StrokeShape>
+            <RoundRectangle CornerRadius="50" />
+          </Border.StrokeShape>
+
+          <Image Source="pt3"
+                 Aspect="AspectFill" />
+        </Border>
+
+        <!-- Occupation -->
+        <Label Text="{Binding User.Job}"
+               HorizontalTextAlignment="Center" />
+
+        <!-- Button -->
+        <Border Stroke="#2E3291"
+                StrokeThickness="2">
+          <Border.StrokeShape>
+            <RoundRectangle CornerRadius="12" />
+          </Border.StrokeShape>
+
+          <Button Text="Xem hồ sơ"
+                  Padding="0"
+                  WidthRequest="120"
+                  HeightRequest="30"
+                  BackgroundColor="Transparent"
+                  TextColor="Black" />
+        </Border>
+      </StackLayout>
+      <!--#endregion-->
+
+      <!-- Divine Line -->
+      <StackLayout Orientation="Horizontal"
+                   Spacing="10"
+                   Padding="0, 10, 0, 0">
+        <Label Text="Lịch trình"
+               FontAttributes="Bold" />
+        <BoxView HeightRequest="1.2"
+                 HorizontalOptions="FillAndExpand"
+                 Color="#2E3291" />
+      </StackLayout>
+
+      <!-- User Time Table -->
+      <controls:TimeTable x:Name="customers_timeTable"
+                          Theme="#2E3291" />
+
+      <!--#region SUMMARY INFORMATION -->
+      <StackLayout Padding="0, 10, 0, 0"
+                   BindingContext="{Binding TrainingDetails}"
+                   x:DataType="{x:Type model:GetUserRequestedScheduleDtos}">
+        <Border StrokeThickness="1.5"
+                Padding="10"
+                Stroke="#2E3291">
+          <Border.StrokeShape>
+            <RoundRectangle CornerRadius="12" />
+          </Border.StrokeShape>
+
+          <Grid ColumnDefinitions="4*, 6*"
+                RowDefinitions="Auto, Auto, Auto"
+                RowSpacing="10">
+            <!-- First Column -->
+            <Label Text="Thời gian"
+                   Grid.Column="0"
+                   Grid.Row="0"
+                   FontAttributes="Bold" />
+            <Label Text="Tổng số buổi"
+                   Grid.Column="0"
+                   Grid.Row="1"
+                   FontAttributes="Bold" />
+            <Label Text="Tổng thời lượng"
+                   Grid.Column="0"
+                   Grid.Row="2"
+                   FontAttributes="Bold" />
+
+            <!-- Second Column -->
+            <Label Text="{Binding DateRange}"
+                   Grid.Column="1"
+                   Grid.Row="0" />
+            <Label Text="{Binding TotalSessions}"
+                   Grid.Column="1"
+                   Grid.Row="1" />
+            <Label Text="{Binding TotalDuration}"
+                   Grid.Column="1"
+                   Grid.Row="2" />
+          </Grid>
+        </Border>
+      </StackLayout>
+
+      <!-- Action Buttons -->
+      <StackLayout Orientation="Horizontal"
+                   HorizontalOptions="CenterAndExpand"
+                   Padding="0, 10, 0, 0">
+        <Border Stroke="Transparent"
+                StrokeThickness="2">
+          <Border.StrokeShape>
+            <RoundRectangle CornerRadius="12" />
+          </Border.StrokeShape>
+
+          <Button Text="Đồng ý"
+                  Padding="0"
+                  WidthRequest="120"
+                  HeightRequest="30"
+                  BackgroundColor="#52BB00"
+                  TextColor="White" />
+        </Border>
+        <Border Stroke="Transparent"
+                StrokeThickness="2">
+          <Border.StrokeShape>
+            <RoundRectangle CornerRadius="12" />
+          </Border.StrokeShape>
+
+          <Button Text="Từ chối"
+                  Padding="0"
+                  WidthRequest="120"
+                  HeightRequest="30"
+                  BackgroundColor="#E30000"
+                  TextColor="White" />
+        </Border>
+      </StackLayout>
+      <!--#endregion-->
+    </StackLayout>
+  </ScrollView>
+</ContentPage>
