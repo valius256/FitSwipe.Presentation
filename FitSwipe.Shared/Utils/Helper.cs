@@ -40,10 +40,11 @@ namespace FitSwipe.Shared.Utils
             return weeks;
         }
 
-        public static bool IsConflict(DateTime startTime, DateTime endTime, ICollection<GetSlotDto> slots)
+        public static bool IsConflict(DateTime startTime, DateTime endTime, ICollection<GetSlotDto> slots, GetSlotDto? slotToSkip = null)
         {
             foreach (var slot in slots)
             {
+                if (slotToSkip != null && slotToSkip.Id == slot.Id) continue;
                 if (startTime <= slot.EndTime && endTime >= slot.StartTime)
                 {
                     return true;
@@ -51,6 +52,42 @@ namespace FitSwipe.Shared.Utils
             }
             return false;
         }
+        /// <summary>
+        /// return 00:00:00 of the monday of this week
+        /// </summary>
+        /// <returns></returns>
+        public static DateTime GetFirstDayOfWeek()
+        {
+            DateTime today = DateTime.Today;
+            int daysSinceMonday = (int)today.DayOfWeek - (int)DayOfWeek.Monday;
+
+            // Adjust for when today is Sunday, so we correctly set the first day to Monday
+            if (daysSinceMonday < 0)
+            {
+                daysSinceMonday += 7;
+            }
+
+            DateTime firstDayOfWeek = today.AddDays(-daysSinceMonday);
+            return firstDayOfWeek;
+        }
+        /// <summary>
+        /// return 23:59:59 of the sunday of this week
+        /// </summary>
+        /// <returns></returns>
+        public static DateTime GetLastDayOfWeek()
+        {
+            DateTime today = DateTime.Today;
+            int daysUntilSunday = (int)DayOfWeek.Sunday - (int)today.DayOfWeek;
+
+            // Adjust for when today is Sunday, so the last day should be today
+            if (daysUntilSunday < 0)
+            {
+                daysUntilSunday += 7;
+            }
+            DateTime lastDayOfWeek = today.AddDays(daysUntilSunday);
+            return lastDayOfWeek.AddHours(23).AddMinutes(59).AddSeconds(59);
+        }
+
     }
 
 

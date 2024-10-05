@@ -66,7 +66,7 @@ namespace FitSwipe.Mobile.ViewModels
                             }
                             else if (user.Role == Shared.Enums.Role.PT)
                             {
-                                navigateTo = "//TraineeProfilePage";
+                                navigateTo = "//PTProfilePage";
                             }
                             else if (user.Role == Shared.Enums.Role.Trainee)
                             {
