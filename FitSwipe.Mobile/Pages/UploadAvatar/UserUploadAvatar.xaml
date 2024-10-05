@@ -12,11 +12,11 @@
     </ContentPage.Resources>
 
     <Frame BorderColor="#52BB00"
-           CornerRadius="1">
+           CornerRadius="5">
         <VerticalStackLayout>
 
             <!--#region Switch Button-->
-            <HorizontalStackLayout Margin="20,10"
+            <HorizontalStackLayout Margin="0,10"
                                    HorizontalOptions="CenterAndExpand">
 
                 <Button Text="Ảnh đại diện"
@@ -33,7 +33,8 @@
                         CornerRadius="50"
                         Padding="50,0"
                         Margin="-10,0,0,0"
-                        BorderWidth="2" />
+                        BorderWidth="2"
+                        Clicked="NextPageUpload_Clicked" />
             </HorizontalStackLayout>
 
             <VerticalStackLayout>
@@ -43,18 +44,23 @@
                                      IsVisible="{Binding IsPhotoCaptured, Converter={StaticResource InverseBooleanConverter}}">
                     <!-- Camera Upload logo -->
 
-                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                    <HorizontalStackLayout HorizontalOptions="Center"
+                                           Spacing="20">
                         <!--Camera Take picture-->
                         <Frame HeightRequest="-1"
                                BorderColor="#52BB00"
                                CornerRadius="600"
                                VerticalOptions="Center"
                                HorizontalOptions="FillAndExpand">
-                            <ImageButton Source="images/camera.png"
-                                         WidthRequest="50"
-                                         HeightRequest="50"
-                                         HorizontalOptions="Start" />
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="cameraPhotoButton_Clicked" />
+                            </Frame.GestureRecognizers>
+                            <Image Source="images/camera.png"
+                                   WidthRequest="50"
+                                   HeightRequest="50"
+                                   HorizontalOptions="Start" />
                         </Frame>
+
                     </HorizontalStackLayout>
                     <Label Text="Hình đại diện không có"
                            FontSize="Micro"
@@ -69,36 +75,41 @@
                         <!-- Capture Button-->
                         <Frame Padding="0,-10"
                                CornerRadius="50"
-                               Margin="0,0,0,4"
+                               Margin="0,10,0,5"
                                BackgroundColor="#52BB00"
                                BorderColor="Transparent">
-                            <Button Text="Chụp hình"
-                                    FontAttributes="Bold"
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="cameraPhotoButton_Clicked" />
+                            </Frame.GestureRecognizers>
+
+                            <Label  Text="Chụp hình"
                                     TextColor="White"
                                     BackgroundColor="#52BB00"
                                     HorizontalOptions="Center"
-                                    Padding="105,0"
-                                    BorderColor="Transparent"
-                                    Clicked="cameraPhotoButton_Clicked"/>
+                                    VerticalOptions="Center"
+                                    VerticalTextAlignment="Center" />
                         </Frame>
+
                         <!-- Upload Image Button-->
                         <Frame Padding="0,-10"
                                CornerRadius="50"
-                               Margin="0,0,0,2"
+                               Margin="0,0,0,4"
                                BackgroundColor="#52BB00"
                                BorderColor="Transparent">
-                            <Button Text="Nhập hình từ điện thoại"
-                                    FontAttributes="Bold"
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="galleryPhotoButton_Clicked" />
+                            </Frame.GestureRecognizers>
+
+                            <Label  Text="Nhập Hình Từ Điện Thoại"
                                     TextColor="White"
                                     BackgroundColor="#52BB00"
                                     HorizontalOptions="Center"
-                                    Padding="60,0"
-                                    BorderColor="Transparent"
-                                    Clicked="galleryPhotoButton_Clicked"/>
+                                    VerticalOptions="Center"
+                                    VerticalTextAlignment="Center" />
                         </Frame>
                     </VerticalStackLayout>
                 </VerticalStackLayout>
- 
+
                 <!--After has image upload (invisiable if no image)-->
                 <VerticalStackLayout IsVisible="{Binding IsPhotoCaptured}">
                     <!-- Show the captured photo if available -->
@@ -113,7 +124,7 @@
                                    HeightRequest="150"
                                    VerticalOptions="Center"
                                    HorizontalOptions="FillAndExpand">
-                                <Image Source="{Binding CapturedImageSource}"
+                                <Image Source="{Binding ImageSource}"
                                        WidthRequest="150"
                                        HeightRequest="150"
                                        HorizontalOptions="Start" />
@@ -129,10 +140,8 @@
                                WidthRequest="50"
                                HeightRequest="50"
                                Margin="5,0">
-                            <Image Source="{Binding CapturedImageSource}"
-                                   WidthRequest="50"
-                                   HeightRequest="50"
-                                   HorizontalOptions="Start" />
+                            <Image Source="{Binding ImageSource}"
+                                   Aspect="Fill" />
                         </Frame>
                         <!--Logo 2-->
                         <Frame BorderColor="#52BB00"
@@ -140,10 +149,8 @@
                                WidthRequest="35"
                                HeightRequest="35"
                                Margin="5,0">
-                            <Image Source="{Binding CapturedImageSource}"
-                                   WidthRequest="35"
-                                   HeightRequest="35"
-                                   HorizontalOptions="Start" />
+                            <Image Source="{Binding ImageSource}"
+                                   Aspect="Fill" />
                         </Frame>
                         <!--Logo 3-->
                         <Frame BorderColor="#52BB00"
@@ -151,10 +158,8 @@
                                WidthRequest="25"
                                HeightRequest="25"
                                Margin="5,0">
-                            <Image Source="{Binding CapturedImageSource}"
-                                   WidthRequest="25"
-                                   HeightRequest="25"
-                                   HorizontalOptions="Start" />
+                            <Image Source="{Binding ImageSource}"
+                                   Aspect="Fill" />
                         </Frame>
                         <Label Text="*Đây là hình đại diện bạn&#xa;sẽ nhìn thấy "
                                FontSize="Micro"
@@ -173,10 +178,8 @@
                                    WidthRequest="25"
                                    HeightRequest="25"
                                    Margin="5,0">
-                                <Image Source="{Binding CapturedImageSource}"
-                                       WidthRequest="25"
-                                       HeightRequest="25"
-                                       HorizontalOptions="Start" />
+                                <Image Source="{Binding ImageSource}"
+                                       Aspect="Fill" />
                             </Frame>
                             <!-- Messger Text-->
                             <Frame BorderColor="#52BB00"
@@ -209,10 +212,8 @@
                                        WidthRequest="25"
                                        HeightRequest="25"
                                        Margin="5,0">
-                                    <Image Source="{Binding CapturedImageSource}"
-                                           WidthRequest="25"
-                                           HeightRequest="25"
-                                           HorizontalOptions="Start" />
+                                    <Image Source="{Binding ImageSource}"
+                                           Aspect="Fill" />
                                 </Frame>
                             </HorizontalStackLayout>
                         </HorizontalStackLayout>
@@ -233,7 +234,8 @@
                                     BackgroundColor="#52BB00"
                                     HorizontalOptions="Center"
                                     Padding="40,0"
-                                    BorderColor="#52BB00"/>
+                                    BorderColor="#52BB00"
+                                    Clicked="NextPageUpload_Clicked" />
                         </Frame>
                         <!-- Continue Button-->
                         <Frame Padding="0,-10"
@@ -248,7 +250,8 @@
                                     BackgroundColor="Transparent"
                                     HorizontalOptions="Center"
                                     Padding="40,0"
-                                    BorderColor="#52BB00" />
+                                    BorderColor="#52BB00"
+                                    Clicked="Undo_Clicked" />
                         </Frame>
 
                     </VerticalStackLayout>

@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -8,12 +9,19 @@ public partial class UserUploadAvatar : ContentPage, INotifyPropertyChanged
     private bool _isPhotoCaptured;
     private ImageSource _capturedImageSource;
 
+    // Declare ImageItems as a class-level property
+    public ObservableCollection<ImageItem> ImageItems { get; set; }
+
     public UserUploadAvatar()
-	{
-		
-        BindingContext = this;
+    {
         InitializeComponent();
+        BindingContext = this;
+
+        // Initialize the ImageItems collection
+        ImageItems = new ObservableCollection<ImageItem>();
+
     }
+
     public bool IsPhotoCaptured
     {
         get => _isPhotoCaptured;
@@ -29,48 +37,59 @@ public partial class UserUploadAvatar : ContentPage, INotifyPropertyChanged
         set
         {
             _capturedImageSource = value;
-            OnPropertyChanged();
+            OnPropertyChanged(nameof(CapturedImageSource));
         }
     }
+
     private async void cameraPhotoButton_Clicked(object sender, EventArgs e)
     {
+
         try
         {
-            if (MediaPicker.Default.IsCaptureSupported)
+            var result = await MediaPicker.CapturePhotoAsync();
+            if (result != null)
             {
-                FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
-                if (photo != null)
-                {
-                    // Load the captured image into the Image control
-                    var stream = await photo.OpenReadAsync();
-                    CapturedImageSource = ImageSource.FromStream(() => stream);
+                var stream = await result.OpenReadAsync();
+                var imageSource = ImageSource.FromStream(() => stream);
 
-                    // Hide the buttons and display the photo
-                    IsPhotoCaptured = true;
-                }
+                
+                CapturedImageSource = imageSource;
+
+                // Show thing a invisable 2
+                IsPhotoCaptured = true;
+
             }
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            // Handle exceptions (e.g., display an alert)
+            await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
         }
     }
 
     private async void galleryPhotoButton_Clicked(object sender, EventArgs e)
     {
+
         try
         {
-            var result = await MediaPicker.Default.PickPhotoAsync();
+            var result = await MediaPicker.PickPhotoAsync();
             if (result != null)
             {
                 var stream = await result.OpenReadAsync();
-                CapturedImageSource = ImageSource.FromStream(() => stream);
+                var imageSource = ImageSource.FromStream(() => stream);
+
+                // Add the new image to the collection
+                CapturedImageSource = imageSource;
+
+                // Show thing a invisable 2
                 IsPhotoCaptured = true;
+
             }
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            // Handle exceptions (e.g., display an alert)
+            await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
         }
     }
 
@@ -81,4 +100,21 @@ public partial class UserUploadAvatar : ContentPage, INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
+
+    private async void NextPageUpload_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new UserUploadImageVideo());
+    }
+    private async void Undo_Clicked(object sender, EventArgs e)
+    {
+        // Show thing a invisable 1
+        IsPhotoCaptured = false;
+    }
+
+    public class ImageItem
+    {
+        public ImageSource ImageSource { get; set; }
+    }
 }
+
+

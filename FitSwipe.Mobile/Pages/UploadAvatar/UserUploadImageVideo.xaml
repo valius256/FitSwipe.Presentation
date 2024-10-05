@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Pages.UploadAvatar.UserUploadImageVideo"
+             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls">
+
+    <Frame BorderColor="#52BB00"
+           CornerRadius="5">
+        <VerticalStackLayout>
+
+            <!--#region Switch Button-->
+            <HorizontalStackLayout Margin="0,20"
+                                   HorizontalOptions="CenterAndExpand">
+
+                <Button Text="Ảnh đại diện"
+                        TextColor="White"
+                        BackgroundColor="#52BB00"
+                        BorderColor="#52BB00"
+                        CornerRadius="50"
+                        Padding="50,0"
+                        Margin="0,0,-20,0"
+                        Clicked="NextPageAvtar_Clicked" />
+                <Button Text="Tải video / ảnh"
+                        TextColor="Black"
+                        BackgroundColor="White"
+                        BorderColor="#52BB00"
+                        CornerRadius="50"
+                        Padding="50,0"
+                        Margin="-10,0,0,0"
+                        BorderWidth="2" />
+            </HorizontalStackLayout>
+
+            <!--Image/Video upload-->
+            <VerticalStackLayout>
+                <!--Text description-->
+                <HorizontalStackLayout Margin="0,20,0,5">
+                    <Label Text="Ảnh/video của bạn"
+                           FontAttributes="Bold"
+                           TextColor="Black" />
+                    <Label Text="{Binding ImageVideoCount}"
+                           FontAttributes="Bold"
+                           TextColor="Black" />
+                    <BoxView HeightRequest="3"
+                             BackgroundColor="#2E3192" />
+                </HorizontalStackLayout>
+
+                <!--Upload-->
+                <!--Image Upload (max 5)-->
+                <VerticalStackLayout>
+                    <ScrollView Orientation="Horizontal">
+                        <HorizontalStackLayout>
+                            <CollectionView x:Name="imageCollectionView">
+                                <CollectionView.ItemsLayout>
+                                    <GridItemsLayout Orientation="Horizontal"
+                                                     Span="1"
+                                                     HorizontalItemSpacing="15" />
+                                </CollectionView.ItemsLayout>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Frame BorderColor="#52BB00"
+                                               CornerRadius="5"
+                                               Padding="0"
+                                               WidthRequest="90"
+                                               HeightRequest="150">
+                                            <Image Source="{Binding ImageSource}"
+                                                   Aspect="AspectFill" />
+                                        </Frame>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </HorizontalStackLayout>
+                    </ScrollView>
+
+                    <!--Upload And Capture Icon-->
+                    <HorizontalStackLayout>
+                        <!--Upload-->
+                        <Frame WidthRequest="90"
+                               HeightRequest="90"
+                               Padding="0"
+                               Margin="0,5,15,5"
+                               HorizontalOptions="Start"
+                               BackgroundColor="Transparent"
+                               BorderColor="#52BB00">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Button_Clicked"></TapGestureRecognizer>
+                            </Frame.GestureRecognizers>
+                            <Image Source="upload.png"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Frame>
+
+                        <Frame WidthRequest="90"
+                               HeightRequest="90"
+                               Padding="0"
+                               Margin="0,5"
+                               HorizontalOptions="Start"
+                               BackgroundColor="Transparent"
+                               BorderColor="#52BB00">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="cameraPhotoButton_Clicked"></TapGestureRecognizer>
+                            </Frame.GestureRecognizers>
+                            <Image Source="camera.png"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Frame>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout>
+                    <!--Button Upload-->
+                    <!-- Capture Button-->
+                    <Frame Padding="0,-10"
+                           CornerRadius="50"
+                           Margin="0,10,0,5"
+                           BackgroundColor="#52BB00"
+                           BorderColor="Transparent">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="cameraPhotoButton_Clicked" />
+                        </Frame.GestureRecognizers>
+                        <Label  Text="Chụp hình"
+                                TextColor="White"
+                                BackgroundColor="#52BB00"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                VerticalTextAlignment="Center" />
+                    </Frame>
+                    <!--Upload Button-->
+                    <Frame Padding="0,-10"
+                           CornerRadius="50"
+                           Margin="0,0,0,4"
+                           BackgroundColor="#52BB00"
+                           BorderColor="Transparent">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="cameraPhotoButton_Clicked" />
+                        </Frame.GestureRecognizers>
+
+                        <Label  Text="Nhập Hình Từ Điện Thoại"
+                                TextColor="White"
+                                BackgroundColor="#52BB00"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                VerticalTextAlignment="Center" />
+                    </Frame>
+                    <!--Small Description-->
+                    <Label Text="*Vui lòng tuân thủ theo nguyên tắc"
+                           FontSize="Micro"
+                           HorizontalOptions="Center"
+                           Margin="0,10" />
+
+                    <!-- Capture Button-->
+                    <Frame Padding="0,-10"
+                           CornerRadius="50"
+                           Margin="140,10"
+                           BackgroundColor="#52BB00"
+                           BorderColor="Transparent">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="done_Clicked" />
+                        </Frame.GestureRecognizers>
+                        <Label  Text="Xong"
+                                TextColor="White"
+                                BackgroundColor="#52BB00"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                VerticalTextAlignment="Center" />
+                    </Frame>
+
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </Frame>
+
+
+</ContentPage>
