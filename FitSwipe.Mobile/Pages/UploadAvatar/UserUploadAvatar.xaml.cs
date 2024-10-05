@@ -3,15 +3,16 @@ using System.Runtime.CompilerServices;
 
 namespace FitSwipe.Mobile.Pages.UploadAvatar;
 
-public partial class UserUploadAvatar : ContentPage
+public partial class UserUploadAvatar : ContentPage, INotifyPropertyChanged
 {
     private bool _isPhotoCaptured;
     private ImageSource _capturedImageSource;
 
     public UserUploadAvatar()
 	{
-		InitializeComponent();
+		
         BindingContext = this;
+        InitializeComponent();
     }
     public bool IsPhotoCaptured
     {

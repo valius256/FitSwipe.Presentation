@@ -40,7 +40,7 @@
 
                 <!--Before has image upload (invisiable after has image)-->
                 <VerticalStackLayout Margin="0,5"
-                                     IsVisible="{Binding IsPhotoCaptured}">
+                                     IsVisible="{Binding IsPhotoCaptured, Converter={StaticResource InverseBooleanConverter}}">
                     <!-- Camera Upload logo -->
 
                     <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
@@ -98,7 +98,7 @@
                         </Frame>
                     </VerticalStackLayout>
                 </VerticalStackLayout>
-
+ 
                 <!--After has image upload (invisiable if no image)-->
                 <VerticalStackLayout IsVisible="{Binding IsPhotoCaptured}">
                     <!-- Show the captured photo if available -->
