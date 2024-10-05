@@ -33,5 +33,6 @@ namespace FitSwipe.Shared.Dtos.Users
         {
             get => Ward + ", " + District + " ," + City;
         }
+        public int Age => DateTime.Now.Year - DateOfBirth.Year;
     }
 }

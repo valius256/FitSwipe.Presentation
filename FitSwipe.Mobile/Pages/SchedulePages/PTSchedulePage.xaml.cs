@@ -85,7 +85,7 @@ public partial class PTSchedulePage : ContentPage
             }
             else if (slot.Status == SlotStatus.Finished)
             {
-                slot.Color = "#989997";
+                slot.Color = "#0fab60";
             }
         }
     }

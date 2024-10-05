@@ -87,4 +87,17 @@ public partial class MyPTListPage : ContentPage
             ViewModel.ScrolledToEnd(e);
         }
     }
+
+    private async void btnBooking_Clicked(object sender, EventArgs e)
+    {
+        var button = sender as Button;
+        if (button != null)
+        {
+            var boundItem = button.CommandParameter as GetTrainingWithTraineeAndPTDto;
+            if (boundItem != null)
+            {
+                await Navigation.PushModalAsync(new PTScheduleBookingView(boundItem.PTId));
+            }
+        }
+    }
 }

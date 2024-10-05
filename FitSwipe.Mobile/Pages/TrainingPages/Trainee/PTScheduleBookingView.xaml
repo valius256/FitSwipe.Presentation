@@ -5,8 +5,8 @@
              xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
              xmlns:trainingPages="clr-namespace:FitSwipe.Mobile.Pages.TrainingPages"
              x:Name="PTScheduleBooking">
-    <Grid>
-        <ScrollView>
+    <AbsoluteLayout>
+        <ScrollView x:Name="pageContent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
             <VerticalStackLayout Margin="10" BackgroundColor="White">
                 <Label 
                     Text="Bạn đang đặt lịch với"
@@ -14,7 +14,7 @@
                     VerticalOptions="Center" 
                     HorizontalOptions="Center" />
                 <Label 
-                    Text="PT Trần A"
+                    Text="{Binding PTUser.UserName, StringFormat='PT. {0}'}"
                     FontAttributes="Bold"
                     TextColor="Black"
                     FontSize="30"
@@ -30,7 +30,7 @@
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="20"></RoundRectangle>
                         </Border.StrokeShape>
-                        <Image Source="dotnet_bot.png"
+                        <Image Source="{Binding LoginedUser.UserName}"
                                    Aspect="AspectFill"
                                    WidthRequest="100"
                                    HeightRequest="140"></Image>
@@ -39,7 +39,7 @@
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="20"></RoundRectangle>
                         </Border.StrokeShape>
-                        <Image Source="pt1.png"
+                        <Image Source="{Binding PTUser.UserName}"
                                         Aspect="AspectFill"
                                         WidthRequest="100"
                                         HeightRequest="140"></Image>
@@ -56,12 +56,12 @@
                             <RoundRectangle CornerRadius="20"></RoundRectangle>
                         </Border.StrokeShape>
                         <FlexLayout JustifyContent="SpaceBetween">
-                            <Label Text="Nguyễn Văn A"
+                            <Label Text="{Binding LoginedUser.UserName}"
                                 Margin="0,0,20,0"
                                 VerticalOptions="Center"
                                TextColor="White"
                                 FontAttributes="Bold"></Label>
-                            <Label Text="20"
+                            <Label Text="{Binding LoginedUser.Age}"
                                 FontSize="10"
                                 VerticalOptions="Center"                                  
                                TextColor="White"></Label>
@@ -72,12 +72,12 @@
                             <RoundRectangle CornerRadius="20"></RoundRectangle>
                         </Border.StrokeShape>
                         <FlexLayout JustifyContent="SpaceBetween">
-                            <Label Text="20"
+                            <Label Text="{Binding PTUser.Age}"
                                 Margin="0,0,20,0"
                                 FontSize="10"
                                 VerticalOptions="Center"                                  
                                TextColor="White"></Label>
-                            <Label Text="Nguyễn Văn A"
+                            <Label Text="{Binding PTUser.UserName, StringFormat='PT. {0}'}"
                                 VerticalOptions="Center"
                                TextColor="White"
                                 FontAttributes="Bold"></Label>
@@ -96,7 +96,7 @@
                         BackgroundColor="#2E3192">
                     </BoxView>
                 </HorizontalStackLayout>
-                <controls:TimeTable x:Name="timeTable" Theme="#2E3192" SlotAction="timeTable_SlotAction"></controls:TimeTable>
+                <controls:TimeTable x:Name="timeTable" Theme="#2E3192" SlotAction="timeTable_SlotAction" WeekChanged="timeTable_WeekChanged"></controls:TimeTable>
                 <Border Margin="0,20"
                     Stroke="LimeGreen"
                     Padding="10">
@@ -143,6 +143,11 @@
             </VerticalStackLayout>
             
         </ScrollView>
-        <trainingPages:BookSlotModal x:Name="bookSlotModal"></trainingPages:BookSlotModal>
-    </Grid>
+        <controls:LoadingDialog x:Name="loadingDialog"
+             IsVisible="False"
+             Message="Đang lấy dữ liệu..."
+             AbsoluteLayout.LayoutFlags="PositionProportional"
+             AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
+        <trainingPages:BookSlotModal x:Name="bookSlotModal"  AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All"></trainingPages:BookSlotModal>
+    </AbsoluteLayout>
 </ContentPage>
