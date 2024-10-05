@@ -8,7 +8,7 @@ public partial class NavbarPT : ContentView
     public bool ChatFlag { get; set; } = false;
     public bool TrainingFlag { get; set; } = false;
     public bool ScheduleFlag { get; set; } = false;
-    public bool ProfileFlage { get; set; } = false;
+    public bool ProfileFlag { get; set; } = false;
     public NavbarPT()
     {
         InitializeComponent();
@@ -89,27 +89,38 @@ public partial class NavbarPT : ContentView
 
     private void navHome_Tapped(object sender, TappedEventArgs e)
     {
-        Shell.Current.GoToAsync("//PTList");
+        Shell.Current.GoToAsync($"//PTHomePage?flag={HomeFlag}");
+        HomeFlag = false;
     }
 
     private void navChat_Tapped(object sender, TappedEventArgs e)
     {
-        Shell.Current.GoToAsync("//ChatPage");
+        Shell.Current.GoToAsync($"//ChatPage?flag={ChatFlag}&role=PT");
+        ChatFlag = false;
+
+
     }
 
     private void navTraining_Tapped(object sender, TappedEventArgs e)
     {
-        Shell.Current.GoToAsync("//TrainingPage");
+        Shell.Current.GoToAsync($"//TrainingPage?flag={TrainingFlag}");
+        TrainingFlag = false;
+
+
     }
 
     private void navSchedule_Tapped(object sender, TappedEventArgs e)
     {
-        Shell.Current.GoToAsync("//TraineeSchedulePage");
+        Shell.Current.GoToAsync($"//PTSchedulePage?flag={ScheduleFlag}");
+        ScheduleFlag = false;
+
+
     }
 
     private void navProfile_Tapped(object sender, TappedEventArgs e)
     {
-        Shell.Current.GoToAsync("//TraineeProfilePage");
+        Shell.Current.GoToAsync($"//PTProfilePage?flag={ProfileFlag}");
+        ProfileFlag = false;
     }
 
 }

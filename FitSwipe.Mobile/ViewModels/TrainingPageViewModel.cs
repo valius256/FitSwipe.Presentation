@@ -54,7 +54,7 @@ namespace FitSwipe.Mobile.ViewModels
             {
                 Trainee = new GetUserDto
                 {
-                    UserName = "Nguyễn Thanh Phong",
+                    UserName = "Nguyễn Thanh Phong Phong",
                     Job = "Sinh viên",
                     AvatarUrl = "pt3.png",
                     DateOfBirth = new DateTime(2003,9,21)

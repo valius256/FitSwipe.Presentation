@@ -85,7 +85,7 @@ public partial class SetupProfileStepFinalPage : ContentPage
             }
             if (_updateUserProfileDto.Role == Role.PT)
             {
-                await Shell.Current.GoToAsync("//TraineeProfilePage");
+                await Shell.Current.GoToAsync("//PTProfilePage");
             }
             else
             {

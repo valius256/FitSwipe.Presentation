@@ -280,6 +280,9 @@
                                       Margin="0, 10, 0, 0"
                                       BackgroundColor="#52BB00"
                                       VerticalOptions="EndAndExpand"
+                                      x:Name="btnBooking"
+                                      Clicked="btnBooking_Clicked"
+                                      CommandParameter="{Binding}"
                                       TextColor="White"
                                       CornerRadius="12" />
 

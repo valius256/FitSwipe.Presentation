@@ -180,6 +180,10 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\SchedulePages\EditWorkoutSessionDetailPage.xaml">
+	  <MauiXaml Update="Pages\HomePages\PTHomePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ProfilePages\PTProfilePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\SchedulePages\CustomersRequestedSchedulePage.xaml">

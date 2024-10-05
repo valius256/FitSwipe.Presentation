@@ -6,6 +6,7 @@ namespace FitSwipe.Mobile.Pages.SchedulePages;
 public partial class PTDuplicatingSlotModal : ContentView
 {
 	public List<GetWeekDto> Weeks { get; set; } = new List<GetWeekDto>();
+	public List<GetWeekDto> SelectedWeeks { get; set; } = new List<GetWeekDto>();
     public static readonly BindableProperty YearProperty =
             BindableProperty.Create(nameof(Year), typeof(int), typeof(PTDuplicatingSlotModal), DateTime.Now.Year);
 
@@ -14,6 +15,7 @@ public partial class PTDuplicatingSlotModal : ContentView
         get => (int)GetValue(YearProperty);
         set => SetValue(YearProperty, value);
     }
+    public event EventHandler<WeekCheckedEventArgs>? OnConfirmed;
 
     public PTDuplicatingSlotModal()
 	{
@@ -43,6 +45,37 @@ public partial class PTDuplicatingSlotModal : ContentView
 
     private void btnAccept_Clicked(object sender, EventArgs e)
     {
-        Hide();
+        OnConfirmed?.Invoke(this,new WeekCheckedEventArgs(SelectedWeeks));
+    }
+
+    private void weekCheck_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        // Get the CheckBox that triggered the event
+        var checkbox = (CheckBox)sender;
+
+        // Get the Week object from the BindingContext
+        var week = (GetWeekDto)checkbox.BindingContext;
+        if (week != null)
+        {
+            if (e.Value)
+            {
+                SelectedWeeks.Add(week);
+            }
+            else
+            {
+                SelectedWeeks.Remove(week);
+            }
+        }
+       
+    }
+
+    public class WeekCheckedEventArgs : EventArgs
+    {
+        public List<GetWeekDto> Weeks { get; set; }
+
+        public WeekCheckedEventArgs(List<GetWeekDto> weeks)
+        {
+            Weeks = weeks;
+        }
     }
 }
