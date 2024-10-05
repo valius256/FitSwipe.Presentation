@@ -290,6 +290,6 @@
 	  <MauiImage Include="Resources\Images\Icons\home_blue.png" />
 	</ItemGroup>
 
-	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionFitSwipeMobileHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionFitSwipeMobileHideInfoBar="True" XamarinHotReloadUnhandledDeviceExceptionFitSwipeMobileHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>

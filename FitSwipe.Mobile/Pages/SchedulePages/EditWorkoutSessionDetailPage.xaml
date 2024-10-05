@@ -14,171 +14,217 @@
     </ResourceDictionary>
   </ContentPage.Resources>
 
-  <VerticalStackLayout>
-    <!-- Back Button -->
-    <ImageButton Source="back.png"
-                 WidthRequest="30"
-                 HeightRequest="30"
-                 HorizontalOptions="StartAndExpand" />
+  <ScrollView>
+    <VerticalStackLayout>
+      <StackLayout Padding="20">
+        <!-- Back Button -->
+        <ImageButton Source="back.png"
+                     WidthRequest="30"
+                     HeightRequest="30"
+                     HorizontalOptions="StartAndExpand" />
 
-    <!-- Page Title Section -->
-    <StackLayout HorizontalOptions="CenterAndExpand"
-                 Spacing="8">
-      <Label Text="Buổi 1"
-             HorizontalTextAlignment="Center"
-             FontSize="Title"
-             FontAttributes="Bold" />
+        <!-- Page Title Section -->
+        <StackLayout HorizontalOptions="CenterAndExpand"
+                     Spacing="8">
+          <Label Text="Buổi 1"
+                 HorizontalTextAlignment="Center"
+                 FontSize="Title"
+                 FontAttributes="Bold" />
 
-      <BoxView HorizontalOptions="FillAndExpand"
-               HeightRequest="1"
-               WidthRequest="250"
-               Color="#018F15" />
+          <BoxView HorizontalOptions="FillAndExpand"
+                   HeightRequest="1"
+                   WidthRequest="250"
+                   Color="#018F15" />
 
-      <HorizontalStackLayout Spacing="10"
-                             HorizontalOptions="CenterAndExpand">
-        <Label Text="Học viên: "
-               FontSize="Large"
-               FontAttributes="Bold" />
-        <Label Text="Nguyễn Văn A"
-               FontSize="Large" />
-      </HorizontalStackLayout>
+          <HorizontalStackLayout Spacing="10"
+                                 HorizontalOptions="CenterAndExpand">
+            <Label Text="Học viên: "
+                   FontSize="Large"
+                   FontAttributes="Bold" />
+            <Label Text="Nguyễn Văn A"
+                   FontSize="Large" />
+          </HorizontalStackLayout>
 
-      <HorizontalStackLayout Spacing="10"
-                             HorizontalOptions="CenterAndExpand">
-        <Label Text="6:00 AM"
-               FontSize="Large"
-               FontAttributes="Bold"
-               TextColor="#2E3192" />
-        <Label Text="-"
-               FontSize="Large"
-               FontAttributes="Bold"
-               TextColor="#2E3192" />
-        <Label Text="9:00 AM"
-               FontSize="Large"
-               FontAttributes="Bold"
-               TextColor="#2E3192" />
-      </HorizontalStackLayout>
+          <HorizontalStackLayout Spacing="10"
+                                 HorizontalOptions="CenterAndExpand">
+            <Label Text="6:00 AM"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   TextColor="#2E3192" />
+            <Label Text="-"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   TextColor="#2E3192" />
+            <Label Text="9:00 AM"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   TextColor="#2E3192" />
+          </HorizontalStackLayout>
 
-      <Label Text="20/09/2024"
-             FontSize="Medium"
-             HorizontalTextAlignment="Center" />
+          <Label Text="20/09/2024"
+                 FontSize="Medium"
+                 HorizontalTextAlignment="Center" />
 
-      <HorizontalStackLayout HorizontalOptions="CenterAndExpand"
-                             Spacing="10">
-        <Label Text="Địa điểm: "
-               VerticalOptions="CenterAndExpand"
-               FontAttributes="Bold"
-               FontSize="Small" />
+          <HorizontalStackLayout HorizontalOptions="CenterAndExpand"
+                                 Spacing="10">
+            <Label Text="Địa điểm: "
+                   VerticalOptions="CenterAndExpand"
+                   FontAttributes="Bold"
+                   FontSize="Small" />
 
-        <Border Padding="20,5"
-                Stroke="#2E3192">
-          <Border.StrokeShape>
-            <RoundRectangle CornerRadius="8" />
-          </Border.StrokeShape>
-          <Label Text="Phòng tập ABC" />
-        </Border>
-      </HorizontalStackLayout>
-    </StackLayout>
+            <Border Padding="20,5"
+                    Stroke="#2E3192">
+              <Border.StrokeShape>
+                <RoundRectangle CornerRadius="8" />
+              </Border.StrokeShape>
+              <Label Text="Phòng tập ABC" />
+            </Border>
+          </HorizontalStackLayout>
+        </StackLayout>
+      </StackLayout>
 
-    <!-- Video Carousel Section -->
-    <AbsoluteLayout>
-      <!-- CarouselView -->
-      <CarouselView x:Name="carouselView"
-                    ItemsSource="{Binding Videos}"
-                    Position="{Binding CarouselPosition, Mode=TwoWay}"
-                    AbsoluteLayout.LayoutBounds="0, 0, 1, 300"
-                    AbsoluteLayout.LayoutFlags="All">
-        <CarouselView.ItemTemplate>
-          <DataTemplate x:DataType="{x:Type model:Video}">
-            <StackLayout>
-              <toolkit:MediaElement Source="{Binding VideoSource}"
-                                    ShouldAutoPlay="False"
-                                    HeightRequest="300"
-                                    HorizontalOptions="FillAndExpand"
-                                    Aspect="AspectFill" />
-            </StackLayout>
-          </DataTemplate>
-        </CarouselView.ItemTemplate>
-      </CarouselView>
+      <!-- Video Carousel Section -->
+      <AbsoluteLayout>
+        <!-- CarouselView -->
+        <CarouselView x:Name="carouselView"
+                      ItemsSource="{Binding Videos}"
+                      Position="{Binding CarouselPosition, Mode=TwoWay}"
+                      AbsoluteLayout.LayoutBounds="0, 0, 1, 300"
+                      AbsoluteLayout.LayoutFlags="All">
+          <CarouselView.ItemTemplate>
+            <DataTemplate x:DataType="{x:Type model:Video}">
+              <StackLayout>
+                <toolkit:MediaElement Source="{Binding VideoSource}"
+                                      ShouldAutoPlay="False"
+                                      HeightRequest="250"
+                                      HorizontalOptions="FillAndExpand"
+                                      Aspect="AspectFill" />
+              </StackLayout>
+            </DataTemplate>
+          </CarouselView.ItemTemplate>
+        </CarouselView>
 
-      <!-- Left Arrow Button -->
-      <Button ImageSource="{mi:Fluent ArrowPrevious24}"
-              x:Name="leftArrow"
-              HorizontalOptions="Start"
-              VerticalOptions="Center"
-              BackgroundColor="Transparent"
-              AbsoluteLayout.LayoutBounds="0, 0.5, AutoSize, AutoSize"
-              AbsoluteLayout.LayoutFlags="PositionProportional"
-              Command="{Binding NavigateLeftCommand}" />
+        <!-- Left Arrow Button -->
+        <Button ImageSource="{mi:Fluent ArrowPrevious24}"
+                x:Name="leftArrow"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                BackgroundColor="Transparent"
+                AbsoluteLayout.LayoutBounds="0, 0.5, AutoSize, AutoSize"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                Command="{Binding NavigateLeftCommand}" />
 
-      <!-- Right Arrow Button -->
-      <Button ImageSource="{mi:Fluent ArrowNext24}"
-              x:Name="rightArrow"
-              HorizontalOptions="End"
-              VerticalOptions="Center"
-              BackgroundColor="Transparent"
-              AbsoluteLayout.LayoutBounds="1, 0.5, AutoSize, AutoSize"
-              AbsoluteLayout.LayoutFlags="PositionProportional"
-              Command="{Binding NavigateRightCommand}" />
-    </AbsoluteLayout>
+        <!-- Right Arrow Button -->
+        <Button ImageSource="{mi:Fluent ArrowNext24}"
+                x:Name="rightArrow"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                BackgroundColor="Transparent"
+                AbsoluteLayout.LayoutBounds="1, 0.5, AutoSize, AutoSize"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                Command="{Binding NavigateRightCommand}" />
+      </AbsoluteLayout>
 
-    <!-- Video Thumbnails CollectionView Section -->
-    <CollectionView x:Name="collectionView"
-                    ItemsSource="{Binding Videos}"
-                    HorizontalScrollBarVisibility="Always"
-                    HorizontalOptions="FillAndExpand"
-                    SelectionMode="Single"
-                    SelectedItem="{Binding SelectedVideo, Mode=TwoWay}">
-      <CollectionView.ItemsLayout>
-        <GridItemsLayout Span="1"
-                         Orientation="Horizontal" />
-      </CollectionView.ItemsLayout>
-      <CollectionView.ItemTemplate>
-        <DataTemplate x:DataType="{x:Type model:Video}">
-          <Border Stroke="#2E3192"
-                  Margin="2,0"
-                  StrokeThickness="1.5">
-            <Border.StrokeShape>
-              <RoundRectangle CornerRadius="12" />
-            </Border.StrokeShape>
+      <!--#region Video Thumbnails CollectionView Section -->
+      <StackLayout Padding="10" Margin="0, -35, 0, 0">
+        <CollectionView x:Name="collectionView"
+                        ItemsSource="{Binding Videos}"
+                        HorizontalScrollBarVisibility="Always"
+                        HorizontalOptions="FillAndExpand"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedVideo, Mode=TwoWay}">
+          <CollectionView.ItemsLayout>
+            <GridItemsLayout Span="1"
+                             Orientation="Horizontal" />
+          </CollectionView.ItemsLayout>
+          <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="{x:Type model:Video}">
+              <Border Stroke="#2E3192"
+                      Margin="4"
+                      StrokeThickness="1.5">
+                <Border.StrokeShape>
+                  <RoundRectangle CornerRadius="12" />
+                </Border.StrokeShape>
 
-            <Frame Padding="0"
-                   HasShadow="True">
-              <Frame.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding BindingContext.ChangeCarouselPositionCommand, Source={x:Reference collectionView}}"
-                                      CommandParameter="{Binding .}" />
-              </Frame.GestureRecognizers>
-              <Grid>
-                <Image Source="{Binding ThumbnailSource}"
-                       Aspect="AspectFill"
-                       HeightRequest="70"
-                       WidthRequest="120" />
+                <Frame Padding="0"
+                       HasShadow="True">
+                  <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BindingContext.ChangeCarouselPositionCommand, Source={x:Reference collectionView}}"
+                                          CommandParameter="{Binding}" />
+                  </Frame.GestureRecognizers>
+                  <Grid>
+                    <Image Source="{Binding ThumbnailSource}"
+                           Aspect="AspectFill"
+                           HeightRequest="70"
+                           WidthRequest="120" />
 
-                <!-- Overlay Play Button -->
-                <Border IsVisible="{Binding Source={x:Reference collectionView}, 
+                    <!-- Overlay Play Button -->
+                    <Border IsVisible="{Binding Source={x:Reference collectionView}, 
                                                  Path=BindingContext.SelectedVideo, 
                                                  Converter={StaticResource VideoSelectedToVisibilityConverter}, 
-                                                 ConverterParameter={Binding .}}"
-                        Stroke="Black"
-                        WidthRequest="40"
-                        HeightRequest="40"
-                        Padding="8"
-                        BackgroundColor="White"
-                        Opacity="0.75">
-                  <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="50" />
-                  </Border.StrokeShape>
-                  <Image Source="play.png"
-                         BackgroundColor="Transparent"
-                         HorizontalOptions="Center"
-                         VerticalOptions="Center"
-                         Opacity="1" />
-                </Border>
-              </Grid>
-            </Frame>
-          </Border>
-        </DataTemplate>
-      </CollectionView.ItemTemplate>
-    </CollectionView>
-  </VerticalStackLayout>
+                                                 ConverterParameter={Binding}}"
+                            Stroke="Black"
+                            WidthRequest="50"
+                            HeightRequest="50"
+                            Padding="8"
+                            BackgroundColor="White"
+                            Opacity="0.75">
+                      <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="50" />
+                      </Border.StrokeShape>
+                      <Image Source="play.png"
+                             BackgroundColor="Transparent"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"
+                             Opacity="1" />
+                    </Border>
+                  </Grid>
+                </Frame>
+              </Border>
+            </DataTemplate>
+          </CollectionView.ItemTemplate>
+        </CollectionView>
+      </StackLayout>
+      <!--#endregion-->
+
+      <StackLayout Padding="20, 5"
+                   Spacing="20">
+        <!-- Add Video Buttons -->
+        <Border WidthRequest="200"
+                HeightRequest="35">
+          <Border.StrokeShape>
+            <RoundRectangle CornerRadius="12" />
+          </Border.StrokeShape>
+
+          <Button Text="Đăng video mới"
+                  Padding="0"
+                  BackgroundColor="#2E3192" />
+        </Border>
+
+        <!-- Session Content -->
+        <StackLayout Spacing="10">
+          <Label Text="Nội dung buổi tập: "
+                 FontAttributes="Bold" />
+          <Frame BorderColor="#2E3192">
+            <Editor Text="{Binding SelectedVideo.Description}"
+                    AutoSize="TextChanges"
+                    MinimumHeightRequest="200"
+                    VerticalOptions="Start"
+                    Placeholder="Nhập nội dung tại đây..." />
+          </Frame>
+        </StackLayout>
+
+        <Border WidthRequest="300"
+                HeightRequest="35">
+          <Border.StrokeShape>
+            <RoundRectangle CornerRadius="12" />
+          </Border.StrokeShape>
+
+          <Button Text="Lưu thay đổi"
+                  Padding="0"
+                  BackgroundColor="#2E3192" />
+        </Border>
+      </StackLayout>
+    </VerticalStackLayout>
+  </ScrollView>
 </ContentPage>

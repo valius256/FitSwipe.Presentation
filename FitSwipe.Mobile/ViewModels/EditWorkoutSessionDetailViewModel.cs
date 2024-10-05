@@ -33,7 +33,7 @@ namespace FitSwipe.Mobile.ViewModels
                 {
                     VideoSource = "https://storage.googleapis.com/fit-swipe-161d7.appspot.com/videos/719ZkC7AKbYDxU3l1dpkxvKqG3H2/354849733_6982381381780275_2790533324940314360_n.mp4",
                     ThumbnailSource = "https://scontent.xx.fbcdn.net/v/t1.15752-9/355040793_259496903327765_2250752017545809869_n.png?_nc_cat=105&ccb=1-7&_nc_sid=0024fc&_nc_eui2=AeFWIdqK8j8eVscLc8mzanixyN2gcYzbhxPI3aBxjNuHE-vg5ogaE1Kei2SDQ56wInUQem5ZpiSepikZAOJVVAyl&_nc_ohc=eWECrjci1f0Q7kNvgFcXl8B&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&_nc_gid=A3thyrOJRKcOr59pUAg9l6r&oh=03_Q7cD1QH4ODdT7PIOWlfWqMHwhUrVAAYn6RiqRnbdDTXp8acbqw&oe=6719108B",
-                    Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..."
+                    Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. Et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. Et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. Et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.Et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.Et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris "
                 },
                 new Video
                 {
@@ -53,7 +53,8 @@ namespace FitSwipe.Mobile.ViewModels
       {
         SelectedVideo = Videos[0];
         CarouselPosition = 0;
-        selectedThumbnailVideo = SelectedVideo; // Set the initially selected thumbnail
+        SelectedThumbnail = Videos[0].ThumbnailSource; // Set the selected thumbnail to the first element
+        SelectedThumbnailVideo = SelectedVideo; // Set the initially selected thumbnail video
       }
     }
 

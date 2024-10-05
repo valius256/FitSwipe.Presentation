@@ -1,4 +1,5 @@
 ﻿using FitSwipe.Shared.Dtos;
+using System.Diagnostics;
 using System.Globalization;
 
 namespace FitSwipe.Mobile.Converters.TrainingPageConverter
@@ -23,5 +24,4 @@ namespace FitSwipe.Mobile.Converters.TrainingPageConverter
       throw new NotImplementedException();
     }
   }
-
 }
