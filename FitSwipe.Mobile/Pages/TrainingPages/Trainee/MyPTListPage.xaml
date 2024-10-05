@@ -155,7 +155,7 @@
                 <LinearItemsLayout ItemSpacing="5" Orientation="Vertical"></LinearItemsLayout>
             </CollectionView.ItemsLayout>
               <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="{x:Type dtos:GetTrainingWithTraineeAndPT}">
+                <DataTemplate x:DataType="{x:Type dtos:GetTrainingWithTraineeAndPTDto}">
                     <!-- Each Item Views -->
                     <AbsoluteLayout Padding="0, 20">
                       <StackLayout Spacing="10"

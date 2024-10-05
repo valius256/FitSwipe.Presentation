@@ -2,7 +2,7 @@
 
 namespace FitSwipe.Shared.Dtos.Trainings
 {
-  public class GetUserRequestedScheduleDtos
+  public class GetUserRequestedScheduleDto
   {
     public Guid Id { get; set; } // Unique identifier for the schedule
 

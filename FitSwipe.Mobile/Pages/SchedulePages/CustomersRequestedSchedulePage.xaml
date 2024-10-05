@@ -70,7 +70,7 @@
       <!--#region SUMMARY INFORMATION -->
       <StackLayout Padding="0, 10, 0, 0"
                    BindingContext="{Binding TrainingDetails}"
-                   x:DataType="{x:Type model:GetUserRequestedScheduleDtos}">
+                   x:DataType="{x:Type model:GetUserRequestedScheduleDto}">
         <Border StrokeThickness="1.5"
                 Padding="10"
                 Stroke="#2E3291">

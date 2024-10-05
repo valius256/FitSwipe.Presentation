@@ -56,7 +56,7 @@ public partial class MyPTListPage : ContentPage
             var answer = await DisplayAlert("Xóa PT này khỏi danh sách match","Bạn có chắc chắn về hành động này chứ?","Có","Không");
             if (answer)
             {
-                var boundItem = button.CommandParameter as GetTrainingWithTraineeAndPT;
+                var boundItem = button.CommandParameter as GetTrainingWithTraineeAndPTDto;
                 if (boundItem != null)
                 {
                     try

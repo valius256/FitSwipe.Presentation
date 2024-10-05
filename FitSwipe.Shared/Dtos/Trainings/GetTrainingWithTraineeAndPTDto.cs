@@ -4,7 +4,7 @@ using FitSwipe.Shared.Enums;
 
 namespace FitSwipe.Shared.Dtos.Trainings
 {
-    public class GetTrainingWithTraineeAndPT
+    public class GetTrainingWithTraineeAndPTDto
     {
         public Guid Id { get; set; }
         public string TraineeId { get; set; } = string.Empty;

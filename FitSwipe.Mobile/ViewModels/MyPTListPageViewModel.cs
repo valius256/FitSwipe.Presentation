@@ -18,10 +18,10 @@ namespace FitSwipe.Mobile.ViewModels
     public partial class MyPTListPageViewModel : ObservableObject
     {
         [ObservableProperty]
-        private ObservableCollection<GetTrainingWithTraineeAndPT> _userList = new();
+        private ObservableCollection<GetTrainingWithTraineeAndPTDto> _userList = new();
 
-        private ObservableCollection<GetTrainingWithTraineeAndPT> _matchedTraining = new();
-        private ObservableCollection<GetTrainingWithTraineeAndPT> _bookedTraining = new();
+        private ObservableCollection<GetTrainingWithTraineeAndPTDto> _matchedTraining = new();
+        private ObservableCollection<GetTrainingWithTraineeAndPTDto> _bookedTraining = new();
         public bool MatchedFlag = true;
         public bool BookedFlag = true;
 
@@ -65,7 +65,7 @@ namespace FitSwipe.Mobile.ViewModels
         {
             ActiveTab = 0;
         }
-        public void RemoveFromList(GetTrainingWithTraineeAndPT training)
+        public void RemoveFromList(GetTrainingWithTraineeAndPTDto training)
         {
             _userList.Remove(training);
         }
@@ -105,12 +105,12 @@ namespace FitSwipe.Mobile.ViewModels
                 {
                     _userList.Clear();
                     string queryStatusString = ActiveTab == 0 ? "Filter.TrainingStatuses=0" : "Filter.TrainingStatuses=1&Filter.TrainingStatuses=2&Filter.TrainingStatuses=3&Filter.TrainingStatuses=4&Filter.TrainingStatuses=6";
-                    var response = await Fetcher.GetAsync<PagedResult<GetTrainingWithTraineeAndPT>>($"api/trainings?limit={PageSize}&page={CurrentPage}&{queryStatusString}", token);
+                    var response = await Fetcher.GetAsync<PagedResult<GetTrainingWithTraineeAndPTDto>>($"api/trainings?limit={PageSize}&page={CurrentPage}&{queryStatusString}", token);
                     if (response == null)
                     {
                         throw new Exception("Vui lòng thử lại sau");
                     }
-                    var list = response.Items.Adapt<ObservableCollection<GetTrainingWithTraineeAndPT>>();
+                    var list = response.Items.Adapt<ObservableCollection<GetTrainingWithTraineeAndPTDto>>();
                     if (ActiveTab == 0)
                     {
                         _matchedTraining = list.ToObservableCollection();
@@ -140,12 +140,12 @@ namespace FitSwipe.Mobile.ViewModels
                 try
                 {
                     string queryStatusString = ActiveTab == 0 ? "Filter.TrainingStatuses=0" : "Filter.TrainingStatuses=1&Filter.TrainingStatuses=2&Filter.TrainingStatuses=3&Filter.TrainingStatuses=4&Filter.TrainingStatuses=6";
-                    var response = await Fetcher.GetAsync<PagedResult<GetTrainingWithTraineeAndPT>>($"api/trainings?limit={PageSize}&page={CurrentPage}&{queryStatusString}", token);
+                    var response = await Fetcher.GetAsync<PagedResult<GetTrainingWithTraineeAndPTDto>>($"api/trainings?limit={PageSize}&page={CurrentPage}&{queryStatusString}", token);
                     if (response == null)
                     {
                         throw new Exception("Vui lòng thử lại sau");
                     }
-                    var list = response.Items.Adapt<ObservableCollection<GetTrainingWithTraineeAndPT>>();
+                    var list = response.Items.Adapt<ObservableCollection<GetTrainingWithTraineeAndPTDto>>();
                     foreach (var item in list)
                     {
                         if (ActiveTab == 0)
@@ -171,7 +171,7 @@ namespace FitSwipe.Mobile.ViewModels
         }
 
         
-        private async Task AppendList(IList<GetTrainingWithTraineeAndPT> trainings)
+        private async Task AppendList(IList<GetTrainingWithTraineeAndPTDto> trainings)
         {
             foreach (var training in trainings)
             {

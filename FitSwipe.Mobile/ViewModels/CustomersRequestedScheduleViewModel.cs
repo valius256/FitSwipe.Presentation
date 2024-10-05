@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using FitSwipe.Shared.Dtos.Slots;
 using FitSwipe.Shared.Dtos.Trainings;
 using FitSwipe.Shared.Dtos.Users;
+using System.Collections.ObjectModel;
 
 namespace FitSwipe.Mobile.ViewModels
 {
@@ -10,7 +12,7 @@ namespace FitSwipe.Mobile.ViewModels
     private GetUserDto _user = new();
 
     [ObservableProperty]
-    private GetUserRequestedScheduleDtos _trainingDetails = new();
+    private GetUserRequestedScheduleDto _trainingDetails = new();
 
     public CustomersRequestedScheduleViewModel ()
     {
@@ -30,13 +32,23 @@ namespace FitSwipe.Mobile.ViewModels
         RecordStatus = Shared.Enums.RecordStatus.Active
       };
 
-      _trainingDetails = new GetUserRequestedScheduleDtos
-      {
-        StartDate = new DateTime(2024, 1, 10),
-        EndDate = new DateTime(2024, 4, 10),
-        TotalSessions = 10,
-        TotalDuration = 30
-      };
+      
+    }
+
+    public void SetSlots(ObservableCollection<GetSlotDto> getSlotDtos)
+    {
+        _trainingDetails = new GetUserRequestedScheduleDto
+        {
+            StartDate = getSlotDtos.First().StartTime,
+            EndDate = getSlotDtos.Last().EndTime,
+            TotalSessions = getSlotDtos.Count,
+        };
+        double totalDuration = 0;
+        foreach (var slot in getSlotDtos)
+        {
+            totalDuration += (slot.EndTime - slot.StartTime).TotalHours;
+        }
+        _trainingDetails.TotalDuration = (int) totalDuration;
     }
   }
 }
