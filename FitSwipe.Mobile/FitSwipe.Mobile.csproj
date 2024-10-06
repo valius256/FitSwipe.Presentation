@@ -89,6 +89,12 @@
 	  <Compile Update="Controls\Navbar.xaml.cs">
 	    <DependentUpon>Navbar.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\UploadAvatar\TraineeUploadAvatar.xaml.cs">
+	    <DependentUpon>TraineeUploadAvatar.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\UploadAvatar\TraineeUploadImageVideo.xaml.cs">
+	    <DependentUpon>TraineeUploadImageVideo.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -128,10 +134,13 @@
 	  <MauiXaml Update="Pages\TrainingPages\TrainingPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\UploadAvatar\TraineeUploadAavatar.xaml">
+	  <MauiXaml Update="Pages\UploadAvatar\TraineeUploadAvatar.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\UploadAvatar\UserUploadAvatar.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\UploadAvatar\TraineeUploadImageVideo.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\UploadAvatar\UserUploadImageVideo.xaml">

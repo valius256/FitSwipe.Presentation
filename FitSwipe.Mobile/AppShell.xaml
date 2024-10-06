@@ -14,6 +14,9 @@
        Shell.FlyoutBehavior="Disabled"
        Title="FitSwipe.Mobile">
 
+    <ShellContent ContentTemplate="{DataTemplate UploadAvatar:TraineeUploadAvatar}"
+                  Route="TraineeUploadAvatar" />
+
     <ShellContent ContentTemplate="{DataTemplate UploadAvatar:UserUploadAvatar}"
                   Route="UserUploadAvatar" />
 
