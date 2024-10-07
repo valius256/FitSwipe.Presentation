@@ -17,6 +17,13 @@ namespace FitSwipe.Mobile.ViewModels
     private GetUserDto user = new();
     public UserProfileCombinedViewModel CombinedViewModel { get; set; }
 
+    [ObservableProperty]
+    private UserImage selectedImage;
+
+    // Property to track the currently selected image in the carousel
+    [ObservableProperty]
+    private UserImage currentImage;
+
     // Constructor to initialize with sample data
     public UserProfileViewModel ()
     {
@@ -29,11 +36,11 @@ namespace FitSwipe.Mobile.ViewModels
         Job = "Sinh viên",
         ImageCollection = new List<UserImage>
         {
-          new UserImage { ImageSource = "pt1.jpg", Description="descrip1"},
-          new UserImage { ImageSource = "pt2.jpg", Description="descrip1"},
-          new UserImage { ImageSource = "pt3.jpg", Description="descrip1"},
-          new UserImage { ImageSource = "profile_thumbnail1.png", Description = "descrip1"},
-          new UserImage { ImageSource = "profile_thumbnail2.png", Description = "descrip1"},
+          new UserImage { ImageSource = "pt1.jpg", Description="nhìn cái cơ bắp này đi"},
+          new UserImage { ImageSource = "pt2.jpg", Description="chào em, anh đứng đây từ chiều"},
+          new UserImage { ImageSource = "pt3.jpg", Description="tôi đô không em?"},
+          new UserImage { ImageSource = "profile_thumbnail1.png", Description = "never gonna give you up 🗣️🗣️"},
+          new UserImage { ImageSource = "profile_thumbnail2.png", Description = "a du ang seng"},
         }
       };
 
@@ -182,8 +189,24 @@ namespace FitSwipe.Mobile.ViewModels
                 },
             };
 
+      // Set the initial current image
+      CurrentImage = User.ImageCollection.FirstOrDefault();
+
+      // Set SelectedImage to the initial CurrentImage
+      SelectedImage = CurrentImage;
+
       // Create the combined view model
       CombinedViewModel = new UserProfileCombinedViewModel(user, userTags);
+
+      // Handle property changed for CurrentImage to update SelectedImage
+      this.PropertyChanged += (s, e) =>
+      {
+        if (e.PropertyName == nameof(CurrentImage))
+        {
+          SelectedImage = CurrentImage;
+        }
+      };
     }
+
   }
 }

@@ -145,7 +145,8 @@
 
         <Grid>
           <!-- The Image inside the CarouselView -->
-          <CarouselView ItemsSource="{Binding User.ImageCollection}">
+          <CarouselView ItemsSource="{Binding User.ImageCollection}"
+                        CurrentItem="{Binding CurrentImage, Mode=TwoWay}">
             <CarouselView.ItemTemplate>
               <DataTemplate x:DataType="{x:Type image:UserImage}">
                 <StackLayout>
@@ -153,24 +154,6 @@
                          HorizontalOptions="FillAndExpand"
                          HeightRequest="300"
                          Aspect="AspectFill" />
-
-                  <AbsoluteLayout>
-                    <Grid ColumnDefinitions="2*, 15*"
-                          AbsoluteLayout.LayoutBounds="1, 0.4, 0.95, AutoSize"
-                          AbsoluteLayout.LayoutFlags="All">
-                      <Label Text="Về tôi: "
-                             Grid.Column="0"
-                             TextColor="White"
-                             FontSize="Caption" />
-                      <StackLayout Grid.Column="1">
-                        <Label Text="{Binding }"
-                               TextColor="White"
-                               FontSize="Caption"
-                               LineBreakMode="TailTruncation"
-                               MaxLines="3" />
-                      </StackLayout>
-                    </Grid>
-                  </AbsoluteLayout>
                 </StackLayout>
               </DataTemplate>
             </CarouselView.ItemTemplate>
@@ -204,6 +187,24 @@
               </LinearGradientBrush>
             </BoxView.Background>
           </BoxView>
+
+          <AbsoluteLayout>
+            <Grid ColumnDefinitions="2*, 15*"
+                  AbsoluteLayout.LayoutBounds="1, 0.4, 0.95, AutoSize"
+                  AbsoluteLayout.LayoutFlags="All">
+              <Label Text="Về tôi: "
+                     Grid.Column="0"
+                     TextColor="White"
+                     FontSize="Caption" />
+              <StackLayout Grid.Column="1">
+                <Label Text="{Binding SelectedImage.Description}"
+                       TextColor="White"
+                       FontSize="Caption"
+                       LineBreakMode="TailTruncation"
+                       MaxLines="3" />
+              </StackLayout>
+            </Grid>
+          </AbsoluteLayout>
         </Grid>
       </StackLayout>
       <!--#endregion-->
