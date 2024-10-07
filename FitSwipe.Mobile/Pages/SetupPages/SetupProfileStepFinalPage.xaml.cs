@@ -60,47 +60,54 @@ public partial class SetupProfileStepFinalPage : ContentPage
 
     private async void btnReady_Clicked(object sender, EventArgs e)
     {
-        loadingDialog.IsVisible = true;
-        var token = await SecureStorage.GetAsync("auth_token");
-        try
+        if (!loadingDialog.IsVisible)
         {
-            //Update user
-            var request = _updateUserProfileDto.Adapt<RequestSetupProfileDto>();
-            await Fetcher.PatchAsync("api/users/set-up", request, token ?? string.Empty);
-            //Update tags
-            var requestTags = new RequestUpsertTagsDto
+            loadingDialog.IsVisible = true;
+            var token = await SecureStorage.GetAsync("auth_token");
+            try
             {
-                NewTagIds = _selectedTags
-            };
-            await Fetcher.PutAsync("api/tags/upsert-user-tags", requestTags, token ?? string.Empty);
-            //Update PT degree
-            if (_degreeUrl != null)
+                //Update user
+                var request = _updateUserProfileDto.Adapt<RequestSetupProfileDto>();
+                await Fetcher.PatchAsync("api/users/set-up", request, token ?? string.Empty);
+                //Update tags
+                var requestTags = new RequestUpsertTagsDto
+                {
+                    NewTagIds = _selectedTags
+                };
+                await Fetcher.PutAsync("api/tags/upsert-user-tags", requestTags, token ?? string.Empty);
+                //Update PT degree
+                if (_degreeUrl != null)
+                {
+                    await Fetcher.PatchAsync("api/users/update-degree", new UpdateImageUrlDto { Url = _degreeUrl }, token ?? string.Empty);
+                }
+
+                while (Shell.Current.Navigation.ModalStack.Count > 0)
+                {
+                    await Shell.Current.Navigation.PopModalAsync(false); // Set false to prevent animation
+                }
+                if (_updateUserProfileDto.Role == Role.PT)
+                {
+                    await Shell.Current.GoToAsync("//PTProfilePage");
+                }
+                else
+                {
+                    await Shell.Current.GoToAsync("//PTList");
+                }
+            }
+            catch (Exception)
             {
-                await Fetcher.PatchAsync("api/users/update-degree", new UpdateImageUrlDto { Url = _degreeUrl }, token ?? string.Empty);
+                await DisplayAlert("Lỗi", "Có lỗi đã xảy ra. Vui lòng thử lại sau", "OK");
             }
 
-            while (Shell.Current.Navigation.ModalStack.Count > 0)
-            {
-                await Shell.Current.Navigation.PopModalAsync(false); // Set false to prevent animation
-            }
-            if (_updateUserProfileDto.Role == Role.PT)
-            {
-                await Shell.Current.GoToAsync("//PTProfilePage");
-            }
-            else
-            {
-                await Shell.Current.GoToAsync("//PTList");
-            }
-        } catch (Exception)
-        {
-            await DisplayAlert("Lỗi", "Có lỗi đã xảy ra. Vui lòng thử lại sau", "OK");
+            loadingDialog.IsVisible = false;
         }
-        
-        loadingDialog.IsVisible = false;
     }
 
     private async void btnPrev_Clicked(object sender, EventArgs e)
     {
-        await Navigation.PopModalAsync();
+        if (!loadingDialog.IsVisible)
+        {
+            await Navigation.PopModalAsync();
+        }
     }
 }

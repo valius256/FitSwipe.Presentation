@@ -96,7 +96,7 @@ public partial class MyPTListPage : ContentPage
             var boundItem = button.CommandParameter as GetTrainingWithTraineeAndPTDto;
             if (boundItem != null)
             {
-                await Navigation.PushModalAsync(new PTScheduleBookingView(boundItem.PTId));
+                await Navigation.PushModalAsync(new PTScheduleBookingView(boundItem, this));
             }
         }
     }
