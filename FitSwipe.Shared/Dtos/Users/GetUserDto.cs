@@ -5,34 +5,37 @@ using System.Net.NetworkInformation;
 
 namespace FitSwipe.Shared.Dtos.Users
 {
-    public class GetUserDto
+  public class GetUserDto
+  {
+    public Guid Id { get; set; }
+    public string? FireBaseId { get; set; }
+    public string UserName { get; set; } = string.Empty;
+    public Gender Gender { get; set; }
+    public string? Email { get; set; }
+    public string AvatarUrl { get; set; } = string.Empty;
+    public string Phone { get; set; } = string.Empty;
+    public DateTime DateOfBirth { get; set; }
+    public double? Weight { get; set; }
+    public double? Height { get; set; }
+    public string? Bio { get; set; }
+    public string City { get; set; } = string.Empty;
+    public string District { get; set; } = string.Empty;
+    public string Ward { get; set; } = string.Empty;
+    public string Street { get; set; } = string.Empty;
+    public Role Role { get; set; }
+    public string Job { get; set; } = string.Empty;
+    public UserStatus Status { get; set; }
+    public DateTime CreatedDate { get; set; } = DateTime.Now;
+    public DateTime? UpdatedDate { get; set; }
+    public DateTime? DeletedDate { get; set; }
+
+    // New property to hold image collection
+    public List<UserImage> ImageCollection { get; set; } = new List<UserImage>();
+    public RecordStatus RecordStatus { get; set; }
+    public string AddressString
     {
-        public Guid Id { get; set; }
-        public string? FireBaseId { get; set; }
-        public string UserName { get; set; } = string.Empty;
-        public Gender Gender { get; set; }
-        public string? Email { get; set; }
-        public string AvatarUrl { get; set; } = string.Empty;
-        public string Phone { get; set; } = string.Empty;
-        public DateTime DateOfBirth { get; set; }
-        public double? Weight { get; set; }
-        public double? Height { get; set; }
-        public string? Bio { get; set; }
-        public string City { get; set; } = string.Empty;
-        public string District { get; set; } = string.Empty;
-        public string Ward { get; set; } = string.Empty;
-        public string Street { get; set; } = string.Empty;
-        public Role Role { get; set; }
-        public string Job { get; set; } = string.Empty;
-        public UserStatus Status { get; set; }
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public DateTime? UpdatedDate { get; set; }
-        public DateTime? DeletedDate { get; set; }
-        public RecordStatus RecordStatus { get; set; }
-        public string AddressString
-        {
-            get => Ward + ", " + District + " ," + City;
-        }
-        public int Age => DateTime.Now.Year - DateOfBirth.Year;
+      get => Ward + ", " + District + " ," + City;
     }
+    public int Age => DateTime.Now.Year - DateOfBirth.Year;
+  }
 }

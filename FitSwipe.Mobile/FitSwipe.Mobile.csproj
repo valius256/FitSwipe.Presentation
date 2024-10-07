@@ -69,19 +69,27 @@
 	  <None Remove="Resources\Images\Icons\chat_green.png" />
 	  <None Remove="Resources\Images\Icons\chat_white.png" />
 	  <None Remove="Resources\Images\Icons\clock_icon.png" />
+	  <None Remove="Resources\Images\Icons\dob_color.png" />
 	  <None Remove="Resources\Images\Icons\dob_icon.png" />
 	  <None Remove="Resources\Images\Icons\dumbell_blue.png" />
 	  <None Remove="Resources\Images\Icons\dumbell_green.png" />
 	  <None Remove="Resources\Images\Icons\dumbell_white.png" />
+	  <None Remove="Resources\Images\Icons\favorite_color.png" />
 	  <None Remove="Resources\Images\Icons\home_black.png" />
 	  <None Remove="Resources\Images\Icons\home_blue.png" />
 	  <None Remove="Resources\Images\Icons\home_green.png" />
 	  <None Remove="Resources\Images\Icons\home_white.png" />
+	  <None Remove="Resources\Images\Icons\house_color.png" />
 	  <None Remove="Resources\Images\Icons\information_icon.png" />
+	  <None Remove="Resources\Images\Icons\job_color.png" />
+	  <None Remove="Resources\Images\Icons\muscle_color.png" />
 	  <None Remove="Resources\Images\Icons\profile_blue.png" />
 	  <None Remove="Resources\Images\Icons\profile_green.png" />
 	  <None Remove="Resources\Images\Icons\profile_white.png" />
+	  <None Remove="Resources\Images\Icons\target_color.png" />
+	  <None Remove="Resources\Images\Icons\update_icon.png" />
 	  <None Remove="Resources\Images\Icons\vnpay.png" />
+	  <None Remove="Resources\Images\Icons\workout_color.png" />
 	  <None Remove="Resources\Images\Stars\star_filled.png" />
 	  <None Remove="Resources\Images\Stars\star_half_filled.png" />
 	  <None Remove="Resources\Images\Stars\star_no_fill.png" />
@@ -107,6 +115,7 @@
 	  <MauiImage Include="Resources\Images\Icons\chat_green.png" />
 	  <MauiImage Include="Resources\Images\Icons\check_with_no_background.png" />
 	  <MauiImage Include="Resources\Images\Icons\clock_icon.png" />
+	  <MauiImage Include="Resources\Images\Icons\dob_color.png" />
 	  <MauiImage Include="Resources\Images\Icons\dob_icon.png" />
 	  <MauiImage Include="Resources\Images\Icons\dumbell_blue.png" />
 	  <MauiImage Include="Resources\Images\Icons\dumbell_green.png" />
@@ -116,15 +125,22 @@
 
 	<ItemGroup>
 	  <MauiImage Include="Resources\Images\Icons\facebook.png" />
+	  <MauiImage Include="Resources\Images\Icons\favorite_color.png" />
 	  <MauiImage Include="Resources\Images\Icons\filter.png" />
 	  <MauiImage Include="Resources\Images\Icons\google.png" />
 	  <MauiImage Include="Resources\Images\Icons\home_black.png" />
 	  <MauiImage Include="Resources\Images\Icons\home_white.png" />
+	  <MauiImage Include="Resources\Images\Icons\house_color.png" />
 	  <MauiImage Include="Resources\Images\Icons\information_icon.png" />
+	  <MauiImage Include="Resources\Images\Icons\job_color.png" />
+	  <MauiImage Include="Resources\Images\Icons\muscle_color.png" />
 	  <MauiImage Include="Resources\Images\Icons\profile_blue.png" />
 	  <MauiImage Include="Resources\Images\Icons\profile_green.png" />
 	  <MauiImage Include="Resources\Images\Icons\profile_white.png" />
+	  <MauiImage Include="Resources\Images\Icons\target_color.png" />
+	  <MauiImage Include="Resources\Images\Icons\update_icon.png" />
 	  <MauiImage Include="Resources\Images\Icons\vnpay.png" />
+	  <MauiImage Include="Resources\Images\Icons\workout_color.png" />
 	  <MauiImage Include="Resources\Images\Stars\star_filled.png" />
 	  <MauiImage Include="Resources\Images\Stars\star_half_filled.png" />
 	  <MauiImage Include="Resources\Images\Stars\star_no_fill.png" />
@@ -154,6 +170,9 @@
 	  </Compile>
 	  <Compile Update="Pages\FeedbackPages\FeedbackPage.xaml.cs">
 	    <DependentUpon>FeedbackPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\TrainingPages\Trainee\UserProfilePage.xaml.cs">
+	    <DependentUpon>UserProfilePage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Resources\Themes\PTTheme.xaml.cs">
 	    <DependentUpon>PTTheme.xaml</DependentUpon>
@@ -264,6 +283,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\TrainingPages\PT\TrainingPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\TrainingPages\Trainee\UserProfilePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Resources\Themes\PTTheme.xaml">

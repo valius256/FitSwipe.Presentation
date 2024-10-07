@@ -1,0 +1,601 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Pages.TrainingPages.UserProfilePage"
+             x:DataType="vm:UserProfileViewModel"
+             xmlns:local="clr-namespace:FitSwipe.Mobile.Converters.TrainingPageConverter"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:user="clr-namespace:FitSwipe.Shared.Dtos.Users;assembly=FitSwipe.Shared"
+             xmlns:tag="clr-namespace:FitSwipe.Shared.Dtos.Tags;assembly=FitSwipe.Shared"
+             xmlns:image="clr-namespace:FitSwipe.Shared.Dtos;assembly=FitSwipe.Shared"
+             xmlns:vm="clr-namespace:FitSwipe.Mobile.ViewModels">
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <local:TagTypeConverter x:Key="TagTypeConverter" />
+      <local:UserTagColorConverter x:Key="UserTagColorConverter" />
+      <local:UserTagTextColorConverter x:Key="UserTagTextColorConverter" />
+    </ResourceDictionary>
+  </ContentPage.Resources>
+
+  <ScrollView>
+    <VerticalStackLayout Padding="0, 20, 0, 20">
+      <StackLayout Padding="20, 0, 0, 0">
+        <ImageButton Source="back.png"
+                     WidthRequest="30"
+                     HeightRequest="30"
+                     HorizontalOptions="StartAndExpand" />
+      </StackLayout>
+
+      <!--#region PAGE FIRST PART-->
+      <StackLayout>
+        <StackLayout Padding="20">
+          <Label Text="Học viên"
+                 FontSize="Body"
+                 FontAttributes="Bold" />
+
+          <BoxView Color="#52BB00"
+                   HorizontalOptions="FillAndExpand"
+                   HeightRequest="1.2" />
+        </StackLayout>
+
+        <!-- Image acting as the background -->
+        <Image Source="pt1"
+               HorizontalOptions="FillAndExpand"
+               Aspect="AspectFill"
+               HeightRequest="200" />
+
+        <!-- AbsoluteLayout to overlay content on the bottom of the image -->
+        <AbsoluteLayout VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand">
+          <StackLayout VerticalOptions="CenterAndExpand"
+                       AbsoluteLayout.LayoutBounds="0.03, 0, AutoSize, 1"
+                       AbsoluteLayout.LayoutFlags="All">
+
+            <!-- Grid for profile image and details -->
+            <Grid ColumnDefinitions="*, *"
+                  ColumnSpacing="10">
+              <!--#region USER AVATAR-->
+              <AbsoluteLayout VerticalOptions="FillAndExpand"
+                              HorizontalOptions="FillAndExpand">
+                <Border WidthRequest="70"
+                        HeightRequest="70"
+                        Stroke="#52BB00"
+                        Grid.Column="0">
+                  <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="50" />
+                  </Border.StrokeShape>
+                  <Image Source="pt2"
+                         Aspect="AspectFill" />
+                </Border>
+
+                <Border Grid.Column="1"
+                        WidthRequest="23"
+                        BackgroundColor="White"
+                        HeightRequest="23"
+                        AbsoluteLayout.LayoutBounds="1, 0, AutoSize, AutoSize"
+                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        Stroke="#52BB00"
+                        Padding="4">
+                  <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8" />
+                  </Border.StrokeShape>
+                  <ImageButton Source="update_icon" />
+                </Border>
+              </AbsoluteLayout>
+              <!--#endregion-->
+
+              <!--#region Name and Date Details -->
+              <StackLayout Grid.Column="1"
+                           VerticalOptions="Center"
+                           Spacing="20">
+
+                <!-- Grid for Name and "20" -->
+                <Grid ColumnSpacing="5">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+
+                  <!-- Name Label -->
+                  <Label Text="Nguyễn Thanh Phong"
+                         FontAttributes="Bold"
+                         TextColor="White"
+                         Grid.Column="0"
+                         VerticalTextAlignment="Center" />
+
+                  <Border Grid.Column="1"
+                          WidthRequest="23"
+                          BackgroundColor="White"
+                          HeightRequest="23"
+                          Stroke="#52BB00"
+                          Padding="4">
+                    <Border.StrokeShape>
+                      <RoundRectangle CornerRadius="8" />
+                    </Border.StrokeShape>
+                    <ImageButton Source="update_icon" />
+                  </Border>
+
+                  <!-- "20" aligned to the right of the name -->
+                  <Label Text="20"
+                         TextColor="White"
+                         VerticalOptions="Center"
+                         Grid.Column="2"
+                         Margin="0, -10, 0, 0" />
+                </Grid>
+
+                <!-- Join date -->
+                <Label Text="Ngày tham gia: 01/01/2024"
+                       Margin="0, -10, 0, 0" />
+
+              </StackLayout>
+              <!--#endregion-->
+            </Grid>
+          </StackLayout>
+        </AbsoluteLayout>
+
+      </StackLayout>
+      <!--#endregion-->
+
+      <!--#region MY PICTURES/VIDEOS-->
+      <StackLayout>
+        <Label Text="Hình ảnh/Video của tôi"
+               Padding="20, 60, 0, 20"
+               FontAttributes="Bold" />
+
+        <Grid>
+          <!-- The Image inside the CarouselView -->
+          <CarouselView ItemsSource="{Binding User.ImageCollection}">
+            <CarouselView.ItemTemplate>
+              <DataTemplate x:DataType="{x:Type image:UserImage}">
+                <StackLayout>
+                  <Image Source="{Binding ImageSource}"
+                         HorizontalOptions="FillAndExpand"
+                         HeightRequest="300"
+                         Aspect="AspectFill" />
+
+                  <AbsoluteLayout>
+                    <Grid ColumnDefinitions="2*, 15*"
+                          AbsoluteLayout.LayoutBounds="1, 0.4, 0.95, AutoSize"
+                          AbsoluteLayout.LayoutFlags="All">
+                      <Label Text="Về tôi: "
+                             Grid.Column="0"
+                             TextColor="White"
+                             FontSize="Caption" />
+                      <StackLayout Grid.Column="1">
+                        <Label Text="{Binding }"
+                               TextColor="White"
+                               FontSize="Caption"
+                               LineBreakMode="TailTruncation"
+                               MaxLines="3" />
+                      </StackLayout>
+                    </Grid>
+                  </AbsoluteLayout>
+                </StackLayout>
+              </DataTemplate>
+            </CarouselView.ItemTemplate>
+          </CarouselView>
+
+          <!-- Top Fading Border -->
+          <BoxView HeightRequest="50"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="Start">
+            <BoxView.Background>
+              <LinearGradientBrush EndPoint="0,1">
+                <GradientStop Color="Black"
+                              Offset="0.0" />
+                <GradientStop Color="Transparent"
+                              Offset="1" />
+              </LinearGradientBrush>
+            </BoxView.Background>
+          </BoxView>
+
+          <!-- Bottom Fading Border -->
+          <BoxView HeightRequest="90"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="End">
+            <BoxView.Background>
+              <LinearGradientBrush StartPoint="0,1"
+                                   EndPoint="0,0">
+                <GradientStop Color="Black"
+                              Offset="0.0" />
+                <GradientStop Color="Transparent"
+                              Offset="1" />
+              </LinearGradientBrush>
+            </BoxView.Background>
+          </BoxView>
+        </Grid>
+      </StackLayout>
+      <!--#endregion-->
+
+      <!--#region TRAINING STATUS -->
+      <StackLayout Margin="0, 20, 0, 0"
+                   Padding="20">
+        <Label Text="Trạng thái"
+               HorizontalOptions="CenterAndExpand" />
+        <Label Text="Đang huấn luyện"
+               TextColor="#52BB00"
+               FontAttributes="Bold"
+               FontSize="Large"
+               HorizontalOptions="CenterAndExpand"
+               Margin="0, 0, 0, 14" />
+
+        <!-- Current PT Of User -->
+        <Border BackgroundColor="#52BB00">
+          <Border.StrokeShape>
+            <RoundRectangle CornerRadius="15" />
+          </Border.StrokeShape>
+          <StackLayout>
+            <StackLayout Padding="0, 14, 0, 0"
+                         BackgroundColor="Transparent">
+              <StackLayout Spacing="8">
+
+                <!-- General Information -->
+                <StackLayout Padding="14, 0, 14, 14"
+                             Spacing="8">
+                  <StackLayout HorizontalOptions="EndAndExpand"
+                               Orientation="Horizontal"
+                               Spacing="5">
+                    <Image Source="clock"
+                           WidthRequest="15"
+                           HeightRequest="15" />
+                    <Label Text="21/09/2024" />
+                  </StackLayout>
+
+                  <StackLayout Orientation="Horizontal"
+                               Spacing="5">
+                    <Image Source="calendar"
+                           HeightRequest="15"
+                           WidthRequest="15" />
+                    <Label Text="22/09/2024 - 22/01/2025" />
+                  </StackLayout>
+
+                  <FlexLayout AlignItems="Center"
+                              VerticalOptions="FillAndExpand"
+                              JustifyContent="SpaceBetween">
+                    <StackLayout Orientation="Horizontal"
+                                 Spacing="5">
+                      <Image Source="clock"
+                             WidthRequest="15"
+                             HeightRequest="15" />
+                      <Label Text="30 buổi, 125 tiếng" />
+                    </StackLayout>
+
+                    <Border>
+                      <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                      </Border.StrokeShape>
+
+                      <Button Text="Xem thêm"
+                              BackgroundColor="White"
+                              TextColor="Black"
+                              Padding="0"
+                              HeightRequest="30"
+                              WidthRequest="120" />
+                    </Border>
+                  </FlexLayout>
+                </StackLayout>
+
+                <!-- User and PT Photos -->
+                <Grid ColumnDefinitions="*, *"
+                      RowDefinitions="*, *"
+                      Padding="0, 5, 0, 0"
+                      RowSpacing="5"
+                      ColumnSpacing="3">
+                  <Label Text="Nguyễn Văn A"
+                         HorizontalTextAlignment="Center"
+                         Grid.Column="0"
+                         Grid.Row="0" />
+                  <Label Text="Nguyễn Văn B"
+                         Grid.Column="1"
+                         HorizontalTextAlignment="Center"
+                         Grid.Row="0" />
+                  <Image Source="pt1"
+                         Grid.Column="0"
+                         Grid.Row="1"
+                         Aspect="AspectFill" />
+                  <Image Source="pt2"
+                         Grid.Column="1"
+                         Grid.Row="1"
+                         Aspect="AspectFill" />
+                </Grid>
+              </StackLayout>
+            </StackLayout>
+          </StackLayout>
+        </Border>
+      </StackLayout>
+      <!--#endregion-->
+
+      <!--#region USER PERSONAL INFORMATOIN -->
+      <StackLayout Padding="20">
+        <StackLayout Orientation="Horizontal"
+                     Spacing="10"
+                     Margin="0, 0, 0, 10">
+          <Label Text="Thông tin cơ bản"
+                 FontAttributes="Bold"
+                 FontSize="Body" />
+          <BoxView Color="#2E3192"
+                   HeightRequest="1.2"
+                   HorizontalOptions="FillAndExpand" />
+        </StackLayout>
+
+        <StackLayout BindingContext="{Binding CombinedViewModel}">
+          <Grid ColumnDefinitions="4.5*, 5.5*"
+                RowDefinitions="*, *, *, *, *, *, *, *"
+                RowSpacing="20"
+                ColumnSpacing="5">
+            <!-- Row 1: Ngày sinh -->
+            <StackLayout Orientation="Horizontal"
+                         Spacing="5"
+                         VerticalOptions="CenterAndExpand"
+                         Grid.Row="0"
+                         Grid.Column="0">
+              <Image Source="dob_color"
+                     WidthRequest="15"
+                     HeightRequest="15" />
+              <Label Text="Ngày sinh: "
+                     HorizontalOptions="StartAndExpand" />
+            </StackLayout>
+            <StackLayout Grid.Row="0"
+                         Grid.Column="1"
+                         Orientation="Horizontal">
+              <Label Text="{Binding User.DateOfBirth}"
+                     HorizontalOptions="StartAndExpand" />
+            </StackLayout>
+
+            <!-- Row 2: Địa chỉ -->
+            <StackLayout Orientation="Horizontal"
+                         Spacing="5"
+                         VerticalOptions="CenterAndExpand"
+                         Grid.Row="1"
+                         Grid.Column="0">
+              <Image Source="house_color"
+                     WidthRequest="15"
+                     HeightRequest="15" />
+              <Label Text="Địa chỉ: " />
+            </StackLayout>
+            <StackLayout Grid.Row="1"
+                         Grid.Column="1"
+                         Orientation="Horizontal">
+              <Label Text="{Binding User.AddressString}"
+                     HorizontalOptions="StartAndExpand" />
+            </StackLayout>
+
+
+            <!-- Row 3: Nghề nghiệp -->
+            <StackLayout Orientation="Horizontal"
+                         Spacing="5"
+                         VerticalOptions="CenterAndExpand"
+                         Grid.Row="2"
+                         Grid.Column="0">
+              <Image Source="job_color"
+                     WidthRequest="15"
+                     HeightRequest="15" />
+              <Label Text="Nghề nghiệp: "
+                     HorizontalOptions="StartAndExpand" />
+            </StackLayout>
+            <StackLayout Grid.Row="2"
+                         Grid.Column="1"
+                         Orientation="Horizontal">
+              <Label Text="{Binding User.Job}"
+                     HorizontalOptions="StartAndExpand" />
+            </StackLayout>
+
+            <!-- Row 4: Sở thích -->
+            <StackLayout Orientation="Horizontal"
+                         Spacing="5"
+                         VerticalOptions="CenterAndExpand"
+                         Grid.Row="3"
+                         Grid.Column="0">
+              <Image Source="favorite_color"
+                     WidthRequest="20"
+                     HeightRequest="20" />
+              <Label Text="Sở thích: "
+                     HorizontalOptions="StartAndExpand" />
+            </StackLayout>
+            <FlexLayout BindableLayout.ItemsSource="{Binding UserTags}"
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Direction="Row"
+                        Wrap="Wrap">
+              <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type tag:GetTagDto}">
+                  <Border Stroke="{Binding TagColor, Converter={StaticResource UserTagColorConverter}}"
+                          Padding="12, 2"
+                          Margin="2, 4">
+                    <Border.StrokeShape>
+                      <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Label x:Name="TagLabel"
+                           Text="{Binding Converter={StaticResource TagTypeConverter}, 
+                 ConverterParameter='Hobby'}"
+                           TextColor="{Binding TagColor, Converter={StaticResource UserTagTextColorConverter}}" />
+                    <Border.Triggers>
+                      <DataTrigger TargetType="Border"
+                                   Binding="{Binding Text, Source={x:Reference TagLabel}}"
+                                   Value="{x:Static sys:String.Empty}">
+                        <Setter Property="IsVisible"
+                                Value="False" />
+                      </DataTrigger>
+                    </Border.Triggers>
+                  </Border>
+                </DataTemplate>
+              </BindableLayout.ItemTemplate>
+            </FlexLayout>
+
+            <!-- Row 5: Loại hình tập luyện ưa thích -->
+            <StackLayout Orientation="Horizontal"
+                         Spacing="5"
+                         VerticalOptions="CenterAndExpand"
+                         Grid.Row="4"
+                         Grid.Column="0">
+              <Image Source="workout_color"
+                     WidthRequest="20"
+                     HeightRequest="20" />
+              <Label Text="Loại hình tập luyện ưa thích: "
+                     HorizontalOptions="StartAndExpand" />
+            </StackLayout>
+            <FlexLayout BindableLayout.ItemsSource="{Binding UserTags}"
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Direction="Row"
+                        Wrap="Wrap">
+              <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type tag:GetTagDto}">
+                  <Border Stroke="{Binding TagColor, Converter={StaticResource UserTagColorConverter}}"
+                          Padding="12, 2"
+                          Margin="2, 4">
+                    <Border.StrokeShape>
+                      <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Label x:Name="TagLabel"
+                           Text="{Binding Converter={StaticResource TagTypeConverter}, 
+     ConverterParameter='TrainingType'}"
+                           TextColor="{Binding TagColor, Converter={StaticResource UserTagTextColorConverter}}" />
+                    <Border.Triggers>
+                      <DataTrigger TargetType="Border"
+                                   Binding="{Binding Text, Source={x:Reference TagLabel}}"
+                                   Value="{x:Static sys:String.Empty}">
+                        <Setter Property="IsVisible"
+                                Value="False" />
+                      </DataTrigger>
+                    </Border.Triggers>
+                  </Border>
+                </DataTemplate>
+              </BindableLayout.ItemTemplate>
+            </FlexLayout>
+
+            <!-- Row 6: Mục tiêu -->
+            <StackLayout Orientation="Horizontal"
+                         Spacing="5"
+                         VerticalOptions="CenterAndExpand"
+                         Grid.Row="5"
+                         Grid.Column="0">
+              <Image Source="target_color"
+                     WidthRequest="20"
+                     HeightRequest="20" />
+              <Label Text="Mục tiêu: "
+                     HorizontalOptions="StartAndExpand" />
+            </StackLayout>
+            <FlexLayout BindableLayout.ItemsSource="{Binding UserTags}"
+                        Grid.Row="5"
+                        Grid.Column="1"
+                        Direction="Row"
+                        Wrap="Wrap">
+              <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type tag:GetTagDto}">
+                  <Border Stroke="{Binding TagColor, Converter={StaticResource UserTagColorConverter}}"
+                          Padding="12, 2"
+                          Margin="2, 4">
+                    <Border.StrokeShape>
+                      <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Label x:Name="TagLabel"
+                           Text="{Binding Converter={StaticResource TagTypeConverter}, 
+     ConverterParameter='Target'}"
+                           TextColor="{Binding TagColor, Converter={StaticResource UserTagTextColorConverter}}" />
+                    <Border.Triggers>
+                      <DataTrigger TargetType="Border"
+                                   Binding="{Binding Text, Source={x:Reference TagLabel}}"
+                                   Value="{x:Static sys:String.Empty}">
+                        <Setter Property="IsVisible"
+                                Value="False" />
+                      </DataTrigger>
+                    </Border.Triggers>
+                  </Border>
+                </DataTemplate>
+              </BindableLayout.ItemTemplate>
+            </FlexLayout>
+
+            <!-- Row 7: Mô tả bản thân -->
+            <StackLayout Orientation="Horizontal"
+                         Spacing="5"
+                         VerticalOptions="CenterAndExpand"
+                         Grid.Row="6"
+                         Grid.Column="0">
+              <Image Source="profile_green"
+                     WidthRequest="20"
+                     HeightRequest="20" />
+              <Label Text="Mô tả bản thân: "
+                     HorizontalOptions="StartAndExpand" />
+            </StackLayout>
+            <FlexLayout BindableLayout.ItemsSource="{Binding UserTags}"
+                        Grid.Row="6"
+                        Grid.Column="1"
+                        Direction="Row"
+                        Wrap="Wrap">
+              <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type tag:GetTagDto}">
+                  <Border Stroke="{Binding TagColor, Converter={StaticResource UserTagColorConverter}}"
+                          Padding="12, 2"
+                          Margin="2, 4">
+                    <Border.StrokeShape>
+                      <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Label x:Name="TagLabel"
+                           Text="{Binding Converter={StaticResource TagTypeConverter}, 
+     ConverterParameter='SelfDescription'}"
+                           TextColor="{Binding TagColor, Converter={StaticResource UserTagTextColorConverter}}" />
+                    <Border.Triggers>
+                      <DataTrigger TargetType="Border"
+                                   Binding="{Binding Text, Source={x:Reference TagLabel}}"
+                                   Value="{x:Static sys:String.Empty}">
+                        <Setter Property="IsVisible"
+                                Value="False" />
+                      </DataTrigger>
+                    </Border.Triggers>
+                  </Border>
+                </DataTemplate>
+              </BindableLayout.ItemTemplate>
+            </FlexLayout>
+
+            <!-- Row 8: Mong muốn PT -->
+            <StackLayout Orientation="Horizontal"
+                         Spacing="5"
+                         VerticalOptions="CenterAndExpand"
+                         Grid.Row="7"
+                         Grid.Column="0">
+              <Image Source="muscle_color"
+                     WidthRequest="20"
+                     HeightRequest="20" />
+              <Label Text="Mong muốn PT: "
+                     HorizontalOptions="StartAndExpand" />
+            </StackLayout>
+            <FlexLayout BindableLayout.ItemsSource="{Binding UserTags}"
+                        Grid.Row="7"
+                        Grid.Column="1"
+                        Direction="Row"
+                        Wrap="Wrap">
+              <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type tag:GetTagDto}">
+                  <Border Stroke="{Binding TagColor, Converter={StaticResource UserTagColorConverter}}"
+                          Padding="12, 2"
+                          Margin="2, 4">
+                    <Border.StrokeShape>
+                      <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Label x:Name="TagLabel"
+                           Text="{Binding Converter={StaticResource TagTypeConverter}, 
+     ConverterParameter='PTTaste'}"
+                           TextColor="{Binding TagColor, Converter={StaticResource UserTagTextColorConverter}}" />
+                    <Border.Triggers>
+                      <DataTrigger TargetType="Border"
+                                   Binding="{Binding Text, Source={x:Reference TagLabel}}"
+                                   Value="{x:Static sys:String.Empty}">
+                        <Setter Property="IsVisible"
+                                Value="False" />
+                      </DataTrigger>
+                    </Border.Triggers>
+                  </Border>
+                </DataTemplate>
+              </BindableLayout.ItemTemplate>
+            </FlexLayout>
+
+          </Grid>
+        </StackLayout>
+      </StackLayout>
+      <!--#endregion-->
+
+    </VerticalStackLayout>
+  </ScrollView>
+</ContentPage>
