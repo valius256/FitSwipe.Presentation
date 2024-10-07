@@ -2,6 +2,7 @@
 using Firebase.Auth;
 using Firebase.Auth.Providers;
 using FitSwipe.Mobile.Pages;
+using FitSwipe.Mobile.Services;
 using FitSwipe.Mobile.ViewModels;
 using MauiIcons.Fluent;
 using Microsoft.Extensions.Logging;
@@ -12,7 +13,7 @@ namespace FitSwipe.Mobile
 {
     public static class MauiProgram
     {
-        public static MauiApp CreateMauiApp ()
+        public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
             builder
@@ -52,6 +53,9 @@ namespace FitSwipe.Mobile
             builder.Services.AddSingleton<SignUpView>();
             builder.Services.AddSingleton<SignInViewModel>();
             builder.Services.AddSingleton<SignUpViewModel>();
+
+            builder.Services.AddSingleton<SignalRChatService>();
+            builder.Services.AddTransient<ChatViewModel>();
 
             return builder.Build();
         }

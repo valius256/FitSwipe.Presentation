@@ -2,18 +2,58 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FitSwipe.Mobile.Pages.ChatPages.ChatPage"
-             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls">
-    <Grid BackgroundColor="Aquamarine">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <!-- This will take only the required space -->
-            <RowDefinition Height="*" />
-            <!-- This will take the remaining space -->
-        </Grid.RowDefinitions>
-        <Label Grid.Row="0"
-            Text="This is chat page"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-        <controls:Navbar Grid.Row="1"  ActiveTab="2"></controls:Navbar>
-    </Grid>
+             BackgroundColor="White">
+
+    <StackLayout Padding="10">
+        <!-- ListView for displaying chat rooms -->
+        <ListView x:Name="ChatListView" 
+                  HasUnevenRows="True" 
+                  SeparatorVisibility="None"
+                  BackgroundColor="White"
+                  ItemsSource="{Binding ChatRooms}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Border>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer x:Name="chatItem" Tapped="chatItem_Tapped" CommandParameter="{Binding}"></TapGestureRecognizer>
+                            </Border.GestureRecognizers>
+                            <StackLayout Orientation="Horizontal" Padding="10" Spacing="10">
+                                <!-- Avatar Image -->
+                                <Image Source="{Binding User.AvatarUrl}" 
+                                       WidthRequest="50" 
+                                       HeightRequest="50" 
+                                       Aspect="AspectFill" 
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Start"
+                                       Clip="Circle" />
+
+                                <!-- Chat Room Details -->
+                                <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+                                    <!-- Room or User Name -->
+                                    <Label Text="{Binding RoomName}" 
+                                           FontAttributes="Bold" 
+                                           FontSize="Medium" />
+
+                                    <!-- Latest Message -->
+                                    <!--<Label Text="{Binding LatestMessage}" 
+                                           FontSize="Small"
+                                           TextColor="Gray"
+                                           LineBreakMode="TailTruncation" />-->
+                                </StackLayout>
+
+                                <!-- Optional: Time or Message Indicator (like unread message count) -->
+                                <!--<Label Text="{Binding Time}" 
+                                       FontSize="Small" 
+                                       TextColor="Gray"
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="End" />-->
+                            </StackLayout>
+                        </Border>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+
 </ContentPage>
