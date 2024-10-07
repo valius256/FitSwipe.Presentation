@@ -179,7 +179,6 @@
 	  <MauiXaml Update="Controls\TimeTable.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\SchedulePages\EditWorkoutSessionDetailPage.xaml">
 	  <MauiXaml Update="Pages\HomePages\PTHomePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -294,6 +293,10 @@
 	  <MauiImage Include="Resources\Images\Icons\home_blue.png" />
 	</ItemGroup>
 
-	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionFitSwipeMobileHideInfoBar="True" XamarinHotReloadUnhandledDeviceExceptionFitSwipeMobileHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+	<ProjectExtensions>
+	<VisualStudio>
+	<UserProperties XamarinHotReloadDebuggerTimeoutExceptionFitSwipeMobileHideInfoBar="True" />
+	</VisualStudio>
+	</ProjectExtensions>
 
 </Project>
