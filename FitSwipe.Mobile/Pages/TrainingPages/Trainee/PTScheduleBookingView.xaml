@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FitSwipe.Mobile.Pages.TrainingPages.PTScheduleBookingView"
              xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
-             xmlns:trainingPages="clr-namespace:FitSwipe.Mobile.Pages.TrainingPages"
-             x:Name="PTScheduleBooking">
+             xmlns:trainingPages="clr-namespace:FitSwipe.Mobile.Pages.TrainingPages">
     <AbsoluteLayout>
         <ScrollView x:Name="pageContent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
             <VerticalStackLayout Margin="10" BackgroundColor="White">
@@ -113,12 +112,12 @@
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Label Text="Thời gian" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"></Label>
-                        <Label Text="Tổng số buổi" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="1"></Label>
-                        <Label Text="Tổng thời lượng" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="2"></Label>
-                        <Label x:Name="sttTimeSpan" Text="{Binding DurationString}" FontSize="12" Grid.Column="1" Grid.Row="0"></Label>
-                        <Label x:Name="sttTotalSlots" Text="{Binding TotalSlot}" FontSize="12" Grid.Column="1" Grid.Row="1"></Label>
-                        <Label x:Name="sttTotalDuration" Text="{Binding TotalDuration, StringFormat='{0} tiếng'}" FontSize="12" Grid.Column="1" Grid.Row="2"></Label>
+                        <Label Text="Thời gian" TextColor="Black" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"></Label>
+                        <Label Text="Tổng số buổi" TextColor="Black" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="1"></Label>
+                        <Label Text="Tổng thời lượng" TextColor="Black" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="2"></Label>
+                        <Label x:Name="sttTimeSpan" Text="{Binding DurationString}" TextColor="Black" FontSize="12" Grid.Column="1" Grid.Row="0"></Label>
+                        <Label x:Name="sttTotalSlots" Text="{Binding TotalSlot}" TextColor="Black" FontSize="12" Grid.Column="1" Grid.Row="1"></Label>
+                        <Label x:Name="sttTotalDuration" Text="{Binding TotalDuration, StringFormat='{0} tiếng'}" TextColor="Black" FontSize="12" Grid.Column="1" Grid.Row="2"></Label>
                     </Grid>
                 </Border>
                 <FlexLayout HorizontalOptions="Center">

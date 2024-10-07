@@ -11,15 +11,22 @@ namespace FitSwipe.Mobile.Pages.TrainingPages;
 
 public partial class PTScheduleBookingView : ContentPage
 {
-    public ObservableCollection<GetSlotDto> Slots { get; set; } = new ObservableCollection<GetSlotDto>();
-    public ObservableCollection<GetSlotDto> SlotsOfTrainee { get; set; } = new ObservableCollection<GetSlotDto>();
-    private MyPTListPage _myPTListPage;
+    public ObservableCollection<GetSlotDto> Slots { get; set; } = [];
+    public ObservableCollection<GetSlotDto> SlotsOfTrainee { get; set; } = [];
     private GetUserDto _loginedUser = new GetUserDto();
     private GetUserDto _ptUser = new GetUserDto();
-    private GetTrainingWithTraineeAndPTDto _training = new GetTrainingWithTraineeAndPTDto();
+    public MyPTListPage? MyPTListPage { get; set; }
+    public GetTrainingWithTraineeAndPTDto Training { get; set; } = new GetTrainingWithTraineeAndPTDto();
     private string _durationString = string.Empty;
     private int _totalDuration;
     private int _totalSlot;
+    
+    public PTScheduleBookingView()
+    {
+        InitializeComponent();
+        Setup();
+        BindingContext = this;
+    }
     public GetUserDto LoginedUser { 
         get => _loginedUser; 
         set
@@ -64,33 +71,35 @@ public partial class PTScheduleBookingView : ContentPage
             OnPropertyChanged(nameof(TotalSlot));
         }
     }
-    public PTScheduleBookingView(GetTrainingWithTraineeAndPTDto training, MyPTListPage myPTListPage)
-    {
-        InitializeComponent();
 
-        _myPTListPage = myPTListPage;
-        _training = training;
-
-        Setup();
-        pageContent.IsVisible = false;
-        BindingContext = this;
-    }
 
     private async void Setup()
     {
-        var token = await SecureStorage.GetAsync("auth_token");
-        if (token != null)
+        pageContent.IsVisible = false;
+        loadingDialog.IsVisible = true;
+        loadingDialog.Message = "Đang lấy dữ liệu người dùng...";
+        try
         {
-            var user = await Shortcut.GetLoginedUser(token);
-            if (user != null)
+            var token = await SecureStorage.GetAsync("auth_token");
+            if (token != null)
             {
-                LoginedUser = user;
+                var user = await Shortcut.GetLoginedUser(token);
+                if (user != null)
+                {
+                    LoginedUser = user;
+                }
             }
-        }
-        PTUser = _training.PT;
+            PTUser = Training.PT;
+            loadingDialog.IsVisible = false;
 
-        await FetchTraineeSlot();
-        await FetchSlots(true);
+            await FetchTraineeSlot();
+            await FetchSlots(true);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Lỗi", "Có lỗi xảy ra khi truy vấn thông tin PT. Err : " + ex.Message, "OK");
+        }
+
         pageContent.IsVisible = true;
     }
     private void UpdateOverview()
@@ -107,7 +116,7 @@ public partial class PTScheduleBookingView : ContentPage
         if (SlotsOfTrainee.Count > 0)
         {
             var slotOrdered = SlotsOfTrainee.OrderBy(s => s.StartTime);
-            DurationString = slotOrdered.Last().EndTime.ToString("dd/MM/yyyy") + " - " + slotOrdered.First().StartTime.ToString("dd/MM/yyyy")  ;
+            DurationString = slotOrdered.First().StartTime.ToString("dd/MM/yyyy") + " - " + slotOrdered.Last().EndTime.ToString("dd/MM/yyyy");
         }
     }
     private async Task FetchTraineeSlot()
@@ -116,7 +125,7 @@ public partial class PTScheduleBookingView : ContentPage
         loadingDialog.Message = "Đang lấy dữ liệu buổi tập...";
         try
         {
-            var result = await Fetcher.GetAsync<PagedResult<GetSlotDto>>($"api/Slot?Filter.TraineeId={LoginedUser.FireBaseId}&Filter.TrainingId={_training.Id}&limit=500");
+            var result = await Fetcher.GetAsync<PagedResult<GetSlotDto>>($"api/Slot?Filter.TraineeId={LoginedUser.FireBaseId}&Filter.TrainingId={Training.Id}&limit=500");
             if (result != null)
             {
                 SlotsOfTrainee = result.Items.ToObservableCollection();
@@ -137,7 +146,7 @@ public partial class PTScheduleBookingView : ContentPage
             var start = isInitial ? Helper.GetFirstDayOfWeek() : timeTable.CurrentWeek.StartDate.ToDateTime(TimeOnly.MinValue);
             var end = isInitial ? Helper.GetLastDayOfWeek() : timeTable.CurrentWeek.EndDate.ToDateTime(TimeOnly.MaxValue);
             //Get slots of PT
-            string url = $"api/Slot?Filter.CreateById={_training.PTId}&Filter.StartTime={start.ToString("yyyy-MM-ddTHH:mm:ssZ")}&Filter.EndTime={end.ToString("yyyy-MM-ddTHH:mm:ssZ")}&Filter.SlotStatuses=0&limit=500";
+            string url = $"api/Slot?Filter.CreateById={Training.PTId}&Filter.StartTime={start.ToString("yyyy-MM-ddTHH:mm:ssZ")}&Filter.EndTime={end.ToString("yyyy-MM-ddTHH:mm:ssZ")}&Filter.SlotStatuses=0&limit=500";
             var result = await Fetcher.GetAsync<PagedResult<GetSlotDto>>(url);
             if (result != null)
             {
@@ -242,7 +251,7 @@ public partial class PTScheduleBookingView : ContentPage
                     var token = await SecureStorage.GetAsync("auth_token");
                     if (token != null)
                     {
-                        var slots = await Fetcher.PostAsync<List<RequestCreateTrainingSlotDto>, List<GetSlotDto>>($"api/Slot/{_training.Id}/create", new List<RequestCreateTrainingSlotDto>
+                        var slots = await Fetcher.PostAsync<List<RequestCreateTrainingSlotDto>, List<GetSlotDto>>($"api/Slot/{Training.Id}/create", new List<RequestCreateTrainingSlotDto>
                         {
                             new RequestCreateTrainingSlotDto
                             {
@@ -283,7 +292,7 @@ public partial class PTScheduleBookingView : ContentPage
                 slot.Color = "#2E3192";
                 if (slot.StartTime < DateTime.Now)
                 {
-                    slot.Color = "#636362";
+                    slot.Color = "#ededed";
                 }
             }
             else if (slot.Status == SlotStatus.Disabled)
