@@ -10,41 +10,46 @@
                   HasUnevenRows="True" 
                   SeparatorVisibility="None"
                   BackgroundColor="White"
-                  ItemsSource="{Binding Messages}">
+                  ItemsSource="{Binding ChatRooms}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Orientation="Horizontal" Padding="10" Spacing="10">
-                            <!-- Avatar Image -->
-                            <Image Source="{Binding AvatarImageUrl}" 
-                                   WidthRequest="50" 
-                                   HeightRequest="50" 
-                                   Aspect="AspectFill" 
-                                   VerticalOptions="Center"
-                                   HorizontalOptions="Start"
-                                   Clip="Circle" />
+                        <Border>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer x:Name="chatItem" Tapped="chatItem_Tapped" CommandParameter="{Binding}"></TapGestureRecognizer>
+                            </Border.GestureRecognizers>
+                            <StackLayout Orientation="Horizontal" Padding="10" Spacing="10">
+                                <!-- Avatar Image -->
+                                <Image Source="{Binding User.AvatarUrl}" 
+                                       WidthRequest="50" 
+                                       HeightRequest="50" 
+                                       Aspect="AspectFill" 
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Start"
+                                       Clip="Circle" />
 
-                            <!-- Chat Room Details -->
-                            <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand">
-                                <!-- Room or User Name -->
-                                <Label Text="{Binding RoomName}" 
-                                       FontAttributes="Bold" 
-                                       FontSize="Medium" />
+                                <!-- Chat Room Details -->
+                                <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+                                    <!-- Room or User Name -->
+                                    <Label Text="{Binding RoomName}" 
+                                           FontAttributes="Bold" 
+                                           FontSize="Medium" />
 
-                                <!-- Latest Message -->
-                                <Label Text="{Binding LatestMessage}" 
-                                       FontSize="Small"
+                                    <!-- Latest Message -->
+                                    <!--<Label Text="{Binding LatestMessage}" 
+                                           FontSize="Small"
+                                           TextColor="Gray"
+                                           LineBreakMode="TailTruncation" />-->
+                                </StackLayout>
+
+                                <!-- Optional: Time or Message Indicator (like unread message count) -->
+                                <!--<Label Text="{Binding Time}" 
+                                       FontSize="Small" 
                                        TextColor="Gray"
-                                       LineBreakMode="TailTruncation" />
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="End" />-->
                             </StackLayout>
-
-                            <!-- Optional: Time or Message Indicator (like unread message count) -->
-                            <Label Text="{Binding Time}" 
-                                   FontSize="Small" 
-                                   TextColor="Gray"
-                                   VerticalOptions="Center" 
-                                   HorizontalOptions="End" />
-                        </StackLayout>
+                        </Border>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

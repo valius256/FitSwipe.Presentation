@@ -1,3 +1,5 @@
+using CommunityToolkit.Maui.Core.Extensions;
+using FitSwipe.Shared.Dtos.Chats;
 using FitSwipe.Shared.Utils;
 using Microsoft.AspNetCore.SignalR.Client;
 using System.Collections.ObjectModel;
@@ -7,15 +9,45 @@ namespace FitSwipe.Mobile.Pages.ChatPages;
 public partial class ChatPage : ContentPage
 {
     private HubConnection _hubConnection;
-    public ObservableCollection<MessageModel> Messages { get; set; }
+
+    private ObservableCollection<GetChatRoomDto> _chatRooms { get; set; } = new ObservableCollection<GetChatRoomDto>();
+    public ObservableCollection<GetChatRoomDto> ChatRooms
+    {
+        get => _chatRooms;
+        set
+        {
+            _chatRooms = value;
+            OnPropertyChanged();
+        }
+    }
 
     public ChatPage()
     {
         InitializeComponent();
-        Messages = new ObservableCollection<MessageModel>();
         //ChatListView.ItemsSource = Messages; // Bind the ListView to the Messages collection
         InitializeSignalR();
+        FetchChats();
         BindingContext = this;
+    }
+    private async void FetchChats()
+    {
+        try
+        {
+            var token = await SecureStorage.GetAsync("auth_token");
+            if (token == null)
+            {
+                throw new Exception("Token is null");
+            }
+            var result = await Fetcher.GetAbsoutePathAsync<List<GetChatRoomDto>>("http://10.0.2.2:5250/api/RealtimeChat/getAllChatRooms", token);
+            if (result != null)
+            {
+                ChatRooms = result.ToObservableCollection();
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", ex.Message, "OK");
+        }
     }
 
     private async void InitializeSignalR()
@@ -44,8 +76,8 @@ public partial class ChatPage : ContentPage
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                Messages.Add(new MessageModel { UserId = userId, Message = message });
-                ChatListView.ScrollTo(Messages.Last(), position: ScrollToPosition.End, animated: true); // Scroll to the latest message
+                //Messages.Add(new MessageModel { UserId = userId, Message = message });
+                //ChatListView.ScrollTo(Messages.Last(), position: ScrollToPosition.End, animated: true); // Scroll to the latest message
             });
         });
 
@@ -114,10 +146,24 @@ public partial class ChatPage : ContentPage
     {
         _hubConnection?.DisposeAsync();
     }
-}
 
-public class MessageModel
-{
-    public string UserId { get; set; }
-    public string Message { get; set; }
+    private async void chatItem_Tapped(object sender, TappedEventArgs e)
+    {
+        var border = sender as Border;
+        if (border != null)
+        {
+            var tapGuesture = border.GestureRecognizers[0] as TapGestureRecognizer;
+            if (tapGuesture != null)
+            {
+                var chatRoom = tapGuesture.CommandParameter as GetChatRoomDto;
+                await Navigation.PushModalAsync(new ChatDetail(chatRoom.UserFirebaseId, chatRoom.ChatRoomId));
+            }
+        }
+    }
+
+    public class MessageModel
+    {
+        public string UserId { get; set; }
+        public string Message { get; set; }
+    }
 }
