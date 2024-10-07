@@ -29,7 +29,7 @@
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="20"></RoundRectangle>
                         </Border.StrokeShape>
-                        <Image Source="{Binding LoginedUser.UserName}"
+                        <Image Source="{Binding LoginedUser.AvatarUrl}"
                                    Aspect="AspectFill"
                                    WidthRequest="100"
                                    HeightRequest="140"></Image>
@@ -38,7 +38,7 @@
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="20"></RoundRectangle>
                         </Border.StrokeShape>
-                        <Image Source="{Binding PTUser.UserName}"
+                        <Image Source="{Binding PTUser.AvatarUrl}"
                                         Aspect="AspectFill"
                                         WidthRequest="100"
                                         HeightRequest="140"></Image>
@@ -131,6 +131,7 @@
                          Clicked="btnClose_Clicked"
                          Margin="2"/>
                     <Button Text="Gửi cho PT"
+                         IsVisible="{Binding IsShowSendButton}"
                          TextColor="White"
                          BackgroundColor="#52BB00"
                          Padding="25,0"
@@ -138,6 +139,26 @@
                          x:Name="btnApprove"
                          HorizontalOptions="Center"
                          Clicked="btnApprove_Clicked" 
+                         Margin="2"/>
+                    <Button Text="Hủy yêu cầu"
+                         IsVisible="{Binding IsShowCancelButton}"
+                         TextColor="White"
+                         BackgroundColor="Red"
+                         Padding="25,0"
+                         HeightRequest="30"
+                         x:Name="btnCancel"
+                         HorizontalOptions="Center"
+                         Clicked="btnCancel_Clicked" 
+                         Margin="2"/>
+                    <Button Text="Kết thúc tập"
+                         IsVisible="{Binding IsShowFinishButton}"
+                         TextColor="White"
+                         BackgroundColor="Red"
+                         Padding="25,0"
+                         HeightRequest="30"
+                         x:Name="btnFinish"
+                         HorizontalOptions="Center"
+                         Clicked="btnFinish_Clicked" 
                          Margin="2"/>
                 </FlexLayout>
             </VerticalStackLayout>

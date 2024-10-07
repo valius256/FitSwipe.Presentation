@@ -20,12 +20,44 @@ public partial class PTScheduleBookingView : ContentPage
     private string _durationString = string.Empty;
     private int _totalDuration;
     private int _totalSlot;
-    
+    private bool _isShowSendButton = false;
+    private bool _isShowCancelButton = false;
+    private bool _isShowFinishButton = false;
+
+
+
     public PTScheduleBookingView()
     {
         InitializeComponent();
         Setup();
         BindingContext = this;
+    }
+    public bool IsShowSendButton
+    {
+        get => _isShowSendButton;
+        set
+        {
+            _isShowSendButton = value;
+            OnPropertyChanged(nameof(IsShowSendButton));
+        }
+    }
+    public bool IsShowCancelButton
+    {
+        get => _isShowCancelButton;
+        set
+        {
+            _isShowCancelButton = value;
+            OnPropertyChanged(nameof(IsShowCancelButton));
+        }
+    }
+    public bool IsShowFinishButton
+    {
+        get => _isShowFinishButton;
+        set
+        {
+            _isShowFinishButton = value;
+            OnPropertyChanged(nameof(IsShowFinishButton));
+        }
     }
     public GetUserDto LoginedUser { 
         get => _loginedUser; 
@@ -89,9 +121,21 @@ public partial class PTScheduleBookingView : ContentPage
                     LoginedUser = user;
                 }
             }
+
             PTUser = Training.PT;
             loadingDialog.IsVisible = false;
 
+            if (Training.Status == TrainingStatus.Matched || Training.Status == TrainingStatus.Rejected)
+            {
+                IsShowSendButton = true;
+            } else if (Training.Status == TrainingStatus.Pending)
+            {
+                IsShowCancelButton = true;
+            }
+            else if (Training.Status == TrainingStatus.OnGoing || Training.Status == TrainingStatus.NotStarted)
+            {
+                IsShowFinishButton = true;
+            }
             await FetchTraineeSlot();
             await FetchSlots(true);
         }
@@ -160,9 +204,39 @@ public partial class PTScheduleBookingView : ContentPage
         }
         loadingDialog.IsVisible = false;
     }
-    private void btnApprove_Clicked(object sender, EventArgs e)
+    private async void btnApprove_Clicked(object sender, EventArgs e)
     {
+        var answer = await DisplayAlert("Xác nhận gửi cho PT", "Bạn có chắc chắn về hành động này chứ", "Có","Không");
+        if (answer)
+        {
+            loadingDialog.IsVisible = true;
+            loadingDialog.Message = "Đang thực hiện...";
+            try
+            {
+                var token = await SecureStorage.GetAsync("auth_token");
+                if (token == null)
+                {
+                    throw new Exception("Token is not found");
+                }
+                await Fetcher.PatchAsync($"api/trainings/{Training.Id}/sending", new GetTrainingDto(), token);
 
+                //Do something with the myListPT
+                if (MyPTListPage != null)
+                {
+                    MyPTListPage.ViewModel.BookedFlag = true;
+                    await MyPTListPage.ViewModel.FetchData();
+                    await MyPTListPage.ViewModel.HandleSwitchTab();
+                }
+                await DisplayAlert("Thành công", "Đã gửi lịch huấn luyện cho PT", "OK");
+                await Navigation.PopModalAsync();
+
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Lỗi", "Có xảy ra lỗi. Err" + ex.Message, "OK");
+            }
+            loadingDialog.IsVisible = false;
+        }
     }
 
     private async void btnClose_Clicked(object sender, EventArgs e)
@@ -411,5 +485,45 @@ public partial class PTScheduleBookingView : ContentPage
                 loadingDialog.IsVisible = false;
             }
         }
+    }
+
+    private async void btnCancel_Clicked(object sender, EventArgs e)
+    {
+        var answer = await DisplayAlert("Hủy yêu cầu đặt lịch với PT", "Bạn có chắc chắn về hành động này chứ ?", "Có", "Không");
+        if (answer)
+        {
+            loadingDialog.IsVisible = true;
+            loadingDialog.Message = "Đang thực hiện...";
+            try
+            {
+                var token = await SecureStorage.GetAsync("auth_token");
+                if (token == null)
+                {
+                    throw new Exception("Token is not found");
+                }
+                await Fetcher.DeleteAsync($"api/trainings/{Training.Id}/cancel", token);
+
+                //Do something with the myListPT
+                if (MyPTListPage != null)
+                {
+                    MyPTListPage.ViewModel.MatchedFlag = true;
+                    await MyPTListPage.ViewModel.FetchData();
+                    await MyPTListPage.ViewModel.HandleSwitchTab();
+                }
+                await DisplayAlert("Thành công", "Đã hủy thành công", "OK");
+                await Navigation.PopModalAsync();
+
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Lỗi", "Có xảy ra lỗi. Err" + ex.Message, "OK");
+            }
+            loadingDialog.IsVisible = false;
+        }
+    }
+
+    private void btnFinish_Clicked(object sender, EventArgs e)
+    {
+
     }
 }
