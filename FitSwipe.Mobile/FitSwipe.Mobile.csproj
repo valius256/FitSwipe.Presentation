@@ -156,6 +156,12 @@
 		<Compile Update="Pages\FeedbackPages\FeedbackPage.xaml.cs">
 			<DependentUpon>FeedbackPage.xaml</DependentUpon>
 		</Compile>
+		<Compile Update="Pages\ProfilePages\PTReport.xaml.cs">
+		  <DependentUpon>PTReport.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Pages\ProfilePages\TraineeReport.xaml.cs">
+		  <DependentUpon>TraineeReport.xaml</DependentUpon>
+		</Compile>
 		<Compile Update="Resources\Themes\PTTheme.xaml.cs">
 			<DependentUpon>PTTheme.xaml</DependentUpon>
 		</Compile>
@@ -184,6 +190,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\ProfilePages\PTProfilePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ProfilePages\PTReport.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ProfilePages\TraineeReport.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\SchedulePages\CustomersRequestedSchedulePage.xaml">

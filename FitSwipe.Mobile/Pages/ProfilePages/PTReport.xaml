@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Pages.ProfilePages.PTReport">
+
+    <Frame WidthRequest="380"
+           HeightRequest="560"
+           BorderColor="#2E3192">
+        <VerticalStackLayout>
+            <!--Profile report-->
+            <VerticalStackLayout Margin="0,5">
+                <Label Text="Bạn hiện đang báo cáo người tập  "
+                       FontAttributes="None"
+                       FontSize="Small"
+                       TextColor="Black"
+                       HorizontalOptions="Center" />
+                <Frame Margin="0,10"
+                       Padding="0"
+                       BorderColor="#52BB00"
+                       CornerRadius="50"
+                       HeightRequest="100"
+                       WidthRequest="100"
+                       BackgroundColor="Transparent">
+                    <Image Source="images/pt1.png"
+                           Aspect="Fill" />
+                </Frame>
+                
+                <Label Text="Nguyen A"
+                       FontAttributes="Bold"
+                       FontSize="Title"
+                       TextColor="Black"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+
+            <!--Bio report-->
+            <VerticalStackLayout Margin="0,5">
+                <!--label-->
+                <Label Text="Vui lòng cho chúng tôi biết tại sao bạn muốn báo cáo người tập này"
+                       FontAttributes="None"
+                       FontSize="10"
+                       TextColor="Black" />
+                <!--Bio-->
+                <Frame Margin="0,5,0,0"
+                       CornerRadius="10"
+                       Padding="0"
+                       BorderColor="#2E3192"
+                       HasShadow="False"
+                       BackgroundColor="Transparent"
+                       HeightRequest="200">
+
+                    <Editor Text=""
+                            Placeholder="Trả lời ở đây"
+                            BackgroundColor="Transparent"
+                            FontSize="14"
+                            TextColor="Black"
+                            HeightRequest="200"
+                            VerticalOptions="FillAndExpand"
+                            Margin="0"
+                            IsVisible="Visible" />
+                </Frame>
+            </VerticalStackLayout>
+
+            <!-- Warning test-->
+            <VerticalStackLayout Margin="0,5">
+                <Label Text="Lưu Ý:"
+                       FontAttributes="Italic"
+                       FontSize="Small"
+                       TextColor="Black" />
+                <Label Text="* Vui lòng điền thông tin càng nhiều càng tốt!"
+                       FontAttributes="Italic"
+                       FontSize="Micro"
+                       TextColor="Black" />
+                <Label Text="* Vui lòng báo cáo đúng sự thật và tuân thủ theo quy tắc khi gửi báo cáo!"
+                       FontAttributes="Italic"
+                       FontSize="Micro"
+                       TextColor="Black" />
+            </VerticalStackLayout>
+
+            <!--Button-->
+            <Frame Padding="0,3"
+                   CornerRadius="50"
+                   Margin="0,10"
+                   BackgroundColor="#2E3192"
+                   BorderColor="Transparent">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="sendReport_Clicked" />
+                </Frame.GestureRecognizers>
+                <Label  Text="Gửi"
+                        FontAttributes="None"
+                        FontSize="Default"
+                        TextColor="White"
+                        BackgroundColor="#2E3192"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        VerticalTextAlignment="Center" />
+            </Frame>
+
+        </VerticalStackLayout>
+    </Frame>
+</ContentPage>
