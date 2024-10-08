@@ -81,6 +81,7 @@
 		<None Remove="Resources\Images\Icons\profile_blue.png" />
 		<None Remove="Resources\Images\Icons\profile_green.png" />
 		<None Remove="Resources\Images\Icons\profile_white.png" />
+		<None Remove="Resources\Images\Icons\remove_icon_white.png" />
 		<None Remove="Resources\Images\Icons\vnpay.png" />
 		<None Remove="Resources\Images\Stars\star_filled.png" />
 		<None Remove="Resources\Images\Stars\star_half_filled.png" />
@@ -124,6 +125,7 @@
 		<MauiImage Include="Resources\Images\Icons\profile_blue.png" />
 		<MauiImage Include="Resources\Images\Icons\profile_green.png" />
 		<MauiImage Include="Resources\Images\Icons\profile_white.png" />
+		<MauiImage Include="Resources\Images\Icons\remove_icon_white.png" />
 		<MauiImage Include="Resources\Images\Icons\vnpay.png" />
 		<MauiImage Include="Resources\Images\Stars\star_filled.png" />
 		<MauiImage Include="Resources\Images\Stars\star_half_filled.png" />

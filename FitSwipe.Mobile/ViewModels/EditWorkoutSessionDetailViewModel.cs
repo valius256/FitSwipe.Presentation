@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Microsoft.Maui.Media;
 using Microsoft.Maui.ApplicationModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace FitSwipe.Mobile.ViewModels
 {
@@ -14,6 +15,8 @@ namespace FitSwipe.Mobile.ViewModels
     public ICommand NavigateLeftCommand { get; }
     public ICommand NavigateRightCommand { get; }
     public ICommand AddMediaCommand { get; }
+    public ICommand DeleteMediaCommand { get; }
+    public ICommand ChangeThumbnailCommand { get; }
 
     [ObservableProperty]
     private string selectedThumbnail;
@@ -39,6 +42,8 @@ namespace FitSwipe.Mobile.ViewModels
       NavigateLeftCommand = new Command(OnNavigateLeft);
       NavigateRightCommand = new Command(OnNavigateRight);
       AddMediaCommand = new Command(async () => await AddNewMedia());
+      DeleteMediaCommand = new Command<Media>(DeleteMedia);
+      ChangeThumbnailCommand = new RelayCommand<Media>(OnThumbnailTapped);
 
       // Initialize selected video
       if (Medias.Count > 0)
@@ -136,6 +141,14 @@ namespace FitSwipe.Mobile.ViewModels
       {
         // Handle permission denial
         await Application.Current.MainPage.DisplayAlert("Permission Denied", "Cannot access media files. Please check app permissions in settings.", "OK");
+      }
+    }
+
+    private void DeleteMedia (Media media)
+    {
+      if (Medias.Contains(media))
+      {
+        Medias.Remove(media);
       }
     }
 

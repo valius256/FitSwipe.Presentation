@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace FitSwipe.Mobile.Converters.TrainingPageConverter
 {
-  public class InverseBooleanToVisibilityConverter : IValueConverter
+  public class CountToVisibilityConverter : IValueConverter
   {
     public object Convert (object value, Type targetType, object parameter, CultureInfo culture)
     {
-      if (value is bool booleanValue)
+      if (value is int count)
       {
-        return !booleanValue; // Return the inverse of the boolean
+        return count != 0; // Returns true if there are no items, thus making the label visible.
       }
-      return false; // Default to hidden if not a boolean
+      return true;
     }
 
     public object ConvertBack (object value, Type targetType, object parameter, CultureInfo culture)
