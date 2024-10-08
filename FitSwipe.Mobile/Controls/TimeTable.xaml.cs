@@ -18,7 +18,7 @@ public partial class TimeTable : ContentView
 	public const int maxHour = 22;
     public ObservableCollection<GetSlotDto> Slots = new ObservableCollection<GetSlotDto>();
 	public List<string> TimeStampDisplays {  get; set; } = new List<string>();
-    public GetWeekDto CurrentWeek { get; set; } = new GetWeekDto();
+    public GetWeekDto CurrentWeek { get; set; }
 	//public List<GetWeekDto> Weeks {  get; set; } = new List<GetWeekDto>();
     public int ZoomLevel { get; set; } = -1;
 
@@ -55,6 +55,11 @@ public partial class TimeTable : ContentView
         var currentYear = DateTime.Now.Year;
         yearPicker.ItemsSource = new List<int> { currentYear, currentYear - 1, currentYear - 2, currentYear - 3};
         yearPicker.SelectedIndex = 0;
+        CurrentWeek = new GetWeekDto()
+        {
+            StartDate = DateOnly.FromDateTime(Helper.GetFirstDayOfWeek()),
+            EndDate = DateOnly.FromDateTime(Helper.GetLastDayOfWeek())
+        };
         _ = new MauiIcon();
 		BindingContext = this;
     }
@@ -114,13 +119,13 @@ public partial class TimeTable : ContentView
 	}
 	public void RenderSlot()
 	{
-		var monSlots = Slots.Where(s => s.StartTime.DayOfWeek == DayOfWeek.Monday).ToList(); 
-		var tueSlots = Slots.Where(s => s.StartTime.DayOfWeek == DayOfWeek.Tuesday).ToList(); 
-		var wedSlots = Slots.Where(s => s.StartTime.DayOfWeek == DayOfWeek.Wednesday).ToList(); 
-		var thuSlots = Slots.Where(s => s.StartTime.DayOfWeek == DayOfWeek.Thursday).ToList(); 
-		var friSlots = Slots.Where(s => s.StartTime.DayOfWeek == DayOfWeek.Friday).ToList(); 
-		var satSlots = Slots.Where(s => s.StartTime.DayOfWeek == DayOfWeek.Saturday).ToList();
-		var sunSlots = Slots.Where(s => s.StartTime.DayOfWeek == DayOfWeek.Sunday).ToList();
+		var monSlots = Slots.Where(s => s.StartTime.DayOfWeek == DayOfWeek.Monday && IsContainedInCurrentWeek(s.StartTime)).ToList(); 
+		var tueSlots = Slots.Where(s => s.StartTime.DayOfWeek == DayOfWeek.Tuesday && IsContainedInCurrentWeek(s.StartTime)).ToList(); 
+		var wedSlots = Slots.Where(s => s.StartTime.DayOfWeek == DayOfWeek.Wednesday && IsContainedInCurrentWeek(s.StartTime)).ToList(); 
+		var thuSlots = Slots.Where(s => s.StartTime.DayOfWeek == DayOfWeek.Thursday && IsContainedInCurrentWeek(s.StartTime)).ToList(); 
+		var friSlots = Slots.Where(s => s.StartTime.DayOfWeek == DayOfWeek.Friday && IsContainedInCurrentWeek(s.StartTime)).ToList(); 
+		var satSlots = Slots.Where(s => s.StartTime.DayOfWeek == DayOfWeek.Saturday && IsContainedInCurrentWeek(s.StartTime)).ToList();
+		var sunSlots = Slots.Where(s => s.StartTime.DayOfWeek == DayOfWeek.Sunday && IsContainedInCurrentWeek(s.StartTime)).ToList();
 
 		RenderSlotForADayInAWeek(mondayColumn, monSlots);
 		RenderSlotForADayInAWeek(tuesdayColumn, tueSlots);
@@ -208,6 +213,10 @@ public partial class TimeTable : ContentView
                 return;
             }
         }
+    }
+    private bool IsContainedInCurrentWeek(DateTime dateTime)
+    {
+        return dateTime >= CurrentWeek.StartDate.ToDateTime(TimeOnly.MinValue) && dateTime <= CurrentWeek.EndDate.ToDateTime(TimeOnly.MaxValue);
     }
 	private string GetSimpleTime(DateTime time)
 	{

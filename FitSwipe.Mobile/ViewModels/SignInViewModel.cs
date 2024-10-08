@@ -43,7 +43,7 @@ namespace FitSwipe.Mobile.ViewModels
                     Password = _password
                 };
 
-                var content = new StringContent(JsonSerializer.Serialize(signInDto), Encoding.UTF8, "application/json");
+                //var content = new StringContent(JsonSerializer.Serialize(signInDto), Encoding.UTF8, "application/json");
                 var authResponse = await Fetcher.PostAsync<SignInDto, AuthenResponseDto>("api/Authentication/login-firebase", signInDto);
                 if (authResponse != null)
                 {
