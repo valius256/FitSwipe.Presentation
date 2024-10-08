@@ -143,6 +143,7 @@
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.82" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="Syncfusion.Maui.Inputs" Version="26.2.14" />
+		<PackageReference Include="Xamarin.Essentials" Version="1.8.1" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -298,9 +299,7 @@
 	</ItemGroup>
 
 	<ProjectExtensions>
-		<VisualStudio>
-			<UserProperties XamarinHotReloadDebuggerTimeoutExceptionFitSwipeMobileHideInfoBar="True" />
-		</VisualStudio>
+		<VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionFitSwipeMobileHideInfoBar="True" XamarinHotReloadUnhandledDeviceExceptionFitSwipeMobileHideInfoBar="True" /></VisualStudio>
 	</ProjectExtensions>
 
 </Project>
