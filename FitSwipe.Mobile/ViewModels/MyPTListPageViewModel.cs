@@ -117,6 +117,7 @@ namespace FitSwipe.Mobile.ViewModels
                     } else
                     {
                         _bookedTraining = list.ToObservableCollection();
+                        GetStatuses();
                     }
                     MaxPage = response.Total;
                 }
@@ -155,6 +156,7 @@ namespace FitSwipe.Mobile.ViewModels
                         else
                         {
                             _bookedTraining.Add(item);
+                            GetStatuses();
                         }
                     }
                     
@@ -170,7 +172,42 @@ namespace FitSwipe.Mobile.ViewModels
             isFetching = false;
         }
 
-        
+        private void GetStatuses()
+        {
+            foreach (var item in _bookedTraining)
+            {
+                if (item.Status == TrainingStatus.Rejected)
+                {
+                    item.StatusString = "Đã bị từ chối";
+                    item.StatusColor = "#ff1205";
+                }
+                if (item.Status == TrainingStatus.Pending)
+                {
+                    item.StatusString = "Đang chờ duyệt lịch";
+                    item.StatusColor = "#969595";
+                }
+                if (item.Status == TrainingStatus.NotStarted)
+                {
+                    item.StatusString = "Sắp bắt đầu";
+                    item.StatusColor = "#52BB00";
+                }
+                if (item.Status == TrainingStatus.OnGoing)
+                {
+                    item.StatusString = "Đang diễn ra";
+                    item.StatusColor = "#d18b08";
+                }
+                if (item.Status == TrainingStatus.Finished)
+                {
+                    item.StatusString = "Đã hoàn tất";
+                    item.StatusColor = "#032b8a";
+                }
+                if (item.Status == TrainingStatus.Disabled)
+                {
+                    item.StatusString = "Đã vô hiệu hóa";
+                    item.StatusColor = "#000000";
+                }
+            }
+        }
         private async Task AppendList(IList<GetTrainingWithTraineeAndPTDto> trainings)
         {
             foreach (var training in trainings)

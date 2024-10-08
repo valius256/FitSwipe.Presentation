@@ -91,7 +91,7 @@ public partial class PTSchedulePage : ContentPage
     }
     private void btnClose_Clicked(object sender, EventArgs e)
     {
-
+        //await Navigation.PopToRootAsync();
     }
 
     private async void timeTable_WeekChanged(object sender, EventArgs e)

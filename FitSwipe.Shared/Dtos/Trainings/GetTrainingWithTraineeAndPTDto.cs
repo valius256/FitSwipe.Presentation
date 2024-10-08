@@ -16,6 +16,13 @@ namespace FitSwipe.Shared.Dtos.Trainings
         public GetUserDto Trainee { get; set; } = default!;
         public GetUserDto PT { get; set; } = default!;
 
+        //UI Props
+        public string StatusString { get; set; } = string.Empty;
+        public string StatusColor { get; set; } = string.Empty;
+        public bool IsOffSchedule { get; set; } = false;
+
+
+
         //public int TotalHours
         //{
         //    get

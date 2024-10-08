@@ -88,16 +88,26 @@ public partial class MyPTListPage : ContentPage
         }
     }
 
-    private async void btnBooking_Clicked(object sender, EventArgs e)
-    {
-        var button = sender as Button;
-        if (button != null)
+    private void btnBooking_Clicked(object sender, EventArgs e)
+    {   try
         {
-            var boundItem = button.CommandParameter as GetTrainingWithTraineeAndPTDto;
-            if (boundItem != null)
+            var button = sender as Button;
+            if (button != null)
             {
-                await Navigation.PushModalAsync(new PTScheduleBookingView(boundItem.PTId));
+                var boundItem = button.CommandParameter as GetTrainingWithTraineeAndPTDto;
+                if (boundItem != null)
+                {
+                    Navigation.PushModalAsync(new PTScheduleBookingView
+                    {
+                        Training = boundItem,
+                        MyPTListPage = this
+                    });
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            DisplayAlert("Lỗi", "Có lỗi xảy ra. Err : " + ex.Message + " \n" + ex.StackTrace, "OK");
         }
     }
 }

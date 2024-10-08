@@ -22,7 +22,8 @@
                        Padding="10"
                        HorizontalTextAlignment="Center"/>
                     <Button HorizontalOptions="End" CornerRadius="50" WidthRequest="40" HeightRequest="30"
-                            ImageSource="Images/remove.png" BackgroundColor="White" Margin="0,0,5,0">
+                            ImageSource="Images/remove.png" BackgroundColor="White" Margin="0,0,5,0"
+                            Clicked="btnClose_Clicked">
                     </Button>
                 </Grid>
                 <Label Text="Thêm buổi tập với PT trong khung giờ"
@@ -36,7 +37,7 @@
                         <RoundRectangle CornerRadius="10"></RoundRectangle>
                     </Border.StrokeShape>
                     <VerticalStackLayout>
-                        <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                        <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" x:Name="txtTimeConstraint">
                             <Label x:Name="labelStartTime" Text="6:00 a.m" FontAttributes="Bold" FontSize="15" TextColor="Black"></Label>
                             <Label Text="đến" FontSize="12"  Margin="5,0" TextColor="Black"></Label>
                             <Label x:Name="labelEndTime" Text="11:00 a.m" FontAttributes="Bold" FontSize="15" TextColor="Black"></Label>
@@ -90,7 +91,7 @@
                     </VerticalStackLayout>
                    
                 </Border>
-                <HorizontalStackLayout HorizontalOptions="Center" Margin="5">
+                <FlexLayout HorizontalOptions="Center" Margin="5">
                     <Button Text="Hủy bỏ"
                          TextColor="White"
                          BackgroundColor="Gray"
@@ -99,7 +100,17 @@
                          x:Name="btnClose"
                          HorizontalOptions="Center"
                          Clicked="btnClose_Clicked"
-                         Margin="0,0,20,0"/>
+                         Margin="2"/>
+                    <Button Text="Xóa"
+                         TextColor="White"
+                         BackgroundColor="OrangeRed"
+                         Padding="15,0"
+                         HeightRequest="30"
+                         x:Name="btnDelete"
+                         IsVisible="False"
+                         HorizontalOptions="Center"
+                         Clicked="btnDelete_Clicked" 
+                         Margin="2"/>
                     <Button Text="Xác nhận"
                          TextColor="White"
                          BackgroundColor="#52BB00"
@@ -107,8 +118,9 @@
                          HeightRequest="30"
                          x:Name="btnApprove"
                          HorizontalOptions="Center"
-                         Clicked="btnClose_Clicked" />
-                </HorizontalStackLayout>
+                         Clicked="btnApprove_Clicked" 
+                         Margin="2"/>
+                </FlexLayout>
                
             </VerticalStackLayout>
         </Frame>

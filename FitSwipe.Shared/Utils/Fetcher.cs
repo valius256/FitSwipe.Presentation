@@ -16,12 +16,13 @@ namespace FitSwipe.Shared.Utils
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 HttpResponseMessage response = await _httpClient.GetAsync(Constant.BaseUrl + url);
 
-                // Ensure success status code
-                response.EnsureSuccessStatusCode();
-
                 // Read response as a string
                 string responseContent = await response.Content.ReadAsStringAsync();
 
+                // Ensure success status code
+                response.EnsureSuccessStatusCode();
+
+               
                 // Deserialize the response content into the specified type
                 T? result = JsonSerializer.Deserialize<T>(responseContent, new JsonSerializerOptions
                 {
@@ -87,12 +88,10 @@ namespace FitSwipe.Shared.Utils
 
                 HttpResponseMessage response = await _httpClient.PostAsync(Constant.BaseUrl + url, content);
 
-                // Ensure success status code
-                response.EnsureSuccessStatusCode();
-
                 // Read response as a string
                 string responseContent = await response.Content.ReadAsStringAsync();
-
+                // Ensure success status code
+                response.EnsureSuccessStatusCode();
                 // Deserialize the response content into the specified type
                 ReturnType? result = JsonSerializer.Deserialize<ReturnType>(responseContent, new JsonSerializerOptions
                 {
@@ -124,7 +123,8 @@ namespace FitSwipe.Shared.Utils
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 HttpResponseMessage response = await _httpClient.PostAsync(Constant.BaseUrl + url, content);
-
+                // Read response as a string
+                string responseContent = await response.Content.ReadAsStringAsync();
                 // Ensure success status code
                 response.EnsureSuccessStatusCode();
             }
@@ -151,6 +151,8 @@ namespace FitSwipe.Shared.Utils
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PutAsync(Constant.BaseUrl + url, content);
+                // Read response as a string
+                string responseContent = await response.Content.ReadAsStringAsync();
                 response.EnsureSuccessStatusCode();
             }
             catch (HttpRequestException e)
@@ -176,6 +178,8 @@ namespace FitSwipe.Shared.Utils
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PatchAsync(Constant.BaseUrl + url, content);
+                // Read response as a string
+                string responseContent = await response.Content.ReadAsStringAsync();
                 response.EnsureSuccessStatusCode();
             }
             catch (HttpRequestException e)
@@ -195,7 +199,9 @@ namespace FitSwipe.Shared.Utils
             {
                 // Send DELETE request
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                var response = await _httpClient.DeleteAsync(Constant.BaseUrl + url);
+                var response =  await _httpClient.DeleteAsync(Constant.BaseUrl + url);
+                // Read response as a string
+                string responseContent = await response.Content.ReadAsStringAsync();
                 response.EnsureSuccessStatusCode();
             }
             catch (HttpRequestException e)
