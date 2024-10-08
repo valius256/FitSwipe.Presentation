@@ -255,6 +255,9 @@
 	  <MauiXaml Update="Pages\SetupPages\TrailerVideoView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\SubscriptionPages\SubscriptionView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\TrainingPages\Trainee\BookSlotModal.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
