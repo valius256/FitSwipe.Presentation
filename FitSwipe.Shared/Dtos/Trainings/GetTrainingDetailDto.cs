@@ -32,11 +32,11 @@ namespace FitSwipe.Shared.Dtos.Trainings
         }
         public DateTime? StartDate
         {
-            get => Slots.OrderBy(s => s.StartTime).First()?.StartTime;
+            get => Slots.OrderBy(s => s.StartTime).FirstOrDefault()?.StartTime;
         }
         public DateTime? EndDate
         {
-            get => Slots.OrderBy(s => s.StartTime).Last()?.EndTime;
+            get => Slots.OrderBy(s => s.StartTime).LastOrDefault()?.EndTime;
         }
 
         public string DurationString

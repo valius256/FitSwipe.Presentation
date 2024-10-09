@@ -8,6 +8,7 @@
              xmlns:dtos="clr-namespace:FitSwipe.Shared.Dtos.Trainings;assembly=FitSwipe.Shared"
              xmlns:local="clr-namespace:FitSwipe.Mobile.Converters.TrainingPageConverter"
              xmlns:view="clr-namespace:FitSwipe.Mobile.ViewModels"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              x:DataType="vm:TrainingPageViewModel">
 
   <!--#region REGISTER FOR CONVERTER -->
@@ -19,7 +20,9 @@
   <!--#endregion-->
 
   <AbsoluteLayout BackgroundColor="White">
-    <ScrollView AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+    <ScrollView x:Name="pageContent"
+                Scrolled="pageContent_Scrolled"
+                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                 AbsoluteLayout.LayoutFlags="All">
       <StackLayout Padding="15"
                    VerticalOptions="FillAndExpand"
@@ -72,7 +75,19 @@
           </HorizontalStackLayout>
         </StackLayout>
         <!--#endregion-->
-
+        <Border  Background="#213399" Stroke="White" Padding="10,2" HorizontalOptions="End">
+            <HorizontalStackLayout HorizontalOptions="End">
+                <Label VerticalOptions="Center" BackgroundColor="Transparent" Text="Làm mới" TextColor="White" FontAttributes="Bold"></Label>
+                <mi:MauiIcon VerticalOptions="Center" Icon="{mi:Fluent Recycle20}" IconColor="White"></mi:MauiIcon>
+            </HorizontalStackLayout>
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10"></RoundRectangle>
+            </Border.StrokeShape>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer x:Name="tapRefresh" Tapped="tapRefresh_Tapped"></TapGestureRecognizer>
+            </Border.GestureRecognizers>
+        </Border>
+          
         <!--region TAB CONTENT -->
         <StackLayout>
           <!--#region VIEW TAB-->
@@ -153,12 +168,12 @@
                                 SeparatorColor="Transparent"
                                 VerticalScrollBarVisibility="Never">
                                 <ListView.ItemTemplate>
-                                    <DataTemplate x:DataType="dtos:GetTrainingDetailDto">
+                                    <DataTemplate x:DataType="dtos:GetTrainingWithTraineeAndPTDto">
                                         <ViewCell>
                                             <StackLayout Spacing="10"
                                                 Padding="8"
                                                 VerticalOptions="FillAndExpand">
-                                                <Border HeightRequest="150"
+                                                <Border HeightRequest="160"
                                                   BackgroundColor="#52BB00"
                                                   Stroke="DarkGray"
                                                   Margin="0, 10, 0, 10">
@@ -175,7 +190,7 @@
                                                                 <RoundRectangle CornerRadius="10" />
                                                             </Border.StrokeShape>
                                                             <StackLayout>
-                                                                <Image Source="pt2"
+                                                                <Image Source="{Binding Trainee.AvatarUrl}"
                                                                     Aspect="AspectFill"
                                                                     VerticalOptions="FillAndExpand" />
                                                             </StackLayout>
@@ -198,6 +213,8 @@
                                                                        TextColor="White"
                                                                        VerticalOptions="Start"
                                                                        FontAttributes="Bold"
+                                                                       LineBreakMode="TailTruncation"
+                                                                       WidthRequest="120"
                                                                        Margin="10,0"
                                                                        FontSize="12" />
                                                                     <!-- Age Label (20) in the top-right corner -->
@@ -234,7 +251,7 @@
                                                                      Padding="0">
                                                                         <Image Source="calendar_white"
                                                                         WidthRequest="14" />
-                                                                        <Label Text="{Binding TotalHours, StringFormat='Tổng {0} tiếng'}"
+                                                                        <Label Text="{Binding TrainingOverview.SlotString}"
                                                                          TextColor="White"
                                                                          VerticalOptions="CenterAndExpand"
                                                                          FontSize="10" />
@@ -244,7 +261,7 @@
                                                                          Padding="0">
                                                                         <Image Source="clock_icon"
                                                                         WidthRequest="14" />
-                                                                        <Label Text="{Binding DurationString}"
+                                                                        <Label Text="{Binding TrainingOverview.DurationString}"
                                                                         TextColor="White"
                                                                         FontSize="10" />
                                                                     </StackLayout>
@@ -268,7 +285,10 @@
                                                                      WidthRequest="40"
                                                                      HeightRequest="40"
                                                                      Pressed="ImageButton_Pressed"
-                                                                     Released="ImageButton_Released" />
+                                                                     Released="ImageButton_Released" 
+                                                                     x:Name="btnMoreInfo"
+                                                                     Clicked="btnMoreInfo_Clicked"
+                                                                     CommandParameter="{Binding}"/>
                                                                 </Border>
 
                                                                 <Border WidthRequest="40"
@@ -284,6 +304,9 @@
                                                                      WidthRequest="40"
                                                                      HeightRequest="40"
                                                                      Pressed="ImageButton_Pressed"
+                                                                     x:Name="btnAccept"
+                                                                     Clicked="btnAccept_Clicked"
+                                                                     CommandParameter="{Binding}"
                                                                      Released="ImageButton_Released" />
                                                                 </Border>
 
@@ -300,7 +323,8 @@
                                                                      WidthRequest="40"
                                                                      HeightRequest="40"
                                                                      Pressed="ImageButton_Pressed"
-                                                                     Released="ImageButton_Released" />
+                                                                     Released="ImageButton_Released"
+                                                                     CommandParameter="{Binding}"/>
                                                                 </Border>
                                                             </FlexLayout>
                                                             <Button Text="Xem thêm"
@@ -313,6 +337,8 @@
                                                                 VerticalOptions="EndAndExpand"
                                                                 TextColor="Black"
                                                                 CornerRadius="15" 
+                                                                Clicked="btnMoreInfo_Clicked"
+                                                                CommandParameter="{Binding}"
                                                                 IsVisible="{Binding Source={RelativeSource AncestorType={x:Type view:TrainingPageViewModel}}, Path=IsFirstTabVisible}"
                                                                 />
                                                         </StackLayout>
@@ -330,7 +356,11 @@
 
       </StackLayout>
     </ScrollView>
-
+    <controls:LoadingDialog x:Name="loadingDialog"
+         IsVisible="False"
+         Message="Đang lấy dữ liệu..."
+         AbsoluteLayout.LayoutFlags="PositionProportional"
+         AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
     <!-- Nav Bar -->
     <controls:NavbarPT ActiveTab="3"
                      ZIndex="99"

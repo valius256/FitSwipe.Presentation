@@ -15,8 +15,6 @@
        Shell.FlyoutBehavior="Disabled"
        Title="FitSwipe.Mobile">
 
-  <ShellContent ContentTemplate="{DataTemplate profilePages:UserProfilePage}"
-                Route="TraineeProfilePage" />
 
   <ShellContent ContentTemplate="{DataTemplate pages:StartedView}"
                 Route="Started" />
@@ -50,6 +48,8 @@
                 Route="ChatPage" />
   <ShellContent ContentTemplate="{DataTemplate profilePages:PTProfilePage}"
                 Route="PTProfilePage" />
+  <ShellContent ContentTemplate="{DataTemplate profilePages:UserProfilePage}"
+                Route="TraineeProfilePage" />
   <ShellContent ContentTemplate="{DataTemplate schedulePages:TraineeSchedulePage}"
                 Route="TraineeSchedulePage" />
   <ShellContent ContentTemplate="{DataTemplate homePages:SwipeMatchView}"
