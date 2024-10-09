@@ -15,58 +15,13 @@ namespace FitSwipe.Shared.Dtos.Trainings
         public DateTime CreatedDate { get; set; }
         public GetUserDto Trainee { get; set; } = default!;
         public GetUserDto PT { get; set; } = default!;
+        public GetTrainingOverviewDto? TrainingOverview { get; set; } = new GetTrainingOverviewDto();
 
         //UI Props
         public string StatusString { get; set; } = string.Empty;
         public string StatusColor { get; set; } = string.Empty;
         public bool IsOffSchedule { get; set; } = false;
 
-
-
-        //public int TotalHours
-        //{
-        //    get
-        //    {
-        //        double duration = 0;
-        //        foreach (var slot in Slots)
-        //        {
-        //            duration += (slot.EndTime - slot.StartTime).TotalHours;
-        //        }
-        //        return (int)duration;
-        //    }
-        //}
-        //public DateTime? StartDate
-        //{
-        //    get => Slots.First()?.StartTime;
-        //}
-        //public DateTime? EndDate
-        //{
-        //    get => Slots.Last()?.EndTime;
-        //}
-        //public string DurationString
-        //{
-        //    get
-        //    {
-        //        string start, end;
-        //        if (StartDate.HasValue)
-        //        {
-        //            start = StartDate.Value.Day + "/" + StartDate.Value.Month + "/" + StartDate.Value.Year;
-        //        }
-        //        else
-        //        {
-        //            start = "Không xác định";
-        //        }
-        //        if (EndDate.HasValue)
-        //        {
-        //            end = EndDate.Value.Day + "/" + EndDate.Value.Month + "/" + EndDate.Value.Year;
-        //        }
-        //        else
-        //        {
-        //            end = "Không xác định";
-        //        }
-        //        return start + " - " + end;
-        //    }
-        //}
 
     }
 }

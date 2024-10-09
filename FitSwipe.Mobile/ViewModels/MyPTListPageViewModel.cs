@@ -31,6 +31,8 @@ namespace FitSwipe.Mobile.ViewModels
         private int CurrentPage = 1;
         private int PageSize = 5;
         private int MaxPage = 1;
+        private string? _token = string.Empty;
+        private GetUserDto? _currentUser;
         public bool IsFirstTabVisible => ActiveTab == 0;
         public bool IsSecondTabVisible => ActiveTab == 1;
         public string SelectedFilter
@@ -64,6 +66,29 @@ namespace FitSwipe.Mobile.ViewModels
         public MyPTListPageViewModel()
         {
             ActiveTab = 0;
+            Setup();
+        }
+        private async void Setup()
+        {
+            try
+            {
+                var token = await SecureStorage.GetAsync("auth_token");
+                if (token == null)
+                {
+                    throw new Exception();
+                }
+                _token = token;
+                _currentUser = await Shortcut.GetLoginedUser(token);
+            }
+            catch
+            {
+                if (Application.Current != null && Application.Current.MainPage != null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Lỗi", "Lỗi xác thực, vui lòng đăng nhập lại", "OK");
+                }
+                await Shell.Current.GoToAsync("//SignIn");
+            }
+            
         }
         public void RemoveFromList(GetTrainingWithTraineeAndPTDto training)
         {
@@ -105,7 +130,7 @@ namespace FitSwipe.Mobile.ViewModels
                 {
                     _userList.Clear();
                     string queryStatusString = ActiveTab == 0 ? "Filter.TrainingStatuses=0" : "Filter.TrainingStatuses=1&Filter.TrainingStatuses=2&Filter.TrainingStatuses=3&Filter.TrainingStatuses=4&Filter.TrainingStatuses=6";
-                    var response = await Fetcher.GetAsync<PagedResult<GetTrainingWithTraineeAndPTDto>>($"api/trainings?limit={PageSize}&page={CurrentPage}&{queryStatusString}", token);
+                    var response = await Fetcher.GetAsync<PagedResult<GetTrainingWithTraineeAndPTDto>>($"api/trainings?&Filter.TraineeId={_currentUser?.Id}&limit={PageSize}&page={CurrentPage}&{queryStatusString}", token);
                     if (response == null)
                     {
                         throw new Exception("Vui lòng thử lại sau");

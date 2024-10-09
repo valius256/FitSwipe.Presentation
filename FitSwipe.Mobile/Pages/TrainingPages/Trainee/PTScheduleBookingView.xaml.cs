@@ -28,9 +28,9 @@ public partial class PTScheduleBookingView : ContentPage
 
     public PTScheduleBookingView()
     {
+
         InitializeComponent();
         Setup();
-        BindingContext = this;
     }
     public bool IsShowSendButton
     {
@@ -145,6 +145,7 @@ public partial class PTScheduleBookingView : ContentPage
         }
 
         pageContent.IsVisible = true;
+        BindingContext = this;
     }
     private void UpdateOverview()
     {
@@ -160,7 +161,7 @@ public partial class PTScheduleBookingView : ContentPage
         if (SlotsOfTrainee.Count > 0)
         {
             var slotOrdered = SlotsOfTrainee.OrderBy(s => s.StartTime);
-            DurationString = slotOrdered.First().StartTime.ToString("dd/MM/yyyy") + " - " + slotOrdered.Last().EndTime.ToString("dd/MM/yyyy");
+            DurationString = slotOrdered.FirstOrDefault()?.StartTime.ToString("dd/MM/yyyy") + " - " + slotOrdered.LastOrDefault()?.EndTime.ToString("dd/MM/yyyy");
         }
     }
     private async Task FetchTraineeSlot()

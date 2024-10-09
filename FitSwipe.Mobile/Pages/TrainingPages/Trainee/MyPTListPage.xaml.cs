@@ -88,7 +88,8 @@ public partial class MyPTListPage : ContentPage
         }
     }
 
-    private void btnBooking_Clicked(object sender, EventArgs e)
+    //THIS SHIT IS STILL CAUSING CRASH WHILE RUN WITHOUT DEBUGGING
+    private async void btnBooking_Clicked(object sender, EventArgs e)
     {   try
         {
             var button = sender as Button;
@@ -97,7 +98,7 @@ public partial class MyPTListPage : ContentPage
                 var boundItem = button.CommandParameter as GetTrainingWithTraineeAndPTDto;
                 if (boundItem != null)
                 {
-                    Navigation.PushModalAsync(new PTScheduleBookingView
+                    await Navigation.PushModalAsync(new PTScheduleBookingView
                     {
                         Training = boundItem,
                         MyPTListPage = this
@@ -107,7 +108,7 @@ public partial class MyPTListPage : ContentPage
         }
         catch (Exception ex)
         {
-            DisplayAlert("Lỗi", "Có lỗi xảy ra. Err : " + ex.Message + " \n" + ex.StackTrace, "OK");
+            await DisplayAlert("Lỗi", "Có lỗi xảy ra. Err : " + ex.Message + " \n" + ex.StackTrace, "OK");
         }
     }
 }
