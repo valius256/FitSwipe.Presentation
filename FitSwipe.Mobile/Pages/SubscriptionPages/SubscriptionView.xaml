@@ -94,7 +94,7 @@
                  FontAttributes="Bold"
                  FontSize="Title"
                  AbsoluteLayout.LayoutFlags="PositionProportional"
-                 AbsoluteLayout.LayoutBounds="0.25, 0.6, AutoSize, AutoSize" />
+                 AbsoluteLayout.LayoutBounds="0.25, 0.63, AutoSize, AutoSize" />
 
           <StackLayout>
             <Image Source="dumbell_white_img"
@@ -190,8 +190,7 @@
         <StackLayout>
           <StackLayout HorizontalOptions="CenterAndExpand">
             <CarouselView ItemsSource="{Binding Subscriptions}"
-                          CurrentItem="{Binding CurrentSubscription, Mode=TwoWay}">
-
+                          CurrentItem="{Binding CurrentSubscription}">
               <CarouselView.ItemTemplate>
                 <DataTemplate x:DataType="{x:Type model:GetSubscriptionItemDto}">
                   <Border Stroke="White"
@@ -254,8 +253,9 @@
                             <Border.StrokeShape>
                               <RoundRectangle CornerRadius="15" />
                             </Border.StrokeShape>
-                            <Button Text="{Binding Price}"
-                                    Padding="0" />
+                            <Button Text="{Binding PriceString}"
+                                    Padding="0"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SubscriptionViewModel}}, Path=NavigateToPaymentCommand}" />
                           </Border>
                         </StackLayout>
                       </StackLayout>
@@ -264,7 +264,7 @@
                 </DataTemplate>
               </CarouselView.ItemTemplate>
             </CarouselView>
-            
+
             <!-- Indicator View -->
             <IndicatorView Count="{Binding Subscriptions.Count}"
                            Position="{Binding CurrentSubscriptionIndex}"

@@ -73,6 +73,7 @@
 		<None Remove="Resources\Images\Icons\dumbell_blue.png" />
 		<None Remove="Resources\Images\Icons\dumbell_green.png" />
 		<None Remove="Resources\Images\Icons\dumbell_white.png" />
+		<None Remove="Resources\Images\Icons\goto_icon.png" />
 		<None Remove="Resources\Images\Icons\home_black.png" />
 		<None Remove="Resources\Images\Icons\home_blue.png" />
 		<None Remove="Resources\Images\Icons\home_green.png" />
@@ -118,6 +119,7 @@
 		<MauiImage Include="Resources\Images\Icons\facebook.png" />
 		<MauiImage Include="Resources\Images\Icons\filter.png" />
 		<MauiImage Include="Resources\Images\Icons\google.png" />
+		<MauiImage Include="Resources\Images\Icons\goto_icon.png" />
 		<MauiImage Include="Resources\Images\Icons\home_black.png" />
 		<MauiImage Include="Resources\Images\Icons\home_white.png" />
 		<MauiImage Include="Resources\Images\Icons\information_icon.png" />
@@ -257,6 +259,9 @@
 		</MauiXaml>
 		<MauiXaml Update="Pages\SetupPages\TrailerVideoView.xaml">
 			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\SubscriptionPages\SubscriptionPaymentView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Pages\SubscriptionPages\SubscriptionView.xaml">
 			<Generator>MSBuild:Compile</Generator>

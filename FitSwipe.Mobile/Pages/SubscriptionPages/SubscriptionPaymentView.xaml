@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Pages.SubscriptionPages.SubscriptionPaymentView"
+             xmlns:vm="clr-namespace:FitSwipe.Mobile.ViewModels"
+             xmlns:model="clr-namespace:FitSwipe.Shared.Dtos.Subscription;assembly=FitSwipe.Shared"
+             x:DataType="vm:SubscriptionViewModel">
+
+  <StackLayout>
+    <!-- VIEW TITLE -->
+    <StackLayout Padding="60, 0">
+      <Label Text="Thanh toán"
+             FontAttributes="Bold"
+             FontSize="Title"
+             HorizontalOptions="Center"
+             Margin="0, 0, 0, 8" />
+      <BoxView HeightRequest="1"
+               Color="#323593"
+               HorizontalOptions="FillAndExpand" />
+    </StackLayout>
+
+    <!--#region SUBSCRIPTION ITEM -->
+    <StackLayout Padding="30"
+                 Spacing="15"
+                 HorizontalOptions="FillAndExpand">
+
+      <!-- Date Label -->
+      <StackLayout Orientation="Horizontal"
+                   Spacing="10">
+        <Label Text="T2 21/09/2003 12:25AM" />
+        <BoxView HeightRequest="1"
+                 Color="#323593"
+                 HorizontalOptions="FillAndExpand" />
+      </StackLayout>
+
+      <!-- Benefits and GoTo Icon -->
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <HorizontalStackLayout Spacing="10"
+                               Grid.Column="0">
+          <Image Source="crown_icon"
+                 HeightRequest="40"
+                 VerticalOptions="Start" />
+
+          <StackLayout HorizontalOptions="FillAndExpand">
+            <Label Text="Quảng cáo"
+                   FontAttributes="Bold"
+                   FontSize="Caption" />
+            <Label Text="{Binding SelectedSubscription.Name}"
+                   FontAttributes="Bold"
+                   FontSize="Medium"
+                   Margin="0, 0, 0, 10" />
+
+            <CollectionView ItemsSource="{Binding SelectedSubscription.Benefit}"
+                            SelectionMode="None"
+                            InputTransparent="True">
+              <CollectionView.ItemTemplate>
+                <DataTemplate>
+                  <Grid Margin="0, 0, 0, 8">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="15" />
+                      <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0"
+                           FontAttributes="Bold"
+                           TextColor="Black"
+                           Text="&#x2022;" />
+                    <Label Grid.Column="1"
+                           TextColor="Black"
+                           Text="{Binding}" />
+                  </Grid>
+                </DataTemplate>
+              </CollectionView.ItemTemplate>
+            </CollectionView>
+          </StackLayout>
+        </HorizontalStackLayout>
+
+        <!-- Place in the second column -->
+        <ImageButton Source="goto_icon"
+                     WidthRequest="15"
+                     HeightRequest="15"
+                     HorizontalOptions="End"
+                     VerticalOptions="Center"
+                     Grid.Column="1" />
+      </Grid>
+
+      <!-- Price -->
+      <StackLayout HorizontalOptions="EndAndExpand"
+                   Orientation="Horizontal"
+                   Spacing="10">
+        <BoxView HeightRequest="3"
+                 Color="Green"
+                 WidthRequest="10" />
+        <Label Text="{Binding SelectedSubscription.PriceString}" />
+
+      </StackLayout>
+
+      <BoxView HeightRequest="1"
+               Color="#323593"
+               HorizontalOptions="FillAndExpand" />
+    </StackLayout>
+    <!--#endregion-->
+
+    <Frame BorderColor="Transparent"
+           HeightRequest="150" />
+
+    <!--#region PAYMENT OPTION -->
+    <StackLayout>
+      <StackLayout>
+        <BoxView HeightRequest="1"
+                 Color="#323593"
+                 HorizontalOptions="FillAndExpand" />
+
+        <StackLayout Padding="15, 5, 15, 5">
+          <FlexLayout JustifyContent="SpaceBetween"
+                      VerticalOptions="CenterAndExpand"
+                      HeightRequest="25">
+            <Label Text="Số tiền cần thanh toán: "
+                   VerticalOptions="Center" />
+            <Label Text="{Binding SelectedSubscription.PriceString}"
+                   TextColor="#323593"
+                   FontAttributes="Bold"
+                   FontSize="Body"
+                   VerticalOptions="Center" />
+          </FlexLayout>
+        </StackLayout>
+
+        <BoxView HeightRequest="1"
+                 Color="#323593"
+                 HorizontalOptions="FillAndExpand" />
+      </StackLayout>
+
+      <StackLayout HorizontalOptions="CenterAndExpand"
+                   Spacing="10"
+                   Padding="0, 8, 0, 0">
+        <Label Text="Vui lòng chọn phương thức thanh toán"
+               FontSize="Small" />
+
+        <StackLayout>
+          <CollectionView ItemsSource="{Binding PaymentOptions}">
+            <CollectionView.ItemTemplate>
+              <DataTemplate x:DataType="{x:Type model:GetPaymentOptionDto}">
+                <Border>
+                  <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8" />
+                  </Border.StrokeShape>
+                  <Label Text="{Binding Name}" />
+                </Border>
+              </DataTemplate>
+            </CollectionView.ItemTemplate>
+          </CollectionView>
+        </StackLayout>
+
+      </StackLayout>
+    </StackLayout>
+    <!--#endregion-->
+
+  </StackLayout>
+</ContentPage>

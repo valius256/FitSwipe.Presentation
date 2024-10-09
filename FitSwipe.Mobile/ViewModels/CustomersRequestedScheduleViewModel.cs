@@ -31,24 +31,22 @@ namespace FitSwipe.Mobile.ViewModels
         CreatedDate = new DateTime(2021, 10, 10),
         RecordStatus = Shared.Enums.RecordStatus.Active
       };
-
-      
     }
 
-    public void SetSlots(ObservableCollection<GetSlotDto> getSlotDtos)
+    public void SetSlots (ObservableCollection<GetSlotDto> getSlotDtos)
     {
-        _trainingDetails = new GetUserRequestedScheduleDto
-        {
-            StartDate = getSlotDtos.First().StartTime,
-            EndDate = getSlotDtos.Last().EndTime,
-            TotalSessions = getSlotDtos.Count,
-        };
-        double totalDuration = 0;
-        foreach (var slot in getSlotDtos)
-        {
-            totalDuration += (slot.EndTime - slot.StartTime).TotalHours;
-        }
-        _trainingDetails.TotalDuration = (int) totalDuration;
+      _trainingDetails = new GetUserRequestedScheduleDto
+      {
+        StartDate = getSlotDtos.First().StartTime,
+        EndDate = getSlotDtos.Last().EndTime,
+        TotalSessions = getSlotDtos.Count,
+      };
+      double totalDuration = 0;
+      foreach (var slot in getSlotDtos)
+      {
+        totalDuration += (slot.EndTime - slot.StartTime).TotalHours;
+      }
+      _trainingDetails.TotalDuration = (int)totalDuration;
     }
   }
 }

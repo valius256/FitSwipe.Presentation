@@ -18,6 +18,8 @@
 
   <ShellContent ContentTemplate="{DataTemplate subsciprtionpages:SubscriptionView}"
                 Route="Subscription" />
+  <ShellContent ContentTemplate="{DataTemplate subsciprtionpages:SubscriptionPaymentView}"
+                Route="SubscriptionPayment" />
   <ShellContent ContentTemplate="{DataTemplate schedulePages:EditWorkoutSessionDetailPage}"
                 Route="EditWorkoutSessionDetail" />
 

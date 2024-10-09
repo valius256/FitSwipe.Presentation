@@ -27,5 +27,13 @@ namespace FitSwipe.Shared.Dtos.Subscription
 
     public ObservableCollection<string> Benefit { get; set; }
     public double Price { get; set; }
+
+    public string PriceString
+    {
+      get
+      {
+        return $"{Price:N0} đ";
+      }
+    }
   }
 }

@@ -1,7 +1,11 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using FitSwipe.Mobile.Pages.SubscriptionPages;
 using FitSwipe.Shared.Dtos.Subscription;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace FitSwipe.Mobile.ViewModels
 {
@@ -9,12 +13,13 @@ namespace FitSwipe.Mobile.ViewModels
   {
     // Initialize the ObservableCollection
     public ObservableCollection<GetSubscriptionItemDto> Subscriptions { get; set; }
-
+    public ObservableCollection<GetPaymentOptionDto> PaymentOptions { get; set; }
     [ObservableProperty]
     private GetSubscriptionItemDto selectedSubscription;
-
     [ObservableProperty]
     private GetSubscriptionItemDto currentSubscription;
+    // Command property
+    public RelayCommand NavigateToPaymentCommand { get; }
 
     public SubscriptionViewModel ()
     {
@@ -61,9 +66,29 @@ namespace FitSwipe.Mobile.ViewModels
                 }
             };
 
+      PaymentOptions = new ObservableCollection<GetPaymentOptionDto>
+      {
+        new GetPaymentOptionDto
+        {
+          Name = "FitSwipe",
+          Description = ""
+        },
+        new GetPaymentOptionDto
+        {
+          Name = "TPBank",
+          Description = "Nhấn để thanh toán"
+        },
+        new GetPaymentOptionDto
+        {
+          Name = "Momo",
+          Description = "Nhấn để thanh toán"
+        }
+      };
+
       // Set the initial subscriptions
       CurrentSubscription = Subscriptions[0];
       SelectedSubscription = Subscriptions[0];
+      NavigateToPaymentCommand = new RelayCommand(async () => await NavigateToPaymentAsync());
     }
 
     public int CurrentSubscriptionIndex => Subscriptions.IndexOf(CurrentSubscription);
@@ -75,6 +100,13 @@ namespace FitSwipe.Mobile.ViewModels
 
       // Notify that the current index has changed
       OnPropertyChanged(nameof(CurrentSubscriptionIndex));
+    }
+
+    private async Task NavigateToPaymentAsync ()
+    {
+      Debug.WriteLine($"Navigating to Payment with Subscription: {SelectedSubscription?.Name}");
+      var paymentView = new SubscriptionPaymentView(SelectedSubscription, PaymentOptions);
+      await Application.Current.MainPage.Navigation.PushAsync(paymentView);
     }
   }
 }
