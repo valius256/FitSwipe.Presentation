@@ -13,13 +13,19 @@ namespace FitSwipe.Mobile.ViewModels
   {
     // Initialize the ObservableCollection
     public ObservableCollection<GetSubscriptionItemDto> Subscriptions { get; set; }
+
     public ObservableCollection<GetPaymentOptionDto> PaymentOptions { get; set; }
+
     [ObservableProperty]
     private GetSubscriptionItemDto selectedSubscription;
+
     [ObservableProperty]
     private GetSubscriptionItemDto currentSubscription;
-    // Command property
+
     public RelayCommand NavigateToPaymentCommand { get; }
+
+    [ObservableProperty]
+    private GetPaymentOptionDto selectedPaymentOption;
 
     public SubscriptionViewModel ()
     {
@@ -71,17 +77,20 @@ namespace FitSwipe.Mobile.ViewModels
         new GetPaymentOptionDto
         {
           Name = "FitSwipe",
-          Description = ""
+          Description = "",
+          Index = 1
         },
         new GetPaymentOptionDto
         {
           Name = "TPBank",
-          Description = "Nhấn để thanh toán"
+          Description = "Nhấn để thanh toán",
+          Index = 2
         },
         new GetPaymentOptionDto
         {
           Name = "Momo",
-          Description = "Nhấn để thanh toán"
+          Description = "Nhấn để thanh toán",
+          Index = 3
         }
       };
 
@@ -100,6 +109,14 @@ namespace FitSwipe.Mobile.ViewModels
 
       // Notify that the current index has changed
       OnPropertyChanged(nameof(CurrentSubscriptionIndex));
+    }
+    partial void OnSelectedPaymentOptionChanged (GetPaymentOptionDto value)
+    {
+      foreach (var option in PaymentOptions)
+      {
+        option.IsSelected = option == value; // Update selection state
+      }
+      OnPropertyChanged(nameof(PaymentOptions)); // Notify the UI of changes
     }
 
     private async Task NavigateToPaymentAsync ()
