@@ -11,6 +11,9 @@
   <ContentPage.Resources>
     <ResourceDictionary>
       <local:VideoSelectedToVisibilityConverter x:Key="VideoSelectedToVisibilityConverter" />
+      <local:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+      <local:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+      <local:CountToVisibilityLabelConverter x:Key="CountToVisibilityLabelConverter" />
     </ResourceDictionary>
   </ContentPage.Resources>
 
@@ -87,18 +90,31 @@
       <AbsoluteLayout>
         <!-- CarouselView -->
         <CarouselView x:Name="carouselView"
-                      ItemsSource="{Binding Videos}"
+                      ItemsSource="{Binding Medias}"
                       Position="{Binding CarouselPosition, Mode=TwoWay}"
                       AbsoluteLayout.LayoutBounds="0, 0, 1, 300"
-                      AbsoluteLayout.LayoutFlags="All">
+                      AbsoluteLayout.LayoutFlags="All"
+                      IsVisible="{Binding Medias.Count, Converter={StaticResource CountToVisibilityConverter}}">
           <CarouselView.ItemTemplate>
-            <DataTemplate x:DataType="{x:Type model:Video}">
+            <DataTemplate x:DataType="{x:Type model:Media}">
               <StackLayout>
-                <toolkit:MediaElement Source="{Binding VideoSource}"
-                                      ShouldAutoPlay="False"
-                                      HeightRequest="250"
-                                      HorizontalOptions="FillAndExpand"
-                                      Aspect="AspectFill" />
+                <Grid BackgroundColor="Black">
+                  <!-- Render MediaElement for videos -->
+                  <toolkit:MediaElement Source="{Binding Source}"
+                                        ShouldAutoPlay="False"
+                                        HeightRequest="250"
+                                        HorizontalOptions="FillAndExpand"
+                                        Aspect="AspectFit"
+                                        IsVisible="{Binding IsVideo}" />
+                  <!-- Only visible if it's a video -->
+
+                  <!-- Render Image for images -->
+                  <Image Source="{Binding Thumbnail}"
+                         Aspect="AspectFit"
+                         HeightRequest="250"
+                         IsVisible="{Binding IsVideo, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+                  <!-- Only visible if it's not a video -->
+                </Grid>
               </StackLayout>
             </DataTemplate>
           </CarouselView.ItemTemplate>
@@ -110,7 +126,7 @@
                 HorizontalOptions="Start"
                 VerticalOptions="Center"
                 BackgroundColor="Transparent"
-                AbsoluteLayout.LayoutBounds="0, 0.5, AutoSize, AutoSize"
+                AbsoluteLayout.LayoutBounds="0, 0.42, AutoSize, AutoSize"
                 AbsoluteLayout.LayoutFlags="PositionProportional"
                 Command="{Binding NavigateLeftCommand}" />
 
@@ -120,74 +136,102 @@
                 HorizontalOptions="End"
                 VerticalOptions="Center"
                 BackgroundColor="Transparent"
-                AbsoluteLayout.LayoutBounds="1, 0.5, AutoSize, AutoSize"
+                AbsoluteLayout.LayoutBounds="1, 0.42, AutoSize, AutoSize"
                 AbsoluteLayout.LayoutFlags="PositionProportional"
                 Command="{Binding NavigateRightCommand}" />
+
+        <Label Text="Không có video hay hình ảnh"
+               TextColor="Black"
+               FontSize="Medium"
+               AbsoluteLayout.LayoutBounds="0.5, 0.5, AutoSize, AutoSize"
+               AbsoluteLayout.LayoutFlags="PositionProportional"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               Margin="20"
+               IsVisible="{Binding Medias.Count, Converter={StaticResource CountToVisibilityLabelConverter}, ConverterParameter={Binding Medias.Count}}" />
       </AbsoluteLayout>
 
       <!--#region Video Thumbnails CollectionView Section -->
-      <StackLayout Padding="10" Margin="0, -35, 0, 0">
+      <StackLayout Padding="10"
+                   Margin="0, -35, 0, 0">
         <CollectionView x:Name="collectionView"
-                        ItemsSource="{Binding Videos}"
+                        ItemsSource="{Binding Medias}"
                         HorizontalScrollBarVisibility="Always"
                         HorizontalOptions="FillAndExpand"
-                        SelectionMode="Single"
-                        SelectedItem="{Binding SelectedVideo, Mode=TwoWay}">
+                        SelectionMode="None">
           <CollectionView.ItemsLayout>
             <GridItemsLayout Span="1"
                              Orientation="Horizontal" />
           </CollectionView.ItemsLayout>
           <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="{x:Type model:Video}">
-              <Border Stroke="#2E3192"
-                      Margin="4"
-                      StrokeThickness="1.5">
-                <Border.StrokeShape>
-                  <RoundRectangle CornerRadius="12" />
-                </Border.StrokeShape>
+            <DataTemplate x:DataType="{x:Type model:Media}">
+              <AbsoluteLayout>
+                <!-- Remove Button positioned in the top right corner -->
+                <Border AbsoluteLayout.LayoutBounds="1, 0, AutoSize, AutoSize"
+                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        ZIndex="1"
+                        BackgroundColor="Black"
+                        Padding="3">
+                  <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="50" />
+                  </Border.StrokeShape>
+                  <ImageButton Source="remove_icon_white"
+                               HeightRequest="12"
+                               WidthRequest="12"
+                               BackgroundColor="Transparent"
+                               Command="{Binding BindingContext.DeleteMediaCommand, Source={x:Reference collectionView}}"
+                               CommandParameter="{Binding}" />
+                </Border>
 
-                <Frame Padding="0"
-                       HasShadow="True">
-                  <Frame.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding BindingContext.ChangeCarouselPositionCommand, Source={x:Reference collectionView}}"
-                                          CommandParameter="{Binding}" />
-                  </Frame.GestureRecognizers>
-                  <Grid>
-                    <Image Source="{Binding ThumbnailSource}"
-                           Aspect="AspectFill"
-                           HeightRequest="70"
-                           WidthRequest="120" />
+                <Border Stroke="#2E3192"
+                        Margin="4"
+                        StrokeThickness="1.5">
+                  <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12" />
+                  </Border.StrokeShape>
 
-                    <!-- Overlay Play Button -->
-                    <Border IsVisible="{Binding Source={x:Reference collectionView}, 
-                                                 Path=BindingContext.SelectedVideo, 
-                                                 Converter={StaticResource VideoSelectedToVisibilityConverter}, 
-                                                 ConverterParameter={Binding}}"
-                            Stroke="Black"
-                            WidthRequest="50"
-                            HeightRequest="50"
-                            Padding="8"
-                            BackgroundColor="White"
-                            Opacity="0.75">
-                      <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="50" />
-                      </Border.StrokeShape>
-                      <Image Source="play.png"
-                             BackgroundColor="Transparent"
-                             HorizontalOptions="Center"
-                             VerticalOptions="Center"
-                             Opacity="1" />
-                    </Border>
-                  </Grid>
-                </Frame>
-              </Border>
+                  <Frame Padding="0"
+                         HasShadow="True">
+                    <Grid>
+                      <Image Source="{Binding Thumbnail}"
+                             Aspect="AspectFill"
+                             HeightRequest="70"
+                             WidthRequest="120" />
+
+                      <!-- Overlay Play Button -->
+                      <Border Stroke="Black"
+                              WidthRequest="50"
+                              HeightRequest="50"
+                              Padding="8"
+                              BackgroundColor="White"
+                              Opacity="0.75"
+                              IsVisible="{Binding ThumbnailShowPlayIcon, Mode=OneWay}">
+                        <Border.StrokeShape>
+                          <RoundRectangle CornerRadius="50" />
+                        </Border.StrokeShape>
+                        <Image Source="play.png"
+                               BackgroundColor="Transparent"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               Opacity="1" />
+                      </Border>
+                    </Grid>
+
+                    <!-- Tap Gesture Recognizer -->
+                    <Frame.GestureRecognizers>
+                      <TapGestureRecognizer Command="{Binding BindingContext.ChangeThumbnailCommand, Source={x:Reference collectionView}}"
+                                            CommandParameter="{Binding}" />
+                    </Frame.GestureRecognizers>
+                  </Frame>
+                </Border>
+              </AbsoluteLayout>
             </DataTemplate>
           </CollectionView.ItemTemplate>
         </CollectionView>
       </StackLayout>
       <!--#endregion-->
 
-      <StackLayout Padding="20, 5"
+      <StackLayout Padding="20, 5, 20, 30"
                    Spacing="20">
         <!-- Add Video Buttons -->
         <Border WidthRequest="200"
@@ -198,7 +242,8 @@
 
           <Button Text="Đăng video mới"
                   Padding="0"
-                  BackgroundColor="#2E3192" />
+                  BackgroundColor="#2E3192"
+                  Command="{Binding AddMediaCommand}" />
         </Border>
 
         <!-- Session Content -->
@@ -206,9 +251,8 @@
           <Label Text="Nội dung buổi tập: "
                  FontAttributes="Bold" />
           <Frame BorderColor="#2E3192">
-            <Editor Text="{Binding SelectedVideo.Description}"
+            <Editor Text="{Binding SelectedMedia.Description, Mode=OneWay}"
                     AutoSize="TextChanges"
-                    MinimumHeightRequest="200"
                     VerticalOptions="Start"
                     Placeholder="Nhập nội dung tại đây..." />
           </Frame>

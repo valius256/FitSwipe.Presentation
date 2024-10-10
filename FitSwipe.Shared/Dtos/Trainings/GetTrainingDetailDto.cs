@@ -14,7 +14,10 @@ namespace FitSwipe.Shared.Dtos.Trainings
         public string? Feedback { get; set; }
         public double? Rating { get; set; }
         public int DealPrice { get; set; }
+        public string StatusString { get; set; } = string.Empty;
+        public string StatusColor { get; set; } = string.Empty;
         public GetUserDto Trainee { get; set; } = default!;
+        public GetUserDto PT { get; set; } = default!;
         public ObservableCollection<GetSlotDto> Slots { get; set; } = new ObservableCollection<GetSlotDto>();
 
         public int TotalHours { 
@@ -29,12 +32,13 @@ namespace FitSwipe.Shared.Dtos.Trainings
         }
         public DateTime? StartDate
         {
-            get => Slots.First()?.StartTime;
+            get => Slots.OrderBy(s => s.StartTime).FirstOrDefault()?.StartTime;
         }
         public DateTime? EndDate
         {
-            get => Slots.Last()?.EndTime;
+            get => Slots.OrderBy(s => s.StartTime).LastOrDefault()?.EndTime;
         }
+
         public string DurationString
         {
             get
