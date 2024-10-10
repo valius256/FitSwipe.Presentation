@@ -9,7 +9,6 @@ using FitSwipe.Shared.Enums;
 using FitSwipe.Shared.Utils;
 using Mapster;
 using System.Collections.ObjectModel;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace FitSwipe.Mobile.Pages.SchedulePages;
 
