@@ -9,6 +9,6 @@ namespace FitSwipe.Shared.Dtos.Trainings
         public TrainingStatus Status { get; set; }
         public string? Feedback { get; set; }
         public double? Rating { get; set; }
-        public int DealPrice { get; set; }
+        public int? PricePerSlot { get; set; }
     }
 }

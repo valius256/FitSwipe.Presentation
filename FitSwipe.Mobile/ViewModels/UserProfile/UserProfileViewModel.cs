@@ -222,11 +222,11 @@ namespace FitSwipe.Mobile.ViewModels
           Trainee = new GetUserDto { UserName = "Nguyen Thanh Phong", AvatarUrl = "pt5.png" },
           Slots = new ObservableCollection<GetSlotDto>
           {
-              new GetSlotDto { Id = Guid.NewGuid(), StartTime =  new DateTime(2024,9,20,7,0,0), EndTime = new DateTime(2024,9,20,8,30,0), Location = "Phòng tập City Gym" , TotalVideos = 5, Content="Push ups" },
-            new GetSlotDto { Id = Guid.NewGuid(), StartTime =  new DateTime(2024,9,19,7,0,0), EndTime = new DateTime(2024,9,19,8,0,0), Location = "Phòng tập City Gym" , TotalVideos = 3, Content="Sit ups"  },
-            new GetSlotDto { Id = Guid.NewGuid(), StartTime =  new DateTime(2024,9,18,10,15,0), EndTime = new DateTime(2024,9,18,12,45,0), Location = "Phòng tập City Gym" , TotalVideos = 5 , Content="Run 10km" },
-            new GetSlotDto { Id = Guid.NewGuid(), StartTime =  new DateTime(2024,9,18,15,30,0), EndTime = new DateTime(2024,9,18,17,30,0), Location = "" , TotalVideos = 4, Content="Mix up"  },
-            new GetSlotDto { Id = Guid.NewGuid(), StartTime =  new DateTime(2024,9,16,7,0,0), EndTime = new DateTime(2024,9,16,8,30,0) , Location = "" , TotalVideos = 5, Content="Pull ups"  }
+              new GetSlotDto { Id = Guid.NewGuid(), StartTime =  new DateTime(2024,9,20,7,0,0), EndTime = new DateTime(2024,9,20,8,30,0), Location = "Phòng tập City Gym" , TotalVideo = 5, Content="Push ups" },
+            new GetSlotDto { Id = Guid.NewGuid(), StartTime =  new DateTime(2024,9,19,7,0,0), EndTime = new DateTime(2024,9,19,8,0,0), Location = "Phòng tập City Gym" , TotalVideo = 3, Content="Sit ups"  },
+            new GetSlotDto { Id = Guid.NewGuid(), StartTime =  new DateTime(2024,9,18,10,15,0), EndTime = new DateTime(2024,9,18,12,45,0), Location = "Phòng tập City Gym" , TotalVideo = 5 , Content="Run 10km" },
+            new GetSlotDto { Id = Guid.NewGuid(), StartTime =  new DateTime(2024,9,18,15,30,0), EndTime = new DateTime(2024,9,18,17,30,0), Location = "" , TotalVideo = 4, Content="Mix up"  },
+            new GetSlotDto { Id = Guid.NewGuid(), StartTime =  new DateTime(2024,9,16,7,0,0), EndTime = new DateTime(2024,9,16,8,30,0) , Location = "" , TotalVideo = 5, Content="Pull ups"  }
           },
           Status = TrainingStatus.OnGoing
       };

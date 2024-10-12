@@ -5,6 +5,7 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              xmlns:converter="clr-namespace:FitSwipe.Mobile.Converters"
+             xmlns:dto="clr-namespace:FitSwipe.Shared.Dtos.Slots;assembly=FitSwipe.Shared"
              x:Name="SlotDetailPageView">
     <Grid BackgroundColor="White">
         <Grid.RowDefinitions>
@@ -36,11 +37,12 @@
                           IsSwipeEnabled="True"
                           HorizontalOptions="FillAndExpand" 
                           VerticalOptions="FillAndExpand"
-                                  CurrentItemChanged="videoCarousel_CurrentItemChanged">
+                                  Loop="False"
+                          CurrentItemChanged="videoCarousel_CurrentItemChanged">
 
                         <!-- Each item is a MediaElement (video player) -->
                         <CarouselView.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate x:DataType="dto:GetSlotVideoDto">
 
                                     <Grid>
                                         <toolkit:MediaElement
@@ -49,8 +51,10 @@
                                             WidthRequest="400"                                
                                             ShouldShowPlaybackControls="True"
                                             StateChanged="MediaElement_StateChanged"
-                                            Source="{Binding VideoSource}"
+                                            Source="{Binding VideoUrl}"
+                                            x:Name="videoPlayer"
                                           />
+                                        
                                         <ActivityIndicator x:Name="loadingIndicator"
                                                IsRunning="True"
                                                IsVisible="True"

@@ -7,7 +7,7 @@
              xmlns:model="clr-namespace:FitSwipe.Shared.Dtos.Trainings;assembly=FitSwipe.Shared"
              xmlns:vm="clr-namespace:FitSwipe.Mobile.Pages.SchedulePages">
     <AbsoluteLayout>
-      <ScrollView x:Name="pageContent" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+      <ScrollView x:Name="pageContent" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" BackgroundColor="White">
 
         <StackLayout Padding="15">
           <ImageButton Source="back.png"
@@ -35,6 +35,7 @@
 
             <!-- Occupation -->
             <Label Text="{Binding TrainingDetails.Trainee.Job}"
+                   TextColor="Black"
                    HorizontalTextAlignment="Center" />
 
             <!-- Button -->
@@ -88,25 +89,31 @@
                 <Label Text="Thời gian"
                        Grid.Column="0"
                        Grid.Row="0"
+                       TextColor="Black"                      
                        FontAttributes="Bold" />
                 <Label Text="Tổng số buổi"
                        Grid.Column="0"
                        Grid.Row="1"
+                       TextColor="Black"                     
                        FontAttributes="Bold" />
                 <Label Text="Tổng thời lượng"
                        Grid.Column="0"
                        Grid.Row="2"
+                       TextColor="Black"                      
                        FontAttributes="Bold" />
 
                 <!-- Second Column -->
                 <Label Text="{Binding DurationString}"
                        Grid.Column="1"
+                       TextColor="Black"
                        Grid.Row="0" />
                 <Label Text="{Binding Slots.Count}"
                        Grid.Column="1"
+                       TextColor="Black"                      
                        Grid.Row="1" />
                 <Label Text="{Binding TotalHours, StringFormat='{0} buổi'}"
                        Grid.Column="1"
+                       TextColor="Black"                       
                        Grid.Row="2" />
               </Grid>
             </Border>

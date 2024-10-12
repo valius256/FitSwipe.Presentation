@@ -17,7 +17,7 @@ public partial class CustomersRequestedSchedulePage : ContentPage
     private string? _token;
     private string? _currentUserId;
     private Guid _trainingId;
-
+    private Func<Task> _refresh;
     private ObservableCollection<GetSlotDto> _slots = [];
     private GetTrainingDetailDto _trainingDetails = new GetTrainingDetailDto();
 
@@ -30,10 +30,11 @@ public partial class CustomersRequestedSchedulePage : ContentPage
         }
     }
       //public CustomersRequestedScheduleViewModel ViewModel;
-    public CustomersRequestedSchedulePage(Guid trainingId)
+    public CustomersRequestedSchedulePage(Guid trainingId, Func<Task> refresh)
     {
         InitializeComponent();
         _trainingId = trainingId;
+        _refresh = refresh;
         Setup();
     }
     private async void btnBack_Clicked(object sender, EventArgs e)
@@ -210,7 +211,7 @@ public partial class CustomersRequestedSchedulePage : ContentPage
                             }
                         }
                     }
-                    await Navigation.PushModalAsync(new PTAcceptSchedule(_trainingId));
+                    await Navigation.PushModalAsync(new PTAcceptSchedule(_trainingId, _refresh));
                 }
             }
             catch (Exception ex)
