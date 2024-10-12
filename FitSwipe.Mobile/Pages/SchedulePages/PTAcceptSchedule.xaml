@@ -8,7 +8,7 @@
              xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons">
     <AbsoluteLayout>
-        <Grid AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+        <Grid AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" BackgroundColor="White">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
@@ -17,12 +17,21 @@
             <!--Title-->
             <VerticalStackLayout Grid.Row="0">
                 <VerticalStackLayout>
-                    <VerticalStackLayout HorizontalOptions="Center" Margin="0,10">
+                    <ImageButton Source="back.png"
+                     Margin="10,10,0,0"
+                     WidthRequest="30"
+                     HeightRequest="30"
+                     HorizontalOptions="Start"
+                     x:Name="btnBack"
+                     Clicked="btnBack_Clicked"/>
+                    <VerticalStackLayout HorizontalOptions="Center" Margin="0,5">
+                        
                         <Label Text="Duyệt lịch của "
                                FontAttributes="Bold"
                                FontSize="Title"
                                TextColor="Black" />
                         <Label Text="{Binding TrainingDetail.Trainee.UserName}"
+                               HorizontalTextAlignment="Center"
                                FontAttributes="Bold"
                                FontSize="Title"
                                TextColor="#52BB00" />
@@ -35,13 +44,13 @@
                                                                                                        2.Dùng Margin = "trái,trên,phải,dưới"
                 -->
                 <!-- Deal Price-->
-                <VerticalStackLayout Margin="20,5">
+                <VerticalStackLayout Margin="20,5,20,0">
                     <BoxView HeightRequest="1"
                              Color="#2E3192"
                              Margin="0,7"
                              HorizontalOptions="Fill" />
                     <!--Frame title and price-->
-                    <VerticalStackLayout Margin="0,20">
+                    <VerticalStackLayout Margin="0,10,0,10">
                         <Label Text="Giá cả đã thỏa thuận với học viên"
                                 HorizontalOptions="Start"
                                 FontAttributes="Bold"
@@ -53,30 +62,33 @@
                                 <Border Stroke="#2E3192"
                                     Padding="30,0"
                                     HeightRequest="40">
-                                    <Entry HorizontalTextAlignment="Center" Keyboard="Numeric" Text="150000" x:Name="txtPrice" Placeholder="Hãy nhập 1 giá"/>
+                                    <Entry HorizontalTextAlignment="Center" Keyboard="Numeric" Text="{Binding TrainingDetail.PricePerSlot}" x:Name="txtPrice" Placeholder="Hãy nhập 1 giá" TextColor="Black"/>
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="5"/>
                                     </Border.StrokeShape>
                                 </Border>
                                 <Label Text=" đồng / buổi"
-                                    VerticalOptions="Center" />
+                                       VerticalOptions="Center" 
+                                       TextColor="Black"/>
                             </HorizontalStackLayout>
                             <Label Text=" (Đóng tiền theo buổi)"
                                    WidthRequest="60"
                                     HorizontalOptions="StartAndExpand"
+                                   TextColor="Black"
                                    VerticalOptions="Center"/>
                         </FlexLayout>
                         <Label Text="(*) Bạn sẽ không thể sửa giá này về sau nên hãy cân nhắc kỹ trước khi quyết định"
-                                FontSize="Micro" />
+                                FontSize="Micro" 
+                               TextColor="Black"/>
                     </VerticalStackLayout>
                     <BoxView HeightRequest="1"
                              Color="#2E3192"
-                             Margin="0,7"
                              HorizontalOptions="Fill" />
                 </VerticalStackLayout>
                 <!--Title Accept Schedule-->
                 <VerticalStackLayout Margin="20,0,20,0">
                     <Label Text="Vui lòng cập nhật nội dung các buổi học để học viên dễ nắm bắt"
+                           TextColor="Black"
                            FontAttributes="Bold" />
                 </VerticalStackLayout>
             </VerticalStackLayout>
@@ -146,7 +158,7 @@
                                             IconSize="16"
                                             VerticalOptions="Center"
                                             Margin="0,0,5,0" />
-                                            <Label Text="{Binding TotalVideos, StringFormat='{0} video'}"
+                                            <Label Text="{Binding TotalVideo, StringFormat='{0} video'}"
                                             FontSize="12"
                                             TextColor="White"
                                             VerticalOptions="Center" />
@@ -155,12 +167,15 @@
                                     </VerticalStackLayout>
                                     <VerticalStackLayout Spacing="5" Margin="0,0,5,0">
                                         <Button Text="Chỉnh sửa"
-                                    BackgroundColor="White"
-                                    TextColor="Black"
-                                    FontAttributes="Bold"
-                                    FontSize="12"
-                                    Padding="15,0"
-                                    HeightRequest="30"/>
+                                            BackgroundColor="White"
+                                            TextColor="Black"
+                                            FontAttributes="Bold"
+                                            FontSize="12"
+                                            Padding="15,0"
+                                            HeightRequest="30"
+                                            x:Name="btnEdit"
+                                            Clicked="btnEdit_Clicked"
+                                            CommandParameter="{Binding}"/>
                                         <!--<Button Text="Xóa"
                                     BackgroundColor="red"
                                     TextColor="White"
@@ -205,6 +220,8 @@
                             Padding="20,0"
                             CornerRadius="10"
                             HeightRequest="35"
+                            x:Name="btnConfirm"
+                            Clicked="btnConfirm_Clicked"
                             VerticalOptions="Center" />
                 </VerticalStackLayout>
             </VerticalStackLayout>

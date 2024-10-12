@@ -59,21 +59,21 @@ public partial class PayingCheck : ContentPage
             {
                 StartTime = new DateTime(2024,10,1,7,0,0),
                 EndTime = new DateTime(2024,10,1,8,30,0),
-                Training = new GetTrainingDto() {DealPrice = 150000},
+                Training = new GetTrainingWithTraineeAndPTDto() {PricePerSlot = 150000},
                 CreateBy = new GetUserDto() {UserName = "PT Trần A", AvatarUrl="pt1.png"},
             }, 
             new GetSlotDetailDto()
             {
                 StartTime = new DateTime(2024,10,2,9,0,0),
                 EndTime = new DateTime(2024,10,2,10,30,0),
-                Training = new GetTrainingDto() {DealPrice = 150000},
+                Training = new GetTrainingWithTraineeAndPTDto() {PricePerSlot = 150000},
                 CreateBy = new GetUserDto() {UserName = "PT Trần A", AvatarUrl="pt1.png"},
             },
             new GetSlotDetailDto()
             {
                 StartTime = new DateTime(2024,10,3,7,0,0),
                 EndTime = new DateTime(2024,10,3,8,30,0),
-                Training = new GetTrainingDto() {DealPrice = 150000},
+                Training = new GetTrainingWithTraineeAndPTDto() {PricePerSlot = 150000},
                 CreateBy = new GetUserDto() {UserName = "PT Trần A", AvatarUrl="pt1.png"},
             }
         };

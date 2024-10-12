@@ -65,11 +65,10 @@ public partial class TrainingPage : ContentPage
             var training = button.CommandParameter as GetTrainingWithTraineeAndPTDto;
             if (training != null)
             {
-                await Navigation.PushModalAsync(new CustomersRequestedSchedulePage(training.Id));
+                await Navigation.PushModalAsync(new CustomersRequestedSchedulePage(training.Id, ViewModel.FetchData));
             }
         }
     }
-
     private async void btnAccept_Clicked(object sender, EventArgs e)
     {
         var button = sender as ImageButton;
@@ -78,7 +77,20 @@ public partial class TrainingPage : ContentPage
             var training = button.CommandParameter as GetTrainingWithTraineeAndPTDto;
             if (training != null)
             {
-                await Navigation.PushModalAsync(new PTAcceptSchedule(training.Id));
+                await Navigation.PushModalAsync(new PTAcceptSchedule(training.Id, ViewModel.FetchData));
+            }
+        }
+    }
+
+    private async void btnMoreInfoTrained_Clicked(object sender, EventArgs e)
+    {
+        var button = sender as Button;
+        if (button != null)
+        {
+            var training = button.CommandParameter as GetTrainingWithTraineeAndPTDto;
+            if (training != null)
+            {
+                await Navigation.PushModalAsync(new CustomersRequestedSchedulePage(training.Id, ViewModel.FetchData));
             }
         }
     }

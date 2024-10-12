@@ -5,251 +5,348 @@ using System.Windows.Input;
 using Microsoft.Maui.Media;
 using Microsoft.Maui.ApplicationModel;
 using CommunityToolkit.Mvvm.Input;
+using FitSwipe.Shared.Dtos.Slots;
+using CommunityToolkit.Maui.Core.Extensions;
+using FitSwipe.Mobile.Controls;
+using FitSwipe.Shared.Utils;
+using FitSwipe.Mobile.Utils;
 
 namespace FitSwipe.Mobile.ViewModels
 {
   public partial class EditWorkoutSessionDetailViewModel : ObservableObject
   {
-    public ObservableCollection<Media> Medias { get; set; } = new ObservableCollection<Media>();
+    //public ObservableCollection<Media> Medias { get; set; } = new ObservableCollection<Media>();
     public ICommand ChangeCarouselPositionCommand { get; }
     public ICommand NavigateLeftCommand { get; }
     public ICommand NavigateRightCommand { get; }
     public ICommand AddMediaCommand { get; }
     public ICommand DeleteMediaCommand { get; }
     public ICommand ChangeThumbnailCommand { get; }
+    public ICommand SaveCommand { get; }
 
     [ObservableProperty]
-    private string selectedThumbnail;
+    private GetSlotDetailDto slotDetail = new GetSlotDetailDto();
     [ObservableProperty]
-    private Media selectedMedia;
+    private ObservableCollection<GetSlotVideoDto> slotVideos = new ObservableCollection<GetSlotVideoDto>();
+    [ObservableProperty]
+    private string selectedThumbnail = string.Empty;
+    [ObservableProperty]
+    private GetSlotVideoDto selectedSlotVideo = new();
 
     [ObservableProperty]
     private int carouselPosition;
 
-    private bool _isUpdatingMedia; // Flag to prevent re-entrant UI updates
-    private Media _previouslySelectedMedia; // Track the previously selected video
+    public bool IsChangedFlag = false;
+    [ObservableProperty]
+    private ObservableCollection<string> _newVideos = new ObservableCollection<string>();
+    private LoadingDialog _loadingDialog;
+    private ScrollView _pageContent;
+    private Guid _slotId;
+    //private Func<Task> _refreshData;
 
-    public EditWorkoutSessionDetailViewModel ()
+    public EditWorkoutSessionDetailViewModel (Guid slotId, LoadingDialog loadingDialog, ScrollView pageContent)
     {
-      Medias.Add(new Media
-      {
-        Source = "https://storage.googleapis.com/fit-swipe-161d7.appspot.com/videos/719ZkC7AKbYDxU3l1dpkxvKqG3H2/354849733_6982381381780275_2790533324940314360_n.mp4",
-        Thumbnail = "https://scontent.xx.fbcdn.net/v/t1.15752-9/355040793_259496903327765_2250752017545809869_n.png?_nc_cat=105&ccb=1-7&_nc_sid=0024fc&_nc_eui2=AeFWIdqK8j8eVscLc8mzanixyN2gcYzbhxPI3aBxjNuHE-vg5ogaE1Kei2SDQ56wInUQem5ZpiSepikZAOJVVAyl&_nc_ohc=eWECrjci1f0Q7kNvgFcXl8B&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&_nc_gid=A3thyrOJRKcOr59pUAg9l6r&oh=03_Q7cD1QH4ODdT7PIOWlfWqMHwhUrVAAYn6RiqRnbdDTXp8acbqw&oe=6719108B",
-        Description = "Video 1 description"
-      });
+      _loadingDialog = loadingDialog;
+      _slotId = slotId;
+      _pageContent = pageContent;
 
-      ChangeCarouselPositionCommand = new Command<Media>(OnThumbnailTapped);
+      ChangeCarouselPositionCommand = new Command<GetSlotVideoDto>(OnThumbnailTapped);
       NavigateLeftCommand = new Command(OnNavigateLeft);
       NavigateRightCommand = new Command(OnNavigateRight);
+      SaveCommand = new Command(async () => await Save());
       AddMediaCommand = new Command(async () => await AddNewMedia());
-      DeleteMediaCommand = new Command<Media>(DeleteMedia);
-      ChangeThumbnailCommand = new RelayCommand<Media>(OnThumbnailTapped);
-
-      // Initialize selected video
-      if (Medias.Count > 0)
-      {
-        SelectedMedia = Medias[0];
-        CarouselPosition = 0;
-        SelectedThumbnail = Medias[0].Source;
-        Medias[0].ThumbnailShowPlayIcon = true; // Show play icon for the first video
-      }
+      DeleteMediaCommand = new Command<GetSlotVideoDto>(DeleteMedia);
+      ChangeThumbnailCommand = new RelayCommand<GetSlotVideoDto>(OnThumbnailTapped);
+      FetchSlotDetail();
+      
     }
-
-    partial void OnSelectedMediaChanged (Media value)
+    private async void FetchSlotDetail()
     {
-      if (value != null && !_isUpdatingMedia) // Prevent re-entrant updates
-      {
+        _pageContent.IsVisible = false;
+        _loadingDialog.IsVisible = true;
         try
         {
-          _isUpdatingMedia = true; // Prevent recursive updates
-
-          // Reset the previously selected video's play icon (if any)
-          if (_previouslySelectedMedia != null && _previouslySelectedMedia != value)
-          {
-            _previouslySelectedMedia.ThumbnailShowPlayIcon = false;
-          }
-
-          // Set the play icon for the currently selected video
-          value.ThumbnailShowPlayIcon = true;
-
-          // Update the selected thumbnail and carousel position
-          SelectedThumbnail = value.Thumbnail;
-          CarouselPosition = Medias.IndexOf(value);
-
-          // Update the reference to the newly selected video
-          _previouslySelectedMedia = value;
-        }
-        finally
+            var token = await SecureStorage.GetAsync("auth_token");
+            if (token == null)
+            {
+                throw new Exception("Lỗi xác thực, vui lòng đăng nhập lại");
+            }
+            var result = await Fetcher.GetAsync<GetSlotDetailDto>($"api/Slot/get-slot-by-id?slotId={_slotId}",token);
+            if (result != null)
+            {
+                SlotDetail = result;
+                // Initialize selected video
+                if (SlotDetail.Videos.Count > 0)
+                {
+                    SelectedSlotVideo = SlotDetail.Videos[0];
+                    CarouselPosition = 0;
+                    SelectedThumbnail = SlotDetail.Videos[0].ThumbnailUrl;
+                    SlotDetail.Videos[0].ThumbnailShowPlayIcon = true; // Show play icon for the first video
+                }
+                SlotVideos = SlotDetail.Videos.ToObservableCollection();
+            }
+            
+        } catch (Exception ex) 
         {
-          _isUpdatingMedia = false; // Allow updates again
+            if (Application.Current != null && Application.Current.MainPage != null)
+            {
+                // Handle exceptions (e.g., user canceled the operation)
+                await Application.Current.MainPage.DisplayAlert("Lỗi", ex.Message, "OK");
+            }
         }
-
-        // Manually raise property changed event for SelectedVideo to ensure description update
-        OnPropertyChanged(nameof(SelectedMedia));
-      }
+        _loadingDialog.IsVisible = false;
+        _pageContent.IsVisible = true;
     }
     private async Task AddNewMedia ()
     {
-      // Check if the storage permission is granted
-      var status = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
-
-      // If permission is not granted, request it
-      if (status != PermissionStatus.Granted)
-      {
-        status = await Permissions.RequestAsync<Permissions.StorageRead>();
-      }
-
-      // Now check again if the permission is granted
-      if (status == PermissionStatus.Granted)
-      {
-        try
-        {
-          // Allow the user to pick a video or image file from the media library
-          var result = await FilePicker.PickAsync(new PickOptions
-          {
-            PickerTitle = "Select a video or image file",
-            FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
-                {
-                    { DevicePlatform.iOS, new[] { "public.movie", "public.image" } },
-                    { DevicePlatform.Android, new[] { "video/*", "image/*" } },
-                    { DevicePlatform.UWP, new[] { ".mp4", ".jpg", ".png" } }
-                })
-          });
-
-          if (result != null)
-          {
-            // Create a new Video object and add it to the Videos collection
-            var media = new Media
+            if (!_loadingDialog.IsVisible)
             {
-              Source = result.FullPath, // Full path of the selected video/image
-              Thumbnail = result.FullPath, // Use the same path for thumbnail (or change as needed)
-              Description = "" // Customize as needed
-            };
+                // Check if the storage permission is granted
+                var status = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
 
-            // Add new media to the collection
-            Medias.Add(media);
-            OnThumbnailTapped(media); // Select the newly added media
-          }
-        }
-        catch (Exception ex)
-        {
-          // Handle exceptions (e.g., user canceled the operation)
-          await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
-        }
-      }
-      else
-      {
-        // Handle permission denial
-        await Application.Current.MainPage.DisplayAlert("Permission Denied", "Cannot access media files. Please check app permissions in settings.", "OK");
-      }
+                // If permission is not granted, request it
+                if (status != PermissionStatus.Granted)
+                {
+                    status = await Permissions.RequestAsync<Permissions.StorageRead>();
+                }
+
+                // Now check again if the permission is granted
+                if (status == PermissionStatus.Granted)
+                {
+                    try
+                    {
+                        // Allow the user to pick a video or image file from the media library
+                        var result = await FilePicker.PickAsync(new PickOptions
+                        {
+                            PickerTitle = "Hãy chọn 1 video (tối đa 25 MB)",
+                            FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
+                            {
+                                { DevicePlatform.iOS, new[] { "public.movie" } },
+                                { DevicePlatform.Android, new[] { "video/*" } },
+                                { DevicePlatform.WinUI, new[] { ".mp4"} }
+                            })
+                        });
+                        if (result != null)
+                        {
+                            var fileInfo = new FileInfo(result.FullPath);
+
+                            // Get the file size in bytes
+                            long fileSizeInBytes = fileInfo.Length;
+
+                            // Convert to megabytes (optional)
+                            double fileSizeInMB = fileSizeInBytes / (1024.0 * 1024.0);
+
+                            // Check if file size exceeds 25 MB
+                            if (fileSizeInMB > 25)
+                            {
+                                throw new Exception("Video đã vượt quá 25MB. Vui lòng chọn video khác nhỏ hơn");
+                            }
+                            if (NewVideos.Contains(result.FullPath))
+                            {
+                                throw new Exception("Bạn đã đăng file này");
+                            }
+                            // Create a new Video object and add it to the Videos collection
+                            var media = new GetSlotVideoDto
+                            {
+                                VideoUrl = result.FullPath, // Full path of the selected video/image
+                                ThumbnailUrl = result.FullPath, // Use the same path for thumbnail (or change as needed)
+                                Description = "",
+                                ThumbnailShowPlayIcon = false,
+                                IsFromFilePath = true
+                            };
+
+                            // Add new media to the collection
+                            NewVideos.Add(result.FullPath);
+                            SlotDetail.Videos.Add(media);
+                            SlotVideos.Add(media);
+
+                            OnThumbnailTapped(media); // Select the newly added media
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (Application.Current != null && Application.Current.MainPage != null)
+                        {
+                            // Handle exceptions (e.g., user canceled the operation)
+                            await Application.Current.MainPage.DisplayAlert("Lỗi", ex.Message, "OK");
+                        }
+                    }
+                }
+                else
+                {
+                    if (Application.Current != null && Application.Current.MainPage != null)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Quyền truy cập bị từ chối", "Không thể truy cập các file phương tiện. Vui lòng cho phép trong phần cài đặt", "OK");
+
+                    }
+                }
+            }
     }
 
-    private void DeleteMedia (Media media)
+    private void DeleteMedia (GetSlotVideoDto media)
     {
-      if (Medias.Contains(media))
-      {
-        Medias.Remove(media);
-      }
+            if (SlotDetail.Videos.Contains(media))
+            {
+                var pos = SlotDetail.Videos.IndexOf(media);
+                var newPos = pos - 1;
+                if (newPos < 0 && SlotDetail.Videos.Count > 1)
+                {
+                    newPos = SlotDetail.Videos.Count - 1;
+                }
+                if (newPos >= 0)
+                {
+                    CarouselPosition = newPos;
+                    SetSelectedMedia(SlotDetail.Videos[CarouselPosition]);
+                }
+                if (media.IsFromFilePath)
+                {
+                    var pathToRemove = _newVideos.FirstOrDefault(sv => sv == media.VideoUrl);
+                    if (pathToRemove != null)
+                    {
+                        
+                        NewVideos.Remove(pathToRemove);
+                        
+                    }
+                }
+                SlotDetail.Videos.Remove(media);
+                SlotVideos.Remove(media);
+            }
     }
 
-    partial void OnCarouselPositionChanged (int value)
-    {
-      if (value >= 0 && value < Medias.Count)
-      {
-        // Update the selected video and thumbnail when carousel position changes
-        SelectedMedia = Medias[value];
-        SelectedThumbnail = SelectedMedia.Thumbnail;
-      }
-    }
+    //partial void OnCarouselPositionChanged (int value)
+    //{
+    //  if (value >= 0 && value < SlotDetail.Videos.Count)
+    //  {
+    //    // Update the selected video and thumbnail when carousel position changes
+    //    SelectedSlotVideo = SlotDetail.Videos[value];
+    //    SelectedThumbnail = SelectedSlotVideo.ThumbnailUrl;
+    //  }
+    //}
 
-    private void OnThumbnailTapped (Media tappedMedia)
+    private void OnThumbnailTapped (GetSlotVideoDto? tappedMedia)
     {
       // Only update if a new video is tapped and we aren't in the middle of an update
-      if (tappedMedia != null && tappedMedia != SelectedMedia && !_isUpdatingMedia)
+      if (tappedMedia != null && tappedMedia != SelectedSlotVideo)
       {
-        try
-        {
-          _isUpdatingMedia = true; // Prevent recursive updates
-
           // Update the selected video and carousel position
-          CarouselPosition = Medias.IndexOf(tappedMedia);
+          CarouselPosition = Math.Max(0, SlotDetail.Videos.IndexOf(tappedMedia));
 
           // Update SelectedVideo after ensuring the position is set
           SetSelectedMedia(tappedMedia);
-        }
-        finally
-        {
-          _isUpdatingMedia = false; // Allow updates again
-        }
+          //_isUpdatingMedia = false; // Allow updates again        
       }
     }
 
-    private void SetSelectedMedia (Media newMedia)
+    private void SetSelectedMedia (GetSlotVideoDto newMedia)
     {
-      if (newMedia != null && !_isUpdatingMedia)
+      if (newMedia != null)
       {
-        // Prevent re-entrant updates
-        _isUpdatingMedia = true;
-
-        try
-        {
-          selectedMedia = newMedia;
-
-          // Raise the property changed event to ensure description updates
-          OnPropertyChanged(nameof(SelectedMedia));
-          OnPropertyChanged(nameof(SelectedMedia.Description));
-        }
-        finally
-        {
-          _isUpdatingMedia = false;
+        SelectedSlotVideo = newMedia;
+        foreach (var item in SlotDetail.Videos) 
+        { 
+            item.ThumbnailShowPlayIcon = (item.Id == newMedia.Id);
+            SlotVideos[SlotDetail.Videos.IndexOf(item)].ThumbnailShowPlayIcon = item.ThumbnailShowPlayIcon;
         }
       }
     }
 
     private void OnNavigateLeft ()
     {
-      try
-      {
-        _isUpdatingMedia = true;
+
         if (CarouselPosition > 0)
         {
-          CarouselPosition--;
-          SelectedMedia = Medias[CarouselPosition];
+            CarouselPosition--;
         }
-        else
-        {
-          // If the video is first in the list, navigate to the last video
-          CarouselPosition = Medias.Count - 1;
-          SelectedMedia = Medias[CarouselPosition];
-        }
-      }
-      finally
-      {
-        _isUpdatingMedia = false;
-      }
+        //DO NOT LOoP DUE TO POOR PERFORMANCE ISSUE
+        //else
+        //{
+        //    // If the video is first in the list, navigate to the last video
+        //    CarouselPosition = SlotDetail.Videos.Count - 1;       
+        //}
+        SetSelectedMedia(SlotDetail.Videos[CarouselPosition]);
+
     }
 
     private void OnNavigateRight ()
     {
-      try
-      {
-        _isUpdatingMedia = true;
-        if (CarouselPosition < Medias.Count - 1)
+        if (CarouselPosition < SlotDetail.Videos.Count - 1)
         {
           CarouselPosition++;
-          SelectedMedia = Medias[CarouselPosition];
         }
-        else
-        {
-          // If the video is last in the list, navigate to the first video
-          CarouselPosition = 0;
-          SelectedMedia = Medias[CarouselPosition];
-        }
-      }
-      finally
-      {
-        _isUpdatingMedia = false;
-      }
+        //DO NOT LOoP DUE TO POOR PERFORMANCE ISSUE
+        //else
+        //{
+        //  // If the video is last in the list, navigate to the first video
+        //  CarouselPosition = 0;
+        //}     
+        SetSelectedMedia(SlotDetail.Videos[CarouselPosition]);
     }
-  }
+
+        private async Task Save()
+        {
+            if (Application.Current != null && Application.Current.MainPage != null && !_loadingDialog.IsVisible)
+            {
+                var answer = await Application.Current.MainPage.DisplayAlert("Lưu thay đổi", "Bạn có chắc chắn về hành động này không?", "Có","Không");
+                if (answer)
+                {
+                    _loadingDialog.IsVisible = true;
+                    try
+                    {
+                        var token = await SecureStorage.GetAsync("auth_token");
+                        if (token == null)
+                        {
+                            throw new Exception("Lỗi xác thực, vui lòng đăng nhập lại");
+                        }
+                        var requestVideos = new List<RequestCreateSlotVideoDto>();
+                        var oldVideos = SlotDetail.Videos.Where(sv => !sv.IsFromFilePath).ToList();
+                        foreach (var videos in oldVideos)
+                        {
+                            requestVideos.Add(new RequestCreateSlotVideoDto
+                            {
+                                SlotId = _slotId,
+                                Description = videos.Description,
+                                ThumbnailUrl = videos.ThumbnailUrl,
+                                VideoUrl = videos.VideoUrl
+                            });
+                        }
+                        foreach (var filePath in NewVideos)
+                        {
+                            var videoFromTotalList = SlotDetail.Videos.FirstOrDefault(sv => sv.VideoUrl == filePath);
+                            if (videoFromTotalList != null)
+                            {
+                                var videoResult = await MauiUtils.UploadVideoAsync(new FileResult(filePath), token);
+                                if (videoResult == null)
+                                {
+                                    throw new Exception("Tải video thất bại");
+                                }                      
+                                requestVideos.Add(new RequestCreateSlotVideoDto
+                                {
+                                    SlotId = _slotId,
+                                    Description = videoFromTotalList?.Description,
+                                    ThumbnailUrl = videoResult.FileUrl,
+                                    VideoUrl = videoResult.FileUrl
+                                });
+                            }
+                            
+                        }
+                        var request = new RequestUpdateSlotDetailDto
+                        {
+                            SlotId = _slotId,
+                            SlotVideos = requestVideos,
+                            Location = SlotDetail.Location,
+                        };
+                        await Fetcher.PostAsync("api/Slot/update-slot-detail", request, token);
+                        await Application.Current.MainPage.DisplayAlert("Thành công", "Đã lưu thay đổi", "OK");
+                        IsChangedFlag = true;
+                    } 
+                    catch (Exception ex)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Lỗi", "Có lỗi xãy ra : " + ex.Message, "Có");
+                    }
+                    _loadingDialog.IsVisible = false;
+                }
+            }
+        }
+    }
+
 }

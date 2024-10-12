@@ -86,6 +86,7 @@
 	  <None Remove="Resources\Images\Icons\profile_blue.png" />
 	  <None Remove="Resources\Images\Icons\profile_green.png" />
 	  <None Remove="Resources\Images\Icons\profile_white.png" />
+	  <None Remove="Resources\Images\Icons\remove_icon_white.png" />
 	  <None Remove="Resources\Images\Icons\target_color.png" />
 	  <None Remove="Resources\Images\Icons\update_icon.png" />
 	  <None Remove="Resources\Images\Icons\vnpay.png" />
@@ -137,6 +138,7 @@
 	  <MauiImage Include="Resources\Images\Icons\profile_blue.png" />
 	  <MauiImage Include="Resources\Images\Icons\profile_green.png" />
 	  <MauiImage Include="Resources\Images\Icons\profile_white.png" />
+	  <MauiImage Include="Resources\Images\Icons\remove_icon_white.png" />
 	  <MauiImage Include="Resources\Images\Icons\target_color.png" />
 	  <MauiImage Include="Resources\Images\Icons\update_icon.png" />
 	  <MauiImage Include="Resources\Images\Icons\vnpay.png" />
@@ -153,6 +155,7 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="FirebaseAuthentication.net" Version="4.1.0" />
 		<PackageReference Include="Mapster" Version="7.4.0" />
+		<PackageReference Include="MediaToolkit" Version="1.1.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.8" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.82" />

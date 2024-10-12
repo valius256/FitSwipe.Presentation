@@ -18,7 +18,7 @@ namespace FitSwipe.Shared.Dtos.Slots
         public double? Rating { get; set; }
         public string? Feedback { get; set; }
         public string? Color { get; set; }
-        public int TotalVideos { get; set; }
+        public int TotalVideo { get; set; }
         public string TimeString
         {
             get => StartTime.TimeOfDay + " tới " + EndTime.TimeOfDay;
