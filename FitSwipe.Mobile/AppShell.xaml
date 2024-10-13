@@ -12,10 +12,20 @@
        xmlns:setupPages="clr-namespace:FitSwipe.Mobile.Pages.SetupPages"
        xmlns:feedbackPages="clr-namespace:FitSwipe.Mobile.Pages.FeedbackPages"
        xmlns:payingpages="clr-namespace:FitSwipe.Mobile.Pages.PayingPages"
+       xmlns:reportpages="clr-namespace:FitSwipe.Mobile.Pages.ReportPages"
        Shell.FlyoutBehavior="Disabled"
        Title="FitSwipe.Mobile">
 
-  <ShellContent ContentTemplate="{DataTemplate profilePages:UserProfilePage}"
+
+    <ShellContent ContentTemplate="{DataTemplate reportpages:HandleReport}"
+                  Route="HandleReport" />
+
+    <ShellContent ContentTemplate="{DataTemplate reportpages:AcceptHandleReport}"
+                  Route="AcceptHandleReport" />
+
+   
+
+    <ShellContent ContentTemplate="{DataTemplate profilePages:UserProfilePage}"
                 Route="TraineeProfilePage" />
 
   <ShellContent ContentTemplate="{DataTemplate pages:StartedView}"

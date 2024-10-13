@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Pages.ReportPages.AcceptHandleReport">
+    
+    <Frame BorderColor="#52BB00">
+        <VerticalStackLayout>
+            <!--Profile report-->
+            <VerticalStackLayout Margin="0,5">
+                <Frame Margin="0,10"
+                       Padding="0"
+                       BorderColor="#2E3192"
+                       CornerRadius="50"
+                       HeightRequest="100"
+                       WidthRequest="100"
+                       BackgroundColor="Transparent">
+                    <Image Source="images/pt1.png"
+                           Aspect="Fill" />
+                </Frame>
+
+                <Label Text="Nguyen A"
+                       FontAttributes="Bold"
+                       FontSize="Large"
+                       TextColor="Black"
+                       HorizontalOptions="Center" />
+
+                <!--Description-->
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Label Text="Bạn đã chọn"
+                           FontAttributes="None"
+                           FontSize="Medium"
+                           TextColor="Black"
+                           HorizontalOptions="Center" />
+                    <VerticalStackLayout>
+                        <Label Text="Chấp Nhận"
+                               FontAttributes="Bold"
+                               FontSize="Medium"
+                               TextColor="#2E3192"
+                               Margin="5,0"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                    <Label Text="cho báo cáo này!"
+                           FontAttributes="None"
+                           FontSize="Medium"
+                           TextColor="Black"
+                           HorizontalOptions="Center" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+            <!--Bio report-->
+            <VerticalStackLayout Margin="0,5">
+                <!--label-->
+                <Label Text="Gửi phản hồi của bạn cho người dùng đã báo cáo"
+                       FontAttributes="Bold"
+                       FontSize="12"
+                       TextColor="Black" />
+                <!--2 Box Info-->
+                <VerticalStackLayout Margin="0,6">
+                    <HorizontalStackLayout Margin="0,5">
+                        <Label Text="Từ"
+                               FontAttributes="Bold"
+                               FontSize="11"
+                               TextColor="Black"
+                               VerticalOptions="Center"
+                               Margin="5,0,10,0"/>
+                        <Frame Margin="5,0,0,0"
+                               CornerRadius="5"
+                               Padding="0"
+                               BorderColor="#52BB00"
+                               HasShadow="False"
+                               BackgroundColor="Transparent"
+                               HeightRequest="35"
+                               WidthRequest="336">
+                            <Editor Text="{Binding fromText}"
+                                    Placeholder="Fitswipedev@gmail.com"
+                                    BackgroundColor="Transparent"
+                                    FontSize="11"
+                                    TextColor="Black"
+                                    HeightRequest="35"
+                                    VerticalOptions="StartAndExpand"
+                                    Margin="2,0,0,0"
+                                    IsVisible="Visible" />
+                        </Frame>
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Margin="0,1">
+                        <Label Text="Đến"
+                               FontAttributes="Bold"
+                               FontSize="11"
+                               TextColor="Black"
+                               VerticalOptions="Center"
+                               Margin="5,0,3,0"
+                               />
+                        <Frame Margin="5,0,0,0"
+                               CornerRadius="5"
+                               Padding="0"
+                               BorderColor="#52BB00"
+                               HasShadow="False"
+                               BackgroundColor="Transparent"
+                               HeightRequest="35"
+                               WidthRequest="336">
+                            <Editor Text="{Binding toText}"
+                                    Placeholder="SĐT / Email"
+                                    BackgroundColor="Transparent"
+                                    FontSize="11"
+                                    TextColor="Black"
+                                    HeightRequest="35"
+                                    VerticalOptions="FillAndExpand"
+                                    Margin="2,0,0,0"
+                                    IsVisible="Visible" />
+                        </Frame>
+                    </HorizontalStackLayout>
+
+                </VerticalStackLayout>
+                <!--Bio-->
+                <Label Text="Phản hồi của bạn cho báo cáo này"
+                       FontAttributes="None"
+                       FontSize="11"
+                       TextColor="Black" />
+
+                <Frame Margin="0,5,0,0"
+                       CornerRadius="10"
+                       Padding="0"
+                       BorderColor="#52BB00"
+                       HasShadow="False"
+                       BackgroundColor="Transparent"
+                       HeightRequest="360">
+
+                    <Editor Text=""
+                            Placeholder="Phản hồi"
+                            BackgroundColor="Transparent"
+                            FontSize="14"
+                            TextColor="Black"
+                            HeightRequest="360"
+                            VerticalOptions="FillAndExpand"
+                            Margin="0"
+                            IsVisible="Visible" />
+                </Frame>
+            </VerticalStackLayout>
+
+            <!--Button-->
+            <Frame Padding="0,3"
+                   CornerRadius="50"
+                   Margin="0,10"
+                   BackgroundColor="#52BB00"
+                   BorderColor="Transparent">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="sendReport_Clicked" />
+                </Frame.GestureRecognizers>
+                <Label  Text="Gửi"
+                        FontAttributes="None"
+                        FontSize="Default"
+                        TextColor="White"
+                        BackgroundColor="#52BB00"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        VerticalTextAlignment="Center" />
+            </Frame>
+
+        </VerticalStackLayout>
+    </Frame>
+</ContentPage>
