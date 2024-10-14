@@ -1,9 +1,6 @@
 ﻿
 using FitSwipe.Shared.Dtos.Upload;
 using FitSwipe.Shared.Utils;
-using MediaToolkit;
-using MediaToolkit.Model;
-using MediaToolkit.Options;
 using System.Net.Http.Headers;
 using System.Text.Json;
 

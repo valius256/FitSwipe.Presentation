@@ -1,3 +1,4 @@
+using FitSwipe.Mobile.Extensions;
 using FitSwipe.Shared.Dtos.Others;
 using FitSwipe.Shared.Utils;
 
@@ -69,13 +70,5 @@ public partial class PTDuplicatingSlotModal : ContentView
        
     }
 
-    public class WeekCheckedEventArgs : EventArgs
-    {
-        public List<GetWeekDto> Weeks { get; set; }
-
-        public WeekCheckedEventArgs(List<GetWeekDto> weeks)
-        {
-            Weeks = weeks;
-        }
-    }
+    
 }

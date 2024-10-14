@@ -2,132 +2,168 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FitSwipe.Mobile.Pages.TrainingPages.SlotDetailPage"
+             x:DataType="vm:SlotDetailPage"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
-             xmlns:converter="clr-namespace:FitSwipe.Mobile.Converters"
+             xmlns:trainingConverter="clr-namespace:FitSwipe.Mobile.Converters.TrainingPageConverter"
+             xmlns:paymentConverter="clr-namespace:FitSwipe.Mobile.Converters.PaymentConverters"
+             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
              xmlns:dto="clr-namespace:FitSwipe.Shared.Dtos.Slots;assembly=FitSwipe.Shared"
-             x:Name="SlotDetailPageView">
-    <Grid BackgroundColor="White">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-        </Grid.RowDefinitions>
-        <ScrollView Grid.Row="0">
-            <VerticalStackLayout  VerticalOptions="Start">
-                <Button ImageSource="back.png" WidthRequest="60" HeightRequest="60" BackgroundColor="Transparent"
-                        HorizontalOptions="Start" VerticalOptions="Start">
-                </Button>
-                <Label Text="Chi tiết buổi tập" TextColor="Black" FontAttributes="Bold" FontSize="25" HorizontalOptions="Center" HorizontalTextAlignment="Center"></Label>
-                <Border BackgroundColor="#52BB00" HeightRequest="4" Margin="100,0"></Border>
-                <Label Text="6:00 AM - 9:00 AM" Margin="0,5" TextColor="#52BB00" FontAttributes="Bold" FontSize="22" HorizontalOptions="Center" HorizontalTextAlignment="Center"></Label>
-                <Label Text="22/09/2024" TextColor="Black" FontAttributes="Bold" FontSize="15" HorizontalOptions="Center" HorizontalTextAlignment="Center"></Label>
-                <HorizontalStackLayout HorizontalOptions="Center" Margin="0,5">
-                    <Label Text="Địa diểm : " FontSize="16" FontAttributes="Bold"></Label>
-                    <Label Text="Phòng tập ABC" FontSize="16"></Label>
-                </HorizontalStackLayout>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <!-- CarouselView for the video slideshow -->
-                    <CarouselView x:Name="videoCarousel" 
-                          ItemsSource="{Binding Videos}" 
-                          IsSwipeEnabled="True"
-                          HorizontalOptions="FillAndExpand" 
-                          VerticalOptions="FillAndExpand"
-                                  Loop="False"
-                          CurrentItemChanged="videoCarousel_CurrentItemChanged">
+             xmlns:vm="clr-namespace:FitSwipe.Mobile.Pages.TrainingPages">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <paymentConverter:SlotPaymentStatusToBooleanConverter x:Key="SlotPaymentStatusToBooleanConverter" />
+            <trainingConverter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+            <trainingConverter:CountToVisibilityLabelConverter x:Key="CountToVisibilityLabelConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <AbsoluteLayout>
+        <Grid BackgroundColor="White" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" x:Name="pageContent">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <ScrollView Grid.Row="0">
+                <VerticalStackLayout  VerticalOptions="Start">
+                    <Button ImageSource="back.png" WidthRequest="60" HeightRequest="60" BackgroundColor="Transparent"
+                            x:Name="btnBack" Clicked="btnBack_Clicked"
+                            HorizontalOptions="Start" VerticalOptions="Start">
+                    </Button>
+                    <Label Text="Chi tiết buổi tập" TextColor="Black" FontAttributes="Bold" FontSize="25" HorizontalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                    <Border BackgroundColor="#52BB00" HeightRequest="4" Margin="100,0"></Border>
+                    <HorizontalStackLayout HorizontalOptions="Center">
+                        <Label Text="{Binding SlotDetail.StartTime, StringFormat='{0:hh\\:mm}'}" Margin="0,5" TextColor="#52BB00" FontAttributes="Bold" FontSize="22"></Label>
+                        <Label Text="{Binding SlotDetail.StartTime, StringFormat=' - {0:hh\\:mm}'}" Margin="0,5" TextColor="#52BB00" FontAttributes="Bold" FontSize="22"></Label>
+                    </HorizontalStackLayout>
+                    <Label Text="{Binding SlotDetail.StartTime, StringFormat='{0:dd/MM/yyyy}'}" TextColor="Black" FontAttributes="Bold" FontSize="15" HorizontalOptions="Center" HorizontalTextAlignment="Center"></Label>
+                    <HorizontalStackLayout HorizontalOptions="Center" Margin="0,5">
+                        <Label Text="Địa diểm : " FontSize="16" FontAttributes="Bold"></Label>
+                        <Label Text="{Binding SlotDetail.Location}" FontSize="16"></Label>
+                    </HorizontalStackLayout>
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Label Text="Buổi tập này không có video nào"
+                           TextColor="Black"
+                           FontSize="Medium"
+                           WidthRequest="250"
+                           HorizontalTextAlignment="Center"
+                           AbsoluteLayout.LayoutBounds="0.5, 0.5, AutoSize, AutoSize"
+                           AbsoluteLayout.LayoutFlags="PositionProportional"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Margin="20"
+                           IsVisible="{Binding SlotDetail.Videos.Count, Converter={StaticResource CountToVisibilityLabelConverter}}" />
+                        <!-- CarouselView for the video slideshow -->
+                        <CarouselView x:Name="videoCarousel" 
+                              ItemsSource="{Binding Videos}" 
+                              IsSwipeEnabled="True"
+                              HorizontalOptions="FillAndExpand" 
+                              VerticalOptions="FillAndExpand"
+                              Loop="False"
+                              CurrentItemChanged="videoCarousel_CurrentItemChanged"
+                              IsVisible="{Binding SlotDetail.Videos.Count, Converter={StaticResource CountToVisibilityConverter}}">
 
-                        <!-- Each item is a MediaElement (video player) -->
-                        <CarouselView.ItemTemplate>
-                            <DataTemplate x:DataType="dto:GetSlotVideoDto">
+                            <!-- Each item is a MediaElement (video player) -->
+                            <CarouselView.ItemTemplate>
+                                <DataTemplate x:DataType="dto:GetSlotVideoDto">
 
                                     <Grid>
                                         <toolkit:MediaElement
-                                            ShouldAutoPlay="False" 
-                                            HeightRequest="300"
-                                            WidthRequest="400"                                
-                                            ShouldShowPlaybackControls="True"
-                                            StateChanged="MediaElement_StateChanged"
-                                            Source="{Binding VideoUrl}"
-                                            x:Name="videoPlayer"
-                                          />
-                                        
+                                                ShouldAutoPlay="False" 
+                                                HeightRequest="300"
+                                                WidthRequest="400"                                
+                                                ShouldShowPlaybackControls="True"
+                                                StateChanged="MediaElement_StateChanged"
+                                                Source="{Binding VideoUrl}"
+                                                x:Name="videoPlayer"
+                                              />
+
                                         <ActivityIndicator x:Name="loadingIndicator"
-                                               IsRunning="True"
-                                               IsVisible="True"
-                                               VerticalOptions="Center"
-                                               HorizontalOptions="Center"
-                                               Color="Gray"/>
-                                </Grid>
-                            </DataTemplate>
-                        </CarouselView.ItemTemplate>
-                    </CarouselView>
+                                                   IsRunning="True"
+                                                   IsVisible="True"
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="Center"
+                                                   Color="Gray"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </CarouselView.ItemTemplate>
+                        </CarouselView>
 
-                    <!-- Left Arrow -->
-                    <Button ImageSource="{mi:Fluent ArrowPrevious24}"
-                         x:Name="leftArrow"
-                         Clicked="leftArrow_Clicked"
-                         HorizontalOptions="Start"
-                         VerticalOptions="Center"
-                         BackgroundColor="Transparent"/>
+                        <!-- Left Arrow -->
+                        <Button ImageSource="{mi:Fluent ArrowPrevious24}"
+                             x:Name="leftArrow"
+                             Clicked="leftArrow_Clicked"
+                             HorizontalOptions="Start"
+                             VerticalOptions="Center"
+                             BackgroundColor="Transparent"/>
 
-                    <!-- Right Arrow -->
-                    <Button ImageSource="{mi:Fluent ArrowNext24}"
-                         x:Name="rightArrow"
-                         Clicked="rightArrow_Clicked"
-                         HorizontalOptions="End"
-                         VerticalOptions="Center"
-                         BackgroundColor="Transparent"/>
+                        <!-- Right Arrow -->
+                        <Button ImageSource="{mi:Fluent ArrowNext24}"
+                             x:Name="rightArrow"
+                             Clicked="rightArrow_Clicked"
+                             HorizontalOptions="End"
+                             VerticalOptions="Center"
+                             BackgroundColor="Transparent"/>
 
-                    <!-- Thumbnail CollectionView under the main Carousel -->
-                    <CollectionView ItemsSource="{Binding ThumbnailsSource}" Margin="10"
-                        Grid.Row="1"
-                        HorizontalScrollBarVisibility="Always"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="End"
-                        SelectionMode="Single"
-                        SelectedItem="{Binding SelectedThumbnail}">
-                        <CollectionView.ItemsLayout>
-                            <LinearItemsLayout Orientation="Horizontal"/>
-                        </CollectionView.ItemsLayout>
+                        <!-- Thumbnail CollectionView under the main Carousel -->
+                        <CollectionView ItemsSource="{Binding ThumbnailsSource}" Margin="10"
+                            Grid.Row="1"
+                            HorizontalScrollBarVisibility="Always"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="End"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding SelectedThumbnail}">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Horizontal"/>
+                            </CollectionView.ItemsLayout>
 
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Frame BorderColor="#52BB00" BackgroundColor="#52BB00"
-                                    Margin="5" Padding="3">
-                                    <Frame Padding="0" BorderColor="#52BB00">
-                                        <Image Source="{Binding .}" 
-                                            Aspect="AspectFill"
-                                            HeightRequest="70" 
-                                            WidthRequest="100" />
-                                        <Frame.GestureRecognizers>
-                                            <TapGestureRecognizer x:Name="thumbnailTap" Tapped="thumbnailTap_Tapped" CommandParameter="{Binding}"></TapGestureRecognizer>
-                                        </Frame.GestureRecognizers>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame BorderColor="#52BB00" BackgroundColor="#52BB00"
+                                        Margin="5" Padding="3">
+                                        <Frame Padding="0" BorderColor="#52BB00">
+                                            <Image Source="{Binding .}" 
+                                                Aspect="AspectFill"
+                                                HeightRequest="70" 
+                                                WidthRequest="100" />
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer x:Name="thumbnailTap" Tapped="thumbnailTap_Tapped" CommandParameter="{Binding}"></TapGestureRecognizer>
+                                            </Frame.GestureRecognizers>
+                                        </Frame>
                                     </Frame>
-                                </Frame>
-                            
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                    <VerticalStackLayout Grid.Row="2" Margin="10,5">
-                        <Label Text="Nội dung :" FontAttributes="Bold" TextColor="Black"></Label>
-                        <Label x:Name="lblDescription" Text="Desciprtion goes here" TextColor="Black"></Label>
-                    </VerticalStackLayout>
-                </Grid>
+
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        <VerticalStackLayout Grid.Row="2" Margin="10,5" IsVisible="{Binding SlotDetail.Videos.Count, Converter={StaticResource CountToVisibilityConverter}}">
+                            <Label Text="Nội dung :" FontAttributes="Bold" TextColor="Black"></Label>
+                            <Label x:Name="lblDescription" Text="Desciprtion goes here" TextColor="Black"></Label>
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+                <!-- Video slide show-->
+            </ScrollView>
+            <VerticalStackLayout Grid.Row="1" IsVisible="{Binding SlotDetail, Converter={StaticResource SlotPaymentStatusToBooleanConverter}}">
+                <Button
+                    Margin="30"
+                    Text="Thanh toán"
+                    TextColor="White"
+                    x:Name="btnPay"
+                    Clicked="btnPay_Clicked"
+                    BackgroundColor="#52BB00">
+
+                </Button>
             </VerticalStackLayout>
-        <!-- Video slide show-->
-        </ScrollView>
-        <VerticalStackLayout Grid.Row="1">
-            <Button
-                Margin="30"
-                Text="Thanh toán"
-                TextColor="White"
-                BackgroundColor="#52BB00">
-                
-            </Button>
-        </VerticalStackLayout>
-    </Grid>
+        </Grid>
+        <controls:LoadingDialog x:Name="loadingDialog"
+             IsVisible="False"
+             Message="Vui lòng chờ..."
+             ZIndex="99"
+             AbsoluteLayout.LayoutFlags="PositionProportional"
+             AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
+    </AbsoluteLayout>
 </ContentPage>

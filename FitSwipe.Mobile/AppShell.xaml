@@ -14,7 +14,7 @@
        xmlns:payingpages="clr-namespace:FitSwipe.Mobile.Pages.PayingPages"
        Shell.FlyoutBehavior="Disabled"
        Title="FitSwipe.Mobile">
-    
+
     
     <ShellContent ContentTemplate="{DataTemplate pages:StartedView}"
                 Route="Started" />
@@ -30,8 +30,7 @@
                 Route="RegisterSuccessfully" />
   <ShellContent ContentTemplate="{DataTemplate setupPages:SetupProfilePage}"
                 Route="SetupProfile" />
-  <ShellContent ContentTemplate="{DataTemplate trainingPages:MyPTListPage}"
-                Route="MyPTList" />
+  
   <ShellContent ContentTemplate="{DataTemplate schedulePages:PTAcceptSchedule}"
                 Route="PTAcceptSchedule" />
   <ShellContent ContentTemplate="{DataTemplate homePages:PTList}"
@@ -58,15 +57,20 @@
   <ShellContent ContentTemplate="{DataTemplate payingpages:PayingView}"
                 Route="PayingView" />
 
-  <ShellContent ContentTemplate="{DataTemplate schedulePages:PTSchedulePage}"
-                Route="PTSchedulePage" />
+  
   <ShellContent ContentTemplate="{DataTemplate schedulePages:CustomersRequestedSchedulePage}"
                 Route="CustomersRequestedSchedulePage" />
     <ShellContent ContentTemplate="{DataTemplate trainingPages:TrainingPage}"
             Route="TrainingPage" />
+    
+    <ShellContent ContentTemplate="{DataTemplate schedulePages:PTSchedulePage}"
+          Route="PTSchedulePage" />
+    <ShellContent ContentTemplate="{DataTemplate trainingPages:MyPTListPage}"
+        Route="MyPTList" />
     <!--<ShellContent ContentTemplate="{DataTemplate schedulePages:EditWorkoutSessionDetailPage}"
           Route="Test" />
     <ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"
               Route="SlotDetail" />-->
-
+    <!--<ShellContent ContentTemplate="{DataTemplate feedbackPages:FeeedbackPage}"
+        Route="Feedback" />-->
 </Shell>

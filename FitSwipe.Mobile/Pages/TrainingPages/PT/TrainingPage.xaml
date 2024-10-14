@@ -328,6 +328,8 @@
                                                                      HeightRequest="40"
                                                                      Pressed="ImageButton_Pressed"
                                                                      Released="ImageButton_Released"
+                                                                     x:Name="btnDeny"
+                                                                     Clicked="btnDeny_Clicked"
                                                                      CommandParameter="{Binding}"/>
                                                                 </Border>
                                                             </FlexLayout>

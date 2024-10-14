@@ -61,8 +61,8 @@ public partial class PTAddSlotModal : ContentView
         btnDelete.IsVisible = Mode == SlotModalMode.Editing;
         if (RefSlot != null)
         {
-            tpEnd.Time =  RefSlot.EndTime.TimeOfDay;
-            tpBegin.Time =  RefSlot.StartTime.TimeOfDay;
+            tpEnd.Time = RefSlot.EndTime.TimeOfDay;
+            tpBegin.Time = RefSlot.StartTime.TimeOfDay;
             dpDate.Date = RefSlot.StartTime;
             _timeEnd = tpEnd.Time;
             _timeBegin = tpBegin.Time;
@@ -112,23 +112,38 @@ public partial class PTAddSlotModal : ContentView
     {
         var timePicker = (TimePicker)sender;
         _timeBegin = timePicker.Time;
-        labelCalculating.Text = "(Tổng cộng " + Math.Round((_timeEnd - _timeBegin).TotalHours, 2) + " tiếng)";
-        timeBegin.Text = _timeBegin.Hours + ":" + _timeBegin.Minutes.ToString().PadLeft(2, '0');
+        if (labelCalculating != null)
+        {
+            labelCalculating.Text = "(Tổng cộng " + Math.Round((_timeEnd - _timeBegin).TotalHours, 2) + " tiếng)";
+        }
+        if (timeBegin != null)
+        {
+            timeBegin.Text = _timeBegin.Hours + ":" + _timeBegin.Minutes.ToString().PadLeft(2, '0');
+        }
     }
 
     private void tpEnd_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         var timePicker = (TimePicker)sender;
         _timeEnd = timePicker.Time;
-        labelCalculating.Text = "(Tổng cộng " + Math.Round((_timeEnd - _timeBegin).TotalHours, 2) + " tiếng)";
-        timeEnd.Text = _timeEnd.Hours + ":" + _timeEnd.Minutes.ToString().PadLeft(2, '0');
+        if (labelCalculating != null)
+        {
+            labelCalculating.Text = "(Tổng cộng " + Math.Round((_timeEnd - _timeBegin).TotalHours, 2) + " tiếng)";
+        }
+        if (timeEnd != null)
+        {
+            timeEnd.Text = _timeEnd.Hours + ":" + _timeEnd.Minutes.ToString().PadLeft(2, '0');
+        }
     }
 
     private void dpDate_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         var datePicker = (DatePicker)sender;
         _date = datePicker.Date;
-        timeDate.Text = _date.Day + "/" + _date.Month + "/" + _date.Year;
+        if (timeDate != null)
+        {
+            timeDate.Text = _date.Day + "/" + _date.Month + "/" + _date.Year;
+        }
     }
 
     private void tapDate_Tapped(object sender, TappedEventArgs e)
@@ -145,11 +160,17 @@ public partial class PTAddSlotModal : ContentView
 
     private void btnApprove_Clicked(object sender, EventArgs e)
     {
-        OnAdded?.Invoke(this, e);
+        if (OnAdded != null)
+        {
+            OnAdded(this, e);
+        }
     }
 
     private void btnDelete_Clicked(object sender, EventArgs e)
     {
-        OnDeleted?.Invoke(this, e);
+        if (OnDeleted != null)
+        {
+            OnDeleted(this, e);
+        }
     }
 }

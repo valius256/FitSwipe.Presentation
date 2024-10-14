@@ -22,7 +22,7 @@ namespace FitSwipe.Shared.Dtos.Slots
         public string? Content { get; set; }
         public GetUserDto CreateBy { get; set; } = default!;
         public GetTrainingWithTraineeAndPTDto Training { get; set; } = default!;
-        public virtual ObservableCollection<GetSlotVideoDto> Videos { get; set; } = new ObservableCollection<GetSlotVideoDto>();
+        public ObservableCollection<GetSlotVideoDto> Videos { get; set; } = new ObservableCollection<GetSlotVideoDto>();
 
         //View properties
         public double TotalDurationInHour { 
@@ -34,7 +34,7 @@ namespace FitSwipe.Shared.Dtos.Slots
         }
         public string TimeString
         {
-            get => StartTime + " tới " + EndTime;
+            get => StartTime.ToString("hh:mm") + " tới " + EndTime.ToString("hh:mm");
         }
         public string TotalDurationString
         {

@@ -224,4 +224,36 @@ public partial class CustomersRequestedSchedulePage : ContentPage
             loadingDialog.IsVisible = false;
         }
     }
+
+    private async void btnNo_Clicked(object sender, EventArgs e)
+    {
+        var answer = await DisplayAlert("Từ chối yêu cầu đặt lịch này của học viên", "Bạn có chắc chắn về hành động này", "Có", "Không");
+        if (answer)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                loadingDialog.IsVisible = true;
+                loadingDialog.Message = "Vui lòng chờ...";
+                var token = await SecureStorage.GetAsync("auth_token");
+                if (token == null)
+                {
+                    throw new Exception("Lỗi xác thực");
+                }
+                try
+                {
+                    await Fetcher.PatchAsync($"api/trainings/{_trainingId}/rejecting", new GetSlotDto(), token);
+                    await DisplayAlert("Thành công", "Đã từ chối yêu cầu này", "OK");
+                    await Navigation.PopModalAsync();
+                    await _refresh();
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Lỗi", ex.Message, "OK");
+                }
+                loadingDialog.IsVisible = false;
+                
+            }
+        }
+    }
 }

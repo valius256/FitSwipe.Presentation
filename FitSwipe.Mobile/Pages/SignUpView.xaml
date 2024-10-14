@@ -137,6 +137,7 @@
                                 <RoundRectangle CornerRadius="8" />
                             </Border.StrokeShape>
                             <Entry Text="{Binding LastName}"
+                                   TextColor="Black"
                                    Placeholder="Họ" />
                         </Border>
                     </StackLayout>
@@ -164,6 +165,8 @@
                                 <RoundRectangle CornerRadius="8" />
                             </Border.StrokeShape>
                             <Entry Text="{Binding FirstName}"
+                                   TextColor="Black"
+                                   
                                    Placeholder="Tên" />
                         </Border>
                     </StackLayout>
@@ -191,6 +194,8 @@
                                 <RoundRectangle CornerRadius="8" />
                             </Border.StrokeShape>
                             <Entry Text="{Binding Email}"
+                                   TextColor="Black"
+                                   
                                    Placeholder="Email" />
                         </Border>
                     </StackLayout>
@@ -218,6 +223,8 @@
                                 <RoundRectangle CornerRadius="8" />
                             </Border.StrokeShape>
                             <Entry Text="{Binding PhoneNumber}"
+                                   TextColor="Black"
+                                   
                                    Placeholder="SĐT" />
                         </Border>
                     </StackLayout>
@@ -245,6 +252,8 @@
                                 <RoundRectangle CornerRadius="8" />
                             </Border.StrokeShape>
                             <Entry Text="{Binding Password}"
+                                   TextColor="Black"
+                                   
                                    IsPassword="True"
                                    Placeholder="Mật khẩu" />
                         </Border>
@@ -273,6 +282,8 @@
                                 <RoundRectangle CornerRadius="8" />
                             </Border.StrokeShape>
                             <Entry Text="{Binding ConfirmPassword}"
+                                   TextColor="Black"
+                                   
                                    IsPassword="True"
                                    Placeholder="Nhập lại mật khẩu" />
                         </Border>

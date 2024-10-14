@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using FitSwipe.Mobile.Pages.FeedbackPages;
 using FitSwipe.Mobile.ViewModels;
 using FitSwipe.Shared.Dtos.Trainings;
 using FitSwipe.Shared.Utils;
@@ -10,6 +11,8 @@ public partial class MyPTListPage : ContentPage
 {
     public bool PassedFlag { get; set; } = false;
     public MyPTListPageViewModel ViewModel { get; set; }
+    private GetTrainingDetailDto? CurrentTrainingDetail { get; set; }
+
     public MyPTListPage()
     {
         InitializeComponent();
@@ -43,6 +46,21 @@ public partial class MyPTListPage : ContentPage
         await ViewModel.FetchData();
         await ViewModel.HandleSwitchTab();
         //pageContent.IsVisible = true;
+
+        //GET CURRENT TRAINING
+        try
+        {
+            var token = await SecureStorage.GetAsync("auth_token");
+            if (token == null) throw new Exception();
+            var trainingResult = await Fetcher.GetAsync<GetTrainingDetailDto>("api/trainings/current-training", token);
+            CurrentTrainingDetail = trainingResult;
+        }
+        catch
+        {
+            CurrentTrainingDetail = null;
+        }
+
+
         BindingContext = ViewModel;
     }
 
@@ -88,27 +106,39 @@ public partial class MyPTListPage : ContentPage
         }
     }
 
-    //THIS SHIT IS STILL CAUSING CRASH WHILE RUN WITHOUT DEBUGGING
     private async void btnBooking_Clicked(object sender, EventArgs e)
-    {   try
+    {   
+        
+        var button = sender as Button;
+        if (button != null)
         {
-            var button = sender as Button;
-            if (button != null)
+            var boundItem = button.CommandParameter as GetTrainingWithTraineeAndPTDto;
+            if (boundItem != null)
             {
-                var boundItem = button.CommandParameter as GetTrainingWithTraineeAndPTDto;
-                if (boundItem != null)
+                if (CurrentTrainingDetail != null && boundItem.Status == Shared.Enums.TrainingStatus.Matched)
                 {
-                    await Navigation.PushModalAsync(new PTScheduleBookingView
-                    {
-                        Training = boundItem,
-                        MyPTListPage = this
-                    });
+                    await DisplayAlert("Thất bại", "Bạn hiện đang huấn luyện bởi 1 PT khác. Bạn có thể hủy lịch với họ để đặt PT mới", "OK");
+                    return;
                 }
+                await Navigation.PushModalAsync(new PTScheduleBookingView
+                {
+                    Training = boundItem,
+                    MyPTListPage = this
+                });
             }
         }
-        catch (Exception ex)
+    }
+
+    private async void btnRate_Clicked(object sender, EventArgs e)
+    {
+        var button = sender as Button;
+        if (button != null)
         {
-            await DisplayAlert("Lỗi", "Có lỗi xảy ra. Err : " + ex.Message + " \n" + ex.StackTrace, "OK");
+            var boundItem = button.CommandParameter as GetTrainingWithTraineeAndPTDto;
+            if (boundItem != null)
+            {
+                await Navigation.PushModalAsync(new FeeedbackPage(boundItem, ViewModel));
+            }
         }
     }
 }

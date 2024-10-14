@@ -1,6 +1,8 @@
-using FitSwipe.Mobile.Pages.SchedulePages;
+﻿using FitSwipe.Mobile.Pages.SchedulePages;
 using FitSwipe.Mobile.ViewModels;
+using FitSwipe.Shared.Dtos.Slots;
 using FitSwipe.Shared.Dtos.Trainings;
+using FitSwipe.Shared.Utils;
 
 namespace FitSwipe.Mobile.Pages.TrainingPages;
 
@@ -91,6 +93,40 @@ public partial class TrainingPage : ContentPage
             if (training != null)
             {
                 await Navigation.PushModalAsync(new CustomersRequestedSchedulePage(training.Id, ViewModel.FetchData));
+            }
+        }
+    }
+
+    private async void btnDeny_Clicked(object sender, EventArgs e)
+    {
+        var answer = await DisplayAlert("Từ chối yêu cầu đặt lịch này của học viên", "Bạn có chắc chắn về hành động này", "Có", "Không");
+        if (answer)
+        {
+            var button = sender as ImageButton;
+            if (button != null)
+            {
+                var training = button.CommandParameter as GetTrainingWithTraineeAndPTDto;
+                if (training != null)
+                {
+                    loadingDialog.IsVisible = true;
+                    loadingDialog.Message = "Vui lòng chờ...";
+                    var token = await SecureStorage.GetAsync("auth_token");
+                    if (token == null)
+                    {
+                        throw new Exception("Lỗi xác thực");
+                    }
+                    try
+                    {
+                        await Fetcher.PatchAsync($"api/trainings/{training.Id}/rejecting", new GetSlotDto(), token);
+                        await DisplayAlert("Thành công", "Đã từ chối yêu cầu này", "OK");
+                        await ViewModel.FetchData();
+                    }
+                    catch (Exception ex)
+                    {
+                        await DisplayAlert("Lỗi", ex.Message, "OK");
+                    }
+                    loadingDialog.IsVisible = false;
+                }
             }
         }
     }
