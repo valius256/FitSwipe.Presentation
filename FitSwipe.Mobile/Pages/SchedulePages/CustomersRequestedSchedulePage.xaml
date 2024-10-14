@@ -149,6 +149,8 @@
                       WidthRequest="120"
                       HeightRequest="30"
                       BackgroundColor="#E30000"
+                      x:Name="btnNo"
+                      Clicked="btnNo_Clicked"
                       TextColor="White" />
             </Border>
           </StackLayout>

@@ -1,7 +1,9 @@
-﻿using FitSwipe.Mobile.Pages.SchedulePages;
+﻿using FitSwipe.Mobile.Extensions;
+using FitSwipe.Mobile.Pages.SchedulePages;
 using FitSwipe.Mobile.Pages.TrainingPages;
 using FitSwipe.Shared.Dtos.Others;
 using FitSwipe.Shared.Dtos.Slots;
+using FitSwipe.Shared.Enums;
 using FitSwipe.Shared.Utils;
 using MauiIcons.Core;
 using MauiIcons.Fluent;
@@ -153,6 +155,8 @@ public partial class TimeTable : ContentView
         };
         foreach (var slot in slots)
         {
+            var slotGrid = new Grid();
+
             var slotDuration = slot.EndTime - slot.StartTime;
 
             var y = 5 + (new TimeSpan(slot.StartTime.Hour, slot.StartTime.Minute, slot.StartTime.Second) - new TimeSpan(minHour, 0, 0)).TotalHours * 40 * 60 / distanceInMinutes;
@@ -193,8 +197,20 @@ public partial class TimeTable : ContentView
                     FontSize = 9
                 });
                 border.Content = content;
-            }                 			
-            dayColumn.Add(border , new Rect(0, y, 1, h), AbsoluteLayoutFlags.WidthProportional);
+            }
+            slotGrid.Add(border);
+            if (slot.PaymentStatus != PaymentStatus.Paid && slot.Status != SlotStatus.Unbooked && slot.Status != SlotStatus.Pending && slot.Status != SlotStatus.Disabled)
+            {
+                slotGrid.Add(new Image
+                {
+                    WidthRequest = 20,
+                    HeightRequest = 20,
+                    HorizontalOptions = LayoutOptions.End,
+                    VerticalOptions = LayoutOptions.Start,
+                    Source = slot.PaymentStatus == PaymentStatus.NotPaid ? "white_warning" : "red_warning"
+                });
+            }
+            dayColumn.Add(slotGrid, new Rect(0, y, 1, h), AbsoluteLayoutFlags.WidthProportional);
 			AddActionForSlot(border, slot);
         }
     }
@@ -282,14 +298,3 @@ public partial class TimeTable : ContentView
     }
 }
 
-public class SlotEventArgs : EventArgs
-{
-    public Border Border { get; set; }
-    public GetSlotDto Slot { get; set; }
-
-    public SlotEventArgs(Border border, GetSlotDto slot)
-    {
-        Border = border;
-        Slot = slot;
-    }
-}

@@ -1,11 +1,13 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
 using FitSwipe.Mobile.Controls;
+using FitSwipe.Mobile.Extensions;
 using FitSwipe.Shared.Dtos.Paging;
 using FitSwipe.Shared.Dtos.Slots;
 using FitSwipe.Shared.Dtos.Users;
 using FitSwipe.Shared.Enums;
 using FitSwipe.Shared.Utils;
 using Mapster;
+using Microsoft.Maui.Layouts;
 using System.Collections.ObjectModel;
 
 namespace FitSwipe.Mobile.Pages.SchedulePages;
@@ -31,7 +33,10 @@ public partial class PTSchedulePage : ContentPage
         await FetchSlots(true);
         pageContent.IsVisible = true;
     }
-
+    private async Task Refresh()
+    {
+        await FetchSlots(false);
+    }
     private async Task FetchSlots(bool isInitial)
     {
         loadingDialog.IsVisible = true;
@@ -44,7 +49,8 @@ public partial class PTSchedulePage : ContentPage
             }
             var start = isInitial ? Helper.GetFirstDayOfWeek() : timeTable.CurrentWeek.StartDate.ToDateTime(TimeOnly.MinValue);
             var end = isInitial ? Helper.GetLastDayOfWeek() : timeTable.CurrentWeek.EndDate.ToDateTime(TimeOnly.MaxValue);
-            string url = $"api/Slot?Filter.CreateById={LoginedUser.FireBaseId}&Filter.StartTime={start.ToString("yyyy-MM-ddTHH:mm:ssZ")}&Filter.EndTime={end.ToString("yyyy-MM-ddTHH:mm:ssZ")}&limit=500";
+            string url = $"api/Slot?Filter.PTId={LoginedUser.FireBaseId}&Filter.StartTime={start.ToString("yyyy-MM-ddTHH:mm:ssZ")}&Filter.EndTime={end.ToString("yyyy-MM-ddTHH:mm:ssZ")}" +
+                $"&Filter.Status=0&Filter.Status=2&Filter.Status=3&Filter.Status=4&limit=500";
             var result = await Fetcher.GetAsync<PagedResult<GetSlotDto>>(url);
             if (result != null)
             {
@@ -259,10 +265,17 @@ public partial class PTSchedulePage : ContentPage
 
         border.GestureRecognizers.Clear();
         var tapGesture = new TapGestureRecognizer();
-        tapGesture.Tapped += (sender, e) =>
+        tapGesture.Tapped += async (sender, e) =>
         {
-            editSlotModal.RefSlot = slot;
-            editSlotModal.Show();
+            if (slot.Status  == SlotStatus.Unbooked)
+            {
+                editSlotModal.RefSlot = slot;
+                editSlotModal.Show();
+            } else
+            {
+                await Navigation.PushModalAsync(new EditWorkoutSessionDetailPage(slot.Id, Refresh));
+            }
+            
         };
         border.GestureRecognizers.Add(tapGesture);
     }
@@ -303,7 +316,7 @@ public partial class PTSchedulePage : ContentPage
         }
     }
 
-    private async void duplicateSlotModal_OnConfirmed(object sender, PTDuplicatingSlotModal.WeekCheckedEventArgs e)
+    private async void duplicateSlotModal_OnConfirmed(object sender, WeekCheckedEventArgs e)
     {
         var weeks = e.Weeks;
         if (weeks != null && weeks.Count > 0 && LoginedUser != null)
@@ -329,7 +342,8 @@ public partial class PTSchedulePage : ContentPage
                         var slots = result.Items.Adapt<ObservableCollection<GetSlotDto>>();
                         foreach (var week in weeks)
                         {
-                            foreach (var slot in Slots)
+                            var yourSlots = Slots.Where(s => s.CreateById == LoginedUser.FireBaseId).ToList();
+                            foreach (var slot in yourSlots)
                             {
                                 int dayDistance = (int) (week.StartDate.ToDateTime(TimeOnly.MinValue) - currentWeek.StartDate.ToDateTime(TimeOnly.MinValue)).TotalDays;
                                 var newSlot = new RequestCreateSlotDto

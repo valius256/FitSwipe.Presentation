@@ -2,7 +2,14 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FitSwipe.Mobile.Controls.TimeTable"
-             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons">
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+            xmlns:converter="clr-namespace:FitSwipe.Mobile.Converters.PaymentConverters">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converter:SlotPaymentStatusToBooleanConverter x:Key="SlotPaymentStatusToBooleanConverter" />
+            <converter:SlotPaymentStatusToImageUrlConverter x:Key="SlotPaymentStatusToImageUrlConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
     <VerticalStackLayout>
         <HorizontalStackLayout>
             <Label Text="Chọn năm : " Margin="0,5" TextColor="Black" VerticalOptions="Center"></Label>

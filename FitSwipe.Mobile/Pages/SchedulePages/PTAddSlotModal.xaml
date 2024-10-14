@@ -85,12 +85,12 @@
 
                         </Border>
                         <Label Text="(Tổng cộng 3 tiếng)"
-                       FontSize="9"
-                        TextColor="Black"
-                       HorizontalTextAlignment="Center"
-                       Margin="5"
-                        x:Name="labelCalculating"
-                       FontAttributes="Italic"></Label>
+                           FontSize="9"
+                           TextColor="Black"
+                           HorizontalTextAlignment="Center"
+                           Margin="5"
+                           x:Name="labelCalculating"
+                           FontAttributes="Italic"></Label>
                         <DatePicker x:Name="dpDate"  Opacity="0"  
                         PropertyChanged="dpDate_PropertyChanged"
                         HeightRequest="1"
