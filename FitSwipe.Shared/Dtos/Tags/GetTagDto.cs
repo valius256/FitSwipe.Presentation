@@ -8,7 +8,6 @@ namespace FitSwipe.Shared.Dtos.Tags
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public TagType TagType { get; set; }
-    public string? TagColor { get; set; }
     public string CreateById { get; set; } = string.Empty;
     public string? TagImage { get; set; }
     public SpecialTag? SpecialTag { get; set; }
@@ -18,6 +17,19 @@ namespace FitSwipe.Shared.Dtos.Tags
     public RecordStatus RecordStatus { get; set; }
     public int DisplaySize { get; set; }
 
+    private string? _tagColor;
+    public string? TagColor
+        {
+      get => _tagColor;
+      set
+      {
+        if (_tagColor != value)
+        {
+          _tagColor = value;
+          OnPropertyChanged(nameof(TagColor));
+        }
+      }
+    }
     private bool _isSelected;
     public bool IsSelected
     {

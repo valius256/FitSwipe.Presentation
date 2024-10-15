@@ -87,7 +87,36 @@ namespace FitSwipe.Shared.Utils
             DateTime lastDayOfWeek = today.AddDays(daysUntilSunday);
             return lastDayOfWeek.AddHours(23).AddMinutes(59).AddSeconds(59);
         }
+        /// <summary>
+        /// Calculate distance between 2 geolocation
+        /// </summary>
+        /// <param name="lat1"></param>
+        /// <param name="lon1"></param>
+        /// <param name="lat2"></param>
+        /// <param name="lon2"></param>
+        /// <returns></returns>
+        public static double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
+        {
+            const double R = 6371; // Earth's radius in kilometers
 
+            // Convert degrees to radians
+            double dLat = ToRadians(lat2 - lat1);
+            double dLon = ToRadians(lon2 - lon1);
+
+            // Apply the Haversine formula
+            double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                       Math.Cos(ToRadians(lat1)) * Math.Cos(ToRadians(lat2)) *
+                       Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+
+            // Distance in kilometers
+            return R * c;
+        }
+
+        public static double ToRadians(double degrees)
+        {
+            return degrees * (Math.PI / 180);
+        }
     }
 
 

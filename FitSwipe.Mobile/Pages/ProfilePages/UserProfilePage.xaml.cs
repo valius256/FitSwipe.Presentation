@@ -10,7 +10,7 @@ public partial class UserProfilePage : ContentPage
     public UserProfilePage()
 	{
 		InitializeComponent();
-		viewModel = new UserProfileViewModel();
+		viewModel = new UserProfileViewModel(pageContent,loadingDialog,tagModal);
         SetIsOwner(true);
 
     }
@@ -26,7 +26,7 @@ public partial class UserProfilePage : ContentPage
         {
             btnEditBioSection.IsVisible = false;
             btnNameEditSection.IsVisible = false;
-            btnEditBioSection.IsVisible = false;
+            btnInfoEditSection.IsVisible = false;
             navbar.IsVisible = false;
         }
         BindingContext = viewModel;
@@ -55,38 +55,11 @@ public partial class UserProfilePage : ContentPage
         btnInfoEditSection.IsVisible = true;
         lblDob.IsVisible = true;
         lblJob.IsVisible = true;
+        lblAddress.IsVisible = true;
         editJob.IsVisible = false;
         editDob.IsVisible = false;
+        editAddressSection.IsVisible = false;
 
-    }
-
-    private void btnInfoEdit_Clicked(object sender, EventArgs e)
-    {
-        btnInfoEditSection.IsVisible = false;
-        viewModel.IsEditPersonalInformation = true;
-        lblDob.IsVisible = false;
-        lblJob.IsVisible = false;
-        editJob.IsVisible = true;
-        editDob.IsVisible = true;
-        
-
-    }
-
-    private void btnNameEdit_Clicked(object sender, EventArgs e)
-    {
-        viewModel.IsEditName = true;
-        btnNameEditSection.IsVisible = false;
-        lblUsername.IsVisible = false;
-        editName.IsVisible = true;
-
-    }
-
-    private void btnEditBio_Clicked(object sender, EventArgs e)
-    {
-        viewModel.IsEditBio = true;
-        btnEditBioSection.IsVisible = false;
-        lblBio.IsVisible = false;
-        editBio.IsVisible = true;
     }
 
     private void btnSaveBio_Clicked(object sender, EventArgs e)
@@ -99,5 +72,44 @@ public partial class UserProfilePage : ContentPage
         btnEditBioSection.IsVisible = true;
         lblBio.IsVisible = true;
         editBio.IsVisible = false;
+    }
+
+    private void tapEditInfor_Tapped(object sender, TappedEventArgs e)
+    {
+        btnInfoEditSection.IsVisible = false;
+        viewModel.IsEditPersonalInformation = true;
+        lblDob.IsVisible = false;
+        lblJob.IsVisible = false;
+        lblAddress.IsVisible = false;
+        editJob.IsVisible = true;
+        editDob.IsVisible = true;
+        editAddressSection.IsVisible = true;
+    }
+
+    private void tapAvatar_Tapped(object sender, TappedEventArgs e)
+    {
+
+    }
+
+    private void tapEditName_Tapped(object sender, TappedEventArgs e)
+    {
+        viewModel.IsEditName = true;
+        btnNameEditSection.IsVisible = false;
+        lblUsername.IsVisible = false;
+        editName.IsVisible = true;
+    }
+
+    private void tapEditBio_Tapped(object sender, TappedEventArgs e)
+    {
+        viewModel.IsEditBio = true;
+        btnEditBioSection.IsVisible = false;
+        lblBio.IsVisible = false;
+        editBio.IsVisible = true;
+    }
+
+    private void tagModal_OnConfirmed(object sender, Extensions.TagCheckedEventArgs e)
+    {
+        tagModal.Hide();
+        viewModel.UpsertTags(e.Tags);
     }
 }
