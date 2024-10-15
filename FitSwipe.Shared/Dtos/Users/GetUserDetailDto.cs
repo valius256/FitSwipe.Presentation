@@ -4,28 +4,24 @@ using FitSwipe.Shared.Dtos.Slots;
 using FitSwipe.Shared.Dtos.Tags;
 using FitSwipe.Shared.Dtos.Trainings;
 using FitSwipe.Shared.Enums;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace FitSwipe.Shared.Dtos.Users
 {
-    public class GetUserDetailDto
+    public class GetUserDetailDto : INotifyPropertyChanged
     {
         public string FireBaseId { get; set; } = string.Empty;
-        public string UserName { get; set; } = string.Empty;
         public Gender Gender { get; set; }
         public string Email { get; set; } = string.Empty;
         public string? Password { get; set; }
         public string? AvatarUrl { get; set; }
         public string Phone { get; set; } = string.Empty;
-        public DateTime DateOfBirth { get; set; }
         public double? Weight { get; set; }
         public double? Height { get; set; }
-        public string? Bio { get; set; }
-        public string? City { get; set; }
-        public string? District { get; set; }
-        public string? Ward { get; set; }
-        public string? Street { get; set; }
+        public double? Longitude { get; set; }
+        public double? Latitude { get; set; }
         public Role Role { get; set; }
-        public string? Job { get; set; }
         public double PricePerHour { get; set; }
         public UserStatus Status { get; set; }
         public int? Balance { get; set; } = 0;
@@ -42,17 +38,99 @@ namespace FitSwipe.Shared.Dtos.Users
         public DateTime? UpdatedDate { get; set; }
         public DateTime? DeletedDate { get; set; }
         public RecordStatus RecordStatus { get; set; }
-        public string AddressString
+        //Navigator
+        public ICollection<GetUserMediaDto> UserMedias { get; set; } = new List<GetUserMediaDto>();
+
+        public ICollection<GetTrainingDto> TrainingsInstructing { get; set; } = new List<GetTrainingDto>();
+        public ICollection<GetTrainingDto> TrainingsAttending { get; set; } = new List<GetTrainingDto>();
+        public ICollection<GetSlotDto> SlotsCreated { get; set; } = new List<GetSlotDto>();
+        //Observabke Property
+        public string _userName = string.Empty;
+        public string UserName
         {
-            get => Ward + ", " + District + " ," + City;
+            get => _userName;
+            set
+            {
+                if (_userName != value)
+                {
+                    _userName = value;
+                    OnPropertyChanged(nameof(UserName));
+                }
+            }
+        }
+        public string? _job;
+        public string? Job
+        {
+            get => _job;
+            set
+            {
+                if (_job != value)
+                {
+                    _job = value;
+                    OnPropertyChanged(nameof(Job));
+                }
+            }
+        }
+        public string? _city;
+        public string? City
+        {
+            get => _city;
+            set
+            {
+                if (_city != value)
+                {
+                    _city = value;
+                    OnPropertyChanged(nameof(City));
+                }
+            }
+        }
+        public string? _bio;
+        public string? Bio
+        {
+            get => _bio;
+            set
+            {
+                if (_bio != value)
+                {
+                    _bio = value;
+                    OnPropertyChanged(nameof(Bio));
+                }
+            }
+        }
+        private DateTime _dateOfBirth;
+        public DateTime DateOfBirth
+        {
+            get => _dateOfBirth;
+            set
+            {
+                if (_dateOfBirth != value)
+                {
+                    _dateOfBirth = value;
+                    OnPropertyChanged(nameof(DateOfBirth));
+                    OnPropertyChanged(nameof(Age));
+                }
+            }
         }
         public int Age => DateTime.Now.Year - DateOfBirth.Year;
-        //Navigator
-        public virtual ICollection<GetTagDto> Tags { get; set; } = new List<GetTagDto>();
-        public virtual ICollection<GetUserMediaDto> UserMedias { get; set; } = new List<GetUserMediaDto>();
 
-        public virtual ICollection<GetTrainingDto> TrainingsInstructing { get; set; } = new List<GetTrainingDto>();
-        public virtual ICollection<GetTrainingDto> TrainingsAttending { get; set; } = new List<GetTrainingDto>();
-        public virtual ICollection<GetSlotDto> SlotsCreated { get; set; } = new List<GetSlotDto>();
+
+        private ObservableCollection<GetTagDto> _tags = new ObservableCollection<GetTagDto>();
+        public ObservableCollection<GetTagDto> Tags
+        {
+            get => _tags;
+            set
+            {
+                if (_tags != value)
+                {
+                    _tags = value;
+                    OnPropertyChanged(nameof(Tags));
+                }
+            }
+        }
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

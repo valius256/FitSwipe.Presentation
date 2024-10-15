@@ -110,7 +110,7 @@
                     </Picker>
 
                     <!-- Address: City, District, Ward -->
-                    <Label Text="Địa chỉ:"
+                    <!--<Label Text="Địa chỉ:"
                         FontAttributes="Bold"
                         Margin="20,0,20,5"
                            TextColor="Black"/>
@@ -121,7 +121,7 @@
                             SelectedItem="{Binding District}" Title="Quận" WidthRequest="100"/>
                         <Picker x:Name="WardPicker" TextColor="Black"
                             SelectedItem="{Binding Ward}" Title="Phường" WidthRequest="100"/>
-                    </FlexLayout>
+                    </FlexLayout>-->
 
                     <!-- Bio Text Input -->
                     <Label Text="Giới thiệu bản thân:"

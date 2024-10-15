@@ -4,6 +4,8 @@
              x:Class="FitSwipe.Mobile.Pages.ProfilePages.UserProfilePage"
              x:DataType="vm:UserProfileViewModel"
              xmlns:local="clr-namespace:FitSwipe.Mobile.Converters.ProfilePageConverters"
+             xmlns:profilePages="clr-namespace:FitSwipe.Mobile.Pages.ProfilePages"
+             xmlns:trainingConverters="clr-namespace:FitSwipe.Mobile.Converters.TrainingPageConverter"
              xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:user="clr-namespace:FitSwipe.Shared.Dtos.Users;assembly=FitSwipe.Shared"
@@ -18,10 +20,17 @@
       <local:UserTagColorConverter x:Key="UserTagColorConverter" />
       <local:UserTagTextColorConverter x:Key="UserTagTextColorConverter" />
       <local:TagTypeToVisibilityConverter x:Key="TagTypeToVisibilityConverter" />
+      <trainingConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+      <trainingConverters:CountToVisibilityLabelConverter x:Key="CountToVisibilityLabelConverter" />
     </ResourceDictionary>
   </ContentPage.Resources>
     <AbsoluteLayout>
-        <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+        <profilePages:TagPickerModal x:Name="tagModal"
+                          ZIndex="99"
+                        OnConfirmed="tagModal_OnConfirmed"
+                        AbsoluteLayout.LayoutBounds="0,0,1,1"
+                        AbsoluteLayout.LayoutFlags="All"></profilePages:TagPickerModal>
+        <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" BackgroundColor="White" x:Name="pageContent">
             <VerticalStackLayout Padding="0, 0, 0, 20">
 
                 <!--#region PAGE FIRST PART-->
@@ -71,10 +80,13 @@
                                 AbsoluteLayout.LayoutFlags="PositionProportional"
                                 Stroke="#52BB00"
                                 Padding="4">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer x:Name="tapAvatar" Tapped="tapAvatar_Tapped"></TapGestureRecognizer>
+                                    </Border.GestureRecognizers>
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="8" />
                                     </Border.StrokeShape>
-                                    <ImageButton Source="update_icon" Clicked="btnNameEdit_Clicked"/>
+                                    <Image Source="update_icon"/>
                                 </Border>
                             </AbsoluteLayout>
                             <!--#endregion-->
@@ -99,7 +111,7 @@
                                  Grid.Column="0"
                                  x:Name="lblUsername"
                                  VerticalTextAlignment="Center" />
-                                    <Entry MinimumWidthRequest="100" MaximumWidthRequest="150" TextColor="White" Grid.Column="0" x:Name="editName" IsVisible="False"></Entry>
+                                    <Entry Text="{Binding Updater.UserName}" MinimumWidthRequest="100" MaximumWidthRequest="150" TextColor="White" Grid.Column="0" x:Name="editName" IsVisible="False"></Entry>
                                     <Border Grid.Column="1"
                                   WidthRequest="23"
                                   BackgroundColor="White"
@@ -110,11 +122,14 @@
                                         <Border.StrokeShape>
                                             <RoundRectangle CornerRadius="8" />
                                         </Border.StrokeShape>
-                                        <ImageButton Source="update_icon" x:Name="btnNameEdit" Clicked="btnNameEdit_Clicked"/>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer x:Name="tapEditName" Tapped="tapEditName_Tapped"></TapGestureRecognizer>
+                                        </Border.GestureRecognizers>
+                                        <Image Source="update_icon" x:Name="btnNameEdit"/>
                                     </Border>
                                     <HorizontalStackLayout  Grid.Column="1" Spacing="10">
                                         <Button BackgroundColor="#52BB00" TextColor="White" Text="Lưu" HeightRequest="20" Padding="0" FontSize="12" x:Name="btnSaveName" Clicked="btnSaveName_Clicked" 
-                                IsVisible="{Binding IsEditName}"></Button>
+                                IsVisible="{Binding IsEditName}" Command="{Binding UpdateProfileCommand}"></Button>
                                         <Button BackgroundColor="Red" Text="Hủy" TextColor="White" HeightRequest="20" Padding="0" FontSize="12" x:Name="btnCancelName" Clicked="btnCancelName_Clicked" 
                                  IsVisible="{Binding IsEditName}"></Button>
                                     </HorizontalStackLayout>
@@ -128,7 +143,7 @@
                                 </Grid>
 
                                 <!-- Join date -->
-                                <Label Text="{Binding User.CreatedDate, StringFormat='Ngày tham gia : {0}'}"
+                                <Label Text="{Binding User.CreatedDate, StringFormat='Ngày tham gia : {0}'}" TextColor="Black"
                                Margin="0, -10, 0, 0" />
 
                             </StackLayout>
@@ -141,7 +156,7 @@
                 <!-- Bio-->
                 <Grid Margin="5,20,0,0">
                     <Label x:Name="lblBio" Text="{Binding User.Bio}" HorizontalOptions="Center" Margin="0,20" FontAttributes="Italic" TextColor="Black"></Label>
-                    <Editor x:Name="editBio" HorizontalOptions="Center" Margin="0,20" TextColor="Black" WidthRequest="300" IsVisible="False" HeightRequest="100"></Editor>
+                    <Editor x:Name="editBio" HorizontalOptions="Center"  Text="{Binding Updater.Bio}" Margin="0,20" TextColor="Black" WidthRequest="300" IsVisible="False" HeightRequest="100"></Editor>
                     <Border Grid.Column="1"
                             WidthRequest="23"
                             BackgroundColor="White"
@@ -154,12 +169,15 @@
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="8" />
                         </Border.StrokeShape>
-                        <ImageButton Source="update_icon" x:Name="btnEditBio" Clicked="btnEditBio_Clicked"/>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer x:Name="tapEditBio" Tapped="tapEditBio_Tapped"></TapGestureRecognizer>
+                        </Border.GestureRecognizers>
+                        <Image Source="update_icon" x:Name="btnEditBio"/>
                     </Border>
                 </Grid>
                 <FlexLayout HorizontalOptions="Center">
                     <Button Margin="0,0,5,0" BackgroundColor="#52BB00" TextColor="White" Text="Lưu" HeightRequest="25" Padding="30,0" FontSize="12" x:Name="btnSaveBio" Clicked="btnSaveBio_Clicked" 
-                        IsVisible="{Binding IsEditBio}"></Button>
+                        IsVisible="{Binding IsEditBio}" Command="{Binding UpdateProfileCommand}"></Button>
                     <Button Margin="5,0,0,0" BackgroundColor="Red" Text="Hủy" TextColor="White" HeightRequest="25" Padding="30,0" FontSize="12" x:Name="btnCancelBio" Clicked="btnCancelBio_Clicked" 
                         IsVisible="{Binding IsEditBio}"></Button>
                 </FlexLayout>
@@ -167,9 +185,15 @@
                 <StackLayout>
                     <Label Text="Hình ảnh/Video của tôi"
                        Padding="20, 30, 0, 20"
+                        TextColor="Black"
                        FontAttributes="Bold" />
-
-                    <Grid>
+                    <Label Text="Không có hình ảnh / video nào"
+                       HorizontalOptions="Center"
+                        TextColor="Black"
+                       Margin="5"
+                        IsVisible="{Binding User.UserMedias.Count, Converter={StaticResource CountToVisibilityLabelConverter}}"
+                       FontAttributes="Italic" />
+                    <Grid IsVisible="{Binding User.UserMedias.Count, Converter={StaticResource CountToVisibilityConverter}}">
                         <!-- The Image inside the CarouselView -->
                         <CarouselView ItemsSource="{Binding User.UserMedias}"
                                 CurrentItem="{Binding CurrentImage, Mode=TwoWay}">
@@ -240,6 +264,7 @@
                            Padding="20"
                            IsVisible="{Binding IsShowTrainingSection}">
                     <Label Text="Trạng thái"
+                       TextColor="Black"
                        HorizontalOptions="CenterAndExpand" />
                     <Label Text="{Binding CurrentTraining.StatusString}"
                        TextColor="{Binding CurrentTraining.StatusColor}"
@@ -344,8 +369,9 @@
                              Spacing="10"
                              Margin="0, 0, 0, 10">
                         <Label Text="Thông tin cơ bản"
-                         FontAttributes="Bold"
-                         FontSize="Body" />
+                               TextColor="Black"
+                                FontAttributes="Bold"
+                                FontSize="Body" />
                         <BoxView Color="#52BB00"
                            HeightRequest="1.2"
                            HorizontalOptions="FillAndExpand" />
@@ -356,13 +382,16 @@
                             Stroke="#52BB00"
                             x:Name="btnInfoEditSection"
                             Padding="4">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer x:Name="tapEditInfor" Tapped="tapEditInfor_Tapped"></TapGestureRecognizer>
+                            </Border.GestureRecognizers>
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="8" />
                             </Border.StrokeShape>
-                            <ImageButton Source="update_icon" x:Name="btnInfoEdit" Clicked="btnInfoEdit_Clicked" />
+                            <Image Source="update_icon"/>
                         </Border>
                         <Button BackgroundColor="#52BB00" TextColor="White" Text="Lưu" HeightRequest="20" Padding="0" FontSize="12" x:Name="btnSaveInfo" Clicked="btnSaveInfo_Clicked" 
-                            IsVisible="{Binding IsEditPersonalInformation}"></Button>
+                            IsVisible="{Binding IsEditPersonalInformation}" Command="{Binding UpdateProfileCommand}"></Button>
                         <Button BackgroundColor="Red" Text="Hủy" TextColor="White" HeightRequest="20" Padding="0" FontSize="12" x:Name="btnCencelInfo" Clicked="btnCencelInfo_Clicked" 
                             IsVisible="{Binding IsEditPersonalInformation}"></Button>
                     </StackLayout>
@@ -382,15 +411,17 @@
                              WidthRequest="15"
                              HeightRequest="15" />
                                 <Label Text="Ngày sinh: "
-                             HorizontalOptions="StartAndExpand" />
+                                       TextColor="Black"
+                                        HorizontalOptions="StartAndExpand" />
                             </StackLayout>
                             <StackLayout Grid.Row="0"
                                  Grid.Column="1"
                                  Orientation="Horizontal">
                                 <Label Text="{Binding User.DateOfBirth, StringFormat='{0:dd/MM/yyyy}'}"
-                             HorizontalOptions="StartAndExpand"
-                             x:Name="lblDob"/>
-                                <DatePicker x:Name="editDob" IsVisible="False"></DatePicker>
+                                        HorizontalOptions="StartAndExpand"
+                                       TextColor="Black"
+                                        x:Name="lblDob"/>
+                                <DatePicker Date="{Binding Updater.DateOfBirth}" x:Name="editDob" IsVisible="False" TextColor="Black"></DatePicker>
                             </StackLayout>
 
                             <!-- Row 2: Địa chỉ -->
@@ -402,13 +433,26 @@
                                 <Image Source="house_color"
                              WidthRequest="15"
                              HeightRequest="15" />
-                                <Label Text="Địa chỉ: " />
+                                <Label Text="Địa chỉ: " TextColor="Black" />
                             </StackLayout>
                             <StackLayout Grid.Row="1"
                                  Grid.Column="1"
                                  Orientation="Horizontal">
-                                <Label Text="{Binding User.AddressString}"
-                             HorizontalOptions="StartAndExpand" />
+                                <Label Text="{Binding User.City}"
+                                       x:Name="lblAddress"
+                                       TextColor="Black"
+                                    HorizontalOptions="StartAndExpand" />
+                                <HorizontalStackLayout x:Name="editAddressSection" IsVisible="False">
+                                    <Label Text="{Binding Updater.City}"
+                                        VerticalOptions="Center" 
+                                        WidthRequest="150"
+                                        HorizontalOptions="StartAndExpand" 
+                                        TextColor="Black"/>
+                                    <Button Margin="10,0" ImageSource="refresh_black" 
+                                            WidthRequest="25" HeightRequest="25"
+                                            Padding="5" BackgroundColor="LightGray" x:Name="btnGPS" 
+                                            Command="{Binding GetGPSCommand}"></Button>
+                                </HorizontalStackLayout>
                             </StackLayout>
 
 
@@ -422,18 +466,21 @@
                              WidthRequest="15"
                              HeightRequest="15" />
                                 <Label Text="Nghề nghiệp: "
-                             HorizontalOptions="StartAndExpand"/>
+                                       TextColor="Black"
+                                        HorizontalOptions="StartAndExpand"/>
                             </StackLayout>
                             <StackLayout Grid.Row="2"
                                  Grid.Column="1"
                                  Orientation="Horizontal">
                                 <Label Text="{Binding User.Job}"
-                             HorizontalOptions="StartAndExpand" x:Name="lblJob"/>
+                                       TextColor="Black"
+                                        HorizontalOptions="StartAndExpand" x:Name="lblJob"/>
                                 <Picker x:Name="editJob" 
                             Title="Chọn nghề nghiệp" 
                             Margin="20,0,20,15"
                             TextColor="Black"
                             IsVisible="False"
+                            SelectedItem="{Binding Updater.Job}"
                             ItemsSource="{Binding Jobs}">
                                 </Picker>
                             </StackLayout>
@@ -448,9 +495,12 @@
                              WidthRequest="20"
                              HeightRequest="20" />
                                 <Label Text="Sở thích: "
-                             HorizontalOptions="StartAndExpand" />
+                                       TextColor="Black"
+                                        HorizontalOptions="StartAndExpand" />
                                 <ImageButton BorderColor="Black" BackgroundColor="LightGray" CornerRadius="20" Source="{mi:Fluent Add16}" WidthRequest="20" HeightRequest="20" HorizontalOptions="End" VerticalOptions="Start"
-                            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=IsEditPersonalInformation}"></ImageButton>
+                                             Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=AddTag}"
+                                             CommandParameter="Hobby"
+                                             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=IsEditPersonalInformation}"></ImageButton>
                             </StackLayout>
                             <FlexLayout BindableLayout.ItemsSource="{Binding User.Tags}"
                                 Grid.Row="3"
@@ -472,8 +522,19 @@
                                               TextColor="{Binding TagColor, Converter={StaticResource UserTagTextColorConverter}}" />
                                             </Border>
 
-                                            <ImageButton BorderColor="Black" BackgroundColor="LightGray" Padding="5" CornerRadius="20" Source="remove" WidthRequest="15" HeightRequest="15" HorizontalOptions="End" VerticalOptions="Start" Margin="0"
-                                        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=IsEditPersonalInformation}"></ImageButton>
+                                            <Button BorderColor="Black" 
+                                                         BackgroundColor="LightGray" 
+                                                         Padding="5" 
+                                                         CornerRadius="20" 
+                                                         ImageSource="remove" 
+                                                         WidthRequest="15" 
+                                                         HeightRequest="15" 
+                                                         HorizontalOptions="End" 
+                                                         VerticalOptions="Start" 
+                                                         Margin="0"
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=RemoveTag}"
+                                                        CommandParameter="{Binding Id}"
+                                                         IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=IsEditPersonalInformation}"></Button>
                                         </Grid>
                                     </DataTemplate>
                                 </BindableLayout.ItemTemplate>
@@ -489,9 +550,12 @@
                              WidthRequest="20"
                              HeightRequest="20" />
                                 <Label Text="Loại hình tập luyện ưa thích: "
-                             HorizontalOptions="StartAndExpand" />
+                                       TextColor="Black"
+                                         HorizontalOptions="StartAndExpand" />
                                 <ImageButton BorderColor="Black" BackgroundColor="LightGray" CornerRadius="20" Source="{mi:Fluent Add16}" WidthRequest="20" HeightRequest="20" HorizontalOptions="End" VerticalOptions="Start"
-                            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=IsEditPersonalInformation}"></ImageButton>
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=AddTag}"
+                                            CommandParameter="TrainingType"
+                                             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=IsEditPersonalInformation}"></ImageButton>
                             </StackLayout>
                             <FlexLayout BindableLayout.ItemsSource="{Binding User.Tags}"
                                 Grid.Row="4"
@@ -512,8 +576,10 @@
                                             TextColor="{Binding TagColor, Converter={StaticResource UserTagTextColorConverter}}" />
                                             </Border>
 
-                                            <ImageButton BorderColor="Black" BackgroundColor="LightGray" Padding="5" CornerRadius="20" Source="remove" WidthRequest="15" HeightRequest="15" HorizontalOptions="End" VerticalOptions="Start" Margin="0"
-                                    IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=IsEditPersonalInformation}"></ImageButton>
+                                            <Button BorderColor="Black" BackgroundColor="LightGray" Padding="5" CornerRadius="20" ImageSource="remove" WidthRequest="15" HeightRequest="15" HorizontalOptions="End" VerticalOptions="Start" Margin="0"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=RemoveTag}"
+                                                    CommandParameter="{Binding Id}"
+                                                    IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=IsEditPersonalInformation}"></Button>
                                         </Grid>
                                     </DataTemplate>
                                 </BindableLayout.ItemTemplate>
@@ -529,9 +595,12 @@
                              WidthRequest="20"
                              HeightRequest="20" />
                                 <Label Text="Mục tiêu: "
-                             HorizontalOptions="StartAndExpand" />
+                                       TextColor="Black"
+                                        HorizontalOptions="StartAndExpand" />
                                 <ImageButton BorderColor="Black" BackgroundColor="LightGray" CornerRadius="20" Source="{mi:Fluent Add16}" WidthRequest="20" HeightRequest="20" HorizontalOptions="End" VerticalOptions="Start"
-                            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=IsEditPersonalInformation}"></ImageButton>
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=AddTag}"
+                                            CommandParameter="Target"
+                                             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=IsEditPersonalInformation}"></ImageButton>
                             </StackLayout>
                             <FlexLayout BindableLayout.ItemsSource="{Binding User.Tags}"
                                 Grid.Row="5"
@@ -552,8 +621,10 @@
                                                 TextColor="{Binding TagColor, Converter={StaticResource UserTagTextColorConverter}}" />
                                             </Border>
 
-                                            <ImageButton BorderColor="Black" BackgroundColor="LightGray" Padding="5" CornerRadius="20" Source="remove" WidthRequest="15" HeightRequest="15" HorizontalOptions="End" VerticalOptions="Start" Margin="0"
-                                        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=IsEditPersonalInformation}"></ImageButton>
+                                            <Button BorderColor="Black" BackgroundColor="LightGray" Padding="5" CornerRadius="20" ImageSource="remove" WidthRequest="15" HeightRequest="15" HorizontalOptions="End" VerticalOptions="Start" Margin="0"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=RemoveTag}"
+                                                    CommandParameter="{Binding Id}"
+                                                    IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=IsEditPersonalInformation}"></Button>
                                         </Grid>
                                     </DataTemplate>
                                 </BindableLayout.ItemTemplate>
@@ -569,9 +640,12 @@
                              WidthRequest="20"
                              HeightRequest="20" />
                                 <Label Text="Mô tả bản thân: "
-                             HorizontalOptions="StartAndExpand" />
+                                       TextColor="Black"
+                                        HorizontalOptions="StartAndExpand" />
                                 <ImageButton BorderColor="Black" BackgroundColor="LightGray" CornerRadius="20" Source="{mi:Fluent Add16}" WidthRequest="20" HeightRequest="20" HorizontalOptions="End" VerticalOptions="Start"
-                            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=IsEditPersonalInformation}"></ImageButton>
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=AddTag}"
+                                            CommandParameter="SelfDescription"
+                                             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=IsEditPersonalInformation}"></ImageButton>
                             </StackLayout>
                             <FlexLayout BindableLayout.ItemsSource="{Binding User.Tags}"
                                 Grid.Row="6"
@@ -592,8 +666,10 @@
                                                 TextColor="{Binding TagColor, Converter={StaticResource UserTagTextColorConverter}}" />
                                             </Border>
 
-                                            <ImageButton BorderColor="Black" BackgroundColor="LightGray" Padding="5" CornerRadius="20" Source="remove" WidthRequest="15" HeightRequest="15" HorizontalOptions="End" VerticalOptions="Start" Margin="0"
-                                        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=IsEditPersonalInformation}"></ImageButton>
+                                            <Button BorderColor="Black" BackgroundColor="LightGray" Padding="5" CornerRadius="20" ImageSource="remove" WidthRequest="15" HeightRequest="15" HorizontalOptions="End" VerticalOptions="Start" Margin="0"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=RemoveTag}"
+                                                    CommandParameter="{Binding Id}"
+                                                    IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=IsEditPersonalInformation}"></Button>
                                         </Grid>
                                     </DataTemplate>
                                 </BindableLayout.ItemTemplate>
@@ -609,9 +685,12 @@
                              WidthRequest="20"
                              HeightRequest="20" />
                                 <Label Text="Mong muốn PT: "
-                             HorizontalOptions="StartAndExpand" />
+                                       TextColor="Black"
+                                        HorizontalOptions="StartAndExpand" />
                                 <ImageButton BorderColor="Black" BackgroundColor="LightGray" CornerRadius="20" Source="{mi:Fluent Add16}" WidthRequest="20" HeightRequest="20" HorizontalOptions="End" VerticalOptions="Start"
-                            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=IsEditPersonalInformation}"></ImageButton>
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=AddTag}"
+                                            CommandParameter="PTTaste"
+                                             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=IsEditPersonalInformation}"></ImageButton>
                             </StackLayout>
                             <FlexLayout BindableLayout.ItemsSource="{Binding User.Tags}"
                                 Grid.Row="7"
@@ -632,8 +711,10 @@
                                                 TextColor="{Binding TagColor, Converter={StaticResource UserTagTextColorConverter}}" />
                                             </Border>
 
-                                            <ImageButton BorderColor="Black" BackgroundColor="LightGray" Padding="5" CornerRadius="20" Source="remove" WidthRequest="15" HeightRequest="15" HorizontalOptions="End" VerticalOptions="Start" Margin="0"
-                                        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=IsEditPersonalInformation}"></ImageButton>
+                                            <Button BorderColor="Black" BackgroundColor="LightGray" Padding="5" CornerRadius="20" ImageSource="remove" WidthRequest="15" HeightRequest="15" HorizontalOptions="End" VerticalOptions="Start" Margin="0"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=RemoveTag}"
+                                                    CommandParameter="{Binding Id}"
+                                                    IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProfileViewModel}}, Path=IsEditPersonalInformation}"></Button>
                                         </Grid>
                                     </DataTemplate>
                                 </BindableLayout.ItemTemplate>
@@ -652,5 +733,10 @@
                  ZIndex="99"
                  AbsoluteLayout.LayoutBounds="0, 1, 1, AutoSize"
                  AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" />
+        <controls:LoadingDialog x:Name="loadingDialog"
+                 IsVisible="False"
+                 Message="Vui lòng chờ..."
+                 AbsoluteLayout.LayoutFlags="PositionProportional"
+                 AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
     </AbsoluteLayout>
 </ContentPage>

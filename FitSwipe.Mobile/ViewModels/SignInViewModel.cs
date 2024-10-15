@@ -60,7 +60,7 @@ namespace FitSwipe.Mobile.ViewModels
                             barColor = (user.Role == Shared.Enums.Role.Trainee) ? "#52BB00" : "#2E3192";
                             CommunityToolkit.Maui.Core.Platform.StatusBar.SetColor(Color.FromArgb(barColor));
                             CommunityToolkit.Maui.Core.Platform.StatusBar.SetStyle(StatusBarStyle.LightContent);
-                            if (user.District== null || user.City == null || user.Ward == null || user.Job == null)
+                            if (user.City == null || user.Job == null)
                             {
                                 navigateTo = "//SetupProfile";
                             }
