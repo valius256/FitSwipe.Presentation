@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Pages.SubscriptionPages.SubscriptionResultView">
+  <StackLayout>
+    <AbsoluteLayout HorizontalOptions="FillAndExpand">
+      <!-- Background Image -->
+      <StackLayout AbsoluteLayout.LayoutBounds="0, 0, 1, AutoSize"
+                   AbsoluteLayout.LayoutFlags="SizeProportional">
+        <Image Source="subscription_background"
+               HorizontalOptions="FillAndExpand" />
+      </StackLayout>
+
+      <Border AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+              AbsoluteLayout.LayoutFlags="All"
+              BackgroundColor="#323593"
+              Stroke="Transparent"
+              Opacity="0.6" />
+
+      <!-- Back Button Positioned at the Top Left -->
+      <StackLayout AbsoluteLayout.LayoutBounds="0, 0, AutoSize, AutoSize"
+                   AbsoluteLayout.LayoutFlags="PositionProportional"
+                   Padding="20">
+        <ImageButton Source="back_icon_white"
+                     WidthRequest="30"
+                     HeightRequest="30"
+                     HorizontalOptions="StartAndExpand" />
+      </StackLayout>
+    </AbsoluteLayout>
+  </StackLayout>
+</ContentPage>
