@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:FitSwipe.Mobile.Converters"
+             x:Class="FitSwipe.Mobile.Pages.ProfilePages.PTUploadMediaModal">
+
+    <!-- Register the InverseBooleanConverter -->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Frame BorderColor="#2E3192"
+           CornerRadius="5">
+        <VerticalStackLayout>
+
+            <!--#region Switch Button-->
+            <HorizontalStackLayout Margin="0,10"
+                                   HorizontalOptions="CenterAndExpand">
+
+                <Button Text="Ảnh đại diện"
+                        TextColor="White"
+                        BackgroundColor="#2E3192"
+                        BorderColor="#2E3192"
+                        CornerRadius="50"
+                        Padding="50,0"
+                        Margin="0,0,-20,0" />
+                <Button Text="Tải video / ảnh"
+                        TextColor="Black"
+                        BackgroundColor="White"
+                        BorderColor="#2E3192"
+                        CornerRadius="50"
+                        Padding="50,0"
+                        Margin="-10,0,0,0"
+                        BorderWidth="2"
+                        Clicked="NextPageUpload_Clicked" />
+            </HorizontalStackLayout>
+
+            <VerticalStackLayout>
+
+                <!--Before has image upload (invisiable after has image)-->
+                <VerticalStackLayout Margin="0,5"
+                                     IsVisible="{Binding IsPhotoCaptured, Converter={StaticResource InverseBooleanConverter}}">
+                    <!-- Camera Upload logo -->
+
+                    <HorizontalStackLayout HorizontalOptions="Center"
+                                           Spacing="20">
+                        <!--Camera Take picture-->
+                        <Frame HeightRequest="-1"
+                               BorderColor="#2E3192"
+                               CornerRadius="600"
+                               VerticalOptions="Center"
+                               HorizontalOptions="FillAndExpand">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="cameraPhotoButton_Clicked" />
+                            </Frame.GestureRecognizers>
+                            <Image Source="images/camera.png"
+                                   WidthRequest="50"
+                                   HeightRequest="50"
+                                   HorizontalOptions="Start" />
+                        </Frame>
+
+                    </HorizontalStackLayout>
+                    <Label Text="Hình đại diện không có"
+                           FontSize="Micro"
+                           HorizontalOptions="Center"
+                           Margin="0,3" />
+                    <Label Text="Kích tước tối thiểu: 512 x 512"
+                           FontSize="Micro"
+                           HorizontalOptions="Center"
+                           Margin="0,3" />
+                    <!--Button capture and upload-->
+                    <VerticalStackLayout>
+                        <!-- Capture Button-->
+                        <Frame Padding="0,-10"
+                               CornerRadius="50"
+                               Margin="0,10,0,5"
+                               BackgroundColor="#2E3192"
+                               BorderColor="Transparent">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="cameraPhotoButton_Clicked" />
+                            </Frame.GestureRecognizers>
+
+                            <Label  Text="Chụp hình"
+                                    TextColor="White"
+                                    BackgroundColor="#2E3192"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    VerticalTextAlignment="Center" />
+                        </Frame>
+
+                        <!-- Upload Image Button-->
+                        <Frame Padding="0,-10"
+                               CornerRadius="50"
+                               Margin="0,0,0,4"
+                               BackgroundColor="#2E3192"
+                               BorderColor="Transparent">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="galleryPhotoButton_Clicked" />
+                            </Frame.GestureRecognizers>
+
+                            <Label  Text="Nhập Hình Từ Điện Thoại"
+                                    TextColor="White"
+                                    BackgroundColor="#2E3192"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    VerticalTextAlignment="Center" />
+                        </Frame>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <!--After has image upload (invisiable if no image)-->
+                <VerticalStackLayout IsVisible="{Binding IsPhotoCaptured}">
+                    <!-- Show the captured photo if available -->
+                    <HorizontalStackLayout HorizontalOptions="Center"
+                                           Margin="0,0,0,8">
+                        <Frame Padding="0"
+                               BorderColor="#2E3192"
+                               Background="Transparent">
+                            <Frame BorderColor="#2E3192"
+                                   CornerRadius="600"
+                                   WidthRequest="150"
+                                   HeightRequest="150"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="FillAndExpand">
+                                <Image Source="{Binding ImageSource}"
+                                       WidthRequest="150"
+                                       HeightRequest="150"
+                                       HorizontalOptions="Start" />
+                            </Frame>
+                        </Frame>
+                    </HorizontalStackLayout>
+
+                    <!-- Small logo Show-->
+                    <HorizontalStackLayout HorizontalOptions="Center">
+                        <!--logo 1-->
+                        <Frame BorderColor="#2E3192"
+                               CornerRadius="600"
+                               WidthRequest="50"
+                               HeightRequest="50"
+                               Margin="5,0">
+                            <Image Source="{Binding ImageSource}"
+                                   Aspect="Fill" />
+                        </Frame>
+                        <!--Logo 2-->
+                        <Frame BorderColor="#2E3192"
+                               CornerRadius="600"
+                               WidthRequest="35"
+                               HeightRequest="35"
+                               Margin="5,0">
+                            <Image Source="{Binding ImageSource}"
+                                   Aspect="Fill" />
+                        </Frame>
+                        <!--Logo 3-->
+                        <Frame BorderColor="#2E3192"
+                               CornerRadius="600"
+                               WidthRequest="25"
+                               HeightRequest="25"
+                               Margin="5,0">
+                            <Image Source="{Binding ImageSource}"
+                                   Aspect="Fill" />
+                        </Frame>
+                        <Label Text="*Đây là hình đại diện bạn&#xa;sẽ nhìn thấy "
+                               FontSize="Micro"
+                               FontAttributes="Italic"
+                               VerticalOptions="Center"
+                               Margin="5,0" />
+                    </HorizontalStackLayout>
+
+                    <!-- messenger review-->
+                    <VerticalStackLayout Margin="0,10">
+                        <!--First mess-->
+                        <!--mini Logo -->
+                        <HorizontalStackLayout>
+                            <Frame BorderColor="#2E3192"
+                                   CornerRadius="600"
+                                   WidthRequest="25"
+                                   HeightRequest="25"
+                                   Margin="5,0">
+                                <Image Source="{Binding ImageSource}"
+                                       Aspect="Fill" />
+                            </Frame>
+                            <!-- Messger Text-->
+                            <Frame BorderColor="#2E3192"
+                                   BackgroundColor="Transparent"
+                                   Margin="5,0"
+                                   Padding="10,0"
+                                   WidthRequest="290">
+                                <Label Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                                       FontSize="Micro"
+                                       TextColor="Black" />
+                            </Frame>
+                        </HorizontalStackLayout>
+
+                        <!--Second mess-->
+                        <HorizontalStackLayout Margin="0,10">
+                            <!-- Messger Text-->
+                            <Frame BorderColor="#2E3192"
+                                   BackgroundColor="#2E3192"
+                                   Margin="40,0,5,0"
+                                   Padding="10,0"
+                                   WidthRequest="290">
+                                <Label Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                                       FontSize="Micro"
+                                       TextColor="White" />
+                            </Frame>
+                            <!--mini Logo -->
+                            <HorizontalStackLayout>
+                                <Frame BorderColor="#2E3192"
+                                       CornerRadius="600"
+                                       WidthRequest="25"
+                                       HeightRequest="25"
+                                       Margin="5,0">
+                                    <Image Source="{Binding ImageSource}"
+                                           Aspect="Fill" />
+                                </Frame>
+                            </HorizontalStackLayout>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+
+                    <!--Button-->
+                    <VerticalStackLayout Margin="0,5"
+                                         IsVisible="{Binding IsPhotoCaptured}">
+                        <!-- Continue Button-->
+                        <Frame Padding="0,-10"
+                               CornerRadius="50"
+                               Margin="0,0,0,4"
+                               BackgroundColor="#2E3192"
+                               HorizontalOptions="Center">
+                            <Button Text="Tiếp"
+                                    FontAttributes="Bold"
+                                    TextColor="White"
+                                    BackgroundColor="#2E3192"
+                                    HorizontalOptions="Center"
+                                    Padding="40,0"
+                                    BorderColor="#2E3192"
+                                    Clicked="NextPageUpload_Clicked" />
+                        </Frame>
+                        <!-- Continue Button-->
+                        <Frame Padding="0,-10"
+                               CornerRadius="50"
+                               Margin="0,0,0,2"
+                               BackgroundColor="Transparent"
+                               BorderColor="#2E3192"
+                               HorizontalOptions="Center">
+                            <Button Text="Hủy"
+                                    FontAttributes="Bold"
+                                    TextColor="Black"
+                                    BackgroundColor="Transparent"
+                                    HorizontalOptions="Center"
+                                    Padding="40,0"
+                                    BorderColor="#2E3192"
+                                    Clicked="Undo_Clicked" />
+                        </Frame>
+
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </Frame>
+</ContentPage>
