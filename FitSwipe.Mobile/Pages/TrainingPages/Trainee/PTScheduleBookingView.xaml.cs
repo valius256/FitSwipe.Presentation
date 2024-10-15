@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
+using FitSwipe.Mobile.Extensions;
+using FitSwipe.Mobile.Pages.FeedbackPages;
 using FitSwipe.Shared.Dtos.Paging;
 using FitSwipe.Shared.Dtos.Slots;
 using FitSwipe.Shared.Dtos.Trainings;
@@ -245,7 +247,7 @@ public partial class PTScheduleBookingView : ContentPage
         await Navigation.PopModalAsync();
     }
 
-    private void timeTable_SlotAction(object sender, Controls.SlotEventArgs e)
+    private void timeTable_SlotAction(object sender, SlotEventArgs e)
     {
         var border = e.Border;
         var slot = e.Slot;
@@ -253,22 +255,31 @@ public partial class PTScheduleBookingView : ContentPage
         border.GestureRecognizers.Clear();
         var tapGesture = new TapGestureRecognizer();
 
-        tapGesture.Tapped += (sender, e) =>
+        tapGesture.Tapped += async (sender, e) =>
         {
-            bookSlotModal.Show();
-            if (slot.Status == SlotStatus.Unbooked)
-            {
-                bookSlotModal.SetTime(slot.StartTime, slot.EndTime, slot.Id, null);
-            }
-            else
-            {
-                var baseSlot = GetBaseSlot(slot);
-                if (baseSlot != null)
+            if (Training.Status == TrainingStatus.Matched || Training.Status == TrainingStatus.Pending || Training.Status == TrainingStatus.Rejected)
+            {     
+                bookSlotModal.Show();
+                if (slot.Status == SlotStatus.Unbooked)
                 {
-                    bookSlotModal.SetTime(baseSlot.StartTime, baseSlot.EndTime, baseSlot.Id, slot.Id,slot.StartTime, slot.EndTime);
-                } else
+                    bookSlotModal.SetTime(slot.StartTime, slot.EndTime, slot.Id, null);
+                }
+                else
                 {
-                    bookSlotModal.SetTime(DateTime.MinValue, DateTime.MaxValue,null, slot.Id, slot.StartTime, slot.EndTime);
+                    var baseSlot = GetBaseSlot(slot);
+                    if (baseSlot != null)
+                    {
+                        bookSlotModal.SetTime(baseSlot.StartTime, baseSlot.EndTime, baseSlot.Id, slot.Id,slot.StartTime, slot.EndTime);
+                    } else
+                    {
+                        bookSlotModal.SetTime(DateTime.MinValue, DateTime.MaxValue,null, slot.Id, slot.StartTime, slot.EndTime);
+                    }
+                }
+            } else
+            {
+                if (slot.Status != SlotStatus.Unbooked)
+                {
+                    await Navigation.PushModalAsync(new SlotDetailPage(slot.Id));
                 }
             }
         };      
@@ -291,7 +302,7 @@ public partial class PTScheduleBookingView : ContentPage
         }
         return null;
     }
-    private async void bookSlotModal_OnBookSlot(object sender, BookSlotModal.BookSlotEventArgs e)
+    private async void bookSlotModal_OnBookSlot(object sender, BookSlotEventArgs e)
     {
         var timeStart = e.TimeBegin;
         var timeEnd = e.TimeEnd;
@@ -395,7 +406,7 @@ public partial class PTScheduleBookingView : ContentPage
         timeTable.SetSlots(slots);
     }
 
-    private async void bookSlotModal_OnEditSlot(object sender, BookSlotModal.BookSlotEventArgs e)
+    private async void bookSlotModal_OnEditSlot(object sender, BookSlotEventArgs e)
     {
         var timeStart = e.TimeBegin;
         var timeEnd = e.TimeEnd;
@@ -455,7 +466,7 @@ public partial class PTScheduleBookingView : ContentPage
         }
     }
 
-    private async void bookSlotModal_OnDeleteSlot(object sender, BookSlotModal.BookSlotEventArgs e)
+    private async void bookSlotModal_OnDeleteSlot(object sender, BookSlotEventArgs e)
     {
         var slotId = e.EditSlotId;
 
@@ -523,8 +534,30 @@ public partial class PTScheduleBookingView : ContentPage
         }
     }
 
-    private void btnFinish_Clicked(object sender, EventArgs e)
+    private async void btnFinish_Clicked(object sender, EventArgs e)
     {
+        var answer = await DisplayAlert("Chủ động kết thúc khóa huấn luyện", "Bạn có chắc chắn về hành động này chứ ?", "Có", "Không");
+        if (answer && MyPTListPage != null)
+        {
+            loadingDialog.IsVisible = true;
+            loadingDialog.Message = "Đang thực hiện...";
+            try
+            {
+                var token = await SecureStorage.GetAsync("auth_token");
+                if (token == null)
+                {
+                    throw new Exception("Token is not found");
+                }
+                await Fetcher.PutAsync($"api/trainings/finishing",new GetTrainingDto(), token);
+                await DisplayAlert("Thành công", "Đã chủ động kết thúc khóa huấn luyện", "OK");
+                await Navigation.PushModalAsync(new FeeedbackPage(Training, MyPTListPage.ViewModel));
 
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Lỗi", "Có xảy ra lỗi. Err" + ex.Message, "OK");
+            }
+            loadingDialog.IsVisible = false;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui.Core.Views;
+using FitSwipe.Mobile.Extensions;
 using FitSwipe.Shared.Dtos.Others;
 using Microsoft.Maui.Handlers;
 
@@ -52,8 +53,12 @@ public partial class BookSlotModal : ContentView
     {
         string displayStartHour = _start.Hour == 12 ? "12" : (_start.Hour % 12).ToString();
         string displayEndHour = _end.Hour == 12 ? "12" : (_end.Hour % 12).ToString();
-        labelStartTime.Text = displayStartHour + ":" + _start.Minute.ToString().PadLeft(2,'0') + " " + (_start.Hour >= 12 ? "P.M" : "A.M");
-        labelEndTime.Text = displayEndHour + ":" + _end.Minute.ToString().PadLeft(2,'0') + " " + (_end.Hour >= 12 ? "P.M" : "A.M");
+        if (labelStartTime != null && labelEndTime != null)
+        {
+            labelStartTime.Text = displayStartHour + ":" + _start.Minute.ToString().PadLeft(2, '0') + " " + (_start.Hour >= 12 ? "P.M" : "A.M");
+            labelEndTime.Text = displayEndHour + ":" + _end.Minute.ToString().PadLeft(2, '0') + " " + (_end.Hour >= 12 ? "P.M" : "A.M");
+        }
+        
     }
 
     public void Show()
@@ -103,16 +108,29 @@ public partial class BookSlotModal : ContentView
     {
         var timePicker = (TimePicker)sender;
         _timeBegin = timePicker.Time;
-        labelCalculating.Text = "(Tổng cộng " + Math.Round((_timeEnd - _timeBegin).TotalHours,2) + " tiếng)";
-        timeBegin.Text = _timeBegin.Hours + ":" + _timeBegin.Minutes.ToString().PadLeft(2,'0');
+        if (labelCalculating != null)
+        {
+            labelCalculating.Text = "(Tổng cộng " + Math.Round((_timeEnd - _timeBegin).TotalHours,2) + " tiếng)";
+        }
+        if (timeBegin != null)
+        {
+            timeBegin.Text = _timeBegin.Hours + ":" + _timeBegin.Minutes.ToString().PadLeft(2, '0');
+        }
     }
 
     private void tpEnd_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         var timePicker = (TimePicker)sender;
         _timeEnd = timePicker.Time;
-        labelCalculating.Text = "(Tổng cộng " + Math.Round((_timeEnd - _timeBegin).TotalHours, 2) + " tiếng)";
-        timeEnd.Text = _timeEnd.Hours + ":" + _timeEnd.Minutes.ToString().PadLeft(2, '0');
+        if (labelCalculating != null)
+        {
+            labelCalculating.Text = "(Tổng cộng " + Math.Round((_timeEnd - _timeBegin).TotalHours, 2) + " tiếng)";
+        }
+        if (timeEnd != null)
+        {
+            timeEnd.Text = _timeEnd.Hours + ":" + _timeEnd.Minutes.ToString().PadLeft(2, '0');
+
+        }
     }
 
     private void btnApprove_Clicked(object sender, EventArgs e)
@@ -132,23 +150,6 @@ public partial class BookSlotModal : ContentView
     {
         OnDeleteSlot?.Invoke(this, new BookSlotEventArgs(_start, _end, _timeBegin, _timeEnd, _baseSlotId, _editSlotId));
     }
-    public class BookSlotEventArgs : EventArgs
-    {
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
-        public TimeSpan TimeBegin { get; set; }
-        public TimeSpan TimeEnd { get; set; }
-        public Guid? BaseSlotId { get; set; }
-        public Guid? EditSlotId { get; set; }
-        public BookSlotEventArgs(DateTime start, DateTime end, TimeSpan timeBegin, TimeSpan timeEnd, Guid? baseSlotId, Guid? editSlotId = null)
-        {
-            Start = start;
-            End = end;
-            TimeBegin = timeBegin;
-            TimeEnd = timeEnd;
-            BaseSlotId = baseSlotId;
-            EditSlotId = editSlotId;
-        }
-    }
+    
 }
 

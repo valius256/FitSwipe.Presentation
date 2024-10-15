@@ -108,6 +108,10 @@ namespace FitSwipe.Mobile.ViewModels
             }
             _token = token;
             _currentUser = await Shortcut.GetLoginedUser(token);
+            if (_currentUser == null)
+            {
+                throw new Exception();
+            }
         }
         catch
         {

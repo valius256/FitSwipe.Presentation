@@ -13,7 +13,7 @@ namespace FitSwipe.Shared.Dtos.Trainings
         public TrainingStatus Status { get; set; }
         public string? Feedback { get; set; }
         public double? Rating { get; set; }
-        public int DealPrice { get; set; }
+        public int? PricePerSlot { get; set; }
         public string StatusString { get; set; } = string.Empty;
         public string StatusColor { get; set; } = string.Empty;
         public GetUserDto Trainee { get; set; } = default!;

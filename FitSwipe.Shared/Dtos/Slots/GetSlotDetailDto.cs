@@ -2,11 +2,13 @@
 using FitSwipe.Shared.Dtos.Trainings;
 using FitSwipe.Shared.Dtos.Users;
 using FitSwipe.Shared.Enums;
+using System.Collections.ObjectModel;
 
 namespace FitSwipe.Shared.Dtos.Slots
 {
     public class GetSlotDetailDto
     {
+        public Guid Id { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public Guid? TrainingId { get; set; }
@@ -19,18 +21,20 @@ namespace FitSwipe.Shared.Dtos.Slots
         public string? Location { get; set; }
         public string? Content { get; set; }
         public GetUserDto CreateBy { get; set; } = default!;
-        public GetTrainingDto Training { get; set; } = default!;
+        public GetTrainingWithTraineeAndPTDto Training { get; set; } = default!;
+        public ObservableCollection<GetSlotVideoDto> Videos { get; set; } = new ObservableCollection<GetSlotVideoDto>();
+
         //View properties
         public double TotalDurationInHour { 
             get => (EndTime - StartTime).TotalHours;
         }
         public int TotalPrice
         {
-            get => (int)(TotalDurationInHour * Training.DealPrice);
+            get => Training.PricePerSlot ?? 0;
         }
         public string TimeString
         {
-            get => StartTime + " tới " + EndTime;
+            get => StartTime.ToString("hh:mm") + " tới " + EndTime.ToString("hh:mm");
         }
         public string TotalDurationString
         {
@@ -42,7 +46,7 @@ namespace FitSwipe.Shared.Dtos.Slots
         }
         public string DealPriceString
         {
-            get => Training.DealPrice.ToString("C0", new System.Globalization.CultureInfo("vi-VN")) + " /h";
+            get => (Training.PricePerSlot ?? 0).ToString("C0", new System.Globalization.CultureInfo("vi-VN")) + " / buổi";
         }
     }
 }

@@ -4,9 +4,13 @@
              x:Class="FitSwipe.Mobile.Pages.TrainingPages.PTScheduleBookingView"
              xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
              xmlns:trainingPages="clr-namespace:FitSwipe.Mobile.Pages.TrainingPages">
+    
     <AbsoluteLayout>
-        <ScrollView x:Name="pageContent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+        <ScrollView x:Name="pageContent" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" BackgroundColor="White">
             <VerticalStackLayout Margin="10" BackgroundColor="White">
+                <Button ImageSource="back.png" WidthRequest="60" HeightRequest="60" BackgroundColor="Transparent"
+                    x:Name="btnBack" Clicked="btnClose_Clicked"
+                    HorizontalOptions="Start" VerticalOptions="Start"/>
                 <Label 
                     Text="Bạn đang đặt lịch với"
                     TextColor="Black"

@@ -76,6 +76,7 @@
 	  <None Remove="Resources\Images\Icons\dumbell_white.png" />
 		<None Remove="Resources\Images\Icons\goto_icon.png" />
 	  <None Remove="Resources\Images\Icons\favorite_color.png" />
+	  <None Remove="Resources\Images\Icons\ggplay.png" />
 	  <None Remove="Resources\Images\Icons\home_black.png" />
 	  <None Remove="Resources\Images\Icons\home_blue.png" />
 	  <None Remove="Resources\Images\Icons\home_green.png" />
@@ -87,9 +88,13 @@
 	  <None Remove="Resources\Images\Icons\profile_blue.png" />
 	  <None Remove="Resources\Images\Icons\profile_green.png" />
 	  <None Remove="Resources\Images\Icons\profile_white.png" />
+	  <None Remove="Resources\Images\Icons\red_warning.png" />
+	  <None Remove="Resources\Images\Icons\remove_icon_white.png" />
 	  <None Remove="Resources\Images\Icons\target_color.png" />
 	  <None Remove="Resources\Images\Icons\update_icon.png" />
 	  <None Remove="Resources\Images\Icons\vnpay.png" />
+	  <None Remove="Resources\Images\Icons\Wallet.png" />
+	  <None Remove="Resources\Images\Icons\white_warning.png" />
 	  <None Remove="Resources\Images\Icons\workout_color.png" />
 	  <None Remove="Resources\Images\Stars\star_filled.png" />
 	  <None Remove="Resources\Images\Stars\star_half_filled.png" />
@@ -128,6 +133,7 @@
 	  <MauiImage Include="Resources\Images\Icons\facebook.png" />
 	  <MauiImage Include="Resources\Images\Icons\favorite_color.png" />
 	  <MauiImage Include="Resources\Images\Icons\filter.png" />
+	  <MauiImage Include="Resources\Images\Icons\ggplay.png" />
 	  <MauiImage Include="Resources\Images\Icons\google.png" />
 		<MauiImage Include="Resources\Images\Icons\goto_icon.png" />
 	  <MauiImage Include="Resources\Images\Icons\home_black.png" />
@@ -139,9 +145,13 @@
 	  <MauiImage Include="Resources\Images\Icons\profile_blue.png" />
 	  <MauiImage Include="Resources\Images\Icons\profile_green.png" />
 	  <MauiImage Include="Resources\Images\Icons\profile_white.png" />
+	  <MauiImage Include="Resources\Images\Icons\red_warning.png" />
+	  <MauiImage Include="Resources\Images\Icons\remove_icon_white.png" />
 	  <MauiImage Include="Resources\Images\Icons\target_color.png" />
 	  <MauiImage Include="Resources\Images\Icons\update_icon.png" />
 	  <MauiImage Include="Resources\Images\Icons\vnpay.png" />
+	  <MauiImage Include="Resources\Images\Icons\wallet.png" />
+	  <MauiImage Include="Resources\Images\Icons\white_warning.png" />
 	  <MauiImage Include="Resources\Images\Icons\workout_color.png" />
 	  <MauiImage Include="Resources\Images\Stars\star_filled.png" />
 	  <MauiImage Include="Resources\Images\Stars\star_half_filled.png" />

@@ -2,87 +2,101 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FitSwipe.Mobile.Pages.SchedulePages.TraineeSchedulePage"
-             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls">
+             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
+             xmlns:converters="clr-namespace:FitSwipe.Mobile.Converters"
+             xmlns:vm="clr-namespace:FitSwipe.Mobile.Pages.SchedulePages"
+             x:DataType="vm:TraineeSchedulePage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <AbsoluteLayout BackgroundColor="White">
 
-        <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+        <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" x:Name="pageContent">
             <VerticalStackLayout Margin="10" BackgroundColor="White">
-                <Label 
-                    Text="Bạn đang được huần luyện bởi"
-                    TextColor="Black"
-                    VerticalOptions="Center" 
-                    HorizontalOptions="Center" />
-                <Label 
-                    Text="PT Trần A"
-                    FontAttributes="Bold"
-                    TextColor="Black"
-                    FontSize="30"
-                    VerticalOptions="Center" 
-                    HorizontalOptions="Center" />
-                <BoxView
-                    HeightRequest="5"
-                    BackgroundColor="LimeGreen"
-                    Margin="50,0">
-                </BoxView>
-                <HorizontalStackLayout Margin="20,20,20,0" HorizontalOptions="Center">
-                    <Border Stroke="#52BB00" StrokeThickness="5" WidthRequest="100">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="20"></RoundRectangle>
-                        </Border.StrokeShape>
-                        <Image Source="dotnet_bot.png"
-                           Aspect="AspectFill"
-                           WidthRequest="100"
-                           HeightRequest="140"></Image>
-                    </Border>
-                    <Border Stroke="#2E3192" StrokeThickness="5" WidthRequest="100">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="20"></RoundRectangle>
-                        </Border.StrokeShape>
-                        <Image Source="pt1.png"
-                                Aspect="AspectFill"
-                                WidthRequest="100"
-                                HeightRequest="140"></Image>
-                    </Border>
-                </HorizontalStackLayout>
-                <Grid HorizontalOptions="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Border Grid.Column="0" BackgroundColor="#52BB00" Padding="10,5">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="20"></RoundRectangle>
-                        </Border.StrokeShape>
-                        <FlexLayout JustifyContent="SpaceBetween">
-                            <Label Text="Nguyễn Văn A"
-                        Margin="0,0,20,0"
-                        VerticalOptions="Center"
-                       TextColor="White"
-                        FontAttributes="Bold"></Label>
-                            <Label Text="20"
-                        FontSize="10"
-                        VerticalOptions="Center"                                  
-                       TextColor="White"></Label>
-                        </FlexLayout>
-                    </Border>
-                    <Border Grid.Column="2" BackgroundColor="#2E3192" Padding="10,5">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="20"></RoundRectangle>
-                        </Border.StrokeShape>
-                        <FlexLayout JustifyContent="SpaceBetween">
-                            <Label Text="20"
-                        Margin="0,0,20,0"
-                        FontSize="10"
-                        VerticalOptions="Center"                                  
-                       TextColor="White"></Label>
-                            <Label Text="Nguyễn Văn A"
-                        VerticalOptions="Center"
-                       TextColor="White"
-                        FontAttributes="Bold"></Label>
-                        </FlexLayout>
-                    </Border>
-                </Grid>
+                <StackLayout IsVisible="{Binding IsInTraining}">
+                    <Label 
+                        Text="Bạn đang được huần luyện bởi"
+                        TextColor="Black"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" />
+                    <Label 
+                        Text="{Binding CurrentTrainingDetail.PT.UserName}"
+                        FontAttributes="Bold"
+                        TextColor="Black"
+                        FontSize="30"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" />
+                    <BoxView
+                        HeightRequest="5"
+                        BackgroundColor="LimeGreen"
+                        Margin="50,0">
+                    </BoxView>
+                    <HorizontalStackLayout Margin="20,20,20,0" HorizontalOptions="Center">
+                        <Border Stroke="#52BB00" StrokeThickness="5" WidthRequest="100">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="20"></RoundRectangle>
+                            </Border.StrokeShape>
+                            <Image Source="{Binding CurrentTrainingDetail.Trainee.AvatarUrl}"
+                               Aspect="AspectFill"
+                               WidthRequest="100"
+                               HeightRequest="140"></Image>
+                        </Border>
+                        <Border Stroke="#2E3192" StrokeThickness="5" WidthRequest="100">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="20"></RoundRectangle>
+                            </Border.StrokeShape>
+                            <Image Source="{Binding CurrentTrainingDetail.PT.AvatarUrl}"
+                                    Aspect="AspectFill"
+                                    WidthRequest="100"
+                                    HeightRequest="140"></Image>
+                        </Border>
+                    </HorizontalStackLayout>
+                    <Grid HorizontalOptions="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" BackgroundColor="#52BB00" Padding="10,5">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="20"></RoundRectangle>
+                            </Border.StrokeShape>
+                            <FlexLayout JustifyContent="SpaceBetween">
+                                <Label Text="{Binding CurrentTrainingDetail.Trainee.UserName}"
+                                    Margin="0,0,20,0"
+                                    VerticalOptions="Center"
+                                   TextColor="White"
+                                    FontAttributes="Bold"></Label>
+                                <Label Text="{Binding CurrentTrainingDetail.Trainee.Age}"
+                                    FontSize="10"
+                                    VerticalOptions="Center"                                  
+                                   TextColor="White"></Label>
+                            </FlexLayout>
+                        </Border>
+                        <Border Grid.Column="2" BackgroundColor="#2E3192" Padding="10,5">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="20"></RoundRectangle>
+                            </Border.StrokeShape>
+                            <FlexLayout JustifyContent="SpaceBetween">
+                                <Label Text="{Binding CurrentTrainingDetail.PT.Age}"
+                                    Margin="0,0,20,0"
+                                    FontSize="10"
+                                    VerticalOptions="Center"                                  
+                                   TextColor="White"></Label>
+                                <Label Text="{Binding CurrentTrainingDetail.PT.UserName}"
+                                    VerticalOptions="Center"
+                                   TextColor="White"
+                                    FontAttributes="Bold"></Label>  
+                            </FlexLayout>
+                        </Border>
+                    </Grid>
+                </StackLayout>
+                <StackLayout IsVisible="{Binding IsInTraining, Converter={StaticResource InverseBooleanConverter}}" Padding="10">
+                    <Image Source="dumbell_black" WidthRequest="150" HeightRequest="150" HorizontalOptions="Center"></Image>
+                    <Label Text="Bạn chưa đặt lịch tập với PT nào" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black"></Label>
+                </StackLayout>
                 <HorizontalStackLayout Margin="10">
                     <Label Text="Lịch trình của bạn"
                        TextColor="Black"
@@ -95,10 +109,11 @@
                         BackgroundColor="#2E3192">
                     </BoxView>
                 </HorizontalStackLayout>
-                <controls:TimeTable x:Name="timeTable" Theme="#52BB00"></controls:TimeTable>
+                <controls:TimeTable x:Name="timeTable" Theme="#52BB00" SlotAction="timeTable_SlotAction" WeekChanged="timeTable_WeekChanged"></controls:TimeTable>
                 <Border Margin="0,20"
                     Stroke="LimeGreen"
-                    Padding="10">
+                    Padding="10"
+                    IsVisible="{Binding IsInTraining}">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="20"></RoundRectangle>
                     </Border.StrokeShape>
@@ -115,25 +130,31 @@
                         <Label Text="Thời gian" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"></Label>
                         <Label Text="Tổng số buổi" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="1"></Label>
                         <Label Text="Tổng thời lượng" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="2"></Label>
-                        <Label x:Name="sttTimeSpan" Text="1/1/2024 - 1/1/2025" FontSize="12" Grid.Column="1" Grid.Row="0"></Label>
-                        <Label x:Name="sttTotalSlots" Text="100" FontSize="12" Grid.Column="1" Grid.Row="1"></Label>
-                        <Label x:Name="sttTotalDuration" Text="300 tiếng" FontSize="12" Grid.Column="1" Grid.Row="2"></Label>
+                        <Label x:Name="sttTimeSpan" Text="{Binding CurrentTrainingDetail.DurationString}" FontSize="12" Grid.Column="1" Grid.Row="0"></Label>
+                        <Label x:Name="sttTotalSlots" Text="{Binding CurrentTrainingDetail.Slots.Count, StringFormat='{0} buổi'}" FontSize="12" Grid.Column="1" Grid.Row="1"></Label>
+                        <Label x:Name="sttTotalDuration" Text="{Binding CurrentTrainingDetail.TotalHours, StringFormat='{0} tiếng'}" FontSize="12" Grid.Column="1" Grid.Row="2"></Label>
                     </Grid>
                 </Border>
-                <FlexLayout Margin="5">
+                <FlexLayout Margin="5" IsVisible="{Binding IsInTraining}">
                     <Button Text="Kết thúc tập"
                          TextColor="White"
                          BackgroundColor="Red"
                          Padding="25,0"
                          HeightRequest="30"
-                         x:Name="btnClose"
-                         Clicked="btnClose_Clicked"
+                         x:Name="btnFinish"
+                         Clicked="btnFinish_Clicked"
                          FlexLayout.Grow="1"/>
                 </FlexLayout>
                 <BoxView HeightRequest="100" BackgroundColor="Transparent"/>
             </VerticalStackLayout>
 
         </ScrollView>
+        <controls:LoadingDialog x:Name="loadingDialog"
+             IsVisible="False"
+             ZIndex="100"
+             Message="Vui lòng chờ..."
+             AbsoluteLayout.LayoutFlags="PositionProportional"
+             AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
         <controls:Navbar ActiveTab="4"
                 AbsoluteLayout.LayoutBounds="0,1,1,AutoSize" 
                 AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional"></controls:Navbar>
