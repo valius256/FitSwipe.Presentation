@@ -174,11 +174,9 @@
                           ItemsSource="{Binding PaymentOptions}"
                           ItemsLayout="HorizontalList"
                           HorizontalScrollBarVisibility="Always"
-                          SelectionMode="Single"
-                          SelectedItem="{Binding SelectedPaymentOption, Mode=TwoWay}">
+                          SelectionMode="None">
             <CollectionView.ItemTemplate>
               <DataTemplate x:DataType="{x:Type model:GetPaymentOptionDto}">
-                <!-- Main Content Border -->
                 <Border Margin="5"
                         ZIndex="1"
                         BackgroundColor="{Binding IsSelected, Converter={StaticResource SelectedBackgroundColorConverter}}"
@@ -196,6 +194,11 @@
                            FontAttributes="Bold"
                            TextColor="{Binding IsSelected, Converter={StaticResource SelectedTextColorConverter}}" />
                   </StackLayout>
+
+                  <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BindingContext.SelectPaymentOptionCommand, Source={x:Reference PaymentOptionsCollectionView}}"
+                                          CommandParameter="{Binding}" />
+                  </Border.GestureRecognizers>
                 </Border>
               </DataTemplate>
             </CollectionView.ItemTemplate>
@@ -217,7 +220,8 @@
 
           <Button Text="Thanh toán"
                   Padding="0"
-                  BackgroundColor="#323593" />
+                  BackgroundColor="#323593"
+                  Command="{Binding NavigateToPaymentResultCommand}" />
         </Border>
       </StackLayout>
     </StackLayout>
