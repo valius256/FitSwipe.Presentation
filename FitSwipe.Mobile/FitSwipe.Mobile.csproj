@@ -90,6 +90,7 @@
 	  <None Remove="Resources\Images\Icons\profile_white.png" />
 	  <None Remove="Resources\Images\Icons\red_warning.png" />
 	  <None Remove="Resources\Images\Icons\remove_icon_white.png" />
+	  <None Remove="Resources\Images\Icons\success_icon_color.png" />
 	  <None Remove="Resources\Images\Icons\target_color.png" />
 	  <None Remove="Resources\Images\Icons\update_icon.png" />
 	  <None Remove="Resources\Images\Icons\vnpay.png" />
@@ -147,6 +148,7 @@
 	  <MauiImage Include="Resources\Images\Icons\profile_white.png" />
 	  <MauiImage Include="Resources\Images\Icons\red_warning.png" />
 	  <MauiImage Include="Resources\Images\Icons\remove_icon_white.png" />
+	  <MauiImage Include="Resources\Images\Icons\success_icon_color.png" />
 	  <MauiImage Include="Resources\Images\Icons\target_color.png" />
 	  <MauiImage Include="Resources\Images\Icons\update_icon.png" />
 	  <MauiImage Include="Resources\Images\Icons\vnpay.png" />

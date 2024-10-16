@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FitSwipe.Mobile.Pages.SubscriptionPages;
+using FitSwipe.Shared.Dtos.Payment;
 using FitSwipe.Shared.Dtos.Subscription;
 using System;
 using System.Collections.ObjectModel;
@@ -134,8 +135,29 @@ namespace FitSwipe.Mobile.ViewModels
 
     private async Task NavigateToPaymentResultAsync ()
     {
+      // Check values before proceeding
+      Debug.WriteLine($"SelectedSubscription: {SelectedSubscription}");
+      Debug.WriteLine($"SelectedPaymentOption: {SelectedPaymentOption}");
+
+      var paymentResultDto = new GetPaymentResultDto
+      {
+        subscriptionItem = SelectedSubscription,
+        paymentOption = SelectedPaymentOption,
+        paymentCode = Guid.NewGuid().ToString(),
+        paymentDate = DateTime.Now,
+        paymentMessage = "Ya sơ",
+        paymentSuccess = true
+      };
+
+      Debug.WriteLine($"paymentResultDto: {paymentResultDto}");
+
+      var paymentResultViewModel = new SubscriptionPaymentResultViewModel(paymentResultDto);
       var paymentResultView = new SubscriptionResultView();
-      await Shell.Current.Navigation.PushAsync(paymentResultView);
+
+      paymentResultView.BindingContext = paymentResultViewModel;
+
+      await Application.Current.MainPage.Navigation.PushAsync(paymentResultView);
     }
+
   }
 }

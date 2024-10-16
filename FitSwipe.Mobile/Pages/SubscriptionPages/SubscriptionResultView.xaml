@@ -1,31 +1,269 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FitSwipe.Mobile.Pages.SubscriptionPages.SubscriptionResultView">
-  <StackLayout>
-    <AbsoluteLayout HorizontalOptions="FillAndExpand">
-      <!-- Background Image -->
-      <StackLayout AbsoluteLayout.LayoutBounds="0, 0, 1, AutoSize"
-                   AbsoluteLayout.LayoutFlags="SizeProportional">
-        <Image Source="subscription_background"
-               HorizontalOptions="FillAndExpand" />
-      </StackLayout>
+             x:Class="FitSwipe.Mobile.Pages.SubscriptionPages.SubscriptionResultView"
+             xmlns:vm="clr-namespace:FitSwipe.Mobile.ViewModels"
+             xmlns:model="clr-namespace:FitSwipe.Shared.Dtos.Payment;assembly=FitSwipe.Shared"
+             x:DataType="vm:SubscriptionPaymentResultViewModel"
+             Shell.NavBarIsVisible="False">
+  <ScrollView>
+    <StackLayout Padding="0, 0, 0, 20">
 
-      <Border AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-              AbsoluteLayout.LayoutFlags="All"
-              BackgroundColor="#323593"
-              Stroke="Transparent"
-              Opacity="0.6" />
+      <!--#region IMAGE -->
+      <AbsoluteLayout HorizontalOptions="FillAndExpand">
+        <!-- Background Image -->
+        <StackLayout AbsoluteLayout.LayoutBounds="0, 0, 1, AutoSize"
+                     AbsoluteLayout.LayoutFlags="SizeProportional">
+          <Image Source="subscription_background"
+                 HorizontalOptions="FillAndExpand" />
+        </StackLayout>
 
-      <!-- Back Button Positioned at the Top Left -->
-      <StackLayout AbsoluteLayout.LayoutBounds="0, 0, AutoSize, AutoSize"
-                   AbsoluteLayout.LayoutFlags="PositionProportional"
-                   Padding="20">
-        <ImageButton Source="back_icon_white"
-                     WidthRequest="30"
-                     HeightRequest="30"
-                     HorizontalOptions="StartAndExpand" />
+        <Border AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                Margin="-1"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="#323593"
+                Stroke="#323593"
+                Opacity="0.6" />
+
+        <!-- Back Button Positioned at the Top Left -->
+        <StackLayout AbsoluteLayout.LayoutBounds="0, 0, AutoSize, AutoSize"
+                     AbsoluteLayout.LayoutFlags="PositionProportional"
+                     Padding="20">
+          <Border Stroke="Transparent">
+            <Border.StrokeShape>
+              <RoundRectangle CornerRadius="50" />
+            </Border.StrokeShape>
+
+            <ImageButton Source="back_icon_white"
+                         Padding="5"
+                         WidthRequest="35"
+                         HeightRequest="35"
+                         HorizontalOptions="StartAndExpand" />
+          </Border>
+        </StackLayout>
+      </AbsoluteLayout>
+      <!--#endregion-->
+
+      <StackLayout HorizontalOptions="FillAndExpand"
+                   Spacing="10">
+
+        <!--#region FIRST LAYOUT -->
+        <Border Stroke="Black"
+                Padding="5"
+                Margin="0, 15, 0, 0"
+                HorizontalOptions="Center">
+          <Border.StrokeShape>
+            <RoundRectangle CornerRadius="50" />
+          </Border.StrokeShape>
+
+          <Image Source="success_icon_color"
+                 HeightRequest="85"
+                 WidthRequest="85" />
+        </Border>
+
+        <Label Text="Trạng thái giao dịch"
+               HorizontalTextAlignment="Center" />
+
+        <Label Text="Số tiền đã thanh toán"
+               HorizontalTextAlignment="Center"
+               FontAttributes="Bold"
+               TextColor="#323593"
+               FontSize="Title" />
+
+        <StackLayout Padding="20, 0">
+          <Frame BorderColor="#323593"
+                 CornerRadius="0"
+                 Padding="0"
+                 HasShadow="False">
+            <Grid ColumnDefinitions="6*,Auto,Auto"
+                  RowDefinitions="Auto">
+              <Label Text="Số dư ví FitSwipe"
+                     Grid.Column="0"
+                     Padding="10, 5"
+                     FontAttributes="Bold" />
+
+              <BoxView VerticalOptions="FillAndExpand"
+                       WidthRequest="1"
+                       Color="#323593"
+                       Grid.Column="1" />
+
+              <Label Text="39.000 đ (còn set cứng)"
+                     Grid.Column="2"
+                     Padding="20, 5" />
+            </Grid>
+          </Frame>
+        </StackLayout>
+        <!--#endregion-->
+
+        <!--#region SUBSCRIPTION INFORMATION -->
+        <StackLayout Padding="20"
+                     BindingContext="{Binding PaymentResult}">
+          <Label Text="Biên lai"
+                 FontAttributes="Bold" />
+          <BoxView HeightRequest="1.2"
+                   HorizontalOptions="FillAndExpand"
+                   Color="#323593" />
+
+          <StackLayout Padding="0, 8, 0, 0"
+                       Spacing="5"
+                       Margin="0, 5, 0, 0">
+            <StackLayout Orientation="Horizontal"
+                         Spacing="10">
+              <Label Text="Thời gian" />
+
+              <BoxView HeightRequest="1.2"
+                       HorizontalOptions="FillAndExpand"
+                       Color="#323593"
+                       VerticalOptions="CenterAndExpand" />
+            </StackLayout>
+
+            <StackLayout x:DataType="{x:Type model:GetPaymentResultDto}">
+              <Frame BorderColor="#323593"
+                     CornerRadius="3"
+                     Padding="8, 5">
+                <StackLayout>
+                  <StackLayout Spacing="10"
+                               Grid.Column="0"
+                               Orientation="Horizontal">
+                    <Image Source="crown_icon"
+                           HeightRequest="40"
+                           VerticalOptions="Start" />
+
+                    <StackLayout HorizontalOptions="FillAndExpand">
+                      <Label Text="Quảng cáo"
+                             FontAttributes="Bold"
+                             FontSize="Caption" />
+                      <Label Text="Subsription Name"
+                             FontAttributes="Bold"
+                             FontSize="Medium"
+                             Margin="0, 0, 0, 10" />
+
+                      <Grid RowDefinitions="*,*,*,*"
+                            ColumnDefinitions="*,*"
+                            RowSpacing="10"
+                            ColumnSpacing="10">
+
+                        <!-- Row 0 -->
+                        <Label Text="Thời gian:"
+                               Grid.Row="0"
+                               Grid.Column="0"
+                               FontAttributes="Bold"
+                               FontSize="Caption" />
+
+                        <Label Text="{Binding getPaymentDateFormatted}"
+                               Grid.Row="0"
+                               Grid.Column="1"
+                               FontSize="Caption" />
+
+                        <!-- Row 1 -->
+                        <Label Text="Phương thức thanh toán:"
+                               Grid.Row="1"
+                               Grid.Column="0"
+                               FontSize="Caption"
+                               FontAttributes="Bold" />
+
+                        <Label Text="{Binding paymentOption.Name}"
+                               Grid.Row="1"
+                               Grid.Column="1"
+                               FontSize="Caption" />
+
+                        <!-- Row 2 -->
+                        <Label Text="Mã thanh toán:"
+                               Grid.Row="2"
+                               Grid.Column="0"
+                               FontSize="Caption"
+                               FontAttributes="Bold" />
+
+                        <Label Text="{Binding paymentCode}"
+                               Grid.Row="2"
+                               Grid.Column="1"
+                               FontSize="Caption" />
+
+                        <!-- Row 3 -->
+                        <Label Text="Nội dung:"
+                               Grid.Row="3"
+                               Grid.Column="0"
+                               FontSize="Caption"
+                               FontAttributes="Bold" />
+
+                        <Label Text="{Binding paymentMessage}"
+                               Grid.Row="3"
+                               Grid.Column="1"
+                               FontSize="Caption" />
+                      </Grid>
+
+                      <!--<CollectionView ItemsSource="{Binding SelectedSubscription.Benefit}"
+                                    SelectionMode="None"
+                                    InputTransparent="True">
+                      <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                          <Grid Margin="0, 0, 0, 8">
+                            <Grid.ColumnDefinitions>
+                              <ColumnDefinition Width="15" />
+                              <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Column="0"
+                                   FontAttributes="Bold"
+                                   TextColor="Black"
+                                   Text="&#x2022;" />
+                            <Label Grid.Column="1"
+                                   TextColor="Black"
+                                   Text="{Binding}" />
+                          </Grid>
+                        </DataTemplate>
+                      </CollectionView.ItemTemplate>
+                    </CollectionView>-->
+                    </StackLayout>
+                  </StackLayout>
+                </StackLayout>
+              </Frame>
+            </StackLayout>
+
+            <Label Text="* Biên lai sẽ được gửi về email hoặc điện thoại của bạn"
+                   FontSize="Micro"
+                   FontAttributes="Italic,Bold"
+                   HorizontalTextAlignment="Center"
+                   Padding="0, 30, 0, 0" />
+          </StackLayout>
+        </StackLayout>
+        <!--#endregion-->
+
+        <BoxView HeightRequest="1.2"
+                 HorizontalOptions="FillAndExpand"
+                 Color="#323593"
+                 Margin="0, -8, 0, 0" />
+
+        <!--#region BUTTON LAYOUTS -->
+        <StackLayout Padding="0, 15, 0, 0"
+                     Spacing="10">
+          <Border Stroke="Transparent"
+                  WidthRequest="200">
+            <Border.StrokeShape>
+              <RoundRectangle CornerRadius="8" />
+            </Border.StrokeShape>
+
+            <Button Text="Chia sẻ"
+                    HeightRequest="30"
+                    BackgroundColor="#323593"
+                    Padding="0" />
+          </Border>
+
+          <Border Stroke="#323593"
+                  WidthRequest="200">
+            <Border.StrokeShape>
+              <RoundRectangle CornerRadius="8" />
+            </Border.StrokeShape>
+
+            <Button Text="Màn hình chính"
+                    BackgroundColor="Transparent"
+                    HeightRequest="30"
+                    TextColor="Black"
+                    Padding="0" />
+          </Border>
+        </StackLayout>
+        <!--#endregion-->
       </StackLayout>
-    </AbsoluteLayout>
-  </StackLayout>
+    </StackLayout>
+  </ScrollView>
 </ContentPage>
