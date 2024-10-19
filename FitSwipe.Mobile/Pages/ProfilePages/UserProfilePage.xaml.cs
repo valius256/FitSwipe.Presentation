@@ -1,9 +1,12 @@
 using FitSwipe.Mobile.ViewModels;
+using Syncfusion.Maui.Core.Carousel;
 
 namespace FitSwipe.Mobile.Pages.ProfilePages;
 
+[QueryProperty(nameof(PassedFlag), "flag")]
 public partial class UserProfilePage : ContentPage
 {
+    public bool PassedFlag { get; set; } = false;
     private bool _isOwner { get; set; } = true;
     private UserProfileViewModel viewModel;
 
@@ -13,6 +16,22 @@ public partial class UserProfilePage : ContentPage
 		viewModel = new UserProfileViewModel(pageContent,loadingDialog,tagModal);
         SetIsOwner(true);
 
+    }
+    public UserProfilePage(string guestId)
+    {
+        InitializeComponent();
+        viewModel = new UserProfileViewModel(pageContent, loadingDialog, tagModal,guestId);
+        SetIsOwner(true);
+
+    }
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        if (PassedFlag)
+        {
+            await viewModel.FetchData();
+            PassedFlag = false;
+        }
     }
     public void SetIsOwner(bool isOwner)
     {
@@ -88,7 +107,10 @@ public partial class UserProfilePage : ContentPage
 
     private void tapAvatar_Tapped(object sender, TappedEventArgs e)
     {
-
+        traineeUploadMediaModal.Setup(viewModel.User);
+        traineeUploadMediaModal.ActiveTab = 1;
+        traineeUploadMediaModal.HandleSwitchTab();
+        traineeUploadMediaModal.Show();
     }
 
     private void tapEditName_Tapped(object sender, TappedEventArgs e)
@@ -111,5 +133,13 @@ public partial class UserProfilePage : ContentPage
     {
         tagModal.Hide();
         viewModel.UpsertTags(e.Tags);
+    }
+
+    private void btnAddMedia_Clicked(object sender, EventArgs e)
+    {
+        traineeUploadMediaModal.Setup(viewModel.User);
+        traineeUploadMediaModal.ActiveTab = 1;
+        traineeUploadMediaModal.HandleSwitchTab();
+        traineeUploadMediaModal.Show();
     }
 }

@@ -136,7 +136,7 @@ public partial class PayingCheck : ContentPage
             loadingDialog.Message = "Vui lòng chờ...";
             try
             {
-                var result = await Fetcher.PostAsync<RequestPaySlotDto, GetPaymentUrlDto>("api/Payment/create", new RequestPaySlotDto
+                var result = await Fetcher.PostAsync<RequestPaySlotDto, GetPaymentUrlDto>("api/Payment/create-payos-link", new RequestPaySlotDto
                 {
                     SlotIds = Cart.Select(s => s.Id.ToString()).ToList(),
                     OrderDescription = "Thanh toán buổi tập của " + currentUser.UserName + " vào lúc " + DateTime.Now,

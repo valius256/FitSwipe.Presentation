@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FitSwipe.Mobile.Controls;
 using FitSwipe.Mobile.Pages.ProfilePages;
-using FitSwipe.Mobile.ViewModels.UserProfile;
 using FitSwipe.Shared.Dtos;
 using FitSwipe.Shared.Dtos.Medias;
 using FitSwipe.Shared.Dtos.Slots;
@@ -15,6 +14,7 @@ using FitSwipe.Shared.Utils;
 using Mapster;
 using Microsoft.Maui.Devices.Sensors;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace FitSwipe.Mobile.ViewModels
 {
@@ -55,25 +55,33 @@ namespace FitSwipe.Mobile.ViewModels
     private bool isEditBio = false;
     [ObservableProperty]
     private ObservableCollection<string> jobs = new();
+    [ObservableProperty]
+    public bool isRefreshing = false;
 
-    private ScrollView pageContent;
+
+    private RefreshView pageContent;
     private LoadingDialog loadingDialog;
     private TagPickerModal tagPickerModal;
     private ObservableCollection<GetTagDto> tags = [];
+    private string? _guestId;
     public bool IsTagsChanged = false;
 
     public IRelayCommand RemoveTag { get; }
     public IRelayCommand AddTag { get; }
+    public ICommand RefreshCommand { get; }
 
     // Constructor to initialize with sample data
-    public UserProfileViewModel (ScrollView scrollView, LoadingDialog loadingDialog, TagPickerModal tagPickerModal)
+    public UserProfileViewModel (RefreshView scrollView, LoadingDialog loadingDialog, TagPickerModal tagPickerModal, string? guestId = null)
     {
         RemoveTag = new RelayCommand<Guid>(RemoveATag);
         AddTag = new RelayCommand<string?>(AddFromTagType);
+        RefreshCommand = new Command(OnRefresh);
 
         pageContent = scrollView;
         this.loadingDialog = loadingDialog;
         this.tagPickerModal = tagPickerModal;
+        _guestId = guestId;
+
 
         Jobs = new ObservableCollection<string> { "Học sinh, Sinh viên", "Lao động chân tay", "Sư phạm" , "Y học" , "Kĩ sư" , "Kinh doanh", "Công nghệ thông tin",  "Làm thuê làm mướn" ,"Làm việc văn phòng","Hiện tại thất nghiệp", "Khác","Không muốn chia sẻ" };
         // Handle property changed for CurrentImage to update SelectedImage
@@ -94,18 +102,6 @@ namespace FitSwipe.Mobile.ViewModels
             loadingDialog.IsVisible = true;
             try
             {
-                var token = await SecureStorage.GetAsync("auth_token");
-                GetUserDto? user = null;
-                if (token != null)
-                {
-                    user = await Shortcut.GetLoginedUser(token);
-                }
-                if (token == null || user == null)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Lỗi", "Lỗi xác thực. Vui lòng đăng nhập lại!", "OK");
-                    await Shell.Current.GoToAsync("//SignIn");
-                    return;
-                }
                 var tagsResult = await Fetcher.GetAsync<List<GetTagDto>>("api/tags");
                 if (tagsResult != null)
                 {
@@ -132,9 +128,13 @@ namespace FitSwipe.Mobile.ViewModels
                 {
                     var token = await SecureStorage.GetAsync("auth_token");
                     GetUserDto? user = null;
-                    if (token != null)
+                    if (token != null && _guestId == null)
                     {
                         user = await Shortcut.GetLoginedUser(token);
+                    }
+                    else
+                    {
+                        user = new GetUserDto { FireBaseId = _guestId };
                     }
                     if (token == null || user == null)
                     {
@@ -154,17 +154,21 @@ namespace FitSwipe.Mobile.ViewModels
                         }
                     }
                     //Get current training
-                    GetTrainingDetailDto? currentTraining;
-                    try
+                    if (isOwner)
                     {
-                        currentTraining = await Fetcher.GetAsync<GetTrainingDetailDto>($"api/trainings/current-training", token);
-                        CurrentTraining = currentTraining;
-                        IsShowTrainingSection = true;
-                        //Setup the training
-                        ColorTrainingStatus();
-                    } catch
-                    {
-                        currentTraining = null;
+                        GetTrainingDetailDto? currentTraining;
+                        try
+                        {
+                            currentTraining = await Fetcher.GetAsync<GetTrainingDetailDto>($"api/trainings/current-training", token!);
+                            CurrentTraining = currentTraining;
+                            IsShowTrainingSection = true;
+                            //Setup the training
+                            ColorTrainingStatus();
+                        }
+                        catch
+                        {
+                            currentTraining = null;
+                        }
                     }
                     
                     // Set the initial current image
@@ -241,25 +245,46 @@ namespace FitSwipe.Mobile.ViewModels
             IsTagsChanged = true;
             
     }
-
+    private async void OnRefresh()
+    {
+        if (!loadingDialog.IsVisible)
+        {
+            // Stop the refresh animation
+            IsRefreshing = false;
+            await FetchData();
+        }      
+    }
     [RelayCommand]
     public async Task GetGPS()
     {
         loadingDialog.IsVisible = true;
-        GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
-
-        var location = await Geolocation.Default.GetLocationAsync(request, new CancellationTokenSource().Token);
-        if (location != null)
+        try
         {
-            Updater.Longitude = location.Longitude;
-            Updater.Latitude = location.Latitude;
-            IEnumerable<Placemark> placemarks = await Geocoding.Default.GetPlacemarksAsync(location.Latitude, location.Longitude);
+            GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
 
-            var placemark = placemarks?.FirstOrDefault();
-
-            if (placemark != null)
+            var location = await Geolocation.Default.GetLocationAsync(request, new CancellationTokenSource().Token);
+            if (location != null)
             {
-                Updater.City = placemark.SubAdminArea + ", " + placemark.AdminArea;
+
+                Updater.Longitude = location.Longitude;
+                Updater.Latitude = location.Latitude;
+                IEnumerable<Placemark> placemarks = await Geocoding.Default.GetPlacemarksAsync(location.Latitude, location.Longitude);
+
+                var placemark = placemarks?.FirstOrDefault();
+
+                if (placemark != null)
+                {
+                    Updater.City = placemark.SubAdminArea + ", " + placemark.AdminArea;
+                }
+            }
+
+        }
+        catch
+
+        {
+            if (Application.Current != null && Application.Current.MainPage != null && updater.UserName != null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Lỗi", "Vui lòng bật vị trí", "OK");
             }
         }
         loadingDialog.IsVisible = false;

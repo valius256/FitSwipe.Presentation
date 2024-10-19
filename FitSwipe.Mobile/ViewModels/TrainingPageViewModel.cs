@@ -9,13 +9,15 @@ using FitSwipe.Shared.Dtos.Users;
 using FitSwipe.Shared.Utils;
 using Mapster;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace FitSwipe.Mobile.ViewModels
 {
   public partial class TrainingPageViewModel : ObservableObject
   {
     private LoadingDialog _loadingDialog;
-
+    [ObservableProperty]
+    private bool isRefreshing;
     [ObservableProperty]
     private ObservableCollection<GetTrainingWithTraineeAndPTDto> _userList = new();
     private ObservableCollection<GetTrainingWithTraineeAndPTDto> _requestedTraining = new();
@@ -33,6 +35,7 @@ namespace FitSwipe.Mobile.ViewModels
     private int MaxPage = 1;
     public bool IsFirstTabVisible => ActiveTab == 0;
     public bool IsSecondTabVisible => ActiveTab == 1;
+    public ICommand RefreshCommand { get; }
 
     public string? SelectedFilter
     {
@@ -64,7 +67,18 @@ namespace FitSwipe.Mobile.ViewModels
     {
         _loadingDialog = loadingDialog;
         ActiveTab = 0;
+        RefreshCommand = new Command(Refresh);
         Setup();
+    }
+    private async void Refresh()
+    {
+        if (ActiveTab == 1)
+            RequestedTrainingFlag = true; 
+        else
+            MyTrainingFlag = true;
+        await FetchData();
+        await HandleSwitchTab();
+        IsRefreshing = false;
     }
     public async Task HandleSwitchTab()
     {
