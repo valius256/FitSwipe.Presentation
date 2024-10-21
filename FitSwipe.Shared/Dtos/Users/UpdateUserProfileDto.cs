@@ -27,6 +27,19 @@ namespace FitSwipe.Shared.Dtos.Users
                 }
             }
         }
+        public string? _avatarUrl  { get; set; }
+        public string? AvatarUrl
+    {
+            get => _avatarUrl;
+            set
+            {
+                if (_avatarUrl != value)
+                {
+                    _avatarUrl = value;
+                    OnPropertyChanged(nameof(AvatarUrl));
+                }
+            }
+        }
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {

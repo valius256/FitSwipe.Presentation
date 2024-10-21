@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:FitSwipe.Mobile.Converters"
+             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
+             xmlns:profilePages="clr-namespace:FitSwipe.Mobile.Pages.ProfilePages"
              x:Class="FitSwipe.Mobile.Pages.ProfilePages.TraineeUploadMediaModal">
 
     <!-- Register the InverseBooleanConverter -->
-    <ContentPage.Resources>
+    <ContentView.Resources>
         <ResourceDictionary>
             <local:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         </ResourceDictionary>
-    </ContentPage.Resources>
+    </ContentView.Resources>
     <AbsoluteLayout>
         <!-- Background overlay for fade effect -->
+        <profilePages:EditMediaModal x:Name="editMediaModal"
+                  ZIndex="99"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All"></profilePages:EditMediaModal>
         <Border BackgroundColor="#88000000"
           Stroke="#88000000"
           AbsoluteLayout.LayoutBounds="0,0,1,1"
@@ -22,20 +28,21 @@
             AbsoluteLayout.LayoutBounds="0.5,0.5,0.9,0.8" 
             AbsoluteLayout.LayoutFlags="All">
             <VerticalStackLayout>
-
+                <Button ImageSource="remove" BackgroundColor="#EEEEEE" Padding="10" WidthRequest="30" HeightRequest="30" HorizontalOptions="End" x:Name="btnClose" Clicked="btnClose_Clicked"></Button>
                 <!--#region Switch Button-->
                 <FlexLayout Margin="0,10"
                                        HorizontalOptions="Center">
 
                     <Button Text="Ảnh đại diện"
                             TextColor="White"
-                            BackgroundColor="White"
                             BorderColor="#52BB00"
+                            BackgroundColor="White"
                             CornerRadius="50"
                             Padding="10,0,70,0"
                             Margin="0,0,-20,0" 
                             x:Name="btnTabAvatar"
                             ZIndex="1"
+                            BorderWidth="2"
                             Clicked="btnTabAvatar_Clicked"/>
                     <Button Text="Tải video / ảnh"
                             TextColor="Black"
@@ -166,7 +173,8 @@
                                         HorizontalOptions="Center"
                                         Padding="70,5"
                                         BorderColor="#52BB00"
-                                        Clicked="NextPageUpload_Clicked" />
+                                        x:Name="btnUploadAvatar"
+                                        Clicked="btnUploadAvatar_Clicked" />
                             </Frame>
                             <!-- Continue Button-->
                             <Frame HeightRequest="40"
@@ -176,7 +184,7 @@
                                    BackgroundColor="Transparent"
                                    BorderColor="#52BB00"
                                    HorizontalOptions="Center">
-                                <Button Text="Hủy"
+                                <Button Text="Đổi ảnh"
                                         FontAttributes="Bold"
                                         TextColor="Black"
                                         BackgroundColor="Transparent"
@@ -207,9 +215,9 @@
                     <!--Upload-->
                     <!--Image Upload (max 5)-->
                     <VerticalStackLayout>
-                        <ScrollView Orientation="Horizontal" HorizontalOptions="Center" HeightRequest="300">
+                        <ScrollView Orientation="Horizontal" HorizontalOptions="Center" MaximumHeightRequest="280">
                             <HorizontalStackLayout>
-                                <CollectionView x:Name="imageCollectionView" ItemsSource="{Binding ImageItems}">
+                                <CollectionView x:Name="imageCollectionView" ItemsSource="{Binding Medias}">
                                     <CollectionView.ItemsLayout>
                                         <GridItemsLayout Orientation="Vertical"
                                              Span="4"
@@ -218,55 +226,55 @@
                                     </CollectionView.ItemsLayout>
                                     <CollectionView.ItemTemplate>
                                         <DataTemplate>
-                                            <Frame BorderColor="#52BB00"
-                                           CornerRadius="5"
-                                           Padding="0"
-                                           WidthRequest="70"
-                                           HeightRequest="100">
-                                                <Image Source="{Binding}"
-                                               Aspect="AspectFill" />
-                                            </Frame>
+                                            <Grid>
+                                                <Frame BorderColor="#52BB00"
+                                                       CornerRadius="5"
+                                                       Padding="0"
+                                                       WidthRequest="70"
+                                                       HeightRequest="100">
+                                                    <Frame.GestureRecognizers>
+                                                        <TapGestureRecognizer x:Name="tapImge" Tapped="tapImge_Tapped" CommandParameter="{Binding}"></TapGestureRecognizer>
+                                                    </Frame.GestureRecognizers>
+                                                    <Image Source="{Binding MediaUrl}"
+                                                           Aspect="AspectFill" />
+                                                </Frame>
+                                                <!-- Overlay Play Button -->
+                                                <Border Stroke="Black"
+                                                        WidthRequest="50"
+                                                        HeightRequest="50"
+                                                        Padding="8"
+                                                        BackgroundColor="White"
+                                                        Opacity="0.75"
+                                                        IsVisible="{Binding IsVideo}">
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="50" />
+                                                    </Border.StrokeShape>
+                                                    <Image Source="play.png"
+                                                         BackgroundColor="Transparent"
+                                                         HorizontalOptions="Center"
+                                                         VerticalOptions="Center"
+                                                         Opacity="1" />
+                                                </Border>
+                                                <ImageButton BorderColor="Black" 
+                                                      BackgroundColor="LightGray" 
+                                                      Padding="5" CornerRadius="20" 
+                                                      Source="remove" 
+                                                      WidthRequest="25" 
+                                                      HeightRequest="25" 
+                                                      HorizontalOptions="End" 
+                                                      VerticalOptions="Start" 
+                                                      Margin="0"
+                                                      x:Name="btnRemove"
+                                                      Clicked="btnRemove_Clicked"
+                                                      CommandParameter="{Binding}"></ImageButton>
+                                            </Grid>
+                                            
                                         </DataTemplate>
                                     </CollectionView.ItemTemplate>
                                 </CollectionView>
                             </HorizontalStackLayout>
                         </ScrollView>
 
-                        <!--Upload And Capture Icon-->
-                        <!--<HorizontalStackLayout>
-                            -->
-                        <!--Upload-->
-                        <!--
-                            <Frame WidthRequest="90"
-                           HeightRequest="90"
-                           Padding="0"
-                           Margin="0,5,15,5"
-                           HorizontalOptions="Start"
-                           BackgroundColor="Transparent"
-                           BorderColor="#52BB00">
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="Button_Clicked"></TapGestureRecognizer>
-                                </Frame.GestureRecognizers>
-                                <Image Source="upload.png"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center" />
-                            </Frame>
-
-                            <Frame WidthRequest="90"
-                           HeightRequest="90"
-                           Padding="0"
-                           Margin="0,5"
-                           HorizontalOptions="Start"
-                           BackgroundColor="Transparent"
-                           BorderColor="#52BB00">
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="cameraPhotoButton_Clicked"></TapGestureRecognizer>
-                                </Frame.GestureRecognizers>
-                                <Image Source="camera.png"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center" />
-                            </Frame>
-                        </HorizontalStackLayout>-->
                     </VerticalStackLayout>
 
                     <VerticalStackLayout>
@@ -289,48 +297,53 @@
                         </Frame>
                         <!--Upload Button-->
                         <Frame Padding="0,5"
-                       CornerRadius="50"
-                       Margin="0,0,0,4"
-                       BackgroundColor="#52BB00"
-                       BorderColor="Transparent">
+                            CornerRadius="50"
+                            Margin="0,0,0,4"
+                            BackgroundColor="#52BB00"
+                            BorderColor="Transparent">
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="galleryPhotoButton_Clicked" />
                             </Frame.GestureRecognizers>
 
                             <Label  Text="Nhập Hình Từ Điện Thoại"
-                            TextColor="White"
-                            BackgroundColor="#52BB00"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center"
-                            VerticalTextAlignment="Center" />
+                                    TextColor="White"
+                                    BackgroundColor="#52BB00"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    VerticalTextAlignment="Center" />
                         </Frame>
+                        <Frame Padding="0,5"
+                                CornerRadius="50"
+                                Margin="0,0,0,4"
+                                BackgroundColor="#52BB00"
+                                BorderColor="Transparent">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer x:Name="tapPickVideo" Tapped="tapPickVideo_Tapped" />
+                            </Frame.GestureRecognizers>
+
+                            <Label  Text="Nhập Video Từ Điện Thoại"
+                                    TextColor="White"
+                                    BackgroundColor="#52BB00"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    VerticalTextAlignment="Center" />
+                        </Frame>
+                        
                         <!--Small Description-->
                         <Label Text="*Vui lòng tuân thủ theo nguyên tắc"
                                TextColor="Black"
                                FontSize="Micro"
                                HorizontalOptions="Center"
                                Margin="0,10" />
-
-                        <!-- Capture Button-->
-                        <Frame Padding="0,10"
-                       CornerRadius="50"
-                       BackgroundColor="#52BB00"
-                       BorderColor="Transparent">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer />
-                            </Frame.GestureRecognizers>
-                            <Label  Text="Xong"
-                            TextColor="White"
-                            BackgroundColor="#52BB00"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center"
-                            VerticalTextAlignment="Center" />
-                        </Frame>
-
                     </VerticalStackLayout>
 
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </Frame>
+        <controls:LoadingDialog x:Name="loadingDialog"
+              IsVisible="False"
+              Message="Đang lấy dữ liệu..."
+              AbsoluteLayout.LayoutFlags="PositionProportional"
+              AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
     </AbsoluteLayout>
-</ContentPage>
+</ContentView>

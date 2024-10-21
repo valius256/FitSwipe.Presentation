@@ -7,12 +7,12 @@
         <ContentView AbsoluteLayout.LayoutBounds="0,0,1,1"
                  AbsoluteLayout.LayoutFlags="All">
             <VerticalStackLayout VerticalOptions="End"
-                             Padding="0,60,0,0">
+                             Padding="0,30,0,0">
                 <VerticalStackLayout.Background>
                     <LinearGradientBrush StartPoint="0,1"
                                      EndPoint="0,0">
                         <GradientStop Color="#2E3191"
-                                  Offset="0.5" />
+                                  Offset="0.1" />
                         <GradientStop Color="Transparent"
                                   Offset="1.0" />
                     </LinearGradientBrush>

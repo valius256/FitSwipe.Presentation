@@ -88,6 +88,7 @@
 	  <None Remove="Resources\Images\Icons\information_icon.png" />
 	  <None Remove="Resources\Images\Icons\job_color.png" />
 	  <None Remove="Resources\Images\Icons\muscle_color.png" />
+	  <None Remove="Resources\Images\Icons\payos.svg" />
 	  <None Remove="Resources\Images\Icons\profile_blue.png" />
 	  <None Remove="Resources\Images\Icons\profile_green.png" />
 	  <None Remove="Resources\Images\Icons\profile_white.png" />
@@ -149,6 +150,7 @@
 	  <MauiImage Include="Resources\Images\Icons\information_icon.png" />
 	  <MauiImage Include="Resources\Images\Icons\job_color.png" />
 	  <MauiImage Include="Resources\Images\Icons\muscle_color.png" />
+	  <MauiImage Include="Resources\Images\Icons\payos.svg" />
 	  <MauiImage Include="Resources\Images\Icons\profile_blue.png" />
 	  <MauiImage Include="Resources\Images\Icons\profile_green.png" />
 	  <MauiImage Include="Resources\Images\Icons\profile_white.png" />
@@ -193,8 +195,17 @@
 		<Compile Update="Pages\FeedbackPages\FeedbackPage.xaml.cs">
 			<DependentUpon>FeedbackPage.xaml</DependentUpon>
 		</Compile>
+		<Compile Update="Pages\ProfilePages\PTProfileNavbar.xaml.cs">
+		  <DependentUpon>PTProfileNavbar.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Pages\ProfilePages\TraineeProfileNavbar.xaml.cs">
+		  <DependentUpon>TraineeProfileNavbar.xaml</DependentUpon>
+		</Compile>
 		<Compile Update="Pages\ProfilePages\TagPickerModal.xaml.cs">
 		  <DependentUpon>TagPickerModal.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Pages\ProfilePages\PTUploadMediaModal.xaml.cs">
+		  <DependentUpon>PTUploadMediaModal.xaml</DependentUpon>
 		</Compile>
 		<Compile Update="Pages\ProfilePages\TraineeUploadMediaModal.xaml.cs">
 		  <DependentUpon>TraineeUploadMediaModal.xaml</DependentUpon>
@@ -205,9 +216,6 @@
 		<Compile Update="Resources\Themes\PTTheme.xaml.cs">
 			<DependentUpon>PTTheme.xaml</DependentUpon>
 		</Compile>
-	  <Compile Update="Pages\ProfilePages\PTUploadMediaModal.xaml.cs">
-	    <DependentUpon>PTUploadMediaModal.xaml</DependentUpon>
-	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -232,10 +240,31 @@
 	  <MauiXaml Update="Pages\HomePages\PTHomePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\ProfilePages\EditMediaModal.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ProfilePages\RechargeModal.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ProfilePages\TraineePaymentPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ProfilePages\PTProfileNavbar.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ProfilePages\TraineeProfileNavbar.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\ProfilePages\PTProfilePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\ProfilePages\TagPickerModal.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ProfilePages\PTUploadMediaModal.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ProfilePages\WithdrawRequestPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\SchedulePages\CustomersRequestedSchedulePage.xaml">
@@ -304,6 +333,9 @@
 	  <MauiXaml Update="Pages\SetupPages\TrailerVideoView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\SetupPages\UserUploadAvatarModal.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\TrainingPages\Trainee\BookSlotModal.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -328,16 +360,12 @@
 	  <MauiXaml Update="Resources\Themes\TraineeTheme.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\ProfilePages\PTUploadMediaModal.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Pages\ProfilePages\TraineeUploadMediaModal.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Pages\UploadAvatar\" />
 		<Folder Include="Resources\Images\Background\" />
 	</ItemGroup>
 

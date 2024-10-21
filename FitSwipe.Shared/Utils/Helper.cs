@@ -6,6 +6,8 @@ namespace FitSwipe.Shared.Utils
 {
     public static class Helper
     {
+        public static string? LoginedUserId { get; set; }
+
         public static GetWeekDto? GetCurrentWeek(List<GetWeekDto> weeks)
         {
             DateOnly today = DateOnly.FromDateTime(DateTime.Today);

@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Pages.ProfilePages.TraineePaymentPage"
+             xmlns:profilePages="clr-namespace:FitSwipe.Mobile.Pages.ProfilePages"
+             xmlns:slotDto="clr-namespace:FitSwipe.Shared.Dtos.Slots;assembly=FitSwipe.Shared"
+             xmlns:transactionDto="clr-namespace:FitSwipe.Shared.Dtos.Transactions;assembly=FitSwipe.Shared"
+             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
+             x:DataType="profilePages:TraineePaymentPage"
+             xmlns:trainingConverters="clr-namespace:FitSwipe.Mobile.Converters.TrainingPageConverter"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <trainingConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+            <trainingConverters:CountToVisibilityLabelConverter x:Key="CountToVisibilityLabelConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <AbsoluteLayout>
+        <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" IsVisible="False" x:Name="pageContent">
+            <StackLayout>
+                <!-- AbsoluteLayout to overlay content on the bottom of the image -->
+                <AbsoluteLayout HorizontalOptions="FillAndExpand">
+
+                    <!-- Image acting as the background -->
+                    <Image Source="default_cover"
+                    HorizontalOptions="FillAndExpand"
+                    Aspect="Fill"
+                    HeightRequest="100" 
+                    AbsoluteLayout.LayoutBounds="0, 0, 1, AutoSize"
+                    AbsoluteLayout.LayoutFlags="WidthProportional"/>
+
+                    <!-- Grid for profile image and details -->
+                    <Grid ColumnDefinitions="*, *"
+                      ColumnSpacing="10"
+                      Margin="10,50,0,0">
+                        <!--#region USER AVATAR-->
+                        <AbsoluteLayout VerticalOptions="FillAndExpand"
+                      HorizontalOptions="FillAndExpand">
+                            <Border WidthRequest="90"
+                                HeightRequest="90"
+                                Stroke="#52BB00"
+                                Grid.Column="0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="50" />
+                                </Border.StrokeShape>
+                                <Image Source="{Binding User.AvatarUrl}"
+                                    Aspect="AspectFill" />
+                            </Border>
+                        </AbsoluteLayout>
+                        <!--#endregion-->
+
+                        <!--#region Name and Date Details -->
+                        <StackLayout Grid.Column="1"
+                           VerticalOptions="Center"
+                           Spacing="20" >
+                            <!-- Grid for Name and "20" -->
+
+                            <Grid ColumnSpacing="5" Padding="0,0,0,30">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <!-- Name Label -->
+                                <Label Text="{Binding User.UserName}"
+                                    FontAttributes="Bold"
+                                    TextColor="White"
+                                    Grid.Column="0"
+                                    x:Name="lblUsername"
+                                    VerticalTextAlignment="Center" />
+                                <!-- "20" aligned to the right of the name -->
+                                <Label Text="{Binding User.Age}"
+                                 TextColor="White"
+                                 VerticalOptions="Center"
+                                 Grid.Column="2"
+                                 Margin="0, -10, 0, 0" />
+                            </Grid>
+                        </StackLayout>
+                        <!--#endregion-->
+                    </Grid>
+                </AbsoluteLayout>
+                <StackLayout Padding="20" Spacing="15">
+                    <!-- Balance Display -->
+                    <Label 
+                    Text="Số dư của bạn" 
+                    FontSize="Large" 
+                    HorizontalOptions="Center" />
+
+                    <Label 
+                    x:Name="BalanceLabel"
+                    Text="{Binding Balance}" 
+                    FontSize="32"
+                    HorizontalOptions="Center"
+                    FontAttributes="Bold" />
+
+                    <!-- Buttons for Withdraw and Deposit -->
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20">
+                        <Button 
+                        Text="Rút tiền" 
+                        x:Name="btnWithdraw"
+                        WidthRequest="120"
+                        BackgroundColor="#52BB00"
+                        Clicked="btnWithdraw_Clicked" />
+
+                        <Button 
+                        Text="Nạp tiền" 
+                        WidthRequest="120"
+                        x:Name="btnDeposit"
+                        BackgroundColor="#2E3192"
+                        Clicked="btnDeposit_Clicked"/>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout IsVisible="{Binding UnpaidSlots.Count, Converter={StaticResource CountToVisibilityConverter}}">
+                    <StackLayout Orientation="Horizontal"
+                         Spacing="10"
+                         Margin="10">
+                        <Label Text="Các buổi tập chưa thanh toán"
+                           TextColor="Black"
+                            FontAttributes="Bold"
+                            FontSize="Body" />
+                        <BoxView Color="#52BB00"
+                           HeightRequest="1.2"
+                           HorizontalOptions="FillAndExpand" />
+                    </StackLayout>
+                    <CollectionView ItemsSource="{Binding UnpaidSlots}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="slotDto:GetSlotDetailDto">
+                                <Border Stroke="LightGray" StrokeThickness="2" Padding="5" Margin="5">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="5"></RoundRectangle>
+                                    </Border.StrokeShape>
+                                    <StackLayout>
+                                        <CheckBox HorizontalOptions="End" IsChecked="{Binding IsSelected}" CheckedChanged="CheckBox_CheckedChanged"></CheckBox>
+                                        <HorizontalStackLayout>
+                                            <Border Stroke="#52BB00" StrokeThickness="2" WidthRequest="60" HeightRequest="60" >
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="30"></RoundRectangle>
+                                                </Border.StrokeShape>
+                                                <Image Source="{Binding Training.PT.AvatarUrl}"
+                                                    Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="60" HeightRequest="60" />
+                                            </Border>
+                                            <StackLayout>
+                                                <Label FontSize="15" FontAttributes="Bold" TextColor="Black" Text="{Binding TimeString}"></Label>
+                                                <Label FontSize="10" TextColor="Black" Text="{Binding StartTime, StringFormat='{0:dd/MM/yyy}'}"></Label>
+                                                <Label FontSize="12" TextColor="Black" Text="{Binding Training.PT.UserName, StringFormat='PT : {0}'}"></Label>
+                                            </StackLayout>
+                                        </HorizontalStackLayout>
+                                        <Label TextColor="Red" FontAttributes="Bold" Text="{Binding DealPriceString}" HorizontalOptions="End"></Label>
+                                    </StackLayout>
+
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                    <FlexLayout>
+                        <Button BackgroundColor="#52BB00" Text="{Binding AboutToPaidSlots.Count, StringFormat='Thanh toán ({0})'}"
+                            x:Name="btnPayWallet" Clicked="btnPayWallet_Clicked" FlexLayout.Grow="1" Margin="5"></Button>
+                    </FlexLayout>
+                </StackLayout>
+                <StackLayout>
+                    <StackLayout Orientation="Horizontal"
+                             Spacing="10"
+                             Margin="10">
+                        <Label Text="Lịch sử giao dịch"
+                           TextColor="Black"
+                            FontAttributes="Bold"
+                            FontSize="Body" />
+                        <BoxView Color="#52BB00"
+                           HeightRequest="1.2"
+                           HorizontalOptions="FillAndExpand" />
+                    </StackLayout>
+                    <!-- Transaction ListView -->
+                    <ScrollView Orientation="Both"  MinimumHeightRequest="300">
+                        <StackLayout>
+                            <Grid ColumnSpacing="10" RowSpacing="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Table Header Row -->
+                                <Label Grid.Row="0" Grid.Column="0" TextColor="Black" HorizontalTextAlignment="Center" Text="Mã giao dịch" FontAttributes="Bold" />
+                                <Label Grid.Row="0" Grid.Column="1" TextColor="Black" HorizontalTextAlignment="Center" Text="Số tiền" FontAttributes="Bold" />
+                                <Label Grid.Row="0" Grid.Column="2" TextColor="Black" HorizontalTextAlignment="Center" Text="Phương thức" FontAttributes="Bold" />
+                                <Label Grid.Row="0" Grid.Column="3" TextColor="Black" HorizontalTextAlignment="Center" Text="Trạng thái" FontAttributes="Bold" />
+                                <Label Grid.Row="0" Grid.Column="4" TextColor="Black" HorizontalTextAlignment="Center" Text="Ngày" FontAttributes="Bold" />
+                                <Label Grid.Row="0" Grid.Column="5" TextColor="Black" HorizontalTextAlignment="Center" Text="Mô tả" FontAttributes="Bold" />
+                            </Grid>
+
+                            <!-- Table Content -->
+                            <CollectionView ItemsSource="{Binding Transactions}" SelectionMode="None">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="transactionDto:GetTransactionDto">
+                                        <Grid ColumnSpacing="10" RowSpacing="5" Padding="5">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="120"/>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="50"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="120"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Table Data Rows -->
+                                            <Label Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Center" TextColor="Black" Text="{Binding TranscationCode}" />
+                                            <Label Grid.Row="0" Grid.Column="1" HorizontalTextAlignment="Center" TextColor="{Binding AmountColor}" FontAttributes="Bold" Text="{Binding AmountDisplay}" />
+                                            <Label Grid.Row="0" Grid.Column="2" HorizontalTextAlignment="Center" TextColor="Black" Text="{Binding Method}" />
+                                            <Label Grid.Row="0" Grid.Column="3" HorizontalTextAlignment="Center" TextColor="{Binding TextColor}" FontAttributes="Bold" Text="{Binding Status}" />
+                                            <Label Grid.Row="0" Grid.Column="4" HorizontalTextAlignment="Center" TextColor="Black" Text="{Binding CreatedDate}" />
+                                            <Label Grid.Row="0" Grid.Column="5" HorizontalTextAlignment="Center" TextColor="Black" Text="{Binding Description}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </StackLayout>
+                    </ScrollView>
+                    <!-- Pagination Buttons -->
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Margin="0,10">
+                        <Button BackgroundColor="Gray" ImageSource="{mi:Fluent ArrowPrevious24}" 
+                                x:Name="btnPrev" Clicked="btnPrev_Clicked"
+                                WidthRequest="50" HeightRequest="50" TextColor="Black"/>
+                        <Entry x:Name="txtCurrPage" Text="{Binding CurrentPage}" TextColor="Black" VerticalOptions="Center"></Entry>
+                        <Label TextColor="Black" Text="{Binding TotalPage, StringFormat=' / {0}'}" VerticalOptions="Center"></Label>
+                        <Button BackgroundColor="Gray" ImageSource="{mi:Fluent ArrowNext24}" 
+                                x:Name="btnNext" Clicked="btnNext_Clicked"
+                                WidthRequest="50" HeightRequest="50" TextColor="Black"/>
+                    </StackLayout>
+                </StackLayout>
+                <BoxView HeightRequest="100" BackgroundColor="Transparent"></BoxView>
+            </StackLayout>
+        </ScrollView>
+
+        <profilePages:TraineeProfileNavbar 
+            ActiveTab="2"
+            x:Name="profileNavbar"
+            ZIndex="99"
+            AbsoluteLayout.LayoutBounds="0.5, 0, 0.8, AutoSize"
+            AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" />
+        <profilePages:RechargeModal 
+            x:Name="rechargeModal"
+            ZIndex="100"
+            AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+            AbsoluteLayout.LayoutFlags="All" />
+        <controls:Navbar ActiveTab="5"
+             x:Name="navbar"
+             ZIndex="99"
+             AbsoluteLayout.LayoutBounds="0, 1, 1, AutoSize"
+             AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" />
+        <controls:LoadingDialog x:Name="loadingDialog"
+             IsVisible="False"
+             Message="Vui lòng chờ..."
+             AbsoluteLayout.LayoutFlags="PositionProportional"
+             AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
+    </AbsoluteLayout>
+</ContentPage>

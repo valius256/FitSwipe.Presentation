@@ -2,6 +2,7 @@
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Core.Extensions;
 using FitSwipe.Mobile.Controls;
+using FitSwipe.Mobile.Pages.ProfilePages;
 using FitSwipe.Shared.Dtos;
 using FitSwipe.Shared.Dtos.Paging;
 using FitSwipe.Shared.Dtos.Tags;
@@ -157,6 +158,27 @@ public partial class PTList : ContentPage
         {
             CurrentPage++;
             await ContinueFetchingData();
+        }
+    }
+
+    private async void tapAvatar_Tapped(object sender, TappedEventArgs e)
+    {
+        var frame = sender as Frame;
+        if (frame != null && frame.GestureRecognizers.Count > 0)
+        {
+            var tapGuesture = frame.GestureRecognizers[0] as TapGestureRecognizer;
+            if (tapGuesture != null)
+            {
+                var boundItem = tapGuesture.CommandParameter as GetUserWithTagDto;
+                if (boundItem != null && !loadingDialog.IsVisible)
+                {
+                    loadingDialog.IsVisible = true;
+                    loadingDialog.Message = "Vui lòng chờ...";
+                    await Navigation.PushModalAsync(new PTProfilePage(boundItem.FireBaseId));
+                    loadingDialog.IsVisible = false;
+
+                }
+            }
         }
     }
 }

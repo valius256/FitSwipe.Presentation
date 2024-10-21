@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:FitSwipe.Mobile.Converters"
+            xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
+            xmlns:setupPages="clr-namespace:FitSwipe.Mobile.Pages.SetupPages"
+             x:DataType="setupPages:UserUploadAvatarModal"
+             x:Class="FitSwipe.Mobile.Pages.SetupPages.UserUploadAvatarModal">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <AbsoluteLayout>
+        <Border BackgroundColor="#88000000"
+      Stroke="#88000000"
+      AbsoluteLayout.LayoutBounds="0,0,1,1"
+      AbsoluteLayout.LayoutFlags="All" />
+        <Frame BorderColor="{Binding Theme}"
+       CornerRadius="5"
+       BackgroundColor="White"
+        AbsoluteLayout.LayoutBounds="0.5,0.5,0.9,0.8" 
+        AbsoluteLayout.LayoutFlags="All">
+            <VerticalStackLayout>
+                <Button ImageSource="remove" BackgroundColor="#EEEEEE" Padding="10" WidthRequest="30" HeightRequest="30" HorizontalOptions="End" x:Name="btnClose" Clicked="btnClose_Clicked"></Button>
+
+                <VerticalStackLayout>
+
+                    <!--Before has image upload (invisiable after has image)-->
+                    <VerticalStackLayout Margin="0,5"
+                                     IsVisible="{Binding IsPhotoCaptured, Converter={StaticResource InverseBooleanConverter}}">
+                        <!-- Camera Upload logo -->
+
+                        <HorizontalStackLayout HorizontalOptions="Center"
+                                           Spacing="20">
+                            <!--Camera Take picture-->
+                            <Frame HeightRequest="-1"
+                               BorderColor="{Binding Theme}"
+                               CornerRadius="600"
+                               BackgroundColor="White"
+                               VerticalOptions="Center"
+                               HorizontalOptions="FillAndExpand">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="cameraPhotoButton_Clicked" />
+                                </Frame.GestureRecognizers>
+                                <Image Source="images/camera.png"
+                                   WidthRequest="50"
+                                   HeightRequest="50"
+                                   HorizontalOptions="Start" />
+                            </Frame>
+
+                        </HorizontalStackLayout>
+                        <Label Text="Hình đại diện không có"
+                           FontSize="Micro"
+                           TextColor="Black"
+                           HorizontalOptions="Center"
+                           Margin="0,3" />
+                        <Label Text="Kích tước tối thiểu: 512 x 512"
+                           TextColor="Black"
+                           FontSize="Micro"
+                           HorizontalOptions="Center"
+                           Margin="0,3" />
+                        <!--Button capture and upload-->
+                        <VerticalStackLayout>
+                            <!-- Capture Button-->
+                            <Frame Padding="0,10"
+                               CornerRadius="50"
+                               Margin="0,10,0,5"
+                               BackgroundColor="{Binding Theme}"
+                               BorderColor="Transparent">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="cameraPhotoButton_Clicked" />
+                                </Frame.GestureRecognizers>
+
+                                <Label  Text="Chụp hình"
+                                    TextColor="White"
+                                    BackgroundColor="{Binding Theme}"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    VerticalTextAlignment="Center" />
+                            </Frame>
+
+                            <!-- Upload Image Button-->
+                            <Frame Padding="0,10"
+                               CornerRadius="50"
+                               Margin="0,0,0,4"
+                               BackgroundColor="{Binding Theme}"
+                               BorderColor="Transparent">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="galleryPhotoButton_Clicked" />
+                                </Frame.GestureRecognizers>
+
+                                <Label  Text="Nhập Hình Từ Điện Thoại"
+                                    TextColor="White"
+                                    BackgroundColor="{Binding Theme}"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    VerticalTextAlignment="Center" />
+                            </Frame>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+
+                    <!--After has image upload (invisiable if no image)-->
+                    <VerticalStackLayout IsVisible="{Binding IsPhotoCaptured}">
+                        <!-- Show the captured photo if available -->
+                        <HorizontalStackLayout HorizontalOptions="Center"
+                                           Margin="0,0,0,8">
+                            <Frame Padding="0"
+                               BorderColor="{Binding Theme}"
+                               Background="Transparent">
+                                <Frame BorderColor="{Binding Theme}"
+                                   CornerRadius="600"
+                                   WidthRequest="150"
+                                   HeightRequest="150"
+                                   VerticalOptions="Center"
+                                   BackgroundColor="White"
+                                   HorizontalOptions="FillAndExpand">
+                                    <Image Source="{Binding CapturedImageSource}"
+                                       Aspect="Center"
+                                       WidthRequest="150"
+                                        HeightRequest="150"/>
+                                </Frame>
+                            </Frame>
+                        </HorizontalStackLayout>
+
+                        <!--Button-->
+                        <VerticalStackLayout Margin="0,5"
+                                         IsVisible="{Binding IsPhotoCaptured}">
+                            <!-- Continue Button-->
+                            <Frame HeightRequest="40"
+                               Padding="0"
+                               CornerRadius="50"
+                               Margin="0,0,0,4"
+                               BackgroundColor="{Binding Theme}"
+                               BorderColor="{Binding Theme}"                               
+                               HorizontalOptions="Center">
+                                <Button Text="Xác nhận"
+                                    FontAttributes="Bold"
+                                    TextColor="White"
+                                    BackgroundColor="{Binding Theme}"
+                                    HorizontalOptions="Center"
+                                    Padding="70,5"
+                                    BorderColor="{Binding Theme}"
+                                    x:Name="btnUploadAvatar"
+                                    Clicked="btnUploadAvatar_Clicked" />
+                            </Frame>
+                            <!-- Continue Button-->
+                            <Frame HeightRequest="40"
+                               Padding="0"
+                               CornerRadius="50"
+                               Margin="0,0,0,2"
+                               BackgroundColor="Transparent"
+                               BorderColor="{Binding Theme}"
+                               HorizontalOptions="Center">
+                                <Button Text="Đổi ảnh"
+                                    FontAttributes="Bold"
+                                    TextColor="Black"
+                                    BackgroundColor="Transparent"
+                                    HorizontalOptions="Center"
+                                    Padding="70,5"
+                                    BorderColor="{Binding Theme}"
+                                    Clicked="Undo_Clicked" />
+                            </Frame>
+
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+        <controls:LoadingDialog x:Name="loadingDialog"
+          IsVisible="False"
+          Message="Vui lòng chờ..."
+          AbsoluteLayout.LayoutFlags="PositionProportional"
+          AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
+    </AbsoluteLayout>
+</ContentView>

@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Maui.Core.Extensions;
+﻿using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FitSwipe.Mobile.Controls;
@@ -11,7 +12,9 @@ using FitSwipe.Shared.Dtos.Users;
 using FitSwipe.Shared.Enums;
 using FitSwipe.Shared.Utils;
 using Mapster;
+using Microsoft.Maui.Controls;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace FitSwipe.Mobile.ViewModels
 {
@@ -19,6 +22,8 @@ namespace FitSwipe.Mobile.ViewModels
     {
         [ObservableProperty]
         private ObservableCollection<GetTrainingWithTraineeAndPTDto> _userList = new();
+        [ObservableProperty]
+        private bool isRefreshing;
 
         private ObservableCollection<GetTrainingWithTraineeAndPTDto> _matchedTraining = new();
         private ObservableCollection<GetTrainingWithTraineeAndPTDto> _bookedTraining = new();
@@ -52,6 +57,7 @@ namespace FitSwipe.Mobile.ViewModels
                 }
             }
         }
+        public ICommand RefreshCommand { get; }
 
         public LoadingDialog loadingDialog { get; set; } = new LoadingDialog();
         public Navbar Navbar { get; set; } = new Navbar();
@@ -66,7 +72,15 @@ namespace FitSwipe.Mobile.ViewModels
         public MyPTListPageViewModel()
         {
             ActiveTab = 0;
+            RefreshCommand = new Command(Refresh);
             Setup();
+        }
+        private async void Refresh()
+        {
+            if (ActiveTab == 0) MatchedFlag = true; else BookedFlag = true;
+            await FetchData();
+            await HandleSwitchTab();
+            IsRefreshing = false;
         }
         private async void Setup()
         {
@@ -259,6 +273,7 @@ namespace FitSwipe.Mobile.ViewModels
                 await HandleSwitchTab();
             }
         }
+        
         
     }
 }

@@ -52,12 +52,14 @@
                              BackgroundColor="Transparent"/>
                             </VerticalStackLayout>
                             <HorizontalStackLayout>
-                                <Label Text="{Binding UserName}" 
-                             FontSize="40" 
-                             FontAttributes="Bold" 
-                             HorizontalTextAlignment="Start" 
-                             TextColor="White"
-                             BackgroundColor="Transparent"/>
+                                <Button Text="{Binding UserName}" 
+                                 FontSize="40" 
+                                 FontAttributes="Bold" 
+                                 x:Name="btnName"
+                                 Clicked="btnName_Clicked"
+                                 CommandParameter="{Binding}"
+                                 TextColor="White"
+                                 BackgroundColor="Transparent"/>
                                 <Label Text="{Binding Age}" Margin="10,0,0,0"
                              FontSize="20" 
                              HorizontalTextAlignment="Start" 

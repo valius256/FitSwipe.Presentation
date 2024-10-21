@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Pages.ProfilePages.PTProfileNavbar"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+             xmlns:vm="clr-namespace:FitSwipe.Mobile.Pages.ProfilePages"
+             x:DataType="vm:PTProfileNavbar">
+    <Border BackgroundColor="LightGray" Opacity="0.75">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="20"></RoundRectangle>
+        </Border.StrokeShape>
+        <FlexLayout JustifyContent="SpaceBetween"            
+                BackgroundColor="Transparent">
+            <Border
+                Padding="5"
+                VerticalOptions="End"
+                BackgroundColor="Transparent">
+                <VerticalStackLayout HorizontalOptions="Center"
+                                    BackgroundColor="Transparent">
+                    <mi:MauiIcon Icon="{mi:Fluent PersonAccounts20}" IconColor="{Binding Tab1Color}" HorizontalOptions="Center" IconSize="18"></mi:MauiIcon>
+                    <Label Text="Hồ sơ"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        TextColor="{Binding Tab1Color}"
+                        FontSize="10"></Label>
+                </VerticalStackLayout>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer x:Name="tab1"
+                                        Tapped="tab1_Tapped"></TapGestureRecognizer>
+                </Border.GestureRecognizers>
+            </Border>
+            <Border
+                Padding="5"
+                VerticalOptions="End"
+                BackgroundColor="Transparent">
+                <VerticalStackLayout HorizontalOptions="Center"
+                        BackgroundColor="Transparent">
+                    <mi:MauiIcon Icon="{mi:Fluent Premium12}" IconColor="{Binding Tab2Color}" HorizontalOptions="Center" IconSize="18" ></mi:MauiIcon>
+                    <Label Text="Gói VIP"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            TextColor="{Binding Tab2Color}"
+                            FontSize="10"></Label>
+                </VerticalStackLayout>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer x:Name="tab2"
+                            Tapped="tab2_Tapped"></TapGestureRecognizer>
+                </Border.GestureRecognizers>
+            </Border>
+            <Border
+                Padding="5"
+                VerticalOptions="End"
+                BackgroundColor="Transparent">
+                <VerticalStackLayout HorizontalOptions="Center"
+                        BackgroundColor="Transparent">
+                    <mi:MauiIcon Icon="{mi:Fluent ReceiptMoney20}" IconColor="{Binding Tab3Color}" HorizontalOptions="Center" IconSize="18"></mi:MauiIcon>
+                    <Label Text="Rút tiền"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            TextColor="{Binding Tab3Color}"
+                            FontSize="10"></Label>
+                </VerticalStackLayout>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer x:Name="tab3"
+                            Tapped="tab3_Tapped"></TapGestureRecognizer>
+                </Border.GestureRecognizers>
+            </Border>
+            <Border
+                Padding="5"
+                VerticalOptions="End"
+                BackgroundColor="Transparent">
+                <VerticalStackLayout HorizontalOptions="Center"
+                                    BackgroundColor="Transparent">
+                    <mi:MauiIcon Icon="{mi:Fluent SignOut24}" IconColor="Black" HorizontalOptions="Center" IconSize="18"></mi:MauiIcon>
+                    <Label Text="Đăng xuất"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            TextColor="Black"
+                            FontSize="10"></Label>
+                </VerticalStackLayout>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer x:Name="tab4"
+                Tapped="tab4_Tapped"></TapGestureRecognizer>
+                </Border.GestureRecognizers>
+            </Border>
+        </FlexLayout>
+    </Border>
+</ContentView>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
+             x:Class="FitSwipe.Mobile.Pages.ProfilePages.RechargeModal"
+             xmlns:profilePages="clr-namespace:FitSwipe.Mobile.Pages.ProfilePages"
+             x:DataType="profilePages:RechargeModal">
+    <AbsoluteLayout>
+        <!-- Background overlay for fade effect -->
+        <Border BackgroundColor="#88000000"
+              Stroke="#88000000"
+              AbsoluteLayout.LayoutBounds="0,0,1,1"
+              AbsoluteLayout.LayoutFlags="All" />
+        <Frame
+                CornerRadius="5"
+                BackgroundColor="White"
+                AbsoluteLayout.LayoutBounds="0.5,0.5,0.9,0.5" 
+                AbsoluteLayout.LayoutFlags="All">
+            <Grid HorizontalOptions="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackLayout>
+                    <Label Text="Hãy nhập số lượng bạn muốn nạp"></Label>
+                    <Entry Text="{Binding Amount}"></Entry>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Border StrokeThickness="2" x:Name="price1" Padding="0,5" Grid.Column="0" Grid.Row="0" Stroke="{Binding Theme}" Margin="5">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5"></RoundRectangle>
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer x:Name="tapPrice1" Tapped="tapPrice1_Tapped"></TapGestureRecognizer>
+                            </Border.GestureRecognizers>
+                            <Label x:Name="price1_label" Text="50.000 đ" HorizontalOptions="Center"></Label>
+                        </Border>
+                        <Border StrokeThickness="2" x:Name="price2" Padding="0,5" Grid.Column="1" Grid.Row="0" Stroke="{Binding Theme}" Margin="5">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5"></RoundRectangle>
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer x:Name="tapPrice2" Tapped="tapPrice2_Tapped"></TapGestureRecognizer>
+                            </Border.GestureRecognizers>
+                            <Label x:Name="price2_label" Text="100.000 đ" HorizontalOptions="Center"></Label>
+                        </Border>
+                        <Border StrokeThickness="2" x:Name="price3" Padding="0,5" Grid.Column="0" Grid.Row="1" Stroke="{Binding Theme}" Margin="5">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5"></RoundRectangle>
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer x:Name="tapPrice3" Tapped="tapPrice3_Tapped"></TapGestureRecognizer>
+                            </Border.GestureRecognizers>
+                            <Label x:Name="price3_label" Text="200.000 đ" HorizontalOptions="Center"></Label>
+                        </Border>
+                        <Border StrokeThickness="2" x:Name="price4" Padding="0,5" Grid.Column="1" Grid.Row="1" Stroke="{Binding Theme}" Margin="5">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5"></RoundRectangle>
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer x:Name="tapPrice4" Tapped="tapPrice4_Tapped"></TapGestureRecognizer>
+                            </Border.GestureRecognizers>
+                            <Label x:Name="price4_label" Text="500.000 đ" HorizontalOptions="Center"></Label>
+                        </Border>
+                        <Border StrokeThickness="2" x:Name="price5" Padding="0,5" Grid.Column="0" Grid.Row="2" Stroke="{Binding Theme}" Margin="5">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5"></RoundRectangle>
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer x:Name="tapPrice5" Tapped="tapPrice5_Tapped"></TapGestureRecognizer>
+                            </Border.GestureRecognizers>
+                            <Label x:Name="price5_label" Text="1.000.000 đ" HorizontalOptions="Center"></Label>
+                        </Border>
+                        <Border StrokeThickness="2" x:Name="price6" Padding="0,5" Grid.Column="1" Grid.Row="2" Stroke="{Binding Theme}" Margin="5">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5"></RoundRectangle>
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer x:Name="tapPrice6" Tapped="tapPrice6_Tapped"></TapGestureRecognizer>
+                            </Border.GestureRecognizers>
+                            <Label x:Name="price6_label" Text="2.000.000 đ" HorizontalOptions="Center"></Label>
+                        </Border>
+                    </Grid>
+                </StackLayout>
+                <StackLayout Grid.Row="1">
+                    <Button Text="Nạp qua Payos" TextColor="White" BackgroundColor="{Binding Theme}" x:Name="btnConfirm" Padding="10,0" Margin="10" Clicked="btnConfirm_Clicked"></Button>
+                    <Button Text="Hủy bỏ" TextColor="Black" BackgroundColor="White" BorderColor="{Binding Theme}" BorderWidth="2" x:Name="btnClose" Padding="10,0" Margin="10" Clicked="btnClose_Clicked"></Button>
+                </StackLayout>
+            </Grid>
+
+        </Frame>
+        <controls:LoadingDialog x:Name="loadingDialog"
+              IsVisible="False"
+              Message="Vui lòng chờ..."
+              AbsoluteLayout.LayoutFlags="PositionProportional"
+              AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
+    </AbsoluteLayout>
+</ContentView>

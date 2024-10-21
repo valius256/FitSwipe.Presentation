@@ -85,6 +85,10 @@ public partial class SetupProfilePage : ContentPage
                 {
                     pageContent.IsVisible = true;
                     UserProfile.Role = user.Role;
+                    if (user.City == null || user.City == string.Empty)
+                    {
+                        UserProfile.City = "Nhấn nút refresh để lấy vị trí";
+                    }
                     if (UserProfile.Role == Role.PT)
                     {
                         MainColor1 = "#2E3192";
@@ -114,7 +118,7 @@ public partial class SetupProfilePage : ContentPage
             await DisplayAlert("Thiếu thông tin", "Hãy vui lòng cung cấp ít nhất 1 giá trị cho phần Nghề Nghiệp", "OK");
             return false;
         }
-        else if (UserProfile.City == null)
+        else if (UserProfile.City == null || UserProfile.City == "Nhấn nút refresh để lấy vị trí")
         {
             await DisplayAlert("Thiếu thông tin", "Vui lòng vị trí để chúng tôi có thể đề xuất cho bạn những kết quả phù hợp", "OK");
             return false;
@@ -140,5 +144,44 @@ public partial class SetupProfilePage : ContentPage
         int radioValue = int.Parse((string)radioButton.Value);
         UserProfile.SelectedGender = (Gender)radioValue;
 
+    }
+
+    private async void btnGPS_Clicked(object sender, EventArgs e)
+    {
+        loadingDialog.IsVisible = true;
+        try
+        {
+            GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+
+            var location = await Geolocation.Default.GetLocationAsync(request, new CancellationTokenSource().Token);
+            if (location != null)
+            {
+            
+                    UserProfile.Longitude = location.Longitude;
+                    UserProfile.Latitude = location.Latitude;
+                    IEnumerable<Placemark> placemarks = await Geocoding.Default.GetPlacemarksAsync(location.Latitude, location.Longitude);
+
+                    var placemark = placemarks?.FirstOrDefault();
+
+                    if (placemark != null)
+                    {
+                        UserProfile.City = placemark.SubAdminArea + ", " + placemark.AdminArea;
+                    }
+                }
+            
+            }
+        catch
+
+        {
+            await DisplayAlert("Lỗi", "Vui lòng bật vị trí", "OK");
+        }
+        loadingDialog.IsVisible = false;
+    }
+
+    private void btnCamera_Clicked(object sender, EventArgs e)
+    {
+        userUploadAvatarModal.Setup(UserProfile);
+        userUploadAvatarModal.Theme = MainColor1;
+        userUploadAvatarModal.Show();
     }
 }

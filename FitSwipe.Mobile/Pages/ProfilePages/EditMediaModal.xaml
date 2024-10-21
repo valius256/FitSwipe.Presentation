@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Pages.ProfilePages.EditMediaModal"
+             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
+             xmlns:converters="clr-namespace:FitSwipe.Mobile.Converters"
+             xmlns:vm="clr-namespace:FitSwipe.Mobile.Pages.ProfilePages"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="vm:EditMediaModal">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <AbsoluteLayout>
+        <!-- Background overlay for fade effect -->
+        <Border BackgroundColor="#88000000"
+      Stroke="#88000000"
+      AbsoluteLayout.LayoutBounds="0,0,1,1"
+      AbsoluteLayout.LayoutFlags="All" />
+        <Frame
+            CornerRadius="5"
+            BackgroundColor="White"
+            AbsoluteLayout.LayoutBounds="0.5,0.5,0.9,0.8" 
+            AbsoluteLayout.LayoutFlags="All">
+            <VerticalStackLayout HorizontalOptions="Center">
+                <VerticalStackLayout>
+                    <toolkit:MediaElement Source="{Binding UserMediaDto.MediaUrl}"
+                        IsVisible="{Binding UserMediaDto.IsVideo}"
+                        HeightRequest="250" Aspect="Fill"></toolkit:MediaElement>
+                    <Image Source="{Binding UserMediaDto.MediaUrl}"
+                       IsVisible="{Binding UserMediaDto.IsVideo, Converter={StaticResource InverseBooleanConverter}}"
+                       HeightRequest="250" Aspect="Fill"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout Margin="0,5" >
+                    <Label Text="Mô tả" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Start"></Label>
+                    <Editor x:Name="editDescription"
+                        Text="{Binding UserMediaDto.Description}"
+                        TextColor="Black"
+                        HeightRequest="100">
+                    </Editor>
+                </VerticalStackLayout>
+                
+                <Button Text="Cập nhật" TextColor="White" BackgroundColor="#52BB00" x:Name="btnUpdate" Padding="10,0" Margin="10" Clicked="btnUpdate_Clicked"></Button>
+                <Button Text="Hủy bỏ" TextColor="Black" BackgroundColor="White" BorderColor="#52BB00" BorderWidth="2" x:Name="btnClose" Padding="10,0" Margin="10" Clicked="btnClose_Clicked"></Button>
+            </VerticalStackLayout>
+            
+        </Frame>
+        <controls:LoadingDialog x:Name="loadingDialog"
+          IsVisible="False"
+          Message="Vui lòng chờ..."
+          AbsoluteLayout.LayoutFlags="PositionProportional"
+          AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
+    </AbsoluteLayout>
+</ContentView>

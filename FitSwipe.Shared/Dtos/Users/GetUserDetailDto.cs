@@ -15,7 +15,6 @@ namespace FitSwipe.Shared.Dtos.Users
         public Gender Gender { get; set; }
         public string Email { get; set; } = string.Empty;
         public string? Password { get; set; }
-        public string? AvatarUrl { get; set; }
         public string Phone { get; set; } = string.Empty;
         public double? Weight { get; set; }
         public double? Height { get; set; }
@@ -39,7 +38,6 @@ namespace FitSwipe.Shared.Dtos.Users
         public DateTime? DeletedDate { get; set; }
         public RecordStatus RecordStatus { get; set; }
         //Navigator
-        public ICollection<GetUserMediaDto> UserMedias { get; set; } = new List<GetUserMediaDto>();
 
         public ICollection<GetTrainingDto> TrainingsInstructing { get; set; } = new List<GetTrainingDto>();
         public ICollection<GetTrainingDto> TrainingsAttending { get; set; } = new List<GetTrainingDto>();
@@ -55,6 +53,19 @@ namespace FitSwipe.Shared.Dtos.Users
                 {
                     _userName = value;
                     OnPropertyChanged(nameof(UserName));
+                }
+            }
+        }
+        public string? _avatarUrl;
+        public string? AvatarUrl
+        {
+            get => _avatarUrl;
+            set
+            {
+                if (_avatarUrl != value)
+                {
+                    _avatarUrl = value;
+                    OnPropertyChanged(nameof(AvatarUrl));
                 }
             }
         }
@@ -127,10 +138,27 @@ namespace FitSwipe.Shared.Dtos.Users
                 }
             }
         }
+
+        private ObservableCollection<GetUserMediaDto> _userMedias { get; set; } = new ObservableCollection<GetUserMediaDto>();
+        public ObservableCollection<GetUserMediaDto> UserMedias
+        {
+            get => _userMedias;
+            set
+            {
+                if (_userMedias != value)
+                {
+                    _userMedias = value;
+                    OnPropertyChanged(nameof(UserMedias));
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+
     }
 }
