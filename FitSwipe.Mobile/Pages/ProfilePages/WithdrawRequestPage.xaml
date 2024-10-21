@@ -278,13 +278,6 @@
             AbsoluteLayout.LayoutBounds="0.5, 0, 0.8, AutoSize"
             AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" 
             IsVisible="{Binding IsTrainee}"/>
-        <profilePages:PTProfileNavbar 
-            ActiveTab="3"
-            x:Name="profileNavbarPT"
-            ZIndex="99"
-            AbsoluteLayout.LayoutBounds="0.5, 0, 0.8, AutoSize"
-            AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" 
-            IsVisible="{Binding IsTrainee, Converter={StaticResource InverseBooleanConverter}}"/>
         <controls:Navbar ActiveTab="5"
              x:Name="navbar"
              ZIndex="99"
@@ -297,6 +290,12 @@
              AbsoluteLayout.LayoutBounds="0, 1, 1, AutoSize"
              AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" 
              IsVisible="{Binding IsTrainee, Converter={StaticResource InverseBooleanConverter}}"/>
+        <!--<profilePages:PTProfileNavbar ActiveTab="3"
+             x:Name="profileNavbarPT"
+             ZIndex="99"
+             AbsoluteLayout.LayoutBounds="0, 1, 1, AutoSize"
+             AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" 
+             IsVisible="{Binding IsTrainee, Converter={StaticResource InverseBooleanConverter}}"/>-->
         <controls:LoadingDialog x:Name="loadingDialog"
              IsVisible="False"
              Message="Vui lòng chờ..."

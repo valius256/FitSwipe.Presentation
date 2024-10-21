@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FitSwipe.Mobile.Pages.HomePages.PTList"
              xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              >
     <AbsoluteLayout BackgroundColor="White">
         <Grid AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
@@ -46,13 +47,13 @@
                     />
                     <!-- Ensure WordWrap is applied for multiline text -->
 
-                    <Button FlexLayout.Basis="30%"
+                    <!--<Button FlexLayout.Basis="30%"
                         x:Name="btnFilter"
                         Text="Bộ lọc"
                         Padding="20,0"
                         FontAttributes="Bold"
                         BackgroundColor="LimeGreen"
-                    />
+                    />-->
                 </FlexLayout>
 
 
@@ -107,7 +108,7 @@
                                         Rating="{Binding PTRating}" Size="20" 
                                         ReadOnly="True"
                                         VerticalOptions="Center"
-                                        HorizontalOptions="Start"
+                                        HorizontalOptions="Start"                                        
                                         FlexLayout.Grow="0.8"/>
                                     <Button x:Name="btnMatch"  
                                         FlexLayout.Grow="0.2"
@@ -124,7 +125,21 @@
                                         VerticalOptions="Center" 
                                         CommandParameter="{Binding}"/>
                                 </FlexLayout>
-
+                                <Label Text="{Binding DistanceInKm, StringFormat='Cách bạn {0:F2} km'}" 
+                                        FontSize="12" 
+                                        FontAttributes="Bold" 
+                                        HorizontalTextAlignment="Start" 
+                                        BackgroundColor="Transparent"
+                                        TextColor="#2E3192"/>
+                                <HorizontalStackLayout>
+                                    <mi:MauiIcon Icon="{mi:Fluent Location16}" IconSize="10" IconColor="#2E3192"></mi:MauiIcon>
+                                    <Label Text="{Binding City}" 
+                                        FontSize="10" 
+                                        FontAttributes="Italic" 
+                                        HorizontalTextAlignment="Start" 
+                                        BackgroundColor="Transparent"
+                                        TextColor="#2E3192"/>
+                                </HorizontalStackLayout>
                             </VerticalStackLayout>
                         </VerticalStackLayout>
                     </DataTemplate>

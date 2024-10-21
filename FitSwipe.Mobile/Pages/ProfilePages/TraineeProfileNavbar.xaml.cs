@@ -1,4 +1,4 @@
-namespace FitSwipe.Mobile.Pages.ProfilePages;
+﻿namespace FitSwipe.Mobile.Pages.ProfilePages;
 
 public partial class TraineeProfileNavbar : ContentView
 {
@@ -84,9 +84,18 @@ public partial class TraineeProfileNavbar : ContentView
 
     private async void tab4_Tapped(object sender, TappedEventArgs e)
     {
-        SecureStorage.Remove("auth_token");
-        SecureStorage.Remove("loginedUserId");
-        await Shell.Current.GoToAsync("//SignIn");
+        if (Application.Current != null && Application.Current.MainPage != null)
+        {
+            var answer = await Application.Current.MainPage.DisplayAlert("Đăng xuất", "Bạn có chắc chắn muốn đăng xuất không?", "Có","Không");
+            if (answer)
+            {
+                SecureStorage.Remove("auth_token");
+                SecureStorage.Remove("loginedUserId");
+                SecureStorage.Remove("loginedRole");
+                await Shell.Current.GoToAsync("//SignIn");
+            }
+        }
+        
     }
 
     private async void tab3_Tapped(object sender, TappedEventArgs e)

@@ -2,13 +2,16 @@
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Core.Extensions;
 using FitSwipe.Mobile.Controls;
+using FitSwipe.Mobile.Extensions;
 using FitSwipe.Mobile.Pages.ProfilePages;
 using FitSwipe.Shared.Dtos;
 using FitSwipe.Shared.Dtos.Paging;
 using FitSwipe.Shared.Dtos.Tags;
 using FitSwipe.Shared.Dtos.Trainings;
 using FitSwipe.Shared.Dtos.Users;
+using FitSwipe.Shared.Enums;
 using FitSwipe.Shared.Utils;
+using Microsoft.Maui.Controls;
 using System.Collections.ObjectModel;
 
 namespace FitSwipe.Mobile.Pages.HomePages;
@@ -21,6 +24,7 @@ public partial class SwipeMatchView : ContentPage
     private int PageSize = 8;
     private int MaxPage = 1;
     private PTList _ptList;
+    private GetUserDetailDto _loginedUser;
     private Navbar _navbar;
     public ObservableCollection<GetUserWithTagDto> Items
     {
@@ -31,18 +35,49 @@ public partial class SwipeMatchView : ContentPage
             OnPropertyChanged(nameof(Items));
         }
     }
-    public SwipeMatchView(PTList pTList, Navbar navbar)
+    public SwipeMatchView(PTList pTList, Navbar navbar, GetUserDetailDto user)
     {
         InitializeComponent();
         FetchData();
         _ptList = pTList;
         _navbar = navbar;
+        _loginedUser = user;
         BindingContext = this;
     }
 
-    private void OnCurrentItemChanged(object? sender, CurrentItemChangedEventArgs e)
+    private async void OnCurrentItemChanged(object? sender, CurrentItemChangedEventArgs e)
     {
         //matchView.CurrentItemChanged += OnCurrentItemChanged;
+        if (e.CurrentItem != null)
+        {
+            var carouselView = sender as CarouselView;
+            if (carouselView != null)
+            {
+                // Get the binding context of the current item
+                var currentItem = e.CurrentItem;
+
+                // Loop through all the visible views to find the one that matches the current item
+                foreach (var visibleView in carouselView.VisibleViews)
+                {
+                    if (visibleView.BindingContext == currentItem)
+                    {
+                        // We found the view that corresponds to the current item
+                        var flyoutLayout = visibleView.FindByName<StackLayout>("animateFlyout");
+
+                        if (flyoutLayout != null)
+                        {
+                            // Set initial position of the flyout off-screen
+                            flyoutLayout.TranslationX = -flyoutLayout.Width;
+
+                            // Animate it to fly in from the left
+                            await flyoutLayout.TranslateTo(0, 0, 500, Easing.CubicOut); // 500ms animation duration
+                        }
+
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     private async void btnMatch_Clicked(object sender, EventArgs e)
@@ -70,8 +105,8 @@ public partial class SwipeMatchView : ContentPage
                 }, token);
                 var toast = Toast.Make("Thành công! Bạn đã match với " + boundItem.UserName,ToastDuration.Short);
                 await toast.Show();
-                Items = Items.Where(u => u.Id != boundItem.Id).ToObservableCollection();
-                _ptList.Items = Items.ToObservableCollection();
+                Items.Remove(boundItem);
+                _ptList.Items.Remove(boundItem);
                 _navbar.TrainingFlag = true;
             }
             catch (Exception ex)
@@ -113,6 +148,90 @@ public partial class SwipeMatchView : ContentPage
     {
         foreach (var user in users)
         {
+            user.DistanceInKm = Helper.CalculateDistance(user.Latitude ?? 0, user.Longitude ?? 0, _loginedUser.Latitude ?? 0, _loginedUser.Longitude ?? 0);
+
+            var commonHobbies = user.Tags.Where(t => _loginedUser.Tags.FirstOrDefault(loginedUserTag => loginedUserTag.Id == t.Id) != null && t.TagType == TagType.Hobby).ToList();
+            var commonTrainingTypes = user.Tags.Where(t => _loginedUser.Tags.FirstOrDefault(loginedUserTag => loginedUserTag.Id == t.Id) != null && t.TagType == TagType.TrainingType).ToList();
+            var commonTarget = user.Tags.Where(t => _loginedUser.Tags.FirstOrDefault(loginedUserTag => loginedUserTag.Id == t.Id) != null && t.TagType == TagType.Target).ToList();
+            var commonPTTaste = user.Tags.Where(t => _loginedUser.Tags.FirstOrDefault(loginedUserTag => loginedUserTag.Id == t.Id) != null && t.TagType == TagType.PTTaste).ToList();
+            var commonSelfDescription = user.Tags.Where(t => _loginedUser.Tags.FirstOrDefault(loginedUserTag => loginedUserTag.Id == t.Id) != null && t.TagType == TagType.SelfDescription).ToList();
+            
+            for (int i = 0; i < Math.Min(3, commonHobbies.Count); i++)
+            {
+                user.CommonHobby += commonHobbies[i].Name;
+                if (i < commonHobbies.Count - 1)
+                {
+                    user.CommonHobby += ", ";
+                }
+                if (i == 2)
+                {
+                    if (commonHobbies.Count > 3)
+                    {
+                        user.CommonHobby += "(+" + (commonHobbies.Count - 3) + ")";
+                    }
+                } 
+            }
+            for (int i = 0; i < Math.Min(3, commonTarget.Count); i++)
+            {
+                user.CommonTarget += commonTarget[i].Name;
+                if (i < commonTarget.Count - 1)
+                {
+                    user.CommonTarget += ", ";
+                }
+                if (i == 2)
+                {
+                    if (commonTarget.Count > 3)
+                    {
+                        user.CommonTarget += "(+" + (commonTarget.Count - 3) + ")";
+                    }
+                }
+            }
+            for (int i = 0; i < Math.Min(3, commonTrainingTypes.Count); i++)
+            {
+                user.CommonTrainingType += commonTrainingTypes[i].Name;
+                if (i < commonTrainingTypes.Count - 1)
+                {
+                    user.CommonTrainingType += ", ";
+                }
+                if (i == 2)
+                {
+                    if (commonTrainingTypes.Count > 3)
+                    {
+                        user.CommonTrainingType += "(+" + (commonTrainingTypes.Count - 3) + ")";
+                    }
+                }
+            }
+            for (int i = 0; i < Math.Min(3,  commonPTTaste.Count); i++)
+            {
+                user.CommonPTTaste += commonPTTaste[i].Name;
+                if (i < commonPTTaste.Count - 1)
+                {
+                    user.CommonPTTaste += ", ";
+                }
+                if (i == 2)
+                {
+                    if (commonPTTaste.Count > 3)
+                    {
+                        user.CommonPTTaste += "(+" + (commonPTTaste.Count - 3) + ")";
+                    }
+                }
+            }
+            for (int i = 0; i < Math.Min(3, commonSelfDescription.Count); i++)
+            {
+                user.CommonSelfDescription += commonSelfDescription[i].Name;
+                if (i < commonSelfDescription.Count - 1)
+                {
+                    user.CommonSelfDescription += ", ";
+                }
+                if (i == 2)
+                {
+                    if (commonSelfDescription.Count > 3)
+                    {
+                        user.CommonSelfDescription += "(+" + (commonSelfDescription.Count - 3) + ")";
+                    }
+                }
+            }
+            //user.CommonHobby 
             Items.Add(user);
         }
     }

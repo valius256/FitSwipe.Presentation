@@ -2,7 +2,15 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FitSwipe.Mobile.Pages.HomePages.SwipeMatchView"
-             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls">
+             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
+             xmlns:converters="clr-namespace:FitSwipe.Mobile.Converters"
+             xmlns:dtop="clr-namespace:FitSwipe.Shared.Dtos.Tags;assembly=FitSwipe.Shared"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <AbsoluteLayout BackgroundColor="White">
 
         <CarouselView x:Name="matchView" ItemsSource="{Binding Items}" CurrentItemChanged="OnCurrentItemChanged"
@@ -12,7 +20,7 @@
                 AbsoluteLayout.LayoutFlags="All"
                 Loop="False">
             <CarouselView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="dtop:GetUserWithTagDto">
                     <Grid BackgroundColor="ForestGreen">
                         <!-- Display the Picture -->
                         <Image Source="{Binding AvatarUrl}"                       
@@ -20,7 +28,7 @@
                         HorizontalOptions="FillAndExpand" 
                         VerticalOptions="FillAndExpand" 
                            />
-
+                        
                         <VerticalStackLayout HorizontalOptions="Start" Padding="5">
                             <Button WidthRequest="50"
                                 ImageSource="Images/back.png"
@@ -39,18 +47,21 @@
 
                             <VerticalStackLayout HorizontalOptions="End">
                                 <Label 
-                                Text="⭐"
-                                FontSize="40"
-                                HorizontalTextAlignment="Center"
-                                TextColor="Yellow"
-                                WidthRequest="40"></Label>
+                                    Text="⭐"
+                                    FontSize="40"
+                                    HorizontalTextAlignment="Center"
+                                    TextColor="Yellow"
+                                    WidthRequest="40"></Label>
                                 <Label Text="{Binding PTRating, StringFormat='{0}/5'}" 
-                             FontSize="20" 
-                             FontAttributes="Bold" 
-                             HorizontalTextAlignment="Center" 
-                             TextColor="White"
-                             BackgroundColor="Transparent"/>
+                                     FontSize="20" 
+                                     FontAttributes="Bold" 
+                                     HorizontalTextAlignment="Center" 
+                                     TextColor="White"
+                                     BackgroundColor="Transparent"/>
                             </VerticalStackLayout>
+                            
+                            
+
                             <HorizontalStackLayout>
                                 <Button Text="{Binding UserName}" 
                                  FontSize="40" 
@@ -72,6 +83,21 @@
                             HorizontalTextAlignment="Start" 
                             TextColor="White"
                             BackgroundColor="Transparent"/>
+                            <Label Text="{Binding DistanceInKm, StringFormat='Cách bạn {0:F2} km'}" 
+                                    FontSize="12" 
+                                    FontAttributes="Bold" 
+                                    HorizontalTextAlignment="Start" 
+                                    BackgroundColor="Transparent"
+                                    TextColor="Yellow"/>
+                            <HorizontalStackLayout>
+                                <mi:MauiIcon Icon="{mi:Fluent Location16}" IconSize="10" IconColor="Yellow"></mi:MauiIcon>
+                                <Label Text="{Binding City}" 
+                                    FontSize="10" 
+                                    FontAttributes="Italic" 
+                                    HorizontalTextAlignment="Start" 
+                                    BackgroundColor="Transparent"
+                                    TextColor="Yellow"/>
+                            </HorizontalStackLayout>
                             <HorizontalStackLayout HorizontalOptions="Center" Spacing="5" Margin="0,10,0,10">
                                 <Button x:Name="btnProfile" ImageSource="Images/profile.png"
                                    HeightRequest="60"
@@ -109,7 +135,73 @@
 
                             </HorizontalStackLayout>
                         </VerticalStackLayout>
-
+                        <StackLayout x:Name="animateFlyout" VerticalOptions="Center" Spacing="10" Margin="5,-100,0,0">
+                            <Border IsVisible="{Binding CommonHobby, Converter={StaticResource EmptyStringToVisibilityConverter}}" x:Name="border1x"
+                                Stroke="#b30077" BackgroundColor="#ff5ec9" HorizontalOptions="Start" Opacity="0.75" Padding="5" MaximumWidthRequest="200">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5"></RoundRectangle>
+                                </Border.StrokeShape>
+                                <StackLayout>
+                                    <Label Text="Sở thích chung" TextColor="White" FontAttributes="Bold"></Label>
+                                    <HorizontalStackLayout>
+                                        <Image Source="favorite_color" WidthRequest="15" HeightRequest="15"></Image>
+                                        <Label Text="{Binding CommonHobby}" TextColor="White" FontSize="10" VerticalOptions="Center"></Label>
+                                    </HorizontalStackLayout>
+                                </StackLayout>
+                            </Border>
+                            <Border IsVisible="{Binding CommonTarget, Converter={StaticResource EmptyStringToVisibilityConverter}}" 
+                                Stroke="#02c97a" BackgroundColor="#41c490" HorizontalOptions="Start" Opacity="0.75" Padding="5" MaximumWidthRequest="200">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5"></RoundRectangle>
+                                </Border.StrokeShape>
+                                <StackLayout>
+                                    <Label Text="Hỗ trợ mục đích mong muốn của bạn" TextColor="White" FontAttributes="Bold"></Label>
+                                    <HorizontalStackLayout>
+                                        <Image Source="target_color" WidthRequest="15" HeightRequest="15"></Image>
+                                        <Label Text="{Binding CommonTarget}" TextColor="White" FontSize="10" VerticalOptions="Center"></Label>
+                                    </HorizontalStackLayout>
+                                </StackLayout>
+                            </Border>
+                            <Border IsVisible="{Binding CommonTrainingType, Converter={StaticResource EmptyStringToVisibilityConverter}}"  
+                                Stroke="#03508a" BackgroundColor="#408ec9" HorizontalOptions="Start" Opacity="0.75" Padding="5" MaximumWidthRequest="200">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5"></RoundRectangle>
+                                </Border.StrokeShape>
+                                <StackLayout>
+                                    <Label Text="Chuyên môn bạn ưu thích" TextColor="White" FontAttributes="Bold"></Label>
+                                    <HorizontalStackLayout>
+                                        <Image Source="dumbell_black" WidthRequest="15" HeightRequest="15"></Image>
+                                        <Label Text="{Binding CommonTrainingType}" TextColor="White" FontSize="10" VerticalOptions="Center"></Label>
+                                    </HorizontalStackLayout>
+                                </StackLayout>
+                            </Border>
+                            <Border IsVisible="{Binding CommonPTTaste, Converter={StaticResource EmptyStringToVisibilityConverter}}"  
+                                Stroke="#bdae42" BackgroundColor="#968402" HorizontalOptions="Start" Opacity="0.75" Padding="5" MaximumWidthRequest="200">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5"></RoundRectangle>
+                                </Border.StrokeShape>
+                                <StackLayout>
+                                    <Label Text="Đáp ứng gu PT của bạn" TextColor="White" FontAttributes="Bold"></Label>
+                                    <HorizontalStackLayout>
+                                        <Image Source="muscle_color" WidthRequest="15" HeightRequest="15"></Image>
+                                        <Label Text="{Binding CommonPTTaste}" TextColor="White" FontSize="10" VerticalOptions="Center"></Label>
+                                    </HorizontalStackLayout>
+                                </StackLayout>
+                            </Border>
+                            <Border IsVisible="{Binding CommonSelfDescription, Converter={StaticResource EmptyStringToVisibilityConverter}}"  
+                                Stroke="#a440bd" BackgroundColor="#680182" HorizontalOptions="Start" Opacity="0.75" Padding="5" MaximumWidthRequest="200">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="5"></RoundRectangle>
+                                </Border.StrokeShape>
+                                <StackLayout>
+                                    <Label Text="Bạn là mẫu người họ tìm kiếm" TextColor="White" FontAttributes="Bold"></Label>
+                                    <HorizontalStackLayout>
+                                        <Image Source="profile_white" WidthRequest="15" HeightRequest="15"></Image>
+                                        <Label Text="{Binding CommonSelfDescription}" TextColor="White" FontSize="10" VerticalOptions="Center"></Label>
+                                    </HorizontalStackLayout>
+                                </StackLayout>
+                            </Border>
+                        </StackLayout>
                     </Grid>
 
                 </DataTemplate>
