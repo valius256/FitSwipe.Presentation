@@ -29,7 +29,7 @@
             <!--#region INFORMATION SECTION-->
 
             <!-- App Icon -->
-            <Image Source="app_icon.png"
+            <Image Source="fitswipe_icon"
                    WidthRequest="150"
                    HeightRequest="150" />
             <Label Text="FitSwipe"

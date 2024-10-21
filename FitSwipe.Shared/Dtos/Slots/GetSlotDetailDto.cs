@@ -49,7 +49,7 @@ namespace FitSwipe.Shared.Dtos.Slots
         }
         public string TimeString
         {
-            get => StartTime.ToString("hh:mm") + " tới " + EndTime.ToString("hh:mm");
+            get => StartTime.ToString("hh:mm tt") + " tới " + EndTime.ToString("hh:mm tt");
         }
         public string TotalDurationString
         {

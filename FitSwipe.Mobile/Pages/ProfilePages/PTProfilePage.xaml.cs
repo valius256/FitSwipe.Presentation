@@ -47,6 +47,7 @@ public partial class PTProfilePage : ContentPage
             btnNameEditSection.IsVisible = false;
             btnInfoEditSection.IsVisible = false;
             btnAddMedia.IsVisible = false;
+            profileNavbar.IsVisible = false;
             navbar.IsVisible = false;
         }
         BindingContext = viewModel;

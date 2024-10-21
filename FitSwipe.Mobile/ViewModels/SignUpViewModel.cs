@@ -65,7 +65,7 @@ namespace FitSwipe.Mobile.ViewModels
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Lỗi", $"{ex.Message}", "OK");
+                await Application.Current.MainPage.DisplayAlert("Lỗi", $"Email này đã được đăng ký", "OK");
 
             }
             LoadingDialog.IsVisible = false;

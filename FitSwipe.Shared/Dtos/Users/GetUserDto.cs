@@ -28,8 +28,6 @@ namespace FitSwipe.Shared.Dtos.Users
     public DateTime? UpdatedDate { get; set; }
     public DateTime? DeletedDate { get; set; }
 
-    // New property to hold image collection
-    public List<UserImage> ImageCollection { get; set; } = new List<UserImage>();
     public RecordStatus RecordStatus { get; set; }
     public string AddressString
     {

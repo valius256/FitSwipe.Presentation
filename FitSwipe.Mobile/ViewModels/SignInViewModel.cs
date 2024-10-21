@@ -20,7 +20,8 @@ namespace FitSwipe.Mobile.ViewModels
         private string _email = string.Empty;
         [ObservableProperty]
         private string _password = string.Empty;
-
+        [ObservableProperty]
+        private bool rememberMe = false;
         public string UserName => _authClient.User?.Info.DisplayName;
         public LoadingDialog LoadingDialog { get; set; } = new LoadingDialog();
 
@@ -56,6 +57,10 @@ namespace FitSwipe.Mobile.ViewModels
                         if (user != null)
                         {
                             await SecureStorage.SetAsync("loginedUserId", user.FireBaseId);
+                            if (RememberMe)
+                            {
+                                await SecureStorage.SetAsync("loginedRole", user.Role.ToString());
+                            }
                             string barColor, navigateTo = "//SetupProfile";
                             //Routing between trainee and PT
                             barColor = (user.Role == Shared.Enums.Role.Trainee) ? "#52BB00" : "#2E3192";
@@ -82,7 +87,7 @@ namespace FitSwipe.Mobile.ViewModels
                     else
                     {
                         // Handle errors based on the message
-                        await Application.Current.MainPage.DisplayAlert("Error", authResponse.Message, "OK");
+                        await Application.Current.MainPage.DisplayAlert("Lỗi", "Sai tài khoản hoặc mật khẩu", "OK");
                     }
                 }
                 else

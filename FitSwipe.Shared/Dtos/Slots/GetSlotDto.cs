@@ -21,7 +21,7 @@ namespace FitSwipe.Shared.Dtos.Slots
         public int TotalVideo { get; set; }
         public string TimeString
         {
-            get => StartTime.TimeOfDay + " tới " + EndTime.TimeOfDay;
+            get => StartTime.ToString("hh:mm tt") + " tới " + EndTime.ToString("hh:mm tt"); 
         }
         public string DateString => $"{StartTime:dd/MM/yyyy}";
         public int SlotNumber {  get; set; }

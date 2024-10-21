@@ -18,6 +18,7 @@ namespace FitSwipe.Mobile.Pages.HomePages;
 public partial class PTList : ContentPage
 {
     private ObservableCollection<GetUserWithTagDto> _items = new ObservableCollection<GetUserWithTagDto>();
+    private GetUserDetailDto _loginedUser = new();
     private bool isFetching = false;
     private int CurrentPage = 1;
     private int PageSize = 8;
@@ -52,7 +53,7 @@ public partial class PTList : ContentPage
 
     private void btnSwipeMatch_Clicked(object sender, EventArgs e)
     {
-        Navigation.PushModalAsync(new SwipeMatchView(this, navbar));
+        Navigation.PushModalAsync(new SwipeMatchView(this, navbar, _loginedUser));
         //await Shell.Current.GoToAsync("//SwipeMatchView");
     }
     /// <summary>
@@ -70,6 +71,16 @@ public partial class PTList : ContentPage
             if (token == null)
             {
                 throw new Exception("Có sự cố xảy ra. Vui lòng đăng nhập lại");
+            }
+            var loginedUserId = await SecureStorage.GetAsync("loginedUserId");
+            if (loginedUserId == null)
+            {
+                throw new Exception("Lỗi xác thực");
+            }
+            var loginedUser = await Fetcher.GetAsync<GetUserDetailDto>($"api/users/{loginedUserId}/detail");
+            if (loginedUser != null)
+            {
+                _loginedUser = loginedUser;
             }
             var response = await Fetcher.GetAsync<PagedResult<GetUserWithTagDto>>($"api/users/match-ordered?Filter.Roles=1&page={CurrentPage}&limit={PageSize}", token);
             if (response != null)
@@ -111,6 +122,7 @@ public partial class PTList : ContentPage
     {
         foreach (var user in users)
         {
+            user.DistanceInKm = Helper.CalculateDistance(user.Latitude ?? 0, user.Longitude ?? 0, _loginedUser.Latitude ?? 0, _loginedUser.Longitude ?? 0);
             Items.Add(user);
             await Task.Delay(300);
         }

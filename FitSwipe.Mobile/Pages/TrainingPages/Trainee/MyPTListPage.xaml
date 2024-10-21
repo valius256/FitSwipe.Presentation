@@ -35,7 +35,7 @@
 
                     <!--#region APP ICON -->
                     <HorizontalStackLayout Spacing="12">
-                        <Image Source="app_icon"
+                        <Image Source="fitswipe_icon"
                              HeightRequest="100"
                              WidthRequest="100" />
 

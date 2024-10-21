@@ -27,7 +27,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                <Image Source="Images/app_icon.png" WidthRequest="200"></Image>
+                <Image Source="fitswipe_icon.png" WidthRequest="200"></Image>
                 <Label Text="Bạn đã Setup xong hồ sơ của mình!"
                    FontAttributes="Bold"
                    FontSize="Title"
