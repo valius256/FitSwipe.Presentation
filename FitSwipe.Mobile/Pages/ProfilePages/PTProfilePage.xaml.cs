@@ -20,7 +20,7 @@ public partial class PTProfilePage : ContentPage
     {
         InitializeComponent();
         viewModel = new PTProfileViewModel(pageContent, loadingDialog, tagModal,timeTable, guestId);
-        SetIsOwner(true);
+        SetIsOwner(false);
 
     }
     protected override async void OnAppearing()
@@ -42,9 +42,11 @@ public partial class PTProfilePage : ContentPage
         }
         else
         {
+            btnEditAvatarSection.IsVisible = false;
             btnEditBioSection.IsVisible = false;
             btnNameEditSection.IsVisible = false;
             btnInfoEditSection.IsVisible = false;
+            btnAddMedia.IsVisible = false;
             navbar.IsVisible = false;
         }
         BindingContext = viewModel;
@@ -156,7 +158,7 @@ public partial class PTProfilePage : ContentPage
     {
         if (!viewModel.IsFetchingComment)
         {
-            if (viewModel.CurrentRatingPage == viewModel.TotalRatingPage)
+            if (viewModel.CurrentRatingPage >= viewModel.TotalRatingPage)
             {
                 showMoreRatingSection.IsVisible = false;
                 return;
@@ -167,5 +169,10 @@ public partial class PTProfilePage : ContentPage
                 showMoreRatingSection.IsVisible = false;
             }
         }
+    }
+
+    private async void btnComeback_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PopModalAsync();
     }
 }

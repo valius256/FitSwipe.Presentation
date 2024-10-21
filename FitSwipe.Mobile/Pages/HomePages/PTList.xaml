@@ -79,6 +79,9 @@
                         <VerticalStackLayout Margin="20">
                             <Frame BorderColor="LimeGreen" Padding="0" CornerRadius="10"
                             HeightRequest="200">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer x:Name="tapAvatar" Tapped="tapAvatar_Tapped" CommandParameter="{Binding}"></TapGestureRecognizer>
+                                </Frame.GestureRecognizers>
                                 <Image
                                 Source="{Binding AvatarUrl}" 
                                 Aspect="AspectFill" 

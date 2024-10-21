@@ -1,14 +1,16 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
+using FitSwipe.Mobile.Pages.PayingPages;
 using FitSwipe.Shared.Dtos.Paging;
 using FitSwipe.Shared.Dtos.Slots;
+using FitSwipe.Shared.Dtos.Tags;
 using FitSwipe.Shared.Dtos.Transactions;
 using FitSwipe.Shared.Dtos.Users;
 using FitSwipe.Shared.Utils;
 using System.Collections.ObjectModel;
 
-namespace FitSwipe.Mobile.Pages.HomePages;
+namespace FitSwipe.Mobile.Pages.ProfilePages;
 
-public partial class PTHomePage : ContentPage
+public partial class TraineePaymentPage : ContentPage
 {
     private int pageSize = 10;
 
@@ -33,101 +35,111 @@ public partial class PTHomePage : ContentPage
         }
     }
     private string balance = string.Empty;
-    public string Balance
+	public string Balance
+	{
+		get => balance;
+		set
+		{
+			balance = value;
+			OnPropertyChanged(nameof(Balance));
+		}
+	}
+	private GetUserDto _userDto = new();
+	public GetUserDto User
+	{
+		get => _userDto;
+		set
+		{
+			_userDto = value;
+			OnPropertyChanged(nameof(User));
+		}
+	}
+	private ObservableCollection<GetSlotDetailDto> _unpaidSlots = [];
+	public ObservableCollection<GetSlotDetailDto> UnpaidSlots
+	{
+		get => _unpaidSlots;
+		set
+		{
+			_unpaidSlots = value;
+			OnPropertyChanged(nameof(UnpaidSlots));
+		}
+	}
+    private ObservableCollection<GetSlotDetailDto> _aboutToPaidSlots = [];
+    public ObservableCollection<GetSlotDetailDto> AboutToPaidSlots
     {
-        get => balance;
+        get => _aboutToPaidSlots;
         set
         {
-            balance = value;
-            OnPropertyChanged(nameof(Balance));
-        }
-    }
-    private GetUserDto _userDto = new();
-    public GetUserDto User
-    {
-        get => _userDto;
-        set
-        {
-            _userDto = value;
-            OnPropertyChanged(nameof(User));
-        }
-    }
-    private ObservableCollection<GetSlotDetailDto> _upcomingSlots = [];
-    public ObservableCollection<GetSlotDetailDto> UpcomingSlots
-    {
-        get => _upcomingSlots;
-        set
-        {
-            _upcomingSlots = value;
-            OnPropertyChanged(nameof(UpcomingSlots));
+            _aboutToPaidSlots = value;
+            OnPropertyChanged(nameof(AboutToPaidSlots));
         }
     }
     private ObservableCollection<GetTransactionDto> _transactions = [];
-    public ObservableCollection<GetTransactionDto> Transactions
-    {
-        get => _transactions;
-        set
-        {
-            _transactions = value;
-            OnPropertyChanged(nameof(Transactions));
-        }
-    }
-    public PTHomePage()
-    {
-        InitializeComponent();
-        Setup();
-        BindingContext = this;
-    }
-    public async void Setup()
-    {
+	public ObservableCollection<GetTransactionDto> Transactions
+	{
+		get => _transactions;
+		set
+		{
+			_transactions = value;
+			OnPropertyChanged(nameof(Transactions));
+		}
+	}
+	public TraineePaymentPage()
+	{
+		InitializeComponent();
+		Setup();
+		BindingContext = this;
+	}
+	public async void Setup()
+	{
         await FetchUserData();
-        await FetchUpcomingSlots();
+		await FetchUnpaidSlots();
         await FetchTransaction();
     }
 
     public async Task FetchUserData()
-    {
-        pageContent.IsVisible = false;
-        loadingDialog.IsVisible = true;
-        try
-        {
-            var token = await SecureStorage.GetAsync("auth_token");
-            if (token == null)
-            {
-                throw new Exception("Lỗi xác thực");
-            }
+	{
+		pageContent.IsVisible = false;
+		loadingDialog.IsVisible = true;
+		try
+		{
+			var token = await SecureStorage.GetAsync("auth_token");
+			if (token == null)
+			{
+				throw new Exception("Lỗi xác thực");
+			}
             var user = await Shortcut.GetLoginedUser(token);
-            if (user == null)
-            {
+			if (user == null)
+			{
                 throw new Exception("Lỗi xác thực");
             }
             User = user;
-            var balanceData = await Fetcher.GetAsync<GetUserBalanceDto>("api/users/balance", token);
-            if (balanceData != null)
-            {
-                Balance = balanceData.Balance.ToString("C0", new System.Globalization.CultureInfo("vi-VN"));
+            var balanceData = await Fetcher.GetAsync<GetUserBalanceDto>("api/users/balance",token);
+			if (balanceData != null)
+			{
+				Balance = balanceData.Balance.ToString("C0", new System.Globalization.CultureInfo("vi-VN"));
 
-            }
-            else
-            {
-                Balance = "Lấy số dư thất bại";
-            }
+            } else
+			{
+				Balance = "Lấy số dư thất bại";
+			}
 
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlert("Lỗi", "Có lỗi xảy ra. Err : " + ex.Message, "OK");
-            await Shell.Current.GoToAsync("//SignIn");
-        }
+		}
+		catch (Exception ex)
+		{
+			await DisplayAlert("Lỗi", "Có lỗi xảy ra. Err : " + ex.Message, "OK");
+			await Shell.Current.GoToAsync("//SignIn");
+		}
 
         pageContent.IsVisible = true;
         loadingDialog.IsVisible = false;
-    }
-    public async Task FetchUpcomingSlots()
+	}
+    public async Task FetchUnpaidSlots()
     {
         loadingDialog.IsVisible = true;
         try
         {
+            AboutToPaidSlots.Clear();
             var token = await SecureStorage.GetAsync("auth_token");
             if (token == null)
             {
@@ -138,10 +150,10 @@ public partial class PTHomePage : ContentPage
             {
                 throw new Exception("Lỗi xác thực");
             }
-            var result = await Fetcher.GetAsync<List<GetSlotDetailDto>>($"api/Slot/upcoming-slots?limit=3", token);
+            var result = await Fetcher.GetAsync<List<GetSlotDetailDto>>($"api/Slot/debt-slots", token);
             if (result != null)
             {
-                UpcomingSlots = result.ToObservableCollection();
+				UnpaidSlots = result.ToObservableCollection();
             }
 
         }
@@ -173,7 +185,7 @@ public partial class PTHomePage : ContentPage
                 Transactions = result.Items.ToObservableCollection();
                 if (TotalPage <= 0)
                 {
-                    TotalPage = (int)Math.Ceiling((double)result.Total / pageSize);
+                    TotalPage = (int) Math.Ceiling((double) result.Total / pageSize); 
                 }
                 FormatTransactions();
             }
@@ -194,8 +206,7 @@ public partial class PTHomePage : ContentPage
             if (transaction.Status == Shared.Enum.TransactionStatus.Successed)
             {
                 transaction.TextColor = "#52BB00";
-            }
-            else
+            } else
             {
                 transaction.TextColor = "Red";
             }
@@ -223,15 +234,44 @@ public partial class PTHomePage : ContentPage
     }
     private async void btnWithdraw_Clicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("//WithdrawRequestPage?isTrainee=false");
+        await Shell.Current.GoToAsync("//WithdrawRequestPage?isTrainee=true");
     }
 
     private void btnDeposit_Clicked(object sender, EventArgs e)
     {
-        rechargeModal.Setup("#52BB00", FetchUserData);
+        rechargeModal.Setup("#52BB00",FetchUserData);
         rechargeModal.Show();
     }
 
+    private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        // Get the CheckBox that triggered the event
+        var checkbox = (CheckBox)sender;
+
+        // Get the Week object from the BindingContext
+        var slot = (GetSlotDetailDto)checkbox.BindingContext;
+        if (slot != null)
+        {
+            if (e.Value)
+            {
+                AboutToPaidSlots.Add(slot);
+            }
+            else
+            {
+                AboutToPaidSlots.Remove(slot);
+            }
+        }
+    }
+
+
+    private async void btnPayWallet_Clicked(object sender, EventArgs e)
+    {
+        var answer = await DisplayAlert("Xác nhận", "Bạn có chắc chắn muốn thanh toán những buổi đã chọn hay không?", "Có", "Không");
+        if (answer)
+        {
+            await Navigation.PushModalAsync(new PayingCheck(AboutToPaidSlots.ToList(), FetchUnpaidSlots));
+        }
+    }
 
     private async void btnNext_Clicked(object sender, EventArgs e)
     {
@@ -249,10 +289,5 @@ public partial class PTHomePage : ContentPage
             CurrentPage -= 1;
             await FetchTransaction();
         }
-    }
-
-    private async void btnSchedule_Clicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync("//PTSchedulePage");
     }
 }

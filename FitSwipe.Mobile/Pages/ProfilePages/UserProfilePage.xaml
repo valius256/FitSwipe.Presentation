@@ -46,6 +46,7 @@
                                 Margin="10"
                                 ZIndex="-1"
                                  x:Name="btnComeback"
+                                Clicked="btnComeback_Clicked"
                                 HorizontalOptions="StartAndExpand" />
                         <!-- AbsoluteLayout to overlay content on the bottom of the image -->
                         <AbsoluteLayout VerticalOptions="FillAndExpand"
@@ -84,6 +85,7 @@
                                     AbsoluteLayout.LayoutBounds="1, 0, AutoSize, AutoSize"
                                     AbsoluteLayout.LayoutFlags="PositionProportional"
                                     Stroke="#52BB00"
+                                    x:Name="btnEditAvatarSection"
                                     Padding="4">
                                         <Border.GestureRecognizers>
                                             <TapGestureRecognizer x:Name="tapAvatar" Tapped="tapAvatar_Tapped"></TapGestureRecognizer>
@@ -155,7 +157,7 @@
                                 <!--#endregion-->
                             </Grid>
                         </AbsoluteLayout>
-
+                        
                     </StackLayout>
                     <!--#endregion-->
                     <!-- Bio-->
@@ -193,7 +195,8 @@
                                 VerticalOptions="Center"
                                 TextColor="Black"
                                FontAttributes="Bold" />
-                            <Button HeightRequest="30" Text="Thêm" Padding="30,0" TextColor="White" BackgroundColor="#52BB00" x:Name="btnAddMedia" Clicked="btnAddMedia_Clicked" VerticalOptions="Center"></Button>
+                            <Button HeightRequest="30" Text="Thêm" Padding="30,0" TextColor="White" BackgroundColor="#52BB00" 
+                                    x:Name="btnAddMedia" Clicked="btnAddMedia_Clicked" VerticalOptions="Center"></Button>
                         </FlexLayout>
                     
                         <Label Text="Không có hình ảnh / video nào"
@@ -336,11 +339,13 @@
                                                     </Border.StrokeShape>
 
                                                     <Button Text="Xem thêm"
-                                          BackgroundColor="White"
-                                          TextColor="Black"
-                                          Padding="0"
-                                          HeightRequest="30"
-                                          WidthRequest="120" />
+                                                      BackgroundColor="White"
+                                                      TextColor="Black"
+                                                      Padding="0"
+                                                      x:Name="btnSeemore"
+                                                      Clicked="btnSeemore_Clicked"
+                                                      HeightRequest="30"
+                                                      WidthRequest="120" />
                                                 </Border>
                                             </FlexLayout>
                                         </StackLayout>
@@ -751,6 +756,12 @@
                  IsVisible="False" 
                  AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                  AbsoluteLayout.LayoutFlags="All" />
+        <profilePages:TraineeProfileNavbar 
+                 ActiveTab="1"
+                 x:Name="profileNavbar"
+                 ZIndex="99"
+                 AbsoluteLayout.LayoutBounds="0.5, 0, 0.8, AutoSize"
+                 AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" />
         <controls:Navbar ActiveTab="5"
                  x:Name="navbar"
                  ZIndex="99"

@@ -2,10 +2,12 @@
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Core.Extensions;
 using FitSwipe.Mobile.Controls;
+using FitSwipe.Mobile.Pages.ProfilePages;
 using FitSwipe.Shared.Dtos;
 using FitSwipe.Shared.Dtos.Paging;
 using FitSwipe.Shared.Dtos.Tags;
 using FitSwipe.Shared.Dtos.Trainings;
+using FitSwipe.Shared.Dtos.Users;
 using FitSwipe.Shared.Utils;
 using System.Collections.ObjectModel;
 
@@ -151,5 +153,22 @@ public partial class SwipeMatchView : ContentPage
                 await ContinueFetchingData();
             }
         } 
+    }
+
+    private async void btnName_Clicked(object sender, EventArgs e)
+    {
+        var button = sender as Button;
+        if (button != null)
+        {
+            var boundItem = button.CommandParameter as GetUserWithTagDto;
+            if (boundItem != null && !loadingDialog.IsVisible)
+            {
+                loadingDialog.IsVisible = true;
+                loadingDialog.Message = "Vui lòng chờ...";
+                await Navigation.PushModalAsync(new PTProfilePage(boundItem.FireBaseId));
+                loadingDialog.IsVisible = false;
+
+            }
+        }
     }
 }

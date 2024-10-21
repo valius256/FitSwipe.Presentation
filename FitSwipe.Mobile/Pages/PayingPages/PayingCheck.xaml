@@ -214,8 +214,8 @@
                                     BorderColor="#52BB00"
                                     Padding="2">
                                     <HorizontalStackLayout HorizontalOptions="Center">
-                                        <Image Source="vnpay.png" WidthRequest="40" HeightRequest="40"></Image>
-                                        <Label Text="Qua VNPay"
+                                        <Image Source="payos.svg" WidthRequest="40" HeightRequest="40"></Image>
+                                        <Label Text="Qua Payos (QR)"
                                             LineBreakMode="WordWrap"
                                             FontSize="12"
                                             Margin="5,0"           

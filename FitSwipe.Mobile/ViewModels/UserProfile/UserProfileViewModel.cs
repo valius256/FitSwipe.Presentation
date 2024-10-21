@@ -106,7 +106,7 @@ namespace FitSwipe.Mobile.ViewModels
                 if (tagsResult != null)
                 {
                     tags = tagsResult.ToObservableCollection();
-                }
+                }               
                 await FetchData();
             }
             catch (Exception ex)
@@ -127,31 +127,36 @@ namespace FitSwipe.Mobile.ViewModels
                 try
                 {
                     var token = await SecureStorage.GetAsync("auth_token");
-                    GetUserDto? user = null;
+                    string? userId = null;
                     if (token != null && _guestId == null)
                     {
-                        user = await Shortcut.GetLoginedUser(token);
+                        userId = await SecureStorage.GetAsync("loginedUserId");
                     }
                     else
                     {
-                        user = new GetUserDto { FireBaseId = _guestId };
+                        userId = _guestId;
                     }
-                    if (token == null || user == null)
+                    if (token == null || userId == null)
                     {
                         await Application.Current.MainPage.DisplayAlert("Lỗi", "Lỗi xác thực. Vui lòng đăng nhập lại!", "OK");
                         await Shell.Current.GoToAsync("//SignIn");
                         return;
                     }
                     //GEt user detail
-                    var userDetail = await Fetcher.GetAsync<GetUserDetailDto>($"api/users/{user.FireBaseId}/detail");
+                    var userDetail = await Fetcher.GetAsync<GetUserDetailDto>($"api/users/{userId}/detail");
                     if (userDetail != null)
                     {
-                        User = userDetail;
+                        User.FireBaseId = userDetail.FireBaseId;
+                        if (User.UserName != userDetail.UserName) User.UserName = userDetail.UserName;
+                        if (User.Email != userDetail.Email) User.Email = userDetail.Email;
+                        if (User.Bio != userDetail.Email) User.Bio = userDetail.Bio;
+                        if (User.Gender != userDetail.Gender) User.Gender = userDetail.Gender;
+                        if (User.Job != userDetail.Job) User.Job = userDetail.Job;
+                        if (User.AvatarUrl != userDetail.AvatarUrl) User.AvatarUrl = userDetail.AvatarUrl;
+                        if (User.DateOfBirth != userDetail.DateOfBirth) User.DateOfBirth = userDetail.DateOfBirth;
+                        if (User.City != userDetail.City) User.City = userDetail.City;
+                        
                         Updater = User.Adapt<RequestSetupProfileDto>();
-                        foreach (var tag in User.Tags)
-                        {
-                            tag.TagColor = GetRandomColor();
-                        }
                     }
                     //Get current training
                     if (isOwner)
@@ -170,12 +175,18 @@ namespace FitSwipe.Mobile.ViewModels
                             currentTraining = null;
                         }
                     }
-                    
-                    // Set the initial current image
-                    CurrentImage = User.UserMedias.FirstOrDefault();
+                    if (userDetail != null)
+                    {
+                        loadingDialog.IsVisible = false;
+                        pageContent.IsVisible = true;
+                        AppendTags(userDetail.Tags);
+                        AppendUserMedias(userDetail.UserMedias);
+                        // Set the initial current image
+                        CurrentImage = userDetail.UserMedias.FirstOrDefault();
 
-                    // Set SelectedImage to the initial CurrentImage
-                    SelectedImage = CurrentImage;
+                        // Set SelectedImage to the initial CurrentImage
+                        SelectedImage = CurrentImage;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -186,6 +197,65 @@ namespace FitSwipe.Mobile.ViewModels
                 loadingDialog.IsVisible = false;
             }
     } 
+    private void AppendTags(ObservableCollection<GetTagDto> tags)
+    {
+        var userTagList = User.Tags.ToList();
+        foreach (var tag in userTagList)
+        {
+            var existedTag = tags.FirstOrDefault(t => t.Id == tag.Id);
+            if (existedTag == null)
+            {
+                User.Tags.Remove(tag);
+            }
+        }
+        foreach (var tag in tags)
+        {
+            var existedTag = User.Tags.FirstOrDefault(t => t.Id == tag.Id);
+            if (existedTag != null)
+            {
+                if (existedTag.Name != tag.Name)
+                {
+                    existedTag.Name = tag.Name;
+                }
+            } 
+            else
+            {
+                User.Tags.Add(tag);
+            }
+        }
+        
+        foreach (var tag in User.Tags)
+        {
+            tag.TagColor = GetRandomColor();
+        }
+    }
+    private void AppendUserMedias(ObservableCollection<GetUserMediaDto> medias)
+    {
+        var mediaTagList = User.UserMedias.ToList();
+        foreach (var media in mediaTagList)
+        {
+            var existedMedia = tags.FirstOrDefault(m => m.Id == media.Id);
+            if (existedMedia == null)
+            {
+                User.UserMedias.Remove(media);
+            }
+        }
+        foreach (var media in medias)
+        {
+            var existedMedia = User.UserMedias.FirstOrDefault(m => m.Id == media.Id);
+            if (existedMedia != null)
+            {
+                if (existedMedia.Description != existedMedia.Description)
+                {
+                    existedMedia.Description = existedMedia.Description;
+                }
+            }
+            else
+            {
+                User.UserMedias.Add(media);
+            }
+        }
+    }
     private void ColorTrainingStatus()
     {
         if (CurrentTraining != null)

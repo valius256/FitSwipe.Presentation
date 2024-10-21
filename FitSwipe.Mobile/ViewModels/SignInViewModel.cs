@@ -55,6 +55,7 @@ namespace FitSwipe.Mobile.ViewModels
                         var user = await Shortcut.GetLoginedUser(authResponse.Message);
                         if (user != null)
                         {
+                            await SecureStorage.SetAsync("loginedUserId", user.FireBaseId);
                             string barColor, navigateTo = "//SetupProfile";
                             //Routing between trainee and PT
                             barColor = (user.Role == Shared.Enums.Role.Trainee) ? "#52BB00" : "#2E3192";
@@ -66,7 +67,7 @@ namespace FitSwipe.Mobile.ViewModels
                             }
                             else if (user.Role == Shared.Enums.Role.PT)
                             {
-                                navigateTo = "//PTProfilePage";
+                                navigateTo = "//PTHomePage";
                             }
                             else if (user.Role == Shared.Enums.Role.Trainee)
                             {

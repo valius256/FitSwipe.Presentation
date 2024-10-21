@@ -129,14 +129,14 @@ public partial class PayingCheck : ContentPage
     }
     private async Task HandleVnPay(string token, GetUserDto currentUser)
     {
-        var answer = await DisplayAlert("Xác nhận", "Bạn có chắc chắn muốn thanh toán bằng VnPay?", "Có", "Không");
+        var answer = await DisplayAlert("Xác nhận", "Bạn có chắc chắn muốn thanh toán bằng Payos?", "Có", "Không");
         if (answer)
         {
             loadingDialog.IsVisible = true;
             loadingDialog.Message = "Vui lòng chờ...";
             try
             {
-                var result = await Fetcher.PostAsync<RequestPaySlotDto, GetPaymentUrlDto>("api/Payment/create-payos-link", new RequestPaySlotDto
+                var result = await Fetcher.PostAsync<RequestPaySlotDto, GetPaymentUrlDto>("api/Payment/payos-create", new RequestPaySlotDto
                 {
                     SlotIds = Cart.Select(s => s.Id.ToString()).ToList(),
                     OrderDescription = "Thanh toán buổi tập của " + currentUser.UserName + " vào lúc " + DateTime.Now,
@@ -147,7 +147,7 @@ public partial class PayingCheck : ContentPage
                     await Browser.Default.OpenAsync(result.Url, BrowserLaunchMode.SystemPreferred);
 
                     await Task.Delay(2000);
-                    await DisplayAlert("Xác nhận hoàn tất thanh toán", "Bạn đã thanh toán trên VNPAY", "Kiểm tra");
+                    await DisplayAlert("Xác nhận hoàn tất thanh toán", "Bạn đã thanh toán trên Payos", "Kiểm tra");
                     await HandleAfterPayment(token);
                 }
             }

@@ -8,7 +8,7 @@ namespace FitSwipe.Shared.Dtos.Users
   public class GetUserDto
   {
     public Guid Id { get; set; }
-    public string? FireBaseId { get; set; }
+    public string FireBaseId { get; set; } = string.Empty;
     public string UserName { get; set; } = string.Empty;
     public Gender Gender { get; set; }
     public string? Email { get; set; }

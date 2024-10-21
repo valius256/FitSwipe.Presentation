@@ -203,49 +203,47 @@ namespace FitSwipe.Mobile.ViewModels.UserProfile
                 try
                 {
                     var token = await SecureStorage.GetAsync("auth_token");
-                    GetUserDto? user = null;
+                    string? userId = null;
                     if (token != null && _guestId == null)
                     {
-                        user = await Shortcut.GetLoginedUser(token);
+                        userId = await SecureStorage.GetAsync("loginedUserId");
                     }
                     else
                     {
-                        user = new GetUserDto { FireBaseId = _guestId };
+                        userId = _guestId;
                     }
-                    if (token == null || user == null)
+                    if (token == null || userId == null)
                     {
                         await Application.Current.MainPage.DisplayAlert("Lỗi", "Lỗi xác thực. Vui lòng đăng nhập lại!", "OK");
                         await Shell.Current.GoToAsync("//SignIn");
                         return;
                     }
                     //GEt user detail
-                    var userDetail = await Fetcher.GetAsync<GetUserDetailDto>($"api/users/{user.FireBaseId}/detail");
+                    var userDetail = await Fetcher.GetAsync<GetUserDetailDto>($"api/users/{userId}/detail");
                     if (userDetail != null)
                     {
-                        User = userDetail;
-                        Updater = User.Adapt<RequestSetupProfileDto>();
-                        foreach (var tag in User.Tags)
-                        {
-                            tag.TagColor = GetRandomColor();
-                        }
-                    }
-                    var result = await Fetcher.GetAsync<PagedResult<GetTrainingDetailDto>>($"api/trainings?Filter.TrainingStatuses=2&Filter.TrainingStatuses=3", token);
-                    if (result != null)
-                    {
-                        CurrentTrainings = result.Items.ToList();
-                        foreach(var item in CurrentTrainings)
-                        {
-                            IsShowTrainingSection = true;
-                            //Setup the training
-                            ColorTrainingStatus(item);
-                        }
-                            
-                    }
-                    // Set the initial current image
-                    CurrentImage = User.UserMedias.FirstOrDefault();
+                        User.FireBaseId = userDetail.FireBaseId;
+                        if (User.UserName != userDetail.UserName) User.UserName = userDetail.UserName;
+                        if (User.Email != userDetail.Email) User.Email = userDetail.Email;
+                        if (User.Bio != userDetail.Email) User.Bio = userDetail.Bio;
+                        if (User.Gender != userDetail.Gender) User.Gender = userDetail.Gender;
+                        if (User.Job != userDetail.Job) User.Job = userDetail.Job;
+                        if (User.AvatarUrl != userDetail.AvatarUrl) User.AvatarUrl = userDetail.AvatarUrl;
+                        if (User.DateOfBirth != userDetail.DateOfBirth) User.DateOfBirth = userDetail.DateOfBirth;
+                        if (User.City != userDetail.City) User.City = userDetail.City;
 
-                    // Set SelectedImage to the initial CurrentImage
-                    SelectedImage = CurrentImage;
+                        Updater = User.Adapt<RequestSetupProfileDto>();
+
+                        loadingDialog.IsVisible = false;
+                        pageContent.IsVisible = true;
+                        AppendTags(userDetail.Tags);
+                        AppendUserMedias(userDetail.UserMedias);
+                        // Set the initial current image
+                        CurrentImage = userDetail.UserMedias.FirstOrDefault();
+
+                        // Set SelectedImage to the initial CurrentImage
+                        SelectedImage = CurrentImage;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -256,29 +254,65 @@ namespace FitSwipe.Mobile.ViewModels.UserProfile
                 loadingDialog.IsVisible = false;
             }
         }
-        private void ColorTrainingStatus(GetTrainingDetailDto trainingDetailDto)
+        private void AppendTags(ObservableCollection<GetTagDto> tags)
         {
-            if (trainingDetailDto != null)
+            var userTagList = User.Tags.ToList();
+            foreach (var tag in userTagList)
             {
-                if (trainingDetailDto.Status == TrainingStatus.NotStarted)
+                var existedTag = tags.FirstOrDefault(t => t.Id == tag.Id);
+                if (existedTag == null)
                 {
-                    trainingDetailDto.StatusString = "Sắp bắt đầu";
-                    trainingDetailDto.StatusColor = "#969696";
+                    User.Tags.Remove(tag);
                 }
-                if (trainingDetailDto.Status == TrainingStatus.OnGoing)
+            }
+            foreach (var tag in tags)
+            {
+                var existedTag = User.Tags.FirstOrDefault(t => t.Id == tag.Id);
+                if (existedTag != null)
                 {
-                    trainingDetailDto.StatusString = "Đang diễn ra";
-                    trainingDetailDto.StatusColor = "#52BB00";
+                    if (existedTag.Name != tag.Name)
+                    {
+                        existedTag.Name = tag.Name;
+                    }
                 }
-                double duration = 0;
-                foreach (var item in trainingDetailDto.Slots)
+                else
                 {
-                    duration += (item.EndTime - item.StartTime).TotalHours;
+                    User.Tags.Add(tag);
                 }
-                CurrentTrainingSlotDisplay = $"{trainingDetailDto.Slots.Count} buổi, {(int)duration} tiếng";
+            }
+
+            foreach (var tag in User.Tags)
+            {
+                tag.TagColor = GetRandomColor();
             }
         }
-
+        private void AppendUserMedias(ObservableCollection<GetUserMediaDto> medias)
+        {
+            var mediaTagList = User.UserMedias.ToList();
+            foreach (var media in mediaTagList)
+            {
+                var existedMedia = tags.FirstOrDefault(m => m.Id == media.Id);
+                if (existedMedia == null)
+                {
+                    User.UserMedias.Remove(media);
+                }
+            }
+            foreach (var media in medias)
+            {
+                var existedMedia = User.UserMedias.FirstOrDefault(m => m.Id == media.Id);
+                if (existedMedia != null)
+                {
+                    if (existedMedia.Description != existedMedia.Description)
+                    {
+                        existedMedia.Description = existedMedia.Description;
+                    }
+                }
+                else
+                {
+                    User.UserMedias.Add(media);
+                }
+            }
+        }
         private string GetRandomColor()
         {
             Random random = new Random();
@@ -345,8 +379,9 @@ namespace FitSwipe.Mobile.ViewModels.UserProfile
                     {
                         throw new Exception("Có sự cố xảy ra. Vui lòng đăng nhập lại");
                     }
+                    string userId = isOwner ? user.FireBaseId : _guestId!;
                     CurrentRatingPage += 1;
-                    var response = await Fetcher.GetAsync<PagedResult<GetTrainingFeedbackDetailDto>>($"api/trainings/PT-feedback/{user.FireBaseId}?page={CurrentRatingPage}&limit={PageRatingSize}", token);
+                    var response = await Fetcher.GetAsync<PagedResult<GetTrainingFeedbackDetailDto>>($"api/trainings/PT-feedback/{userId}?page={CurrentRatingPage}&limit={PageRatingSize}", token);
                     if (response != null)
                     {
                         await AppendRatingList(response.Items);

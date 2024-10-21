@@ -46,6 +46,7 @@
                                 Margin="10"
                                 ZIndex="-1"
                                  x:Name="btnComeback"
+                                Clicked="btnComeback_Clicked"
                                 HorizontalOptions="StartAndExpand" />
                         <!-- AbsoluteLayout to overlay content on the bottom of the image -->
                         <AbsoluteLayout VerticalOptions="FillAndExpand"
@@ -83,6 +84,7 @@
                                     HeightRequest="30"
                                     AbsoluteLayout.LayoutBounds="1, 0, AutoSize, AutoSize"
                                     AbsoluteLayout.LayoutFlags="PositionProportional"
+                                    x:Name="btnEditAvatarSection"
                                     Stroke="#2E3192"
                                     Padding="4">
                                         <Border.GestureRecognizers>
@@ -290,7 +292,7 @@
                         </HorizontalStackLayout>
                         <controls:TimeTable IsVisible="False" x:Name="timeTable" Theme="#2E3192" SlotAction="timeTable_SlotAction" WeekChanged="timeTable_WeekChanged"></controls:TimeTable>
                         <Button IsVisible="{Binding IsOwner, Converter={StaticResource InverseBooleanConverter}}" Margin="5" BackgroundColor="#2E3192" 
-                                TextColor="White" Text="Đặt lịch ngay" x:Name="btnBookNow" Clicked="btnBookNow_Clicked"></Button>
+                                TextColor="White" Text="Đặt lịch ngay" x:Name="btnBookNow" Command="{Binding MatchCommand}"></Button>
                     </StackLayout>
                     <!-- #endregion-->
                     <!-- #region FEEDBACK-->
@@ -488,12 +490,12 @@
                                            TextColor="Black"
                                             HorizontalOptions="StartAndExpand" x:Name="lblJob"/>
                                     <Picker x:Name="editJob" 
-                                Title="Chọn nghề nghiệp" 
-                                Margin="20,0,20,15"
-                                TextColor="Black"
-                                IsVisible="False"
-                                SelectedItem="{Binding Updater.Job}"
-                                ItemsSource="{Binding Jobs}">
+                                        Title="Chọn nghề nghiệp" 
+                                        Margin="20,0,20,15"
+                                        TextColor="Black"
+                                        IsVisible="False"
+                                        SelectedItem="{Binding Updater.Job}"
+                                        ItemsSource="{Binding Jobs}">
                                     </Picker>
                                 </StackLayout>
 
@@ -754,7 +756,7 @@
                             <Label TextColor="Black" Text="Kinh nghiệm : " Margin="0,0,20,0"></Label>
                             <Label TextColor="Black" Text="{Binding User.PTExperienceYear, StringFormat='{0} năm'}" FontAttributes="Italic,Bold"></Label>
                         </HorizontalStackLayout>-->
-                        <Image Source="{Binding User.PTDegreeImageUrl}" HorizontalOptions="FillAndExpand" HeightRequest="200" Margin="10"></Image>
+                        <Image Source="{Binding User.PTDegreeImageUrl}" HorizontalOptions="FillAndExpand" MaximumHeightRequest="200" Margin="10"></Image>
                     </VerticalStackLayout>
                     <!-- White mysterious space-->
                     <BoxView HeightRequest="50" BackgroundColor="Transparent"></BoxView>
@@ -768,6 +770,12 @@
                  IsVisible="False" 
                  AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                  AbsoluteLayout.LayoutFlags="All" />
+        <profilePages:PTProfileNavbar 
+                 ActiveTab="1"
+                 x:Name="profileNavbar"
+                 ZIndex="99"
+                 AbsoluteLayout.LayoutBounds="0.5, 0, 0.8, AutoSize"
+                 AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" />
         <controls:NavbarPT ActiveTab="5"
                  x:Name="navbar"
                  ZIndex="99"

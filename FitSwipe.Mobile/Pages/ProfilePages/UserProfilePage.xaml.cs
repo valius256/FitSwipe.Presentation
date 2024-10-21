@@ -43,9 +43,12 @@ public partial class UserProfilePage : ContentPage
         }
         else
         {
+            btnEditAvatarSection.IsVisible = false;
             btnEditBioSection.IsVisible = false;
             btnNameEditSection.IsVisible = false;
             btnInfoEditSection.IsVisible = false;
+            btnAddMedia.IsVisible = false;
+            profileNavbar.IsVisible = false;
             navbar.IsVisible = false;
         }
         BindingContext = viewModel;
@@ -141,5 +144,15 @@ public partial class UserProfilePage : ContentPage
         traineeUploadMediaModal.ActiveTab = 1;
         traineeUploadMediaModal.HandleSwitchTab();
         traineeUploadMediaModal.Show();
+    }
+
+    private async void btnComeback_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PopModalAsync();
+    }
+
+    private void btnSeemore_Clicked(object sender, EventArgs e)
+    {
+        Shell.Current.GoToAsync("//TraineeSchedulePage?flag=false");
     }
 }
