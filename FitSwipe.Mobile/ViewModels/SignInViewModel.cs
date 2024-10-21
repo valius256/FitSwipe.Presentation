@@ -55,18 +55,19 @@ namespace FitSwipe.Mobile.ViewModels
                         var user = await Shortcut.GetLoginedUser(authResponse.Message);
                         if (user != null)
                         {
+                            await SecureStorage.SetAsync("loginedUserId", user.FireBaseId);
                             string barColor, navigateTo = "//SetupProfile";
                             //Routing between trainee and PT
                             barColor = (user.Role == Shared.Enums.Role.Trainee) ? "#52BB00" : "#2E3192";
                             CommunityToolkit.Maui.Core.Platform.StatusBar.SetColor(Color.FromArgb(barColor));
                             CommunityToolkit.Maui.Core.Platform.StatusBar.SetStyle(StatusBarStyle.LightContent);
-                            if (user.District== null || user.City == null || user.Ward == null || user.Job == null)
+                            if (user.City == null || user.Job == null)
                             {
                                 navigateTo = "//SetupProfile";
                             }
                             else if (user.Role == Shared.Enums.Role.PT)
                             {
-                                navigateTo = "//PTProfilePage";
+                                navigateTo = "//PTHomePage";
                             }
                             else if (user.Role == Shared.Enums.Role.Trainee)
                             {

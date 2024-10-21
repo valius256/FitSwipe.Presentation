@@ -28,6 +28,8 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Find your best PT near you.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

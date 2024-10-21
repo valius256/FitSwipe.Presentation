@@ -44,13 +44,6 @@ public partial class TrainingPage : ContentPage
         }
     }
 
-
-    private async void tapRefresh_Tapped(object sender, TappedEventArgs e)
-    {
-        if (ViewModel.ActiveTab == 0) ViewModel.RequestedTrainingFlag = true; else ViewModel.MyTrainingFlag = true;
-        await ViewModel.FetchData();
-    }
-
     private void pageContent_Scrolled(object sender, ScrolledEventArgs e)
     {
         if (e.ScrollY >= (pageContent.ContentSize.Height - pageContent.Height))

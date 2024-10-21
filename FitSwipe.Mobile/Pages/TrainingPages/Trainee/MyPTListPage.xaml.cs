@@ -100,7 +100,7 @@ public partial class MyPTListPage : ContentPage
 
     private void pageContent_Scrolled(object sender, ScrolledEventArgs e)
     {
-        if (e.ScrollY >= (pageContent.ContentSize.Height - pageContent.Height))
+        if (e.ScrollY >= (pageScroll.ContentSize.Height - pageScroll.Height))
         {
             ViewModel.ScrolledToEnd(e);
         }

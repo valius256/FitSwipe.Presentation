@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Pages.ProfilePages.TagPickerModal">
+    <AbsoluteLayout>
+
+        <!-- Background overlay for fade effect -->
+        <Border BackgroundColor="#88000000"
+         Stroke="#88000000"
+         AbsoluteLayout.LayoutBounds="0,0,1,1"
+         AbsoluteLayout.LayoutFlags="All" />
+
+        <!-- Modal Content -->
+        <Frame BackgroundColor="White" CornerRadius="10" Padding="0"
+           BorderColor="Transparent"
+           VerticalOptions="Center"
+           AbsoluteLayout.LayoutBounds="0.5,0.5,0.8,0.8" 
+           AbsoluteLayout.LayoutFlags="All">
+
+            <Grid Padding="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <!-- Scrollable list of checkboxes -->
+                <CollectionView ItemsSource="{Binding Tags}" 
+                            SelectionMode="None"
+                            Grid.Row="0">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <FlexLayout Padding="5">
+                                <CheckBox FlexLayout.Basis="20%" WidthRequest="30" x:Name="tagCheck" CheckedChanged="tagCheck_CheckedChanged" IsChecked="{Binding IsSelected}"/>
+                                <Label  FlexLayout.Basis="80%" Text="{Binding Name}" 
+                                    VerticalOptions="Center" 
+                                    HorizontalTextAlignment="Start"
+                                    FontSize="16"/>
+                            </FlexLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Buttons for Accept and Cancel -->
+                <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="End" Spacing="20" Margin="0,10,0,0">
+                    <Button Text="Hủy bỏ" 
+                        BackgroundColor="LightGray"
+                        TextColor="Black"
+                        x:Name="btnCancel"
+                        Clicked="btnCancel_Clicked"
+                        />
+                    <Button Text="Xác nhận" 
+                        BackgroundColor="#FF2E3191"
+                        TextColor="White"
+                        x:Name="btnAccept"
+                        Clicked="btnAccept_Clicked"
+                        />
+                </StackLayout>
+
+            </Grid>
+        </Frame>
+    </AbsoluteLayout>
+</ContentView>

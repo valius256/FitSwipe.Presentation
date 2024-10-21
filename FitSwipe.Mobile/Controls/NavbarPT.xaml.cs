@@ -75,11 +75,11 @@ public partial class NavbarPT : ContentView
     }
     private void UpdateBackground()
     {
-        BackgroundTab1 = (ActiveTab == 1 ? "DarkBlue" : "White");
-        BackgroundTab2 = (ActiveTab == 2 ? "DarkBlue" : "White");
-        BackgroundTab3 = (ActiveTab == 3 ? "DarkBlue" : "White");
-        BackgroundTab4 = (ActiveTab == 4 ? "DarkBlue" : "White");
-        BackgroundTab5 = (ActiveTab == 5 ? "DarkBlue" : "White");
+        BackgroundTab1 = (ActiveTab == 1 ? "#85a7de" : "White");
+        BackgroundTab2 = (ActiveTab == 2 ? "#85a7de" : "White");
+        BackgroundTab3 = (ActiveTab == 3 ? "#85a7de" : "White");
+        BackgroundTab4 = (ActiveTab == 4 ? "#85a7de" : "White");
+        BackgroundTab5 = (ActiveTab == 5 ? "#85a7de" : "White");
     }
     private static void OnTabChanged(BindableObject bindable, object oldValue, object newValue)
     {

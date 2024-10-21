@@ -1,5 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using FitSwipe.Mobile.ViewModels.UserProfile;
+﻿using CommunityToolkit.Maui.Core.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using FitSwipe.Mobile.Controls;
+using FitSwipe.Mobile.Pages.ProfilePages;
 using FitSwipe.Shared.Dtos;
 using FitSwipe.Shared.Dtos.Medias;
 using FitSwipe.Shared.Dtos.Slots;
@@ -7,7 +10,11 @@ using FitSwipe.Shared.Dtos.Tags;
 using FitSwipe.Shared.Dtos.Trainings;
 using FitSwipe.Shared.Dtos.Users;
 using FitSwipe.Shared.Enums;
+using FitSwipe.Shared.Utils;
+using Mapster;
+using Microsoft.Maui.Devices.Sensors;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace FitSwipe.Mobile.ViewModels
 {
@@ -18,6 +25,9 @@ namespace FitSwipe.Mobile.ViewModels
 
     [ObservableProperty]
     private GetUserDetailDto user = new();
+
+    [ObservableProperty]
+    private RequestSetupProfileDto updater = new();
     //public UserProfileCombinedViewModel CombinedViewModel { get; set; }
 
     [ObservableProperty]
@@ -36,7 +46,7 @@ namespace FitSwipe.Mobile.ViewModels
     [ObservableProperty]
     private bool isOwner = true;
     [ObservableProperty]
-    private bool isShowTrainingSection = true;
+    private bool isShowTrainingSection = false;
     [ObservableProperty]
     private bool isEditName = false;
     [ObservableProperty]
@@ -45,212 +55,206 @@ namespace FitSwipe.Mobile.ViewModels
     private bool isEditBio = false;
     [ObservableProperty]
     private ObservableCollection<string> jobs = new();
+    [ObservableProperty]
+    public bool isRefreshing = false;
+
+
+    private RefreshView pageContent;
+    private LoadingDialog loadingDialog;
+    private TagPickerModal tagPickerModal;
+    private ObservableCollection<GetTagDto> tags = [];
+    private string? _guestId;
+    public bool IsTagsChanged = false;
+
+    public IRelayCommand RemoveTag { get; }
+    public IRelayCommand AddTag { get; }
+    public ICommand RefreshCommand { get; }
 
     // Constructor to initialize with sample data
-    public UserProfileViewModel ()
+    public UserProfileViewModel (RefreshView scrollView, LoadingDialog loadingDialog, TagPickerModal tagPickerModal, string? guestId = null)
     {
-      jobs = new ObservableCollection<string> { "Học sinh, Sinh viên", "Lao động chân tay", "Sư phạm" , "Y học" , "Kĩ sư" , "Kinh doanh", "Công nghệ thông tin",  "Làm thuê làm mướn" ,"Làm việc văn phòng","Hiện tại thất nghiệp", "Khác","Không muốn chia sẻ" };
+        RemoveTag = new RelayCommand<Guid>(RemoveATag);
+        AddTag = new RelayCommand<string?>(AddFromTagType);
+        RefreshCommand = new Command(OnRefresh);
 
-      userTags = new ObservableCollection<GetTagDto>
+        pageContent = scrollView;
+        this.loadingDialog = loadingDialog;
+        this.tagPickerModal = tagPickerModal;
+        _guestId = guestId;
+
+
+        Jobs = new ObservableCollection<string> { "Học sinh, Sinh viên", "Lao động chân tay", "Sư phạm" , "Y học" , "Kĩ sư" , "Kinh doanh", "Công nghệ thông tin",  "Làm thuê làm mướn" ,"Làm việc văn phòng","Hiện tại thất nghiệp", "Khác","Không muốn chia sẻ" };
+        // Handle property changed for CurrentImage to update SelectedImage
+        PropertyChanged += (s, e) =>
+        {
+            if (e.PropertyName == nameof(CurrentImage))
             {
-                new GetTagDto
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Strength",
-                    TagType = TagType.Target,
-                    TagColor = "#52BB00", // Green
-                    CreateById = "User1",
-                    TagImage = "strength_icon.png",
-                    SpecialTag = SpecialTag.DifferentGender,
-                    CreatedDate = DateTime.Now,
-                    RecordStatus = RecordStatus.Active,
-                    DisplaySize = 12,
-                    IsSelected = false
-                },
-                new GetTagDto
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Cardio",
-                    TagType = TagType.Hobby,
-                    TagColor = "#FF5733", // Red-Orange
-                    CreateById = "User2",
-                    TagImage = "cardio_icon.png",
-                    SpecialTag = SpecialTag.DifferentGender,
-                    CreatedDate = DateTime.Now,
-                    RecordStatus = RecordStatus.Active,
-                    DisplaySize = 10,
-                    IsSelected = true
-                },
-                new GetTagDto
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Flexibility",
-                    TagType = TagType.SelfDescription,
-                    TagColor = "#3355FF", // Blue
-                    CreateById = "User3",
-                    TagImage = "flexibility_icon.png",
-                    SpecialTag = SpecialTag.Close,
-                    CreatedDate = DateTime.Now,
-                    RecordStatus = RecordStatus.Active,
-                    DisplaySize = 15,
-                    IsSelected = false
-                },
-                new GetTagDto
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Running",
-                    TagType = TagType.Hobby,
-                    TagColor = "#FFA500", // Orange
-                    CreateById = "User3",
-                    TagImage = "running_icon.png",
-                    SpecialTag = SpecialTag.Close,
-                    CreatedDate = DateTime.Now,
-                    RecordStatus = RecordStatus.Active,
-                    DisplaySize = 15,
-                    IsSelected = false
-                },
-                new GetTagDto
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Fishing",
-                    TagType = TagType.Hobby,
-                    TagColor = "#FFD700", // Gold
-                    CreateById = "User3",
-                    TagImage = "fishing_icon.png",
-                    SpecialTag = SpecialTag.Close,
-                    CreatedDate = DateTime.Now,
-                    RecordStatus = RecordStatus.Active,
-                    DisplaySize = 15,
-                    IsSelected = false
-                },
-                new GetTagDto
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Sweet Home Alabama",
-                    TagType = TagType.Hobby,
-                    TagColor = "#800080", // Purple
-                    CreateById = "User3",
-                    TagImage = "home_icon.png",
-                    SpecialTag = SpecialTag.Close,
-                    CreatedDate = DateTime.Now,
-                    RecordStatus = RecordStatus.Active,
-                    DisplaySize = 15,
-                    IsSelected = false
-                },
-                new GetTagDto
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Weight Lifting",
-                    TagType = TagType.TrainingType,
-                    TagColor = "#ffc300",
-                    CreateById = "User3",
-                    TagImage = "home_icon.png",
-                    SpecialTag = SpecialTag.Close,
-                    CreatedDate = DateTime.Now,
-                    RecordStatus = RecordStatus.Active,
-                    DisplaySize = 15,
-                    IsSelected = false
-                },
-                new GetTagDto
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Katarinanian Workout",
-                    TagType = TagType.TrainingType,
-                    TagColor = "#a71e34",
-                    CreateById = "User3",
-                    TagImage = "home_icon.png",
-                    SpecialTag = SpecialTag.Close,
-                    CreatedDate = DateTime.Now,
-                    RecordStatus = RecordStatus.Active,
-                    DisplaySize = 15,
-                    IsSelected = false
-                },
-                new GetTagDto
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Buff",
-                    TagType = TagType.PTTaste,
-                    TagColor = "#023e8a",
-                    CreateById = "User3",
-                    TagImage = "home_icon.png",
-                    SpecialTag = SpecialTag.Close,
-                    CreatedDate = DateTime.Now,
-                    RecordStatus = RecordStatus.Active,
-                    DisplaySize = 15,
-                    IsSelected = false
-                },
-                new GetTagDto
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Polite",
-                    TagType = TagType.PTTaste,
-                    TagColor = "#599079",
-                    CreateById = "User3",
-                    TagImage = "home_icon.png",
-                    SpecialTag = SpecialTag.Close,
-                    CreatedDate = DateTime.Now,
-                    RecordStatus = RecordStatus.Active,
-                    DisplaySize = 15,
-                    IsSelected = false
-                },
-            };
-
-      user = new GetUserDetailDto()
-      {
-        UserName = "Nguyen Thanh Phong",
-        AvatarUrl = "pt5.png",
-        DateOfBirth = new DateTime(2024, 9, 21),
-        Ward = "Phườn 16",
-        District = "Đường Hoàng Ngân",
-        City = "Hồ Chí Minh",
-        Job = "Sinh viên",
-        Bio = "Anh không thích kem, chỉ thích 2/3 dưới của nó thoi!",
-        UserMedias = new List<GetUserMediaDto>
+                SelectedImage = CurrentImage;
+            }
+        };
+        Setup();
+    }
+    private async void Setup()
+    {
+        if (Application.Current != null && Application.Current.MainPage != null)
         {
-          new GetUserMediaDto { MediaUrl = "pt1.jpg", Description="nhìn cái cơ bắp này đi"},
-          new GetUserMediaDto { MediaUrl = "pt2.jpg", Description="chào em, anh đứng đây từ chiều"},
-          new GetUserMediaDto { MediaUrl = "pt3.jpg", Description="tôi đô không em?"},
-          new GetUserMediaDto { MediaUrl = "profile_thumbnail1.png", Description = "never gonna give you up 🗣️🗣️"},
-          new GetUserMediaDto { MediaUrl = "profile_thumbnail2.png", Description = "a du ang seng"},
-        },
-          // Initialize the userTags collection with sample data and different colors
-          Tags = userTags,
-      };
-      CurrentTraining = new GetTrainingDetailDto()
-      {
-          PT = new GetUserDto { UserName = "Achang Đẹp Trai", AvatarUrl = "pt1.png"},
-          Trainee = new GetUserDto { UserName = "Nguyen Thanh Phong", AvatarUrl = "pt5.png" },
-          Slots = new ObservableCollection<GetSlotDto>
-          {
-              new GetSlotDto { Id = Guid.NewGuid(), StartTime =  new DateTime(2024,9,20,7,0,0), EndTime = new DateTime(2024,9,20,8,30,0), Location = "Phòng tập City Gym" , TotalVideo = 5, Content="Push ups" },
-            new GetSlotDto { Id = Guid.NewGuid(), StartTime =  new DateTime(2024,9,19,7,0,0), EndTime = new DateTime(2024,9,19,8,0,0), Location = "Phòng tập City Gym" , TotalVideo = 3, Content="Sit ups"  },
-            new GetSlotDto { Id = Guid.NewGuid(), StartTime =  new DateTime(2024,9,18,10,15,0), EndTime = new DateTime(2024,9,18,12,45,0), Location = "Phòng tập City Gym" , TotalVideo = 5 , Content="Run 10km" },
-            new GetSlotDto { Id = Guid.NewGuid(), StartTime =  new DateTime(2024,9,18,15,30,0), EndTime = new DateTime(2024,9,18,17,30,0), Location = "" , TotalVideo = 4, Content="Mix up"  },
-            new GetSlotDto { Id = Guid.NewGuid(), StartTime =  new DateTime(2024,9,16,7,0,0), EndTime = new DateTime(2024,9,16,8,30,0) , Location = "" , TotalVideo = 5, Content="Pull ups"  }
-          },
-          Status = TrainingStatus.OnGoing
-      };
-      //Setup the training
-      ColorTrainingStatus();
+            pageContent.IsVisible = false;
+            loadingDialog.IsVisible = true;
+            try
+            {
+                var tagsResult = await Fetcher.GetAsync<List<GetTagDto>>("api/tags");
+                if (tagsResult != null)
+                {
+                    tags = tagsResult.ToObservableCollection();
+                }               
+                await FetchData();
+            }
+            catch (Exception ex)
+            {
 
+                await Application.Current.MainPage.DisplayAlert("Lỗi", "Có lỗi xảy ra. Err : " + ex.Message, "OK");
 
-      // Set the initial current image
-      CurrentImage = User.UserMedias.FirstOrDefault();
-
-      // Set SelectedImage to the initial CurrentImage
-      SelectedImage = CurrentImage;
-
-      // Create the combined view model
-      //CombinedViewModel = new UserProfileCombinedViewModel(user, userTags);
-
-      // Handle property changed for CurrentImage to update SelectedImage
-      PropertyChanged += (s, e) =>
-      {
-        if (e.PropertyName == nameof(CurrentImage))
-        {
-          SelectedImage = CurrentImage;
+            }
+            loadingDialog.IsVisible = false;
+            pageContent.IsVisible = true;
         }
-      };
+    }
+    public async Task FetchData()
+    {
+            if (Application.Current != null && Application.Current.MainPage != null)
+            {
+                loadingDialog.IsVisible = true;
+                try
+                {
+                    var token = await SecureStorage.GetAsync("auth_token");
+                    string? userId = null;
+                    if (token != null && _guestId == null)
+                    {
+                        userId = await SecureStorage.GetAsync("loginedUserId");
+                    }
+                    else
+                    {
+                        userId = _guestId;
+                    }
+                    if (token == null || userId == null)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Lỗi", "Lỗi xác thực. Vui lòng đăng nhập lại!", "OK");
+                        await Shell.Current.GoToAsync("//SignIn");
+                        return;
+                    }
+                    //GEt user detail
+                    var userDetail = await Fetcher.GetAsync<GetUserDetailDto>($"api/users/{userId}/detail");
+                    if (userDetail != null)
+                    {
+                        User.FireBaseId = userDetail.FireBaseId;
+                        if (User.UserName != userDetail.UserName) User.UserName = userDetail.UserName;
+                        if (User.Email != userDetail.Email) User.Email = userDetail.Email;
+                        if (User.Bio != userDetail.Email) User.Bio = userDetail.Bio;
+                        if (User.Gender != userDetail.Gender) User.Gender = userDetail.Gender;
+                        if (User.Job != userDetail.Job) User.Job = userDetail.Job;
+                        if (User.AvatarUrl != userDetail.AvatarUrl) User.AvatarUrl = userDetail.AvatarUrl;
+                        if (User.DateOfBirth != userDetail.DateOfBirth) User.DateOfBirth = userDetail.DateOfBirth;
+                        if (User.City != userDetail.City) User.City = userDetail.City;
+                        
+                        Updater = User.Adapt<RequestSetupProfileDto>();
+                    }
+                    //Get current training
+                    if (isOwner)
+                    {
+                        GetTrainingDetailDto? currentTraining;
+                        try
+                        {
+                            currentTraining = await Fetcher.GetAsync<GetTrainingDetailDto>($"api/trainings/current-training", token!);
+                            CurrentTraining = currentTraining;
+                            IsShowTrainingSection = true;
+                            //Setup the training
+                            ColorTrainingStatus();
+                        }
+                        catch
+                        {
+                            currentTraining = null;
+                        }
+                    }
+                    if (userDetail != null)
+                    {
+                        loadingDialog.IsVisible = false;
+                        pageContent.IsVisible = true;
+                        AppendTags(userDetail.Tags);
+                        AppendUserMedias(userDetail.UserMedias);
+                        // Set the initial current image
+                        CurrentImage = userDetail.UserMedias.FirstOrDefault();
+
+                        // Set SelectedImage to the initial CurrentImage
+                        SelectedImage = CurrentImage;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    await Application.Current.MainPage.DisplayAlert("Lỗi", "Có lỗi xảy ra. Err : " + ex.Message, "OK");
+
+                }
+                loadingDialog.IsVisible = false;
+            }
+    } 
+    private void AppendTags(ObservableCollection<GetTagDto> tags)
+    {
+        var userTagList = User.Tags.ToList();
+        foreach (var tag in userTagList)
+        {
+            var existedTag = tags.FirstOrDefault(t => t.Id == tag.Id);
+            if (existedTag == null)
+            {
+                User.Tags.Remove(tag);
+            }
+        }
+        foreach (var tag in tags)
+        {
+            var existedTag = User.Tags.FirstOrDefault(t => t.Id == tag.Id);
+            if (existedTag != null)
+            {
+                if (existedTag.Name != tag.Name)
+                {
+                    existedTag.Name = tag.Name;
+                }
+            } 
+            else
+            {
+                User.Tags.Add(tag);
+            }
+        }
+        
+        foreach (var tag in User.Tags)
+        {
+            tag.TagColor = GetRandomColor();
+        }
+    }
+    private void AppendUserMedias(ObservableCollection<GetUserMediaDto> medias)
+    {
+        var mediaTagList = User.UserMedias.ToList();
+        foreach (var media in mediaTagList)
+        {
+            var existedMedia = tags.FirstOrDefault(m => m.Id == media.Id);
+            if (existedMedia == null)
+            {
+                User.UserMedias.Remove(media);
+            }
+        }
+        foreach (var media in medias)
+        {
+            var existedMedia = User.UserMedias.FirstOrDefault(m => m.Id == media.Id);
+            if (existedMedia != null)
+            {
+                if (existedMedia.Description != existedMedia.Description)
+                {
+                    existedMedia.Description = existedMedia.Description;
+                }
+            }
+            else
+            {
+                User.UserMedias.Add(media);
+            }
+        }
     }
     private void ColorTrainingStatus()
     {
@@ -273,6 +277,153 @@ namespace FitSwipe.Mobile.ViewModels
             }
             CurrentTrainingSlotDisplay = $"{CurrentTraining.Slots.Count} buổi, {(int)duration} tiếng";
         }      
+    }
+
+    private string GetRandomColor()
+    {
+        Random random = new Random();
+        int red = random.Next(0, 256);
+        int green = random.Next(0, 256);
+        int blue = random.Next(0, 256);
+
+        return $"#{red:X2}{green:X2}{blue:X2}";
+
+    }
+    public void UpsertTags(List<GetTagDto> tags)
+    {
+            foreach (var tag in tags)
+            {
+                if (!User.Tags.Contains(tag))
+                {
+                    tag.TagColor = GetRandomColor();
+                    User.Tags.Add(tag);
+                }
+            }
+            if (tags.Count > 0)
+            {
+                var tagType = tags[0].TagType;
+                var tagOfTypes = User.Tags.Where(s => s.TagType == tags[0].TagType).ToList();
+                foreach (var tag in tagOfTypes)
+                {
+                    if (!tags.Contains(tag))
+                    {
+                        User.Tags.Remove(tag);
+                    }
+                }
+                
+            }
+            IsTagsChanged = true;
+            
+    }
+    private async void OnRefresh()
+    {
+        if (!loadingDialog.IsVisible)
+        {
+            // Stop the refresh animation
+            IsRefreshing = false;
+            await FetchData();
+        }      
+    }
+    [RelayCommand]
+    public async Task GetGPS()
+    {
+        loadingDialog.IsVisible = true;
+        try
+        {
+            GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+
+            var location = await Geolocation.Default.GetLocationAsync(request, new CancellationTokenSource().Token);
+            if (location != null)
+            {
+
+                Updater.Longitude = location.Longitude;
+                Updater.Latitude = location.Latitude;
+                IEnumerable<Placemark> placemarks = await Geocoding.Default.GetPlacemarksAsync(location.Latitude, location.Longitude);
+
+                var placemark = placemarks?.FirstOrDefault();
+
+                if (placemark != null)
+                {
+                    Updater.City = placemark.SubAdminArea + ", " + placemark.AdminArea;
+                }
+            }
+
+        }
+        catch
+
+        {
+            if (Application.Current != null && Application.Current.MainPage != null && updater.UserName != null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Lỗi", "Vui lòng bật vị trí", "OK");
+            }
+        }
+        loadingDialog.IsVisible = false;
+    }
+    [RelayCommand]
+    public async Task UpdateProfile()
+    {
+            if (Application.Current != null && Application.Current.MainPage != null && updater.UserName != null)
+            {
+                loadingDialog.IsVisible = true;
+                try
+                {
+                    var token = await SecureStorage.GetAsync("auth_token");
+                    GetUserDto? user = null;
+                    if (token != null)
+                    {
+                        user = await Shortcut.GetLoginedUser(token);
+                    }
+                    if (token == null || user == null)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Lỗi", "Lỗi xác thực. Vui lòng đăng nhập lại!", "OK");
+                        await Shell.Current.GoToAsync("//SignIn");
+                        return;
+                    }
+                    
+                    await Fetcher.PatchAsync("api/users/set-up", updater, token);
+                    User.UserName = updater.UserName;
+                    User.Bio = updater.Bio;
+                    User.DateOfBirth = updater.DateOfBirth;
+                    User.Job = updater.Job;
+                    User.City = updater.City;
+                    User.Longitude = updater.Longitude;
+                    User.Latitude = updater.Latitude;
+                    if (IsTagsChanged)
+                    {
+                        var requestTags = new RequestUpsertTagsDto
+                        {
+                            NewTagIds = User.Tags.Select(t => t.Id).ToList()
+                        };
+                        await Fetcher.PutAsync("api/tags/upsert-user-tags", requestTags, token);
+                        IsTagsChanged = false;
+                    }
+                    await Application.Current.MainPage.DisplayAlert("Thành công", "Đã cập nhật", "OK");
+                }
+                catch (Exception ex)
+                {
+
+                    await Application.Current.MainPage.DisplayAlert("Lỗi", "Có lỗi xảy ra. Err : " + ex.Message, "OK");
+
+                }
+                loadingDialog.IsVisible = false;
+            }
+    }
+    [RelayCommand]
+    private void RemoveATag(Guid tagId)
+    {
+            var tag = User.Tags.FirstOrDefault(s => s.Id == tagId);
+            if (tag != null)
+            {
+                User.Tags.Remove(tag);
+                IsTagsChanged = true;
+            }
+    }
+    [RelayCommand]
+    private void AddFromTagType(string? tagType)
+    {
+            tagPickerModal.Tags = tags.Where(s => s.TagType.ToString() == tagType).ToObservableCollection();
+            tagPickerModal.SetSelected(User.Tags.Where(s => s.TagType.ToString() == tagType).ToList());
+            tagPickerModal.Show();
     }
   }
 }

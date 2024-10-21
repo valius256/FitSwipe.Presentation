@@ -4,6 +4,7 @@
              x:Class="FitSwipe.Mobile.Pages.SetupPages.SetupProfilePage"
              xmlns:converters="clr-namespace:FitSwipe.Mobile.Converters"
              xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
+             xmlns:setupPages="clr-namespace:FitSwipe.Mobile.Pages.SetupPages"
              xmlns:enums="clr-namespace:FitSwipe.Shared.Enums;assembly=FitSwipe.Shared"
              x:Name="SetupProfilePageView">
     <ContentPage.Resources>
@@ -24,24 +25,33 @@
             </Grid.RowDefinitions>
             <ScrollView Grid.Row="0">
                 <VerticalStackLayout>
-                    <BoxView
+                    <Image
                          BackgroundColor="Gray"
-                         HeightRequest="100"></BoxView>
-                    <Frame
-                         Margin="0,-75,0,15"
-                         WidthRequest="150"
-                         HeightRequest="150"
-                         CornerRadius="100"
-                         Padding="5"
-                         BackgroundColor="{Binding Source={x:Reference SetupProfilePageView}, Path=MainColor1}"
-                         BorderColor="{Binding Source={x:Reference SetupProfilePageView}, Path=MainColor1}">
+                         Source="default_cover"
+                         Aspect="AspectFill"
+                         HeightRequest="100"></Image>
+                    <Grid Margin="0,-75,0,15">
                         <Frame
+                             WidthRequest="150"
+                             HeightRequest="150"
+                             CornerRadius="100"
                              Padding="5"
-                             CornerRadius="100">
-                            <Image Source="dotnet_bot.png"
-                                Aspect="AspectFill"></Image>
+                             BackgroundColor="{Binding Source={x:Reference SetupProfilePageView}, Path=MainColor1}"
+                             BorderColor="{Binding Source={x:Reference SetupProfilePageView}, Path=MainColor1}">
+                                <Frame
+                                     Padding="5"                                 
+                                     CornerRadius="100">
+                                    <Image Source="{Binding AvatarUrl}"
+                                            Aspect="AspectFill"
+                                           WidthRequest="150"
+                                            HeightRequest="150"></Image>
+                                </Frame>
+                        
                         </Frame>
-                    </Frame>
+                        <Button Margin="100,0,0,0" HorizontalOptions="Center" VerticalOptions="End" ImageSource="camera" WidthRequest="35" HeightRequest="35" Padding="5" BackgroundColor="LightGray"
+                                x:Name="btnCamera" Clicked="btnCamera_Clicked"></Button>
+                    </Grid>
+
                     <Frame 
                          Padding="1"
                          Margin="20,0"
@@ -110,7 +120,7 @@
                     </Picker>
 
                     <!-- Address: City, District, Ward -->
-                    <Label Text="Địa chỉ:"
+                    <!--<Label Text="Địa chỉ:"
                         FontAttributes="Bold"
                         Margin="20,0,20,5"
                            TextColor="Black"/>
@@ -121,8 +131,28 @@
                             SelectedItem="{Binding District}" Title="Quận" WidthRequest="100"/>
                         <Picker x:Name="WardPicker" TextColor="Black"
                             SelectedItem="{Binding Ward}" Title="Phường" WidthRequest="100"/>
-                    </FlexLayout>
-
+                    </FlexLayout>-->
+                    <StackLayout Orientation="Horizontal"
+                         Spacing="5"
+                         Margin="20,0,20,5">
+                        <Image Source="house_color"
+                             WidthRequest="15"
+                             HeightRequest="15" />
+                        <Label Text="Địa chỉ: " FontAttributes="Bold" TextColor="Black" />
+                    </StackLayout>
+                    <StackLayout
+                         Margin="20,0,20,5"
+                         Orientation="Horizontal">
+                        <Label Text="{Binding City}"
+                                VerticalOptions="Center" 
+                                HorizontalOptions="StartAndExpand" 
+                               FontAttributes="Italic"
+                                TextColor="Black"/>
+                        <Button Margin="10,0" ImageSource="refresh_black" 
+                            WidthRequest="25" HeightRequest="25"
+                            Padding="5" BackgroundColor="LightGray" x:Name="btnGPS" 
+                            Clicked="btnGPS_Clicked"></Button>
+                    </StackLayout>
                     <!-- Bio Text Input -->
                     <Label Text="Giới thiệu bản thân:"
                         FontAttributes="Bold"
@@ -148,6 +178,8 @@
                              Message="Đang chuẩn bị thông tin của bạn..."
                              AbsoluteLayout.LayoutFlags="PositionProportional"
                              AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
-        </AbsoluteLayout>
+        <setupPages:UserUploadAvatarModal x:Name="userUploadAvatarModal"
+                     AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" />
+    </AbsoluteLayout>
 
 </ContentPage>

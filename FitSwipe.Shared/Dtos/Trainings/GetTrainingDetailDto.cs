@@ -2,10 +2,11 @@
 using FitSwipe.Shared.Dtos.Users;
 using FitSwipe.Shared.Enums;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace FitSwipe.Shared.Dtos.Trainings
 {
-    public class GetTrainingDetailDto
+    public class GetTrainingDetailDto : INotifyPropertyChanged
     {
         public  Guid Id { get; set; }
         public string TraineeId { get; set; } = string.Empty;
@@ -14,8 +15,7 @@ namespace FitSwipe.Shared.Dtos.Trainings
         public string? Feedback { get; set; }
         public double? Rating { get; set; }
         public int? PricePerSlot { get; set; }
-        public string StatusString { get; set; } = string.Empty;
-        public string StatusColor { get; set; } = string.Empty;
+
         public GetUserDto Trainee { get; set; } = default!;
         public GetUserDto PT { get; set; } = default!;
         public ObservableCollection<GetSlotDto> Slots { get; set; } = new ObservableCollection<GetSlotDto>();
@@ -61,6 +61,37 @@ namespace FitSwipe.Shared.Dtos.Trainings
                 }
                 return start + " - " + end;
             }
+        }
+        private string _statusString = string.Empty;
+        public string StatusString {
+            get => _statusString;
+            set
+            {
+                if (_statusString != value)
+                {
+                    _statusString = value;
+                    OnPropertyChanged(nameof(StatusString));
+                }
+            }
+        }
+        private string _statusColor = string.Empty;
+        public string StatusColor
+        {
+            get => _statusColor;
+            set
+            {
+                if (_statusColor != value)
+                {
+                    _statusColor = value;
+                    OnPropertyChanged(nameof(StatusColor));
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
