@@ -48,6 +48,8 @@ namespace FitSwipe.Mobile.ViewModels.UserProfile
         private string? currentTrainingSlotDisplay;
 
         [ObservableProperty]
+        private bool isVIP = false;
+        [ObservableProperty]
         private bool isOwner = true;
         [ObservableProperty]
         private bool isShowTrainingSection = false;
@@ -103,9 +105,9 @@ namespace FitSwipe.Mobile.ViewModels.UserProfile
                     SelectedImage = CurrentImage;
                 }
             };
-            Setup();
+            //Setup();
         }
-        private async void Setup()
+        public async void Setup()
         {
             if (Application.Current != null && Application.Current.MainPage != null)
             {
@@ -113,15 +115,20 @@ namespace FitSwipe.Mobile.ViewModels.UserProfile
                 loadingDialog.IsVisible = true;
                 try
                 {
-                    var tagsResult = await Fetcher.GetAsync<List<GetTagDto>>("api/tags");
-                    if (tagsResult != null)
-                    {
-                        tags = tagsResult.ToObservableCollection();
-                    }
+                    
                     await FetchData();
                     pageContent.IsVisible = true;
                     await FetchSlots(true);               
                     await FetchRatingData(true);
+
+                    if (_guestId == null)
+                    {
+                        var tagsResult = await Fetcher.GetAsync<List<GetTagDto>>("api/tags");
+                        if (tagsResult != null)
+                        {
+                            tags = tagsResult.ToObservableCollection();
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -230,7 +237,11 @@ namespace FitSwipe.Mobile.ViewModels.UserProfile
                         if (User.Job != userDetail.Job) User.Job = userDetail.Job;
                         if (User.AvatarUrl != userDetail.AvatarUrl) User.AvatarUrl = userDetail.AvatarUrl;
                         if (User.DateOfBirth != userDetail.DateOfBirth) User.DateOfBirth = userDetail.DateOfBirth;
+                        if (User.PTDegreeImageUrl != userDetail.PTDegreeImageUrl) User.PTDegreeImageUrl = userDetail.PTDegreeImageUrl;
+                        if (User.PTRating != userDetail.PTRating) User.PTRating = userDetail.PTRating;
                         if (User.City != userDetail.City) User.City = userDetail.City;
+                        if (User.SubscriptionLevel != userDetail.SubscriptionLevel) User.SubscriptionLevel = userDetail.SubscriptionLevel;
+                        if (User.SubscriptionPaymentStatus != userDetail.SubscriptionPaymentStatus) User.SubscriptionPaymentStatus = userDetail.SubscriptionPaymentStatus;
 
                         Updater = User.Adapt<RequestSetupProfileDto>();
 

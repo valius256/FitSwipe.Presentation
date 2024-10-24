@@ -50,7 +50,17 @@ public partial class TraineeSchedulePage : ContentPage
     public TraineeSchedulePage()
 	{
 		InitializeComponent();
-        Setup();
+        //Setup();
+    }
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        var currentToken = await SecureStorage.GetAsync("auth_token") ?? string.Empty;
+        if (Helper.CheckTokenChanged(Token, currentToken))
+        {
+            Setup();
+            return;
+        }
     }
     private async void Setup()
     {
@@ -166,13 +176,8 @@ public partial class TraineeSchedulePage : ContentPage
             loadingDialog.Message = "Đang thực hiện...";
             try
             {
-                var token = await SecureStorage.GetAsync("auth_token");
-                if (token == null)
-                {
-                    throw new Exception("Token is not found");
-                }
                 await Navigation.PushModalAsync(new FeeedbackPage(_currentTrainingDetail.Adapt<GetTrainingWithTraineeAndPTDto>()));
-                await Fetcher.PutAsync($"api/trainings/finishing", new GetTrainingDto(), token);
+                await Fetcher.PutAsync($"api/trainings/finishing", new GetTrainingDto(), Token);
                 await DisplayAlert("Thành công", "Đã chủ động kết thúc khóa huấn luyện", "OK");
             }
             catch (Exception ex)

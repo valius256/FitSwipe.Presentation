@@ -6,12 +6,14 @@ using FitSwipe.Shared.Dtos.Tags;
 using FitSwipe.Shared.Dtos.Transactions;
 using FitSwipe.Shared.Dtos.Users;
 using FitSwipe.Shared.Utils;
+using Syncfusion.Maui.Core.Carousel;
 using System.Collections.ObjectModel;
 
 namespace FitSwipe.Mobile.Pages.ProfilePages;
 
 public partial class TraineePaymentPage : ContentPage
 {
+    private string _token = string.Empty;
     private int pageSize = 10;
 
     private int _currentPage = 1;
@@ -87,10 +89,21 @@ public partial class TraineePaymentPage : ContentPage
 	public TraineePaymentPage()
 	{
 		InitializeComponent();
-		Setup();
+		//Setup();
 		BindingContext = this;
 	}
-	public async void Setup()
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        var currentToken = await SecureStorage.GetAsync("auth_token") ?? string.Empty;
+        if (Helper.CheckTokenChanged(_token, currentToken))
+        {
+            _token = currentToken;
+            Setup();
+            return;
+        }
+    }
+    public async void Setup()
 	{
         await FetchUserData();
 		await FetchUnpaidSlots();
@@ -103,18 +116,13 @@ public partial class TraineePaymentPage : ContentPage
 		loadingDialog.IsVisible = true;
 		try
 		{
-			var token = await SecureStorage.GetAsync("auth_token");
-			if (token == null)
-			{
-				throw new Exception("Lỗi xác thực");
-			}
-            var user = await Shortcut.GetLoginedUser(token);
+            var user = await Shortcut.GetLoginedUser(_token);
 			if (user == null)
 			{
                 throw new Exception("Lỗi xác thực");
             }
             User = user;
-            var balanceData = await Fetcher.GetAsync<GetUserBalanceDto>("api/users/balance",token);
+            var balanceData = await Fetcher.GetAsync<GetUserBalanceDto>("api/users/balance", _token);
 			if (balanceData != null)
 			{
 				Balance = balanceData.Balance.ToString("C0", new System.Globalization.CultureInfo("vi-VN"));
@@ -140,17 +148,12 @@ public partial class TraineePaymentPage : ContentPage
         try
         {
             AboutToPaidSlots.Clear();
-            var token = await SecureStorage.GetAsync("auth_token");
-            if (token == null)
-            {
-                throw new Exception("Lỗi xác thực");
-            }
             var userId = await SecureStorage.GetAsync("loginedUserId");
             if (userId == null)
             {
                 throw new Exception("Lỗi xác thực");
             }
-            var result = await Fetcher.GetAsync<List<GetSlotDetailDto>>($"api/Slot/debt-slots", token);
+            var result = await Fetcher.GetAsync<List<GetSlotDetailDto>>($"api/Slot/debt-slots", _token);
             if (result != null)
             {
 				UnpaidSlots = result.ToObservableCollection();
@@ -169,17 +172,12 @@ public partial class TraineePaymentPage : ContentPage
         loadingDialog.IsVisible = true;
         try
         {
-            var token = await SecureStorage.GetAsync("auth_token");
-            if (token == null)
-            {
-                throw new Exception("Lỗi xác thực");
-            }
             var userId = await SecureStorage.GetAsync("loginedUserId");
             if (userId == null)
             {
                 throw new Exception("Lỗi xác thực");
             }
-            var result = await Fetcher.GetAsync<PagedResult<GetTransactionDto>>($"api/Payment/transactions?Filter.Status=1&Filter.Status=2&Filter.Status=3&page={CurrentPage}&limit={pageSize}", token);
+            var result = await Fetcher.GetAsync<PagedResult<GetTransactionDto>>($"api/Payment/transactions?Filter.Status=1&Filter.Status=2&Filter.Status=3&page={CurrentPage}&limit={pageSize}", _token);
             if (result != null)
             {
                 Transactions = result.Items.ToObservableCollection();

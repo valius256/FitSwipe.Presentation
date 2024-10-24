@@ -149,20 +149,26 @@
                     <Frame HasShadow="True"
                            CornerRadius="50"
                            Padding="5"
+                           BackgroundColor="White"
                            BorderColor="Green">
                         <ImageButton Source="facebook.png"
                                      WidthRequest="40"
-                                     HeightRequest="40" />
+                                     HeightRequest="40"
+                                     x:Name="btnFacebook"
+                                     Clicked="btnFacebook_Clicked"/>
                     </Frame>
 
                     <!-- Google -->
                     <Frame HasShadow="True"
                            CornerRadius="50"
                            Padding="5"
+                           BackgroundColor="White"
                            BorderColor="Green">
                         <ImageButton Source="google.png"
                                      WidthRequest="40"
-                                     HeightRequest="40" />
+                                     HeightRequest="40" 
+                                     x:Name="btnGoogle"
+                                     Clicked="btnGoogle_Clicked"/>
                     </Frame>
                 </StackLayout>
             </VerticalStackLayout>

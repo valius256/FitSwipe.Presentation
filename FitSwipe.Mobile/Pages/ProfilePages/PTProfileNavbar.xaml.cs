@@ -1,4 +1,6 @@
-﻿namespace FitSwipe.Mobile.Pages.ProfilePages;
+﻿using FitSwipe.Mobile.Pages.SubscriptionPages;
+
+namespace FitSwipe.Mobile.Pages.ProfilePages;
 
 public partial class PTProfileNavbar : ContentView
 {
@@ -79,7 +81,7 @@ public partial class PTProfileNavbar : ContentView
 
     private async void tab2_Tapped(object sender, TappedEventArgs e)
     {
-        //await Shell.Current.GoToAsync("//TraineePaymentPage");
+        await Navigation.PushModalAsync(new SubscriptionView());
     }
 
     private async void tab4_Tapped(object sender, TappedEventArgs e)

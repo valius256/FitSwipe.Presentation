@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FitSwipe.Mobile.Controls;
+using FitSwipe.Mobile.Pages.ProfilePages;
 using FitSwipe.Mobile.ViewModels;
 using FitSwipe.Shared.Dtos.Paging;
 using FitSwipe.Shared.Dtos.Slots;
@@ -255,5 +256,10 @@ public partial class CustomersRequestedSchedulePage : ContentPage
                 
             }
         }
+    }
+
+    private void btnProfile_Clicked(object sender, EventArgs e)
+    {
+        Navigation.PushModalAsync(new UserProfilePage(_trainingDetails.TraineeId));
     }
 }

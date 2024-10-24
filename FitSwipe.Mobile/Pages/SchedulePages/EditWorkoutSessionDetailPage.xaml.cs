@@ -6,17 +6,16 @@ public partial class EditWorkoutSessionDetailPage : ContentPage
 {
     private Func<Task> _refreshData;
     private EditWorkoutSessionDetailViewModel _viewModel { get; set; }
-  public EditWorkoutSessionDetailPage (Guid slotId, Func<Task> refreshData)
+  public EditWorkoutSessionDetailPage (Guid slotId, Func<Task> refreshData, int? slotNumber = null)
   {
     InitializeComponent();
     _refreshData = refreshData;
-    _viewModel = new EditWorkoutSessionDetailViewModel(slotId, loadingDialog, pageContent);
+    _viewModel = new EditWorkoutSessionDetailViewModel(slotId, loadingDialog, pageContent, slotNumber);
     BindingContext = _viewModel;
   }
 
     private async void btnBack_Clicked(object sender, EventArgs e)
-    {
-        
+    {        
         await Navigation.PopModalAsync();
     }
 

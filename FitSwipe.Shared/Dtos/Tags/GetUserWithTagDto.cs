@@ -36,6 +36,9 @@ namespace FitSwipe.Shared.Dtos.Tags
         public string? Description { get; set; }
         public double? PTExperienceYear { get; set; }
         public double? PTRating { get; set; }
+        public int? SubscriptionLevel { get; set; }
+        public PaymentStatus? SubscriptionPaymentStatus { get; set; }
+        public bool IsVIP => SubscriptionLevel != null && SubscriptionLevel > 0 && SubscriptionPaymentStatus == PaymentStatus.Paid;
         public ObservableCollection<GetTagDto> Tags { get; set; } = new ObservableCollection<GetTagDto>();
         public int Age => DateTime.Now.Year - DateOfBirth.Year;
         public string AddressString

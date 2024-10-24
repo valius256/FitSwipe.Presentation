@@ -21,6 +21,7 @@ namespace FitSwipe.Shared.Dtos.Slots
         public string? Feedback { get; set; }
         public string? Location { get; set; }
         public string? Content { get; set; }
+        public int? SlotNumber { get; set; }
         public GetUserDto CreateBy { get; set; } = default!;
         public GetTrainingWithTraineeAndPTDto Training { get; set; } = default!;
         public ObservableCollection<GetSlotVideoDto> Videos { get; set; } = new ObservableCollection<GetSlotVideoDto>();

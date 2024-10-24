@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitSwipe.Mobile.Pages.Splash">
+    <AbsoluteLayout>
+
+        <!-- Background Image -->
+
+        <Image x:Name="backgroundImage"
+         Source="signin_background.png"
+         Aspect="AspectFill"
+         Opacity="0.5"
+         AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+         AbsoluteLayout.LayoutFlags="All" />
+
+        <!-- Green Overlay -->
+        <Border x:Name="backgroundCover"
+         BackgroundColor="#52BB00"
+          Opacity="0.15"
+          AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+          AbsoluteLayout.LayoutFlags="All" />
+        <VerticalStackLayout Padding="10"
+                     Spacing="10"
+                     VerticalOptions="Center"
+                     AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                     AbsoluteLayout.LayoutFlags="All">
+            <!--#region INFORMATION SECTION-->
+
+            <!-- App Icon -->
+            <Image Source="fitswipe_icon"
+           WidthRequest="150"
+           HeightRequest="150" />
+            <Label Text="FitSwipe"
+           HorizontalOptions="Center"
+           HorizontalTextAlignment="Center"
+           FontAttributes="Bold,Italic"
+           WidthRequest="250"
+           FontSize="50" />
+        </VerticalStackLayout>
+    </AbsoluteLayout>
+</ContentPage>

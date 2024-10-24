@@ -1,4 +1,5 @@
 using FitSwipe.Mobile.ViewModels;
+using FitSwipe.Shared.Utils;
 using Syncfusion.Maui.Core.Carousel;
 
 namespace FitSwipe.Mobile.Pages.ProfilePages;
@@ -6,8 +7,10 @@ namespace FitSwipe.Mobile.Pages.ProfilePages;
 [QueryProperty(nameof(PassedFlag), "flag")]
 public partial class UserProfilePage : ContentPage
 {
+    public string? GuestId;
     public bool PassedFlag { get; set; } = false;
     private bool _isOwner { get; set; } = true;
+    private string _token = string.Empty;
     private UserProfileViewModel viewModel;
 
     public UserProfilePage()
@@ -20,13 +23,19 @@ public partial class UserProfilePage : ContentPage
     public UserProfilePage(string guestId)
     {
         InitializeComponent();
-        viewModel = new UserProfileViewModel(pageContent, loadingDialog, tagModal,guestId);
-        SetIsOwner(true);
+        viewModel = new UserProfileViewModel(pageContent, loadingDialog, tagModal, guestId);
+        SetIsOwner(false);
 
     }
     protected override async void OnAppearing()
     {
-        base.OnAppearing();
+        var currentToken = await SecureStorage.GetAsync("auth_token") ?? string.Empty;
+        if (Helper.CheckTokenChanged(_token, currentToken))
+        {
+            _token = currentToken;
+            viewModel.Setup();
+            return;
+        }
         if (PassedFlag)
         {
             await viewModel.FetchData();

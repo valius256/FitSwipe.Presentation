@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:FitSwipe.Mobile.ViewModels"
+             xmlns:model="clr-namespace:FitSwipe.Shared.Dtos.Subscription;assembly=FitSwipe.Shared"
+             x:DataType="vm:SubscriptionViewModel"
+             xmlns:converters="clr-namespace:FitSwipe.Mobile.Converters"
+             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
+             x:Class="FitSwipe.Mobile.Pages.SubscriptionPages.SubscriptionView">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <AbsoluteLayout >
+        <ScrollView  AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+            <StackLayout BackgroundColor="#323593">
+                <AbsoluteLayout HorizontalOptions="FillAndExpand">
+                    <!-- Background Image -->
+                    <StackLayout AbsoluteLayout.LayoutBounds="0, 0, 1, AutoSize"
+                             AbsoluteLayout.LayoutFlags="SizeProportional">
+                        <Image Source="subscription_background"
+                         Aspect="AspectFill"
+                         MaximumHeightRequest="120"
+                         Opacity="0.7"
+                         BackgroundColor="White" />
+                    </StackLayout>
+
+                    <!-- Back Button Positioned at the Top Left -->
+                    <StackLayout AbsoluteLayout.LayoutBounds="0, 0, AutoSize, AutoSize"
+                             AbsoluteLayout.LayoutFlags="PositionProportional"
+                             Padding="20">
+                        <ImageButton Source="back_icon_white"
+                               WidthRequest="30"
+                               HeightRequest="30"
+                               HorizontalOptions="StartAndExpand"
+                               x:Name="btnBack"
+                               Clicked="btnBack_Clicked"/>
+                    </StackLayout>
+
+                    <StackLayout AbsoluteLayout.LayoutBounds="0.5, 1.7, 1, AutoSize"
+                             AbsoluteLayout.LayoutFlags="PositionProportional"
+                             Padding="0, 20, 0 ,0">
+                        <Image Source="crown"
+                         WidthRequest="180" />
+                    </StackLayout>
+                </AbsoluteLayout>
+
+                <!-- Decorative Button -->
+                <StackLayout Padding="0, 20, 0, 0">
+                    <Button Text="ADS"
+                        FontSize="Medium"
+                        FontAttributes="Bold"
+                        TextColor="#323593"
+                        BackgroundColor="#F8C600"
+                        Padding="0"
+                        WidthRequest="90"
+                        HeightRequest="30" />
+                </StackLayout>
+
+                <!--#region VIP PACKAGE INFORMATION -->
+                <StackLayout Padding="0, 15, 0, 0">
+                    <Label Text="Mua gói quảng cáo"
+                       TextColor="White"
+                       FontSize="Large"
+                       FontAttributes="Bold"
+                       HorizontalTextAlignment="Center" />
+
+                    <StackLayout Orientation="Horizontal"
+                             VerticalOptions="CenterAndExpand"
+                             Spacing="10">
+                        <BoxView Color="Yellow"
+                           HeightRequest="1"
+                           HorizontalOptions="FillAndExpand" />
+
+                        <Image Source="star_color"
+                         HeightRequest="12"
+                         WidthRequest="12" />
+
+                        <Label Text="Nhận ưu đãi"
+                         TextColor="White" />
+
+                        <Image Source="star_color"
+                         HeightRequest="12"
+                         WidthRequest="12" />
+
+                        <BoxView Color="Yellow"
+                           HeightRequest="1"
+                           HorizontalOptions="FillAndExpand" />
+                    </StackLayout>
+                    <StackLayout>
+                        <Label HorizontalOptions="Center" HorizontalTextAlignment="Center" Text="Bạn chưa đăng ký gói nào"
+                               TextColor="White" FontSize="20" HeightRequest="200" WidthRequest="250" VerticalOptions="Center" 
+                               VerticalTextAlignment="Center" FontAttributes="Italic"
+                               IsVisible="{Binding IsHavingSubscriptions, Converter={StaticResource InverseBooleanConverter}}"></Label>
+                    
+                        <AbsoluteLayout HorizontalOptions="CenterAndExpand"
+                                    Padding="0, 20, 0, 0"
+                                    IsVisible="{Binding IsHavingSubscriptions}"
+                                        >
+                            <Label Text="Gói của bạn"
+                             FontSize="Body"
+                             TextColor="White"
+                             AbsoluteLayout.LayoutFlags="PositionProportional"
+                             AbsoluteLayout.LayoutBounds="0.2, 0.1, AutoSize, AutoSize" />
+
+                            <Label Text="{Binding CurrentSubscription.Name}"
+                             ZIndex="1"
+                             TextColor="#323593"
+                             FontAttributes="Bold"
+                             FontSize="Title"
+                             AbsoluteLayout.LayoutFlags="PositionProportional"
+                             AbsoluteLayout.LayoutBounds="0.25, 0.63, AutoSize, AutoSize" />
+
+                            <StackLayout>
+                                <Image Source="dumbell_white_img"
+                               WidthRequest="390"
+                               HeightRequest="120"
+                               Aspect="Fill" />
+                            </StackLayout>
+
+                            <Label AbsoluteLayout.LayoutFlags="PositionProportional"
+                             AbsoluteLayout.LayoutBounds="-0.58, 1.05, 500, AutoSize">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Thời gian còn lại: "
+                                  TextColor="White"
+                                  FontSize="13" />
+                                        <Span Text="{Binding CurrentSubscription.RemainingTimeSpan}"
+                                  FontAttributes="Bold"
+                                  TextColor="White"
+                                  FontSize="13" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </AbsoluteLayout>
+                        <AbsoluteLayout ZIndex="-1" IsVisible="{Binding IsHavingSubscriptions}">
+                            <Border AbsoluteLayout.LayoutFlags="PositionProportional"
+                                    AbsoluteLayout.LayoutBounds="0.5, 2.5, AutoSize, AutoSize"
+                                    WidthRequest="285"
+                                    HorizontalOptions="CenterAndExpand"
+                                    BackgroundColor="Transparent"
+                                    StrokeThickness="2">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+
+                                <StackLayout Padding="15">
+                                    <StackLayout Orientation="Horizontal"
+                                               Spacing="10"
+                                               Margin="0, 0, 0, 10">
+                                        <Image Source="star_color"
+                                                WidthRequest="15" />
+                                        <Label Text="Bạn sẽ được"
+                                               TextColor="White"
+                                               FontAttributes="Bold"
+                                               FontSize="Subtitle" />
+                                    </StackLayout>
+
+                                    <CollectionView ItemsSource="{Binding CurrentSubscription.Benefit}"
+                                                    SelectionMode="None"
+                                                    InputTransparent="True">
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="0, 0, 0, 10">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="20" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Label Grid.Column="0"
+                                                            FontAttributes="Bold"
+                                                            TextColor="White"
+                                                            Text="&#x2022;" />
+                                                    <Label Grid.Column="1"
+                                                            TextColor="White"
+                                                            Text="{Binding}" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                </StackLayout>
+                            </Border>
+                        </AbsoluteLayout>
+                    </StackLayout>
+                    
+                </StackLayout>
+                <!--#endregion-->
+
+                <!--#region SUBSCRIPTION PACKAGES -->
+                <StackLayout Padding="30">
+                    <StackLayout Orientation="Horizontal"
+                             VerticalOptions="CenterAndExpand"
+                             Spacing="10">
+                        <BoxView Color="White"
+                           HeightRequest="1"
+                           HorizontalOptions="FillAndExpand" />
+
+                        <Label Text="Các gói VIP của chúng tôi"
+                         TextColor="White" />
+
+                        <BoxView Color="White"
+                           HeightRequest="1"
+                           HorizontalOptions="FillAndExpand" />
+                    </StackLayout>
+
+                    <StackLayout>
+                        <StackLayout HorizontalOptions="CenterAndExpand">
+                            <CarouselView Loop="False"
+                                  ItemsSource="{Binding Subscriptions}"
+                                  CurrentItem="{Binding CurrentSubscription}">
+                                <CarouselView.ItemTemplate>
+                                    <DataTemplate x:DataType="{x:Type model:GetSubscriptionItemDto}">
+                                        <Border Stroke="White"
+                                  HorizontalOptions="Fill"
+                                  Margin="20, 10"
+                                  VerticalOptions="Start">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="10" />
+                                            </Border.StrokeShape>
+
+                                            <StackLayout>
+                                                <Label Text="{Binding Name}"
+                                     Padding="25, 10"
+                                     TextColor="White"
+                                     FontAttributes="Bold"
+                                     FontSize="Medium"
+                                     HorizontalTextAlignment="Center" />
+
+                                                <BoxView HeightRequest="1"
+                                       HorizontalOptions="FillAndExpand"
+                                       Color="White" />
+
+                                                <StackLayout Padding="10">
+                                                    <Label Text="Bạn sẽ được"
+                                       TextColor="White"
+                                       FontAttributes="Bold"
+                                       Margin="0, 0, 0, 15" />
+
+                                                    <CollectionView ItemsSource="{Binding Benefit}"
+                                                SelectionMode="None"
+                                                InputTransparent="True">
+                                                        <CollectionView.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Grid Margin="0, 0, 0, 10">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="20" />
+                                                                        <ColumnDefinition Width="Auto" />
+                                                                    </Grid.ColumnDefinitions>
+
+                                                                    <Label Grid.Column="0"
+                                               FontAttributes="Bold"
+                                               TextColor="White"
+                                               Text="&#x2022;" />
+                                                                    <Label Grid.Column="1"
+                                               TextColor="White"
+                                               Text="{Binding}" />
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </CollectionView.ItemTemplate>
+                                                    </CollectionView>
+
+                                                    <StackLayout HorizontalOptions="CenterAndExpand"
+                                             Padding="0, 10, 0, 5">
+                                                        <Label Text="Nhấn để mua"
+                                                             FontSize="Micro"
+                                                             HorizontalTextAlignment="Center"
+                                                             TextColor="White" />
+                                                        <Border HeightRequest="40"
+                                                                 WidthRequest="200">
+                                                            <Border.StrokeShape>
+                                                                <RoundRectangle CornerRadius="15" />
+                                                            </Border.StrokeShape>
+                                                            <Button Text="{Binding PriceString}"
+                                                                    TextColor="White"
+                                                                    FontAttributes="Bold"
+                                                                    FontSize="20"
+                                                                    Padding="0"
+                                                                    x:Name="btnBuy"
+                                                                    Clicked="btnBuy_Clicked" />
+                                                        </Border>
+                                                    </StackLayout>
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </Border>
+                                    </DataTemplate>
+                                </CarouselView.ItemTemplate>
+                            </CarouselView>
+
+                            <!-- Indicator View -->
+                            <IndicatorView Count="{Binding Subscriptions.Count}"
+                                   HorizontalOptions="Center"
+                                   Margin="0, 10, 0, 0"
+                                   IndicatorColor="White"
+                                   SelectedIndicatorColor="#FFBF00" />
+
+                        </StackLayout>
+                    </StackLayout>
+                </StackLayout>
+                <!--#endregion-->
+            </StackLayout>
+        </ScrollView>
+    <controls:LoadingDialog x:Name="loadingDialog"
+                       IsVisible="False"
+                       Message="Vui lòng chờ..."
+                       AbsoluteLayout.LayoutFlags="PositionProportional"
+                       AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
+    </AbsoluteLayout>
+</ContentPage>

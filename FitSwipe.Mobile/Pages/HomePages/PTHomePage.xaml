@@ -9,188 +9,297 @@
              xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
              x:DataType="homePages:PTHomePage"
              xmlns:trainingConverters="clr-namespace:FitSwipe.Mobile.Converters.TrainingPageConverter"
+             xmlns:converters="clr-namespace:FitSwipe.Mobile.Converters"
              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons">
     <ContentPage.Resources>
         <ResourceDictionary>
             <trainingConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
             <trainingConverters:CountToVisibilityLabelConverter x:Key="CountToVisibilityLabelConverter" />
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <AbsoluteLayout>
-        <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" IsVisible="False" x:Name="pageContent" BackgroundColor="White">
-            <StackLayout>
-                <StackLayout Margin="10">
-                    <Label 
-                        Text="Chào mừng trở lại" 
-                        TextColor="Black"
-                        FontSize="Title" 
-                        HorizontalOptions="Center" />
-                    <Label 
-                        Text="{Binding User.UserName}" 
-                        FontSize="30" 
-                        TextColor="#2E3192"
-                        HorizontalOptions="Center" />
-                </StackLayout>
-                
-                <BoxView Margin="20" HeightRequest="2" BackgroundColor="#2E3192"></BoxView>
-                <StackLayout Padding="20" Spacing="15">
-                    <!-- Balance Display -->
-                    <Label 
-                    Text="Số dư của bạn" 
-                    FontSize="Large" 
-                    HorizontalOptions="Center" />
-
-                    <Label 
-                    x:Name="BalanceLabel"
-                    Text="{Binding Balance}" 
-                    FontSize="32"
-                    HorizontalOptions="Center"
-                    FontAttributes="Bold" />
-
-                    <!-- Buttons for Withdraw and Deposit -->
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20">
-                        <Button 
-                        Text="Rút tiền" 
-                        x:Name="btnWithdraw"
-                        WidthRequest="120"
-                        BackgroundColor="#52BB00"
-                        Clicked="btnWithdraw_Clicked" />
-
-                        <Button 
-                        Text="Nạp tiền" 
-                        WidthRequest="120"
-                        x:Name="btnDeposit"
-                        BackgroundColor="#2E3192"
-                        Clicked="btnDeposit_Clicked"/>
-                    </StackLayout>
-                </StackLayout>
-                <StackLayout IsVisible="{Binding UpcomingSlots.Count, Converter={StaticResource CountToVisibilityConverter}}">
-                    <StackLayout Orientation="Horizontal"
-                         Spacing="10"
-                         Margin="10">
-                        <Label Text="Các buổi tập sắp tới của bạn"
-                           TextColor="Black"
-                            FontAttributes="Bold"
-                            FontSize="Body" />
-                        <BoxView Color="#2E3192"
-                           HeightRequest="1.2"
-                           HorizontalOptions="FillAndExpand" />
-                    </StackLayout>
-                    <CollectionView ItemsSource="{Binding UpcomingSlots}">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="slotDto:GetSlotDetailDto">
-                                <Border Stroke="LightGray" StrokeThickness="2" Padding="5" Margin="5">
-                                    <Border.StrokeShape>
-                                        <RoundRectangle CornerRadius="5"></RoundRectangle>
-                                    </Border.StrokeShape>
-                                    <StackLayout>
-                                        <HorizontalStackLayout>
-                                            <Border Stroke="#52BB00" StrokeThickness="2" WidthRequest="60" HeightRequest="60" >
-                                                <Border.StrokeShape>
-                                                    <RoundRectangle CornerRadius="30"></RoundRectangle>
-                                                </Border.StrokeShape>
-                                                <Image Source="{Binding Training.Trainee.AvatarUrl}"
-                                                    Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="60" HeightRequest="60" />
-                                            </Border>
-                                            <StackLayout>
-                                                <Label FontSize="15" FontAttributes="Bold" TextColor="Black" Text="{Binding TimeString}"></Label>
-                                                <Label FontSize="10" TextColor="Black" Text="{Binding StartTime, StringFormat='{0:dd/MM/yyy}'}"></Label>
-                                                <Label FontSize="12" TextColor="Black" Text="{Binding Training.Trainee.UserName, StringFormat='Học viên : {0}'}"></Label>
-                                            </StackLayout>
-                                        </HorizontalStackLayout>
-                                    </StackLayout>
-
-                                </Border>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                    <FlexLayout>
-                        <Button BackgroundColor="#52BB00" Text="Xem lịch đầy đủ"
-                                x:Name="btnSchedule" Clicked="btnSchedule_Clicked" FlexLayout.Grow="1" Margin="5"></Button>
-                    </FlexLayout>
-                </StackLayout>
+    <AbsoluteLayout BackgroundColor="White">
+        <RefreshView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" IsVisible="False" x:Name="pageContent" BackgroundColor="White"
+                     IsRefreshing="{Binding IsRefresh}" Refreshing="pageContent_Refreshing">
+            <ScrollView >
                 <StackLayout>
-                    <StackLayout Orientation="Horizontal"
+                    <StackLayout Margin="10">
+                        <Label 
+                            Text="Chào mừng trở lại" 
+                            TextColor="Black"
+                            FontSize="Title" 
+                            HorizontalOptions="Center" />
+                        <Label 
+                            Text="{Binding User.UserName}" 
+                            FontSize="30" 
+                            TextColor="#2E3192"
+                            HorizontalOptions="Center" />
+                    </StackLayout>
+                
+                    <BoxView Margin="20" HeightRequest="2" BackgroundColor="#2E3192"></BoxView>
+                    <StackLayout Padding="20" Spacing="15">
+                        <!-- Balance Display -->
+                        <Label 
+                        Text="Số dư của bạn" 
+                        FontSize="Large" 
+                             TextColor="Black"
+                        HorizontalOptions="Center" />
+
+                        <Label 
+                        x:Name="BalanceLabel"
+                        Text="{Binding Balance}" 
+                        FontSize="32"
+                             TextColor="Black"
+                        HorizontalOptions="Center"
+                        FontAttributes="Bold" />
+
+                        <!-- Buttons for Withdraw and Deposit -->
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20">
+                            <Button 
+                            Text="Rút tiền" 
+                            x:Name="btnWithdraw"
+                            WidthRequest="120"
+                            BackgroundColor="#52BB00"
+                                 TextColor="White"
+                            Clicked="btnWithdraw_Clicked" />
+
+                            <Button 
+                            Text="Nạp tiền" 
+                            WidthRequest="120"
+                            x:Name="btnDeposit"
+                            BackgroundColor="#2E3192"
+                                 TextColor="White"
+                            Clicked="btnDeposit_Clicked"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout IsVisible="{Binding UpcomingSlots.Count, Converter={StaticResource CountToVisibilityConverter}}">
+                        <StackLayout Orientation="Horizontal"
                              Spacing="10"
                              Margin="10">
-                        <Label Text="Lịch sử giao dịch"
-                           TextColor="Black"
-                            FontAttributes="Bold"
-                            FontSize="Body" />
-                        <BoxView Color="#52BB00"
-                           HeightRequest="1.2"
-                           HorizontalOptions="FillAndExpand" />
-                    </StackLayout>
-                    <!-- Transaction ListView -->
-                    <ScrollView Orientation="Both"  MinimumHeightRequest="300">
-                        <StackLayout>
-                            <Grid ColumnSpacing="10" RowSpacing="5">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="120"/>
-                                    <ColumnDefinition Width="80"/>
-                                    <ColumnDefinition Width="50"/>
-                                    <ColumnDefinition Width="100"/>
-                                    <ColumnDefinition Width="120"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <!-- Table Header Row -->
-                                <Label Grid.Row="0" Grid.Column="0" TextColor="Black" HorizontalTextAlignment="Center" Text="Mã giao dịch" FontAttributes="Bold" />
-                                <Label Grid.Row="0" Grid.Column="1" TextColor="Black" HorizontalTextAlignment="Center" Text="Số tiền" FontAttributes="Bold" />
-                                <Label Grid.Row="0" Grid.Column="2" TextColor="Black" HorizontalTextAlignment="Center" Text="Phương thức" FontAttributes="Bold" />
-                                <Label Grid.Row="0" Grid.Column="3" TextColor="Black" HorizontalTextAlignment="Center" Text="Trạng thái" FontAttributes="Bold" />
-                                <Label Grid.Row="0" Grid.Column="4" TextColor="Black" HorizontalTextAlignment="Center" Text="Ngày" FontAttributes="Bold" />
-                                <Label Grid.Row="0" Grid.Column="5" TextColor="Black" HorizontalTextAlignment="Center" Text="Mô tả" FontAttributes="Bold" />
-                            </Grid>
-
-                            <!-- Table Content -->
-                            <CollectionView ItemsSource="{Binding Transactions}" SelectionMode="None">
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="transactionDto:GetTransactionDto">
-                                        <Grid ColumnSpacing="10" RowSpacing="5" Padding="5">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="120"/>
-                                                <ColumnDefinition Width="80"/>
-                                                <ColumnDefinition Width="50"/>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="120"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-
-                                            <!-- Table Data Rows -->
-                                            <Label Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Center" TextColor="Black" Text="{Binding TranscationCode}" />
-                                            <Label Grid.Row="0" Grid.Column="1" HorizontalTextAlignment="Center" TextColor="{Binding AmountColor}" FontAttributes="Bold" Text="{Binding AmountDisplay}" />
-                                            <Label Grid.Row="0" Grid.Column="2" HorizontalTextAlignment="Center" TextColor="Black" Text="{Binding Method}" />
-                                            <Label Grid.Row="0" Grid.Column="3" HorizontalTextAlignment="Center" TextColor="{Binding TextColor}" FontAttributes="Bold" Text="{Binding Status}" />
-                                            <Label Grid.Row="0" Grid.Column="4" HorizontalTextAlignment="Center" TextColor="Black" Text="{Binding CreatedDate}" />
-                                            <Label Grid.Row="0" Grid.Column="5" HorizontalTextAlignment="Center" TextColor="Black" Text="{Binding Description}" />
-                                        </Grid>
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
+                            <Label Text="Các buổi tập sắp tới của bạn"
+                               TextColor="Black"
+                                FontAttributes="Bold"
+                                FontSize="Body" />
+                            <BoxView Color="#2E3192"
+                               HeightRequest="1.2"
+                               HorizontalOptions="FillAndExpand" />
                         </StackLayout>
-                    </ScrollView>
-                    <!-- Pagination Buttons -->
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Margin="0,10">
-                        <Button BackgroundColor="Gray" ImageSource="{mi:Fluent ArrowPrevious24}" 
-                                x:Name="btnPrev" Clicked="btnPrev_Clicked"
-                                WidthRequest="50" HeightRequest="50" TextColor="Black"/>
-                        <Entry x:Name="txtCurrPage" Text="{Binding CurrentPage}" TextColor="Black" VerticalOptions="Center"></Entry>
-                        <Label TextColor="Black" Text="{Binding TotalPage, StringFormat=' / {0}'}" VerticalOptions="Center"></Label>
-                        <Button BackgroundColor="Gray" ImageSource="{mi:Fluent ArrowNext24}" 
-                                x:Name="btnNext" Clicked="btnNext_Clicked"
-                                WidthRequest="50" HeightRequest="50" TextColor="Black"/>
+                        <CollectionView ItemsSource="{Binding UpcomingSlots}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="slotDto:GetSlotDetailDto">
+                                    <Border Stroke="LightGray" StrokeThickness="2" Padding="5" Margin="5">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="5"></RoundRectangle>
+                                        </Border.StrokeShape>
+                                        <StackLayout>
+                                            <HorizontalStackLayout>
+                                                <Border Stroke="#52BB00" StrokeThickness="2" WidthRequest="60" HeightRequest="60" >
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="30"></RoundRectangle>
+                                                    </Border.StrokeShape>
+                                                    <Image Source="{Binding Training.Trainee.AvatarUrl}"
+                                                        Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="60" HeightRequest="60" />
+                                                </Border>
+                                                <StackLayout>
+                                                    <Label FontSize="15" FontAttributes="Bold" TextColor="Black" Text="{Binding TimeString}"></Label>
+                                                    <Label FontSize="10" TextColor="Black" Text="{Binding StartTime, StringFormat='{0:dd/MM/yyy}'}"></Label>
+                                                    <Label FontSize="12" TextColor="Black" Text="{Binding Training.Trainee.UserName, StringFormat='Học viên : {0}'}"></Label>
+                                                </StackLayout>
+                                            </HorizontalStackLayout>
+                                        </StackLayout>
+
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        <FlexLayout>
+                            <Button BackgroundColor="#52BB00" Text="Xem lịch đầy đủ"
+                                    x:Name="btnSchedule" Clicked="btnSchedule_Clicked" FlexLayout.Grow="1" Margin="5"></Button>
+                        </FlexLayout>
                     </StackLayout>
+                    <StackLayout>
+                        <StackLayout Orientation="Horizontal"
+                                     Spacing="10"
+                                     Margin="10">
+                            <Label Text="Gói VIP của bạn"
+                                   TextColor="Black"
+                                    FontAttributes="Bold"
+                                    FontSize="Body" />
+                            <BoxView Color="#2E3192"
+                                       HeightRequest="1.2"
+                                       HorizontalOptions="FillAndExpand" />
+                        </StackLayout>
+
+                        <Label HorizontalOptions="Center" HorizontalTextAlignment="Center" Text="Bạn chưa đăng ký gói nào"
+                               TextColor="Black" FontSize="20" HeightRequest="200" WidthRequest="250" VerticalOptions="Center" 
+                               VerticalTextAlignment="Center" FontAttributes="Italic"
+                               IsVisible="{Binding IsHavingSubscriptions, Converter={StaticResource InverseBooleanConverter}}"></Label>
+                        <Button BackgroundColor="#323593" TextColor="White" Text="Mua ngay" Margin="20"
+                                IsVisible="{Binding IsHavingSubscriptions, Converter={StaticResource InverseBooleanConverter}}"
+                                x:Name="btnSubscription" Clicked="btnSubscription_Clicked"></Button>
+                        
+                        <StackLayout HorizontalOptions="CenterAndExpand"
+                                    Padding="0, 20, 0, 0"
+                                    IsVisible="{Binding IsHavingSubscriptions}"
+                                    >
+                            <Image Source="crown_icon"
+                                   WidthRequest="200"
+                                   HeightRequest="200"
+                                   Aspect="Fill" />
+                            <Label Text="{Binding Subscription.Name}"
+                                 ZIndex="1"
+                                 TextColor="#323593"
+                                 FontAttributes="Bold"
+                                 HorizontalOptions="Center"
+                                 FontSize="Title" />
+
+                            <Label Text="Thời gian còn lại: "
+                                  TextColor="Black"
+                                  FontSize="13" 
+                                 HorizontalOptions="Center"                                 
+                                   FontAttributes="Italic"/>
+                            <Label Text="{Binding Subscription.RemainingTimeSpan}"
+                                    FontAttributes="Bold"
+                                    TextColor="Black"
+                                 HorizontalOptions="Center"                                  
+                                    FontSize="13" />
+                        </StackLayout>
+                        <AbsoluteLayout ZIndex="-1" IsVisible="{Binding IsHavingSubscriptions}">
+                            <Border AbsoluteLayout.LayoutFlags="PositionProportional"
+                                    AbsoluteLayout.LayoutBounds="0.5, 2.5, AutoSize, AutoSize"
+                                    WidthRequest="285"
+                                    HorizontalOptions="CenterAndExpand"
+                                    BackgroundColor="Transparent"
+                                    StrokeThickness="2">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+
+                                <StackLayout Padding="15">
+                                    <StackLayout Orientation="Horizontal"
+                                               Spacing="10"
+                                               Margin="0, 0, 0, 10">
+                                        <Image Source="star_color"
+                                                WidthRequest="15" />
+                                        <Label Text="Bạn sẽ được"
+                                                TextColor="Black"
+                                                FontAttributes="Bold"
+                                                FontSize="Subtitle" />
+                                    </StackLayout>
+
+                                    <CollectionView ItemsSource="{Binding Subscription.Benefit}"
+                                                    SelectionMode="None"
+                                                    InputTransparent="True">
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="0, 0, 0, 10">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="20" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Label Grid.Column="0"
+                                                        FontAttributes="Bold"
+                                                        TextColor="Black"
+                                                        Text="&#x2022;" />
+                                                    <Label Grid.Column="1"
+                                                        TextColor="Black"
+                                                        Text="{Binding}" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                </StackLayout>
+                            </Border>
+                        </AbsoluteLayout>
+                        <Button BackgroundColor="#323593" TextColor="White" Text="Gia hạn"
+                                Margin="20"
+                                IsVisible="{Binding IsHavingSubscriptions}"
+                                Clicked="btnSubscription_Clicked"></Button>
+                    </StackLayout>
+                    <StackLayout>
+                        <StackLayout Orientation="Horizontal"
+                                 Spacing="10"
+                                 Margin="10">
+                            <Label Text="Lịch sử giao dịch"
+                               TextColor="Black"
+                                FontAttributes="Bold"
+                                FontSize="Body" />
+                            <BoxView Color="#52BB00"
+                               HeightRequest="1.2"
+                               HorizontalOptions="FillAndExpand" />
+                        </StackLayout>
+                        <!-- Transaction ListView -->
+                        <ScrollView Orientation="Both"  MinimumHeightRequest="300">
+                            <StackLayout>
+                                <Grid ColumnSpacing="10" RowSpacing="5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="70"/>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Table Header Row -->
+                                    <Label Grid.Row="0" Grid.Column="0" TextColor="Black" HorizontalTextAlignment="Center" Text="Mã giao dịch" FontAttributes="Bold" />
+                                    <Label Grid.Row="0" Grid.Column="1" TextColor="Black" HorizontalTextAlignment="Center" Text="Số tiền" FontAttributes="Bold" />
+                                    <Label Grid.Row="0" Grid.Column="2" TextColor="Black" HorizontalTextAlignment="Center" Text="Phương thức" FontAttributes="Bold" />
+                                    <Label Grid.Row="0" Grid.Column="3" TextColor="Black" HorizontalTextAlignment="Center" Text="Trạng thái" FontAttributes="Bold" />
+                                    <Label Grid.Row="0" Grid.Column="4" TextColor="Black" HorizontalTextAlignment="Center" Text="Ngày" FontAttributes="Bold" />
+                                    <Label Grid.Row="0" Grid.Column="5" TextColor="Black" HorizontalTextAlignment="Center" Text="Mô tả" FontAttributes="Bold" />
+                                </Grid>
+
+                                <!-- Table Content -->
+                                <CollectionView ItemsSource="{Binding Transactions}" SelectionMode="None">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="transactionDto:GetTransactionDto">
+                                            <Grid ColumnSpacing="10" RowSpacing="5" Padding="5">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="120"/>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="70"/>
+                                                    <ColumnDefinition Width="100"/>
+                                                    <ColumnDefinition Width="120"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <!-- Table Data Rows -->
+                                                <Label Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Center" TextColor="Black" Text="{Binding TranscationCode}" />
+                                                <Label Grid.Row="0" Grid.Column="1" HorizontalTextAlignment="Center" TextColor="{Binding AmountColor}" FontAttributes="Bold" Text="{Binding AmountDisplay}" />
+                                                <Label Grid.Row="0" Grid.Column="2" HorizontalTextAlignment="Center" TextColor="Black" Text="{Binding Method}" />
+                                                <Label Grid.Row="0" Grid.Column="3" HorizontalTextAlignment="Center" TextColor="{Binding TextColor}" FontAttributes="Bold" Text="{Binding Status}" />
+                                                <Label Grid.Row="0" Grid.Column="4" HorizontalTextAlignment="Center" TextColor="Black" Text="{Binding CreatedDate}" />
+                                                <Label Grid.Row="0" Grid.Column="5" HorizontalTextAlignment="Center" TextColor="Black" Text="{Binding Description}" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </StackLayout>
+                        </ScrollView>
+                        <!-- Pagination Buttons -->
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Margin="0,10">
+                            <Button BackgroundColor="Gray" ImageSource="{mi:Fluent ArrowPrevious24}" 
+                                    x:Name="btnPrev" Clicked="btnPrev_Clicked"
+                                    WidthRequest="50" HeightRequest="50" TextColor="Black"/>
+                            <Entry x:Name="txtCurrPage" Text="{Binding CurrentPage}" TextColor="Black" VerticalOptions="Center"></Entry>
+                            <Label TextColor="Black" Text="{Binding TotalPage, StringFormat=' / {0}'}" VerticalOptions="Center"></Label>
+                            <Button BackgroundColor="Gray" ImageSource="{mi:Fluent ArrowNext24}" 
+                                    x:Name="btnNext" Clicked="btnNext_Clicked"
+                                    WidthRequest="50" HeightRequest="50" TextColor="Black"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <BoxView HeightRequest="100" BackgroundColor="Transparent"></BoxView>
                 </StackLayout>
-                <BoxView HeightRequest="100" BackgroundColor="Transparent"></BoxView>
-            </StackLayout>
-        </ScrollView>
+            </ScrollView>
+        </RefreshView>
         <profilePages:RechargeModal 
             x:Name="rechargeModal"
             ZIndex="100"

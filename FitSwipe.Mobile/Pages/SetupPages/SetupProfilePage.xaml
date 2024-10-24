@@ -39,7 +39,8 @@
                              BackgroundColor="{Binding Source={x:Reference SetupProfilePageView}, Path=MainColor1}"
                              BorderColor="{Binding Source={x:Reference SetupProfilePageView}, Path=MainColor1}">
                                 <Frame
-                                     Padding="5"                                 
+                                     Padding="5"
+                                    BackgroundColor="White"
                                      CornerRadius="100">
                                     <Image Source="{Binding AvatarUrl}"
                                             Aspect="AspectFill"

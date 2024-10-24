@@ -24,9 +24,7 @@
                     AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                     AbsoluteLayout.LayoutFlags="All">
 
-            <ScrollView x:Name="pageContent"
-                Scrolled="pageContent_Scrolled"
-                >
+            <ScrollView x:Name="pageContent"                >
                 <StackLayout Padding="15"
                    VerticalOptions="FillAndExpand"
                    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
@@ -164,18 +162,16 @@
                         CornerRadius="15"
                         Padding="1"
                         VerticalOptions="FillAndExpand"
-                        Margin="0, 0, 0, 100"
-                        MinimumHeightRequest="300">
-                            <ListView ItemsSource="{Binding UserList}"
-                                    HasUnevenRows="True"
+                        Margin="0, 0, 0, 100">
+                            <CollectionView ItemsSource="{Binding UserList}"
                                     BackgroundColor="Transparent"
                                     SelectionMode="None"
-                                    SeparatorColor="Transparent"
-                                    VerticalScrollBarVisibility="Never"
+                                    HeightRequest="400"
+                                    RemainingItemsThreshold="0"
+                                    RemainingItemsThresholdReached="CollectionView_RemainingItemsThresholdReached"
                                    >
-                                <ListView.ItemTemplate>
+                                <CollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="dtos:GetTrainingWithTraineeAndPTDto">
-                                        <ViewCell>
                                             <StackLayout Spacing="10"
                                                 Padding="8"
                                                 VerticalOptions="FillAndExpand">
@@ -195,6 +191,9 @@
                                                             <Border.StrokeShape>
                                                                 <RoundRectangle CornerRadius="10" />
                                                             </Border.StrokeShape>
+                                                            <Border.GestureRecognizers>
+                                                            <TapGestureRecognizer x:Name="tapTraineeAvatar" Tapped="tapTraineeAvatar_Tapped" CommandParameter="{Binding}"></TapGestureRecognizer>
+                                                            </Border.GestureRecognizers>
                                                             <StackLayout>
                                                                 <Image Source="{Binding Trainee.AvatarUrl}"
                                                                     Aspect="AspectFill"
@@ -354,10 +353,9 @@
                                                     </Grid>
                                                 </Border>
                                             </StackLayout>
-                                        </ViewCell>
                                     </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
                         </Frame>
                     </StackLayout>
                 </StackLayout>

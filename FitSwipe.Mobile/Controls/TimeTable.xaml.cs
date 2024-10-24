@@ -207,7 +207,7 @@ public partial class TimeTable : ContentView
                     HeightRequest = 20,
                     HorizontalOptions = LayoutOptions.End,
                     VerticalOptions = LayoutOptions.Start,
-                    Source = slot.PaymentStatus == PaymentStatus.NotPaid ? "white_warning" : "red_warning"
+                    Source = slot.Status == SlotStatus.Finished ? "white_warning" : "red_warning"
                 });
             }
             dayColumn.Add(slotGrid, new Rect(0, y, 1, h), AbsoluteLayoutFlags.WidthProportional);

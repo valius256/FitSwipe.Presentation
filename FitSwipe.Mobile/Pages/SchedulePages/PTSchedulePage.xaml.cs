@@ -8,6 +8,7 @@ using FitSwipe.Shared.Enums;
 using FitSwipe.Shared.Utils;
 using Mapster;
 using Microsoft.Maui.Layouts;
+using Syncfusion.Maui.Core.Carousel;
 using System.Collections.ObjectModel;
 
 namespace FitSwipe.Mobile.Pages.SchedulePages;
@@ -16,13 +17,25 @@ public partial class PTSchedulePage : ContentPage
 {
     public ObservableCollection<GetSlotDto> Slots { get; set; } = new ObservableCollection<GetSlotDto>();
     private GetUserDto? LoginedUser;
+    private string _token = string.Empty;
+
     public PTSchedulePage()
     {
         InitializeComponent();
-        Setup();
+        //Setup();
         pageContent.IsVisible = false;
     }
-
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        var currentToken = await SecureStorage.GetAsync("auth_token") ?? string.Empty;
+        if (Helper.CheckTokenChanged(_token, currentToken))
+        {
+            _token = currentToken;
+            Setup();
+            return;
+        }
+    }
     private async void Setup()
     {
         var token = await SecureStorage.GetAsync("auth_token");

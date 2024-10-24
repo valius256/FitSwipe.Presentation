@@ -12,10 +12,16 @@
        xmlns:setupPages="clr-namespace:FitSwipe.Mobile.Pages.SetupPages"
        xmlns:feedbackPages="clr-namespace:FitSwipe.Mobile.Pages.FeedbackPages"
        xmlns:payingpages="clr-namespace:FitSwipe.Mobile.Pages.PayingPages"
+       xmlns:subsciprtionpages="clr-namespace:FitSwipe.Mobile.Pages.SubscriptionPages"
        Shell.FlyoutBehavior="Disabled"
        Title="FitSwipe.Mobile">
 
-
+  <!--<ShellContent ContentTemplate="{DataTemplate subsciprtionpages:SubscriptionView}"
+                Route="Subscription" />
+  <ShellContent ContentTemplate="{DataTemplate subsciprtionpages:SubscriptionResultView}"
+                Route="SubscriptionResult" />-->
+    <ShellContent ContentTemplate="{DataTemplate pages:Splash}"
+              Route="SplashPage" />
     <ShellContent ContentTemplate="{DataTemplate pages:StartedView}"
                 Route="Started" />
   <ShellContent ContentTemplate="{DataTemplate pages:TrailerVideoView}"
@@ -24,21 +30,20 @@
                 Route="SignIn" />
   <ShellContent ContentTemplate="{DataTemplate pages:SignUpView}"
                 Route="SignUp" />
-  <ShellContent ContentTemplate="{DataTemplate pages:CertificateUploadView}"
+  <!--<ShellContent ContentTemplate="{DataTemplate pages:CertificateUploadView}"
                 Route="CertificateUpload" />
   <ShellContent ContentTemplate="{DataTemplate setupPages:RegisterSucessfullyScreen}"
-                Route="RegisterSuccessfully" />
-  <ShellContent ContentTemplate="{DataTemplate setupPages:SetupProfilePage}"
+                Route="RegisterSuccessfully" />-->
+    <ShellContent ContentTemplate="{DataTemplate setupPages:SetupProfilePage}"
                 Route="SetupProfile" />
+    <!--<ShellContent ContentTemplate="{DataTemplate schedulePages:PTAcceptSchedule}"
+                Route="PTAcceptSchedule" />-->
   
-  <ShellContent ContentTemplate="{DataTemplate schedulePages:PTAcceptSchedule}"
-                Route="PTAcceptSchedule" />
   
-  
-  <ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"
-                Route="SlotDetail" />
-  <ShellContent ContentTemplate="{DataTemplate trainingPages:PTScheduleBookingView}"
-                Route="PTScheduleBooking" />
+  <!--<ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"
+                Route="SlotDetail" />-->
+  <!--<ShellContent ContentTemplate="{DataTemplate trainingPages:PTScheduleBookingView}"
+                Route="PTScheduleBooking" />-->
     <ShellContent ContentTemplate="{DataTemplate homePages:PTList}"
           Route="PTList" />
     <ShellContent ContentTemplate="{DataTemplate chatPages:ChatPage}"
@@ -46,18 +51,18 @@
   
   <ShellContent ContentTemplate="{DataTemplate schedulePages:TraineeSchedulePage}"
                 Route="TraineeSchedulePage" />
-  <ShellContent ContentTemplate="{DataTemplate homePages:SwipeMatchView}"
-                Route="SwipeMatch" />
-  <ShellContent ContentTemplate="{DataTemplate payingpages:PayingCheck}"
+  <!--<ShellContent ContentTemplate="{DataTemplate homePages:SwipeMatchView}"
+                Route="SwipeMatch" />-->
+  <!--<ShellContent ContentTemplate="{DataTemplate payingpages:PayingCheck}"
                 Route="PayingCheck" />
   <ShellContent ContentTemplate="{DataTemplate payingpages:PayingView}"
-                Route="PayingView" />
+                Route="PayingView" />-->
     <ShellContent ContentTemplate="{DataTemplate profilePages:PTProfilePage}"
           Route="PTProfilePage" />
 
     
-    <ShellContent ContentTemplate="{DataTemplate schedulePages:CustomersRequestedSchedulePage}"
-                Route="CustomersRequestedSchedulePage" />
+    <!--<ShellContent ContentTemplate="{DataTemplate schedulePages:CustomersRequestedSchedulePage}"
+                Route="CustomersRequestedSchedulePage" />-->
     <ShellContent ContentTemplate="{DataTemplate trainingPages:TrainingPage}"
             Route="TrainingPage" />
     
@@ -77,6 +82,6 @@
           Route="Test" />
     <ShellContent ContentTemplate="{DataTemplate trainingPages:SlotDetailPage}"
               Route="SlotDetail" />-->
-    <!--<ShellContent ContentTemplate="{DataTemplate feedbackPages:FeeedbackPage}"
+  <!--<ShellContent ContentTemplate="{DataTemplate feedbackPages:FeeedbackPage}"
         Route="Feedback" />-->
 </Shell>

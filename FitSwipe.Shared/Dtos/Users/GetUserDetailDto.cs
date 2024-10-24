@@ -28,11 +28,8 @@ namespace FitSwipe.Shared.Dtos.Users
         public PTStatus? PTStatus { get; set; }
         public string? Description { get; set; }
         public double? PTExperienceYear { get; set; }
-        public double? PTRating { get; set; }
-        public string? PTDegreeImageUrl { get; set; }
+        
         public DateTime? SubscriptionPurchasedDate { get; set; }
-        public int? SubscriptionLevel { get; set; }
-        public PaymentStatus? SubscriptionPaymentStatus { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedDate { get; set; }
         public DateTime? DeletedDate { get; set; }
@@ -124,7 +121,63 @@ namespace FitSwipe.Shared.Dtos.Users
         }
         public int Age => DateTime.Now.Year - DateOfBirth.Year;
 
+        private double? _ptRating { get; set; }
 
+        public double? PTRating
+        {
+            get => _ptRating;
+            set
+            {
+                if (_ptRating != value)
+                {
+                    _ptRating = value;
+                    OnPropertyChanged(nameof(PTRating));
+                }
+            }
+        }
+        private int? _subscriptionLevel { get; set; }
+        public int? SubscriptionLevel
+        {
+            get => _subscriptionLevel;
+            set
+            {
+                if (_subscriptionLevel != value)
+                {
+                    _subscriptionLevel = value;
+                    OnPropertyChanged(nameof(SubscriptionLevel));
+                    OnPropertyChanged(nameof(IsVIP));
+                }
+            }
+        }
+        private PaymentStatus? _subscriptionPaymentStatus { get; set; }
+        public PaymentStatus? SubscriptionPaymentStatus
+        {
+            get => _subscriptionPaymentStatus;
+            set
+            {
+                if (_subscriptionPaymentStatus != value)
+                {
+                    _subscriptionPaymentStatus = value;
+                    OnPropertyChanged(nameof(SubscriptionPaymentStatus));
+                    OnPropertyChanged(nameof(IsVIP));
+                }
+            }
+        }
+        public bool IsVIP => SubscriptionLevel != null && SubscriptionLevel > 0 && SubscriptionPaymentStatus == PaymentStatus.Paid;
+
+        private string? _ptDegreeImageUrl { get; set; }
+        public string? PTDegreeImageUrl
+        {
+            get => _ptDegreeImageUrl;
+            set
+            {
+                if (_ptDegreeImageUrl != value)
+                {
+                    _ptDegreeImageUrl = value;
+                    OnPropertyChanged(nameof(PTDegreeImageUrl));
+                }
+            }
+        }
         private ObservableCollection<GetTagDto> _tags = new ObservableCollection<GetTagDto>();
         public ObservableCollection<GetTagDto> Tags
         {

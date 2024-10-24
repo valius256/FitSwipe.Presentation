@@ -76,7 +76,7 @@ public partial class PTAcceptSchedule : ContentPage
             var boundItem = button.CommandParameter as GetSlotDto;
             if (boundItem != null)
             {
-                await Navigation.PushModalAsync(new EditWorkoutSessionDetailPage(boundItem.Id, FetchData));
+                await Navigation.PushModalAsync(new EditWorkoutSessionDetailPage(boundItem.Id, FetchData, boundItem.SlotNumber));
             }
         }
     }

@@ -29,6 +29,7 @@
                             x:Name="btnBack" Clicked="btnBack_Clicked"
                             HorizontalOptions="Start" VerticalOptions="Start">
                     </Button>
+                    <Label Text="{Binding SlotDetail.SlotNumber, StringFormat='Buổi {0}'}" TextColor="#52BB00" FontAttributes="Bold" FontSize="20" HorizontalOptions="Center" HorizontalTextAlignment="Center"></Label>
                     <Label Text="Chi tiết buổi tập" TextColor="Black" FontAttributes="Bold" FontSize="25" HorizontalOptions="Center" HorizontalTextAlignment="Center"></Label>
                     <Border BackgroundColor="#52BB00" HeightRequest="4" Margin="100,0"></Border>
                     <HorizontalStackLayout HorizontalOptions="Center">

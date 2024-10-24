@@ -16,7 +16,7 @@
             <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <AbsoluteLayout>
+    <AbsoluteLayout BackgroundColor="White">
         <RefreshView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" IsVisible="False" x:Name="pageContent"
                      IsRefreshing="{Binding IsRefreshing}" Refreshing="pageContent_Refreshing">
             <ScrollView >
@@ -86,12 +86,14 @@
                         <Label 
                         Text="Số dư của bạn" 
                         FontSize="Large" 
+                        TextColor="Black"
                         HorizontalOptions="Center" />
 
                         <Label 
                         x:Name="BalanceLabel"
                         Text="{Binding Balance}" 
                         FontSize="32"
+                            TextColor="Black"
                         HorizontalOptions="Center"
                         FontAttributes="Bold" />
 
@@ -101,6 +103,7 @@
                             Text="Tạo đơn mới" 
                             x:Name="btnWithdraw"
                             WidthRequest="120"
+                            TextColor="White"
                             BackgroundColor="{Binding Theme}"
                             Clicked="btnWithdraw_Clicked" />
                         </StackLayout>
@@ -162,13 +165,13 @@
                     </StackLayout>
                     <StackLayout Padding="10" Spacing="5">
                         <Label Text="(*) Lưu ý :  "
-                                FontAttributes="Italic"/>
+                                FontAttributes="Italic" TextColor="Black"/>
                         <Label Text="Khi tạo đơn rút tiền. Tài khoản FitSwipe của bạn sẽ bị trừ tiền ngay sau đó, và trong vòng 24h, chúng tôi sẽ chuyển tiền vào tài khoản mà bạn gửi cho chúng tôi" 
-                               FontAttributes="Italic" FontSize="10"/>
+                               FontAttributes="Italic" FontSize="10" TextColor="Black"/>
                         <Label Text="Trong trường hợp thông tin sai hoặc vì lý do nào đó chúng tôi chuyển khoản thất bại. Tài khoản FitSwipe này sẽ được hoàn lại tiền!" 
-                                FontAttributes="Italic" FontSize="10"/>
+                                FontAttributes="Italic" FontSize="10" TextColor="Black"/>
                         <Label Text="Email hỗ trợ : fitswipecompany@gmail.com" 
-                                FontAttributes="Italic" FontSize="10"/>
+                                FontAttributes="Italic" FontSize="10" TextColor="Black"/>
                     </StackLayout>
                     <StackLayout IsVisible="{Binding Requests.Count, Converter={StaticResource trainingConverters:CountToVisibilityConverter}}">
                         <StackLayout Orientation="Horizontal"
@@ -276,26 +279,22 @@
             x:Name="profileNavbar"
             ZIndex="99"
             AbsoluteLayout.LayoutBounds="0.5, 0, 0.8, AutoSize"
-            AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" 
-            IsVisible="{Binding IsTrainee}"/>
+            AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional"/>
         <controls:Navbar ActiveTab="5"
              x:Name="navbar"
              ZIndex="99"
              AbsoluteLayout.LayoutBounds="0, 1, 1, AutoSize"
-             AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" 
-             IsVisible="{Binding IsTrainee}"/>
+             AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional"/>
         <controls:NavbarPT ActiveTab="5"
              x:Name="navbarPT"
              ZIndex="99"
              AbsoluteLayout.LayoutBounds="0, 1, 1, AutoSize"
-             AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" 
-             IsVisible="{Binding IsTrainee, Converter={StaticResource InverseBooleanConverter}}"/>
-        <!--<profilePages:PTProfileNavbar ActiveTab="3"
+             AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" />
+        <profilePages:PTProfileNavbar ActiveTab="3"
              x:Name="profileNavbarPT"
              ZIndex="99"
-             AbsoluteLayout.LayoutBounds="0, 1, 1, AutoSize"
-             AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" 
-             IsVisible="{Binding IsTrainee, Converter={StaticResource InverseBooleanConverter}}"/>-->
+             AbsoluteLayout.LayoutBounds="0.5, 0, 0.8, AutoSize"
+             AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" />
         <controls:LoadingDialog x:Name="loadingDialog"
              IsVisible="False"
              Message="Vui lòng chờ..."

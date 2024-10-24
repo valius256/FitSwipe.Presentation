@@ -1,17 +1,41 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
+using FitSwipe.Mobile.Pages.SubscriptionPages;
 using FitSwipe.Shared.Dtos.Paging;
 using FitSwipe.Shared.Dtos.Slots;
+using FitSwipe.Shared.Dtos.Subscription;
 using FitSwipe.Shared.Dtos.Transactions;
 using FitSwipe.Shared.Dtos.Users;
 using FitSwipe.Shared.Utils;
+using Syncfusion.Maui.Core.Carousel;
 using System.Collections.ObjectModel;
 
 namespace FitSwipe.Mobile.Pages.HomePages;
 
 public partial class PTHomePage : ContentPage
 {
+    private string _token = string.Empty;
     private int pageSize = 10;
 
+    private bool _isRefresh =false;
+    public bool IsRefresh
+    {
+        get => _isRefresh;
+        set
+        {
+            _isRefresh = value;
+            OnPropertyChanged(nameof(IsRefresh));
+        }
+    }
+    private bool _isHavingSubscriptions = false;
+    public bool IsHavingSubscriptions
+    {
+        get => _isHavingSubscriptions;
+        set
+        {
+            _isHavingSubscriptions = value;
+            OnPropertyChanged(nameof(IsHavingSubscriptions));
+        }
+    }
     private int _currentPage = 1;
     public int CurrentPage
     {
@@ -40,6 +64,16 @@ public partial class PTHomePage : ContentPage
         {
             balance = value;
             OnPropertyChanged(nameof(Balance));
+        }
+    }
+    private GetSubscriptionItemDto? subscription;
+    public GetSubscriptionItemDto? Subscription
+    {
+        get => subscription;
+        set
+        {
+            subscription = value;
+            OnPropertyChanged(nameof(Subscription));
         }
     }
     private GetUserDto _userDto = new();
@@ -72,10 +106,29 @@ public partial class PTHomePage : ContentPage
             OnPropertyChanged(nameof(Transactions));
         }
     }
+    public List<GetSubscriptionItemDto> Subscriptions { get; set; }
+
+
     public PTHomePage()
     {
         InitializeComponent();
-        Setup();
+        //Setup();
+        Subscriptions = new List<GetSubscriptionItemDto>
+        {
+            new GetSubscriptionItemDto
+            {
+                Id = Guid.NewGuid(),
+                Name = "VIP 1",
+                RemainingTime = new TimeSpan(days: 2, hours: 0, minutes: 0, seconds: 0),
+                Benefit = new ObservableCollection<string>
+                {
+                    "Tăng khả năng tiếp cận học viên",
+                    "Khung ảnh đại diện nổi bật",
+                    "Đăng ảnh, video không giới hạn số lượng"
+                },
+                Price = 99000 // Corrected from 100.000 to 50000
+            },
+        };
         BindingContext = this;
     }
     public async void Setup()
@@ -84,25 +137,30 @@ public partial class PTHomePage : ContentPage
         await FetchUpcomingSlots();
         await FetchTransaction();
     }
-
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        var currentToken = await SecureStorage.GetAsync("auth_token") ?? string.Empty;
+        if (Helper.CheckTokenChanged(_token, currentToken))
+        {
+            _token = currentToken;
+            Setup();
+            return;
+        }
+    }
     public async Task FetchUserData()
     {
         pageContent.IsVisible = false;
         loadingDialog.IsVisible = true;
         try
         {
-            var token = await SecureStorage.GetAsync("auth_token");
-            if (token == null)
-            {
-                throw new Exception("Lỗi xác thực");
-            }
-            var user = await Shortcut.GetLoginedUser(token);
+            var user = await Shortcut.GetLoginedUser(_token);
             if (user == null)
             {
                 throw new Exception("Lỗi xác thực");
             }
             User = user;
-            var balanceData = await Fetcher.GetAsync<GetUserBalanceDto>("api/users/balance", token);
+            var balanceData = await Fetcher.GetAsync<GetUserBalanceDto>("api/users/balance", _token);
             if (balanceData != null)
             {
                 Balance = balanceData.Balance.ToString("C0", new System.Globalization.CultureInfo("vi-VN"));
@@ -111,6 +169,18 @@ public partial class PTHomePage : ContentPage
             else
             {
                 Balance = "Lấy số dư thất bại";
+            }
+            var subscriptionData = await Fetcher.GetAsync<GetUserSubscriptionDto>("api/users/subscriptions", _token);
+            if (subscriptionData != null && subscriptionData.SubscriptionPurchasedDate != null && subscriptionData.SubscriptionLevel != null)
+            {
+                IsHavingSubscriptions = true;
+                Subscription = new GetSubscriptionItemDto
+                {
+                    Name = "VIP " + subscriptionData.SubscriptionLevel,
+                    RemainingTime = subscriptionData.SubscriptionPurchasedDate.Value.AddDays(30) - DateTime.Now,
+                    Benefit = Subscriptions[subscriptionData.SubscriptionLevel.Value - 1].Benefit
+                };
+
             }
 
         }
@@ -128,17 +198,12 @@ public partial class PTHomePage : ContentPage
         loadingDialog.IsVisible = true;
         try
         {
-            var token = await SecureStorage.GetAsync("auth_token");
-            if (token == null)
-            {
-                throw new Exception("Lỗi xác thực");
-            }
             var userId = await SecureStorage.GetAsync("loginedUserId");
             if (userId == null)
             {
                 throw new Exception("Lỗi xác thực");
             }
-            var result = await Fetcher.GetAsync<List<GetSlotDetailDto>>($"api/Slot/upcoming-slots?limit=3", token);
+            var result = await Fetcher.GetAsync<List<GetSlotDetailDto>>($"api/Slot/upcoming-slots?limit=3", _token);
             if (result != null)
             {
                 UpcomingSlots = result.ToObservableCollection();
@@ -157,17 +222,12 @@ public partial class PTHomePage : ContentPage
         loadingDialog.IsVisible = true;
         try
         {
-            var token = await SecureStorage.GetAsync("auth_token");
-            if (token == null)
-            {
-                throw new Exception("Lỗi xác thực");
-            }
             var userId = await SecureStorage.GetAsync("loginedUserId");
             if (userId == null)
             {
                 throw new Exception("Lỗi xác thực");
             }
-            var result = await Fetcher.GetAsync<PagedResult<GetTransactionDto>>($"api/Payment/transactions?Filter.Status=1&Filter.Status=2&Filter.Status=3&page={CurrentPage}&limit={pageSize}", token);
+            var result = await Fetcher.GetAsync<PagedResult<GetTransactionDto>>($"api/Payment/transactions?Filter.Status=1&Filter.Status=2&Filter.Status=3&page={CurrentPage}&limit={pageSize}", _token);
             if (result != null)
             {
                 Transactions = result.Items.ToObservableCollection();
@@ -254,5 +314,16 @@ public partial class PTHomePage : ContentPage
     private async void btnSchedule_Clicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync("//PTSchedulePage");
+    }
+
+    private void pageContent_Refreshing(object sender, EventArgs e)
+    {
+        IsRefresh = false;
+        Setup();
+    }
+
+    private void btnSubscription_Clicked(object sender, EventArgs e)
+    {
+        Navigation.PushModalAsync(new SubscriptionView());
     }
 }

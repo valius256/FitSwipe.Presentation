@@ -119,6 +119,19 @@ namespace FitSwipe.Shared.Utils
         {
             return degrees * (Math.PI / 180);
         }
+
+        public static bool CheckTokenChanged(string token1, string token2)
+        {
+            if (token1 == null || token2 == null)
+            {
+                return true;
+            }
+            if (token1 != token2)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 
 

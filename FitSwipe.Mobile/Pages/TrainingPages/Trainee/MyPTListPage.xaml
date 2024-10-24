@@ -27,7 +27,7 @@
                     AbsoluteLayout.LayoutFlags="All">
             <ScrollView  
                 x:Name="pageScroll"
-                 Scrolled="pageContent_Scrolled">
+                 >
                 <StackLayout Padding="15"
                        VerticalOptions="FillAndExpand"
                        AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
@@ -152,13 +152,17 @@
                            CornerRadius="15"
                            Padding="1"
                            VerticalOptions="FillAndExpand"
-                           Margin="0, 0, 0, 100">
+                           Margin="0, 0, 0, 100"
+                          >
 
-                        <StackLayout>
+                        <StackLayout >
                             <CollectionView ItemsSource="{Binding UserList}"
+                                             HeightRequest="450"
                                   BackgroundColor="Transparent"
                                   SelectionMode="None"
-                                  VerticalScrollBarVisibility="Never">
+                                  VerticalScrollBarVisibility="Never"
+                                  RemainingItemsThreshold="0"
+                                  RemainingItemsThresholdReached="CollectionView_RemainingItemsThresholdReached">
                                 <CollectionView.ItemsLayout>
                                     <LinearItemsLayout ItemSpacing="5" Orientation="Vertical"></LinearItemsLayout>
                                 </CollectionView.ItemsLayout>
@@ -352,7 +356,9 @@
                                                 <Border.StrokeShape>
                                                     <RoundRectangle CornerRadius="65" />
                                                 </Border.StrokeShape>
-
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer x:Name="tapPTAvatar" Tapped="tapPTAvatar_Tapped" CommandParameter="{Binding}"></TapGestureRecognizer>
+                                                </Border.GestureRecognizers>
                                                 <Image Source="{Binding PT.AvatarUrl}"
                                                        WidthRequest="130"
                                                        HeightRequest="130"

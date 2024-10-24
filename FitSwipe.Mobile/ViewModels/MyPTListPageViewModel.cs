@@ -33,9 +33,11 @@ namespace FitSwipe.Mobile.ViewModels
         private string _selectedFilter = string.Empty;
         private int _activeTab;
         private bool isFetching = false;
-        private int CurrentPage = 1;
-        private int PageSize = 5;
-        private int MaxPage = 1;
+        private int CurrentPageMatched = 1;
+        private int CurrentPageBooked = 1;
+        private int MaxPageMatched = 1;
+        private int MaxPageBooked = 1;
+        private int PageSize = 3;
         private string? _token = string.Empty;
         private GetUserDto? _currentUser;
         public bool IsFirstTabVisible => ActiveTab == 0;
@@ -77,6 +79,8 @@ namespace FitSwipe.Mobile.ViewModels
         }
         private async void Refresh()
         {
+            CurrentPageMatched = 1;
+            CurrentPageBooked = 1;
             if (ActiveTab == 0) MatchedFlag = true; else BookedFlag = true;
             await FetchData();
             await HandleSwitchTab();
@@ -120,7 +124,7 @@ namespace FitSwipe.Mobile.ViewModels
                 _userList.Clear();
                 await AppendList(_matchedTraining);
             }
-            else if (ActiveTab == 1)
+            else
             {
                 if (BookedFlag)
                 {
@@ -136,7 +140,7 @@ namespace FitSwipe.Mobile.ViewModels
             loadingDialog.IsVisible = true;
             loadingDialog.Message = "Đang lấy dữ liệu...";
             isFetching = true;
-            CurrentPage = 1;
+            var currentPage = (ActiveTab == 0 ? CurrentPageMatched : CurrentPageBooked);
             var token = await SecureStorage.GetAsync("auth_token");
             if (token != null)
             {
@@ -144,7 +148,7 @@ namespace FitSwipe.Mobile.ViewModels
                 {
                     _userList.Clear();
                     string queryStatusString = ActiveTab == 0 ? "Filter.TrainingStatuses=0" : "Filter.TrainingStatuses=1&Filter.TrainingStatuses=2&Filter.TrainingStatuses=3&Filter.TrainingStatuses=4&Filter.TrainingStatuses=6";
-                    var response = await Fetcher.GetAsync<PagedResult<GetTrainingWithTraineeAndPTDto>>($"api/trainings?&Filter.TraineeId={_currentUser?.Id}&limit={PageSize}&page={CurrentPage}&{queryStatusString}", token);
+                    var response = await Fetcher.GetAsync<PagedResult<GetTrainingWithTraineeAndPTDto>>($"api/trainings?&Filter.TraineeId={_currentUser?.Id}&limit={PageSize}&page={currentPage}&{queryStatusString}", token);
                     if (response == null)
                     {
                         throw new Exception("Vui lòng thử lại sau");
@@ -158,7 +162,14 @@ namespace FitSwipe.Mobile.ViewModels
                         _bookedTraining = list.ToObservableCollection();
                         GetStatuses();
                     }
-                    MaxPage = response.Total;
+                    if (ActiveTab == 0)
+                    {
+                        MaxPageMatched = response.Total;
+                    }
+                    else
+                    {
+                        MaxPageMatched = response.Total;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -179,8 +190,9 @@ namespace FitSwipe.Mobile.ViewModels
             {
                 try
                 {
+                    var currentPage = (ActiveTab == 0 ? CurrentPageMatched : CurrentPageBooked);
                     string queryStatusString = ActiveTab == 0 ? "Filter.TrainingStatuses=0" : "Filter.TrainingStatuses=1&Filter.TrainingStatuses=2&Filter.TrainingStatuses=3&Filter.TrainingStatuses=4&Filter.TrainingStatuses=6";
-                    var response = await Fetcher.GetAsync<PagedResult<GetTrainingWithTraineeAndPTDto>>($"api/trainings?limit={PageSize}&page={CurrentPage}&{queryStatusString}", token);
+                    var response = await Fetcher.GetAsync<PagedResult<GetTrainingWithTraineeAndPTDto>>($"api/trainings?limit={PageSize}&page={currentPage}&{queryStatusString}", token);
                     if (response == null)
                     {
                         throw new Exception("Vui lòng thử lại sau");
@@ -198,6 +210,7 @@ namespace FitSwipe.Mobile.ViewModels
                             GetStatuses();
                         }
                     }
+                    await AppendList(list);
                     
                 }
                 catch (Exception ex)
@@ -257,11 +270,22 @@ namespace FitSwipe.Mobile.ViewModels
         }
         public async void ScrolledToEnd(object parameter)
         {
-            if (!isFetching && CurrentPage < MaxPage)
+            if (ActiveTab == 0)
             {
-                CurrentPage++;
-                await ContinueFetchingData();
+                if (!isFetching && CurrentPageMatched < MaxPageMatched)
+                {
+                    CurrentPageMatched++;
+                    await ContinueFetchingData();
+                }
+            } else
+            {
+                if (!isFetching && CurrentPageBooked < MaxPageBooked)
+                {
+                    CurrentPageBooked++;
+                    await ContinueFetchingData();
+                }
             }
+            
         }
 
         [RelayCommand]

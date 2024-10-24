@@ -105,7 +105,7 @@ namespace FitSwipe.Mobile.Controls
 
         private void navTraining_Tapped(object sender, TappedEventArgs e)
         {
-            Shell.Current.GoToAsync($"//MyPTList?flag={TrainingFlag}&role=Trainee");
+            Shell.Current.GoToAsync($"//MyPTList?flag={TrainingFlag}");
             TrainingFlag = false;
 
 

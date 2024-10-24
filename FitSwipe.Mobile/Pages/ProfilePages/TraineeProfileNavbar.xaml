@@ -14,6 +14,7 @@
             <Border
                 Padding="5"
                 VerticalOptions="End"
+                Stroke="Transparent"
                 BackgroundColor="Transparent">
                 <VerticalStackLayout HorizontalOptions="Center"
                                     BackgroundColor="Transparent">
@@ -32,6 +33,7 @@
             <Border
                 Padding="5"
                 VerticalOptions="End"
+                Stroke="Transparent"
                 BackgroundColor="Transparent">
                 <VerticalStackLayout HorizontalOptions="Center"
                         BackgroundColor="Transparent">
@@ -49,6 +51,7 @@
             </Border>
             <Border
                 Padding="5"
+                Stroke="Transparent"
                 VerticalOptions="End"
                 BackgroundColor="Transparent">
                 <VerticalStackLayout HorizontalOptions="Center"
@@ -67,6 +70,7 @@
             </Border>
             <Border
                 Padding="5"
+                Stroke="Transparent"
                 VerticalOptions="End"
                 BackgroundColor="Transparent">
                 <VerticalStackLayout HorizontalOptions="Center"

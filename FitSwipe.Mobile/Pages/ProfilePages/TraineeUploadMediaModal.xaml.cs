@@ -91,6 +91,14 @@ public partial class TraineeUploadMediaModal : ContentView
     {
         if (!loadingDialog.IsVisible)
         {
+            if (Medias.Count >= 10)
+            {
+                if (Application.Current != null && Application.Current.MainPage != null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Không thể đăng", "Tài khoản của bạn đã đạt giới hạn 10 ảnh / video", "OK");
+                }
+                return;
+            }
             try
             {
                 var result = await MediaPicker.CapturePhotoAsync();
@@ -127,6 +135,14 @@ public partial class TraineeUploadMediaModal : ContentView
     {
         if (!loadingDialog.IsVisible)
         {
+            if (Medias.Count >= 10)
+            {
+                if (Application.Current != null && Application.Current.MainPage != null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Không thể đăng", "Tài khoản của bạn đã đạt giới hạn 10 ảnh / video", "OK");
+                }
+                return;
+            }
             try
             {
                 var result = await MediaPicker.PickPhotoAsync();
@@ -363,6 +379,19 @@ public partial class TraineeUploadMediaModal : ContentView
                 var result = await MediaPicker.PickVideoAsync();
                 if (result != null)
                 {
+                    var fileInfo = new FileInfo(result.FullPath);
+
+                    // Get the file size in bytes
+                    long fileSizeInBytes = fileInfo.Length;
+
+                    // Convert to megabytes (optional)
+                    double fileSizeInMB = fileSizeInBytes / (1024.0 * 1024.0);
+
+                    // Check if file size exceeds 25 MB
+                    if (fileSizeInMB > 25)
+                    {
+                        throw new Exception("Video đã vượt quá 25MB. Vui lòng chọn video khác nhỏ hơn");
+                    }
                     await AddUserMedia(new GetUserMediaDto { MediaUrl = result.FullPath, IsVideo = true });
                 }
             }

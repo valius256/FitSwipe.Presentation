@@ -4,6 +4,7 @@ using FitSwipe.Shared.Dtos.RequestWithdraw;
 using FitSwipe.Shared.Dtos.Transactions;
 using FitSwipe.Shared.Dtos.Users;
 using FitSwipe.Shared.Utils;
+using Syncfusion.Maui.Core.Carousel;
 using System.Collections.ObjectModel;
 
 namespace FitSwipe.Mobile.Pages.ProfilePages;
@@ -11,6 +12,7 @@ namespace FitSwipe.Mobile.Pages.ProfilePages;
 [QueryProperty(nameof(IsTrainee), "isTrainee")]
 public partial class WithdrawRequestPage : ContentPage
 {
+    private string _token = string.Empty;
     private int pageSize = 10;
 
     private int _currentPage = 1;
@@ -54,16 +56,7 @@ public partial class WithdrawRequestPage : ContentPage
             OnPropertyChanged(nameof(IsRefreshing));
         }
     }
-    private bool isTrainee = true;
-    public bool IsTrainee
-    {
-        get => isTrainee;
-        set
-        {
-            isTrainee = value;
-            OnPropertyChanged(nameof(IsTrainee));
-        }
-    }
+    public bool IsTrainee { get; set; }
     private bool isCreating = false;
     public bool IsCreating
     {
@@ -127,13 +120,30 @@ public partial class WithdrawRequestPage : ContentPage
     public WithdrawRequestPage()
 	{
 		InitializeComponent();
-        Setup();
+        //Setup();
         BankNames = new ObservableCollection<string>
         {
             "Momo","VPBank","Techcombank","BIDV","Vietcombank","VietinBank","MBBank","ACB","SHB","VIB","HDBank","SeABank","TPBank","LPBank","OCB","SCB","MSB","Sacombank","Eximbank","Nam A Bank","ABBANK","PVCombank","Bac A Bank","VietBank","NCB","BVBank","Viet A Bank","DongA Bank","PGBank","Kienlongbank","Saigonbank","Baoviet Bank"
         };
         BindingContext = this;
 	}
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        navbar.IsVisible = IsTrainee;
+        navbarPT.IsVisible = !IsTrainee;
+        profileNavbar.IsVisible = IsTrainee;
+        profileNavbarPT.IsVisible = !IsTrainee;
+
+        var currentToken = await SecureStorage.GetAsync("auth_token") ?? string.Empty;
+        if (Helper.CheckTokenChanged(_token, currentToken))
+        {
+            _token = currentToken;
+            Setup();
+            return;
+        }
+    }
     public async void Setup()
     {
         await FetchUserData();
@@ -145,18 +155,13 @@ public partial class WithdrawRequestPage : ContentPage
         loadingDialog.IsVisible = true;
         try
         {
-            var token = await SecureStorage.GetAsync("auth_token");
-            if (token == null)
-            {
-                throw new Exception("Lỗi xác thực");
-            }
-            var user = await Shortcut.GetLoginedUser(token);
+            var user = await Shortcut.GetLoginedUser(_token);
             if (user == null)
             {
                 throw new Exception("Lỗi xác thực");
             }
             User = user;
-            var balanceData = await Fetcher.GetAsync<GetUserBalanceDto>("api/users/balance", token);
+            var balanceData = await Fetcher.GetAsync<GetUserBalanceDto>("api/users/balance", _token);
             if (balanceData != null)
             {
                 Balance = balanceData.Balance.ToString("C0", new System.Globalization.CultureInfo("vi-VN"));
@@ -184,17 +189,12 @@ public partial class WithdrawRequestPage : ContentPage
         loadingDialog.IsVisible = true;
         try
         {
-            var token = await SecureStorage.GetAsync("auth_token");
-            if (token == null)
-            {
-                throw new Exception("Lỗi xác thực");
-            }
             var userId = await SecureStorage.GetAsync("loginedUserId");
             if (userId == null)
             {
                 throw new Exception("Lỗi xác thực");
             }
-            var result = await Fetcher.GetAsync<PagedResult<GetRequestWithdrawDto>>($"api/Payment/withdraw-user?page={CurrentPage}&limit={pageSize}", token);
+            var result = await Fetcher.GetAsync<PagedResult<GetRequestWithdrawDto>>($"api/Payment/withdraw-user?page={CurrentPage}&limit={pageSize}", _token);
             if (result != null)
             {
                 Requests = result.Items.ToObservableCollection();
@@ -274,12 +274,7 @@ public partial class WithdrawRequestPage : ContentPage
                 {
                     throw new Exception("Không đủ số dư");
                 }
-                var token = await SecureStorage.GetAsync("auth_token");
-                if (token == null)
-                {
-                    throw new Exception("Lỗi xác thực");
-                }
-                await Fetcher.PostAsync("api/Payment/withdraw", CreateRequest, token);
+                await Fetcher.PostAsync("api/Payment/withdraw", CreateRequest, _token);
 
                 IsCreating = false;
                 await DisplayAlert("Thành công", "Thành công. Đã tạo đơn thành công. Chúng tôi sẽ chuyển khoản lại bạn trong 24h", "OK");

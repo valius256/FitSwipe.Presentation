@@ -15,7 +15,7 @@ public partial class SetupProfilePage : ContentPage
 	private string _mainColor2 = "Green";
 	private string _mainColor3 = "#eef5e4";
 
-    public UpdateUserProfileDto UserProfile { get; set; } = new UpdateUserProfileDto();
+    public UpdateUserProfileDto UserProfile { get; set; } = new UpdateUserProfileDto { AvatarUrl = "profile"};
 
     public ObservableCollection<string> Jobs { get; set; } = new ObservableCollection<string>();
     //public ObservableCollection<string> Cities { get; set; } = new ObservableCollection<string>();

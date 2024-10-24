@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
+using FitSwipe.Mobile.Pages.SubscriptionPages;
 using FitSwipe.Mobile.Utils;
 using FitSwipe.Shared.Dtos.Medias;
 using FitSwipe.Shared.Dtos.Upload;
 using FitSwipe.Shared.Dtos.Users;
+using FitSwipe.Shared.Enums;
 using FitSwipe.Shared.Utils;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -135,6 +137,18 @@ public partial class PTUploadMediaModal : ContentView
     {
         if (!loadingDialog.IsVisible)
         {
+            if (Medias.Count >= 10 || (_userDetail.SubscriptionLevel != null && _userDetail.SubscriptionPaymentStatus == PaymentStatus.Paid))
+            {
+                if (Application.Current != null && Application.Current.MainPage != null)
+                {
+                    var answer = await Application.Current.MainPage.DisplayAlert("Không thể đăng", "Tài khoản của bạn đã đạt giới hạn 10 ảnh / video. Bạn có muốn đăng ký gói để có thể đăng ảnh / video không giới hạn không?", "OK", "Để sau");
+                    if (answer)
+                    {
+                        await Navigation.PushModalAsync(new SubscriptionView());
+                    }
+                }
+                return;
+            }
             try
             {
                 var result = await MediaPicker.CapturePhotoAsync();
@@ -176,6 +190,18 @@ public partial class PTUploadMediaModal : ContentView
 
     private async void galleryPhotoButton_Clicked(object sender, EventArgs e)
     {
+        if (Medias.Count >= 10 || (_userDetail.SubscriptionLevel != null && _userDetail.SubscriptionPaymentStatus == PaymentStatus.Paid))
+        {
+            if (Application.Current != null && Application.Current.MainPage != null)
+            {
+                var answer = await Application.Current.MainPage.DisplayAlert("Không thể đăng", "Tài khoản của bạn đã đạt giới hạn 10 ảnh / video. Bạn có muốn đăng ký gói để có thể đăng ảnh / video không giới hạn không?", "OK", "Để sau");
+                if (answer)
+                {
+                    await Navigation.PushModalAsync(new SubscriptionView());
+                }
+            }
+            return;
+        }
         if (!loadingDialog.IsVisible)
         {
             try
@@ -445,11 +471,36 @@ public partial class PTUploadMediaModal : ContentView
     {
         if (!loadingDialog.IsVisible)
         {
+            if (Medias.Count >= 10 || (_userDetail.SubscriptionLevel != null && _userDetail.SubscriptionPaymentStatus == PaymentStatus.Paid))
+            {
+                if (Application.Current != null && Application.Current.MainPage != null)
+                {
+                    var answer = await Application.Current.MainPage.DisplayAlert("Không thể đăng", "Tài khoản của bạn đã đạt giới hạn 10 ảnh / video. Bạn có muốn đăng ký gói để có thể đăng ảnh / video không giới hạn không?", "OK", "Để sau");
+                    if (answer)
+                    {
+                        await Navigation.PushModalAsync(new SubscriptionView());
+                    }
+                }
+                return;
+            }
             try
             {
                 var result = await MediaPicker.PickVideoAsync();
                 if (result != null)
                 {
+                    var fileInfo = new FileInfo(result.FullPath);
+
+                    // Get the file size in bytes
+                    long fileSizeInBytes = fileInfo.Length;
+
+                    // Convert to megabytes (optional)
+                    double fileSizeInMB = fileSizeInBytes / (1024.0 * 1024.0);
+
+                    // Check if file size exceeds 25 MB
+                    if (fileSizeInMB > 25)
+                    {
+                        throw new Exception("Video đã vượt quá 25MB. Vui lòng chọn video khác nhỏ hơn");
+                    }
                     await AddUserMedia(new GetUserMediaDto { MediaUrl = result.FullPath, IsVideo = true });
                 }
             }

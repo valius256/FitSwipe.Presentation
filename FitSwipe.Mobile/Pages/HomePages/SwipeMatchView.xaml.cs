@@ -57,23 +57,38 @@ public partial class SwipeMatchView : ContentPage
                 var currentItem = e.CurrentItem;
 
                 // Loop through all the visible views to find the one that matches the current item
-                foreach (var visibleView in carouselView.VisibleViews)
+                var views = carouselView.VisibleViews.ToList();
+                foreach (var visibleView in views)
                 {
                     if (visibleView.BindingContext == currentItem)
                     {
                         // We found the view that corresponds to the current item
                         var flyoutLayout = visibleView.FindByName<StackLayout>("animateFlyout");
+                        var viplayout = visibleView.FindByName<HorizontalStackLayout>("viptitle");
+
+                        var tasks = new List<Task>();
 
                         if (flyoutLayout != null)
                         {
                             // Set initial position of the flyout off-screen
                             flyoutLayout.TranslationX = -flyoutLayout.Width;
 
-                            // Animate it to fly in from the left
-                            await flyoutLayout.TranslateTo(0, 0, 500, Easing.CubicOut); // 500ms animation duration
+                            // Add flyout animation to the task list
+                            tasks.Add(flyoutLayout.TranslateTo(0, 0, 500, Easing.CubicOut)); // 500ms animation duration
                         }
 
-                        break;
+                        if (viplayout != null)
+                        {
+                            // Set initial position of the flyout off-screen
+                            viplayout.TranslationX = viplayout.Width;
+
+                            // Add viplayout animation to the task list
+                            tasks.Add(viplayout.TranslateTo(0, 0, 500, Easing.CubicIn)); // 500ms animation duration
+                        }
+
+                        // Run both animations simultaneously
+                        await Task.WhenAll(tasks);
+
                     }
                 }
             }
@@ -289,5 +304,10 @@ public partial class SwipeMatchView : ContentPage
 
             }
         }
+    }
+
+    private void btnRemove_Clicked(object sender, EventArgs e)
+    {
+
     }
 }

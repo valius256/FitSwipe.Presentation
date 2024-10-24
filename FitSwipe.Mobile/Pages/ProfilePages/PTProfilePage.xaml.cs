@@ -1,4 +1,5 @@
 using FitSwipe.Mobile.ViewModels.UserProfile;
+using FitSwipe.Shared.Utils;
 
 namespace FitSwipe.Mobile.Pages.ProfilePages;
 
@@ -7,6 +8,8 @@ public partial class PTProfilePage : ContentPage
 {
     public bool PassedFlag { get; set; } = false;
     private bool _isOwner { get; set; } = true;
+    private string _token = string.Empty;
+
     private PTProfileViewModel viewModel;
 
     public PTProfilePage()
@@ -26,6 +29,13 @@ public partial class PTProfilePage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        var currentToken = await SecureStorage.GetAsync("auth_token") ?? string.Empty;
+        if (Helper.CheckTokenChanged(_token, currentToken))
+        {
+            _token = currentToken;
+            viewModel.Setup();
+            return;
+        }
         if (PassedFlag)
         {
             await viewModel.FetchData();

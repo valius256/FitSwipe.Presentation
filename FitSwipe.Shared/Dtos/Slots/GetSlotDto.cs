@@ -24,6 +24,6 @@ namespace FitSwipe.Shared.Dtos.Slots
             get => StartTime.ToString("hh:mm tt") + " tới " + EndTime.ToString("hh:mm tt"); 
         }
         public string DateString => $"{StartTime:dd/MM/yyyy}";
-        public int SlotNumber {  get; set; }
+        public int? SlotNumber {  get; set; }
     }
 }

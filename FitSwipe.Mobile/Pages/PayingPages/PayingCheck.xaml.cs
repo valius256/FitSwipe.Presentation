@@ -11,7 +11,6 @@ namespace FitSwipe.Mobile.Pages.PayingPages;
 
 public partial class PayingCheck : ContentPage
 {
-    private bool isPageFrozen;//Freeze the page when purchasing external VNPAY
     public List<GetSlotDetailDto> Cart { get; set; } = new List<GetSlotDetailDto>();
     public int SelectedMethod { get; set; }
     private int _totalItems { get; set; } = 0;

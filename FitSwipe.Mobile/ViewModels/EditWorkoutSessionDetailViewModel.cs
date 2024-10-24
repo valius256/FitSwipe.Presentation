@@ -42,13 +42,15 @@ namespace FitSwipe.Mobile.ViewModels
     private LoadingDialog _loadingDialog;
     private ScrollView _pageContent;
     private Guid _slotId;
+    private int? _slotNumber;
     //private Func<Task> _refreshData;
 
-    public EditWorkoutSessionDetailViewModel (Guid slotId, LoadingDialog loadingDialog, ScrollView pageContent)
+    public EditWorkoutSessionDetailViewModel (Guid slotId, LoadingDialog loadingDialog, ScrollView pageContent, int? slotNumber = null)
     {
       _loadingDialog = loadingDialog;
       _slotId = slotId;
       _pageContent = pageContent;
+      _slotNumber = slotNumber;
 
       ChangeCarouselPositionCommand = new Command<GetSlotVideoDto>(OnThumbnailTapped);
       NavigateLeftCommand = new Command(OnNavigateLeft);
@@ -74,6 +76,7 @@ namespace FitSwipe.Mobile.ViewModels
             var result = await Fetcher.GetAsync<GetSlotDetailDto>($"api/Slot/get-slot-by-id?slotId={_slotId}",token);
             if (result != null)
             {
+                if (_slotNumber != null) result.SlotNumber = _slotNumber;
                 SlotDetail = result;
                 // Initialize selected video
                 if (SlotDetail.Videos.Count > 0)

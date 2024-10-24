@@ -33,7 +33,7 @@
             <!-- Page Title Section -->
             <StackLayout HorizontalOptions="CenterAndExpand"
                          Spacing="8">
-              <Label Text="Buổi 1"
+              <Label Text="{Binding SlotDetail.SlotNumber, StringFormat='Buổi {0}'}"
                      HorizontalTextAlignment="Center"
                      FontSize="Title"
                      FontAttributes="Bold" 

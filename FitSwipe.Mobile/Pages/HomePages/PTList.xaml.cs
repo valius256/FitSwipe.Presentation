@@ -19,6 +19,7 @@ public partial class PTList : ContentPage
 {
     private ObservableCollection<GetUserWithTagDto> _items = new ObservableCollection<GetUserWithTagDto>();
     private GetUserDetailDto _loginedUser = new();
+    private string _token = string.Empty;
     private bool isFetching = false;
     private int CurrentPage = 1;
     private int PageSize = 8;
@@ -37,12 +38,19 @@ public partial class PTList : ContentPage
     public PTList()
 	{
         InitializeComponent();
-        FetchData();
+        //FetchData();
         BindingContext = this;
     }
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
+        var currentToken = await SecureStorage.GetAsync("auth_token") ?? string.Empty;
+        if (Helper.CheckTokenChanged(_token, currentToken))
+        {
+            Items.Clear();
+            FetchData();
+            return;
+        }
         if (PassedFlag)
         {
             Items.Clear();
@@ -77,6 +85,7 @@ public partial class PTList : ContentPage
             {
                 throw new Exception("Lỗi xác thực");
             }
+            _token = token;
             var loginedUser = await Fetcher.GetAsync<GetUserDetailDto>($"api/users/{loginedUserId}/detail");
             if (loginedUser != null)
             {
@@ -101,12 +110,7 @@ public partial class PTList : ContentPage
         isFetching = true;
         try
         {
-            var token = await SecureStorage.GetAsync("auth_token");
-            if (token == null)
-            {
-                throw new Exception("Có sự cố xảy ra. Vui lòng đăng nhập lại");
-            }
-            var response = await Fetcher.GetAsync<PagedResult<GetUserWithTagDto>>($"api/users/match-ordered?Filter.Roles=1&page={CurrentPage}&limit={PageSize}", token);
+            var response = await Fetcher.GetAsync<PagedResult<GetUserWithTagDto>>($"api/users/match-ordered?Filter.Roles=1&page={CurrentPage}&limit={PageSize}", _token);
             if (response != null)
             {
                 await AppendList(response.Items);
@@ -140,16 +144,11 @@ public partial class PTList : ContentPage
             isFetching = true;
             try
             {
-                var token = await SecureStorage.GetAsync("auth_token");
-                if (token == null)
-                {
-                    throw new Exception("Có sự cố xảy ra. Vui lòng đăng nhập lại");
-                }
                 await Fetcher.PostAsync($"api/trainings", new CreateTrainingDto
                 {
                     PTId = boundItem.FireBaseId,
                     Status = Shared.Enums.TrainingStatus.Matched
-                }, token);
+                }, _token);
                 var toast = Toast.Make("Thành công! Bạn đã match với " + boundItem.UserName, ToastDuration.Short);
                 await toast.Show();
                 Items = Items.Where(u => u.Id != boundItem.Id).ToObservableCollection();

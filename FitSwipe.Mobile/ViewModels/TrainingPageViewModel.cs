@@ -13,136 +13,138 @@ using System.Windows.Input;
 
 namespace FitSwipe.Mobile.ViewModels
 {
-  public partial class TrainingPageViewModel : ObservableObject
-  {
-    private LoadingDialog _loadingDialog;
-    [ObservableProperty]
-    private bool isRefreshing;
-    [ObservableProperty]
-    private ObservableCollection<GetTrainingWithTraineeAndPTDto> _userList = new();
-    private ObservableCollection<GetTrainingWithTraineeAndPTDto> _requestedTraining = new();
-    private ObservableCollection<GetTrainingWithTraineeAndPTDto> _myTraining = new();
-    public bool RequestedTrainingFlag = true;
-    public bool MyTrainingFlag = true;
-
-    private string? _token = string.Empty;
-    private GetUserDto? _currentUser;
-    private string? _selectedFilter;
-    private int _activeTab;
-    private bool isFetching = false;
-    private int CurrentPage = 1;
-    private int PageSize = 5;
-    private int MaxPage = 1;
-    public bool IsFirstTabVisible => ActiveTab == 0;
-    public bool IsSecondTabVisible => ActiveTab == 1;
-    public ICommand RefreshCommand { get; }
-
-    public string? SelectedFilter
+    public partial class TrainingPageViewModel : ObservableObject
     {
-      get => _selectedFilter;
-      set => SetProperty(ref _selectedFilter, value);
-    }
+        private LoadingDialog _loadingDialog;
+        [ObservableProperty]
+        private bool isRefreshing;
+        [ObservableProperty]
+        private ObservableCollection<GetTrainingWithTraineeAndPTDto> _userList = new();
+        private ObservableCollection<GetTrainingWithTraineeAndPTDto> _requestedTraining = new();
+        private ObservableCollection<GetTrainingWithTraineeAndPTDto> _myTraining = new();
+        public bool RequestedTrainingFlag = true;
+        public bool MyTrainingFlag = true;
 
-    public int ActiveTab
-    {
-      get => _activeTab;
-      set
-      {
-        if (SetProperty(ref _activeTab, value))
+        private GetUserDto? _currentUser;
+        private string? _selectedFilter;
+        private int _activeTab;
+        private bool isFetching = false;
+        private int CurrentPageTraining = 1;
+        private int CurrentPageRequested = 1;
+        private int MaxPageTraining = 1;
+        private int MaxPageRequested = 1;
+        private int PageSize = 5;
+        public bool IsFirstTabVisible => ActiveTab == 0;
+        public bool IsSecondTabVisible => ActiveTab == 1;
+        public ICommand RefreshCommand { get; }
+
+        public string? SelectedFilter
         {
-          OnPropertyChanged(nameof(IsFirstTabVisible));
-          OnPropertyChanged(nameof(IsSecondTabVisible));
+            get => _selectedFilter;
+            set => SetProperty(ref _selectedFilter, value);
         }
-      }
-    }
 
-    public ObservableCollection<string> FilterOptions { get; } = new ObservableCollection<string>
+        public int ActiveTab
+        {
+            get => _activeTab;
+            set
+            {
+                if (SetProperty(ref _activeTab, value))
+                {
+                    OnPropertyChanged(nameof(IsFirstTabVisible));
+                    OnPropertyChanged(nameof(IsSecondTabVisible));
+                }
+            }
+        }
+
+        public ObservableCollection<string> FilterOptions { get; } = new ObservableCollection<string>
         {
             "Ngày gần đây nhất",
             "Tên người tập",
             "Loại hình tập luyện"
         };
 
-    public TrainingPageViewModel (LoadingDialog loadingDialog)
-    {
-        _loadingDialog = loadingDialog;
-        ActiveTab = 0;
-        RefreshCommand = new Command(Refresh);
-        Setup();
-    }
-    private async void Refresh()
-    {
-        if (ActiveTab == 1)
-            RequestedTrainingFlag = true; 
-        else
-            MyTrainingFlag = true;
-        await FetchData();
-        await HandleSwitchTab();
-        IsRefreshing = false;
-    }
-    public async Task HandleSwitchTab()
-    {
-        if (ActiveTab == 1)
+        public TrainingPageViewModel(LoadingDialog loadingDialog)
         {
-            if (RequestedTrainingFlag)
-            {
-                await FetchData();
-                RequestedTrainingFlag = false;
-            }
-            _userList.Clear();
-            await AppendList(_requestedTraining);
+            _loadingDialog = loadingDialog;
+            ActiveTab = 0;
+            RefreshCommand = new Command(Refresh);
+            Setup();
         }
-        else if (ActiveTab == 0)
+        private async void Refresh()
         {
-            if (MyTrainingFlag)
+            CurrentPageTraining = 1;
+            CurrentPageRequested = 1;
+            if (ActiveTab == 1)
+                RequestedTrainingFlag = true;
+            else
+                MyTrainingFlag = true;
+            await FetchData();
+            await HandleSwitchTab();
+            IsRefreshing = false;
+        }
+        public async Task HandleSwitchTab()
+        {
+            if (ActiveTab == 1)
             {
-                await FetchData();
+                if (RequestedTrainingFlag)
+                {
+                    await FetchData();
+                    RequestedTrainingFlag = false;
+                }
+                _userList.Clear();
+                await AppendList(_requestedTraining);
+            }
+            else if (ActiveTab == 0)
+            {
+                if (MyTrainingFlag)
+                {
+                    await FetchData();
                     MyTrainingFlag = false;
+                }
+                _userList.Clear();
+                await AppendList(_myTraining);
             }
-            _userList.Clear();
-            await AppendList(_myTraining);
         }
-    }
-    private async Task AppendList(IList<GetTrainingWithTraineeAndPTDto> trainings)
-    {
-        foreach (var training in trainings)
+        private async Task AppendList(IList<GetTrainingWithTraineeAndPTDto> trainings)
         {
-            _userList.Add(training);
-            await Task.Delay(100);
+            foreach (var training in trainings)
+            {
+                UserList.Add(training);
+                await Task.Delay(100);
+            }
         }
-    }
-    private async void Setup()
-    {
-        try
+        private async void Setup()
         {
-            var token = await SecureStorage.GetAsync("auth_token");
-            if (token == null)
+            try
             {
-                throw new Exception();
+                var token = await SecureStorage.GetAsync("auth_token");
+                if (token == null)
+                {
+                    throw new Exception();
+                }
+                _currentUser = await Shortcut.GetLoginedUser(token);
+                if (_currentUser == null)
+                {
+                    throw new Exception();
+                }
             }
-            _token = token;
-            _currentUser = await Shortcut.GetLoginedUser(token);
-            if (_currentUser == null)
+            catch
             {
-                throw new Exception();
+                if (Application.Current != null && Application.Current.MainPage != null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Lỗi", "Lỗi xác thực, vui lòng đăng nhập lại", "OK");
+                }
+                await Shell.Current.GoToAsync("//SignIn");
             }
-        }
-        catch
-        {
-            if (Application.Current != null && Application.Current.MainPage != null)
-            {
-                await Application.Current.MainPage.DisplayAlert("Lỗi", "Lỗi xác thực, vui lòng đăng nhập lại", "OK");
-            }
-            await Shell.Current.GoToAsync("//SignIn");
-        }
 
-    }
-    public async Task FetchData()
-    {
+        }
+        public async Task FetchData()
+        {
             _loadingDialog.IsVisible = true;
             _loadingDialog.Message = "Đang lấy dữ liệu...";
             isFetching = true;
-            CurrentPage = 1;
+            var currentPage = (ActiveTab == 0 ? CurrentPageTraining : CurrentPageRequested);
             var token = await SecureStorage.GetAsync("auth_token");
             if (token != null)
             {
@@ -150,7 +152,7 @@ namespace FitSwipe.Mobile.ViewModels
                 {
                     _userList.Clear();
                     string queryStatusString = ActiveTab == 0 ? "Filter.TrainingStatuses=2&Filter.TrainingStatuses=3&Filter.TrainingStatuses=4" : "Filter.TrainingStatuses=1";
-                    var response = await Fetcher.GetAsync<PagedResult<GetTrainingWithTraineeAndPTDto>>($"api/trainings?&Filter.PTId={_currentUser?.Id}&limit={PageSize}&page={CurrentPage}&{queryStatusString}", token);
+                    var response = await Fetcher.GetAsync<PagedResult<GetTrainingWithTraineeAndPTDto>>($"api/trainings?&Filter.PTId={_currentUser?.Id}&limit={PageSize}&page={currentPage}&{queryStatusString}", token);
                     if (response == null)
                     {
                         throw new Exception("Vui lòng thử lại sau");
@@ -164,7 +166,14 @@ namespace FitSwipe.Mobile.ViewModels
                     {
                         _requestedTraining = list.ToObservableCollection();
                     }
-                    MaxPage = response.Total;
+                    if (ActiveTab == 0)
+                    {
+                        MaxPageTraining = response.Total;
+                    }
+                    else
+                    {
+                        MaxPageRequested = response.Total;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -176,18 +185,18 @@ namespace FitSwipe.Mobile.ViewModels
             }
             _loadingDialog.IsVisible = false;
             isFetching = false;
-    }
-    private async Task ContinueFetchData()
-    {
+        }
+        private async Task ContinueFetchData()
+        {
             isFetching = true;
-            CurrentPage = 1;
+            var currentPage = (ActiveTab == 0 ? CurrentPageTraining : CurrentPageRequested);
             var token = await SecureStorage.GetAsync("auth_token");
             if (token != null)
             {
                 try
                 {
                     string queryStatusString = ActiveTab == 0 ? "Filter.TrainingStatuses=2&Filter.TrainingStatuses=3&Filter.TrainingStatuses=4" : "Filter.TrainingStatuses=1";
-                    var response = await Fetcher.GetAsync<PagedResult<GetTrainingWithTraineeAndPTDto>>($"api/trainings?&Filter.TraineeId={_currentUser?.Id}&limit={PageSize}&page={CurrentPage}&{queryStatusString}", token);
+                    var response = await Fetcher.GetAsync<PagedResult<GetTrainingWithTraineeAndPTDto>>($"api/trainings?&Filter.TraineeId={_currentUser?.Id}&limit={PageSize}&page={currentPage}&{queryStatusString}", token);
                     if (response == null)
                     {
                         throw new Exception("Vui lòng thử lại sau");
@@ -204,6 +213,7 @@ namespace FitSwipe.Mobile.ViewModels
                             _requestedTraining.Add(item);
                         }
                     }
+                    await AppendList(list);
                 }
                 catch (Exception ex)
                 {
@@ -214,25 +224,36 @@ namespace FitSwipe.Mobile.ViewModels
                 }
             }
             isFetching = false;
-    }
-    public async void ScrolledToEnd(object parameter)
-    {
-        if (!isFetching && CurrentPage < MaxPage)
+        }
+        public async void ScrolledToEnd(object parameter)
         {
-            CurrentPage++;
-            await ContinueFetchData();
+            if (ActiveTab == 0)
+            {
+                if (!isFetching && CurrentPageTraining < MaxPageTraining)
+                {
+                    CurrentPageTraining++;
+                    await ContinueFetchData();
+                }
+            }
+            else
+            {
+                if (!isFetching && CurrentPageRequested < MaxPageRequested)
+                {
+                    CurrentPageRequested++;
+                    await ContinueFetchData();
+                }
+            }
+        }
+        // RelayCommand to select tabs
+        [RelayCommand]
+        private async void SelectTab(object parameter)
+        {
+            if (int.TryParse(parameter?.ToString(), out int tab))
+            {
+                ActiveTab = tab;
+                await HandleSwitchTab();
+
+            }
         }
     }
-    // RelayCommand to select tabs
-    [RelayCommand]
-    private async void SelectTab (object parameter)
-    {
-      if (int.TryParse(parameter?.ToString(), out int tab))
-      {
-        ActiveTab = tab;
-        await HandleSwitchTab();
-
-      }
-    }
-  }
 }

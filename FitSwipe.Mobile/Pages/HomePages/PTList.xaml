@@ -77,71 +77,81 @@
                 <!-- Define how each item should appear in the grid -->
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <VerticalStackLayout Margin="20">
-                            <Frame BorderColor="LimeGreen" Padding="0" CornerRadius="10"
-                            HeightRequest="200">
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer x:Name="tapAvatar" Tapped="tapAvatar_Tapped" CommandParameter="{Binding}"></TapGestureRecognizer>
-                                </Frame.GestureRecognizers>
-                                <Image
-                                Source="{Binding AvatarUrl}" 
-                                Aspect="AspectFill" 
-                                HorizontalOptions="FillAndExpand" 
-                                VerticalOptions="FillAndExpand" />
-                            </Frame>
-                            <VerticalStackLayout>
-                                <Label Text="{Binding UserName}" 
-                                    FontSize="20" 
-                                    FontAttributes="Bold" 
-                                    HorizontalTextAlignment="Start" 
-                                    BackgroundColor="Transparent"
-                                    TextColor="Black"
-                                       />
-                                <Label Text="{Binding Age}"
-                                    FontSize="12" 
-                                    HorizontalTextAlignment="Start" 
-                                    BackgroundColor="Transparent"
-                                    TextColor="Black"
-                                       />
-                                <FlexLayout HorizontalOptions="FillAndExpand">
-                                    <controls:StarRatingControl 
-                                        Rating="{Binding PTRating}" Size="20" 
-                                        ReadOnly="True"
-                                        VerticalOptions="Center"
-                                        HorizontalOptions="Start"                                        
-                                        FlexLayout.Grow="0.8"/>
-                                    <Button x:Name="btnMatch"  
-                                        FlexLayout.Grow="0.2"
-                                        ImageSource="Icons/heart.png" 
-                                        Clicked="btnMatch_Clicked"                    
-                                        HeightRequest="30"
-                                        WidthRequest="30"
-                                        Padding="5"
-                                        BackgroundColor="White"
-                                        BorderColor="Green"
-                                        BorderWidth="3"
-                                        CornerRadius="5"
-                                        HorizontalOptions="End"
-                                        VerticalOptions="Center" 
-                                        CommandParameter="{Binding}"/>
-                                </FlexLayout>
-                                <Label Text="{Binding DistanceInKm, StringFormat='Cách bạn {0:F2} km'}" 
-                                        FontSize="12" 
+                        <Grid>
+                            <VerticalStackLayout  Margin="20" >
+                                <Grid>
+                                    <Frame BackgroundColor="LimeGreen" BorderColor="LimeGreen"></Frame>
+                                    <Frame BackgroundColor="Yellow" BorderColor="Yellow" IsVisible="{Binding IsVIP}"></Frame>
+                                    <Frame BorderColor="LimeGreen" Padding="0" CornerRadius="10" Margin="2"
+                                            HeightRequest="200">
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer x:Name="tapAvatar" Tapped="tapAvatar_Tapped" CommandParameter="{Binding}"></TapGestureRecognizer>
+                                        </Frame.GestureRecognizers>
+                                        <Image
+                                            Source="{Binding AvatarUrl}" 
+                                            Aspect="AspectFill" 
+                                            HorizontalOptions="FillAndExpand" 
+                                            VerticalOptions="FillAndExpand"
+                                        />
+                                    </Frame>
+                                </Grid>
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding UserName}" 
+                                        FontSize="20" 
                                         FontAttributes="Bold" 
                                         HorizontalTextAlignment="Start" 
                                         BackgroundColor="Transparent"
-                                        TextColor="#2E3192"/>
-                                <HorizontalStackLayout>
-                                    <mi:MauiIcon Icon="{mi:Fluent Location16}" IconSize="10" IconColor="#2E3192"></mi:MauiIcon>
-                                    <Label Text="{Binding City}" 
-                                        FontSize="10" 
-                                        FontAttributes="Italic" 
+                                        TextColor="Black"
+                                           />
+                                    <Label Text="{Binding Age}"
+                                        FontSize="12" 
                                         HorizontalTextAlignment="Start" 
                                         BackgroundColor="Transparent"
-                                        TextColor="#2E3192"/>
-                                </HorizontalStackLayout>
+                                        TextColor="Black"
+                                           />
+                                    <FlexLayout HorizontalOptions="FillAndExpand">
+                                        <controls:StarRatingControl 
+                                            Rating="{Binding PTRating}" Size="20" 
+                                            ReadOnly="True"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Start"                                        
+                                            FlexLayout.Grow="0.8"/>
+                                        <Button x:Name="btnMatch"  
+                                            FlexLayout.Grow="0.2"
+                                            ImageSource="Icons/heart.png" 
+                                            Clicked="btnMatch_Clicked"                    
+                                            HeightRequest="30"
+                                            WidthRequest="30"
+                                            Padding="5"
+                                            BackgroundColor="White"
+                                            BorderColor="Green"
+                                            BorderWidth="3"
+                                            CornerRadius="5"
+                                            HorizontalOptions="End"
+                                            VerticalOptions="Center" 
+                                            CommandParameter="{Binding}"/>
+                                    </FlexLayout>
+                                    <Label Text="{Binding DistanceInKm, StringFormat='Cách bạn {0:F2} km'}" 
+                                            FontSize="12" 
+                                            FontAttributes="Bold" 
+                                            HorizontalTextAlignment="Start" 
+                                            BackgroundColor="Transparent"
+                                            TextColor="#2E3192"/>
+                                    <HorizontalStackLayout>
+                                        <mi:MauiIcon Icon="{mi:Fluent Location16}" IconSize="10" IconColor="#2E3192"></mi:MauiIcon>
+                                        <Label Text="{Binding City}" 
+                                            FontSize="10" 
+                                            FontAttributes="Italic" 
+                                            HorizontalTextAlignment="Start" 
+                                            BackgroundColor="Transparent"
+                                            TextColor="#2E3192"/>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
                             </VerticalStackLayout>
-                        </VerticalStackLayout>
+                            <Image WidthRequest="50" HeightRequest="50" HorizontalOptions="End" VerticalOptions="Start"
+                                   Source="tilted_crown"
+                                    IsVisible="{Binding IsVIP}"></Image>
+                        </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
                 <CollectionView.Footer>

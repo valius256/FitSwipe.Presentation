@@ -1,26 +1,39 @@
-﻿using FitSwipe.Mobile.Pages.SchedulePages;
+﻿using FitSwipe.Mobile.Pages.ProfilePages;
+using FitSwipe.Mobile.Pages.SchedulePages;
 using FitSwipe.Mobile.ViewModels;
 using FitSwipe.Shared.Dtos.Slots;
 using FitSwipe.Shared.Dtos.Trainings;
 using FitSwipe.Shared.Utils;
+using Syncfusion.Maui.Core.Carousel;
 
 namespace FitSwipe.Mobile.Pages.TrainingPages;
 
 public partial class TrainingPage : ContentPage
 {
     public TrainingPageViewModel ViewModel { get; set; }
-
+    private string _token = string.Empty;
     public TrainingPage()
 	{
 		InitializeComponent();
 		ViewModel = new TrainingPageViewModel(loadingDialog);
-        FirstSetup();
+        //FirstSetup();
+    }
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        var currentToken = await SecureStorage.GetAsync("auth_token") ?? string.Empty;
+        if (Helper.CheckTokenChanged(_token, currentToken))
+        {
+            _token = currentToken;
+            FirstSetup();
+            return;
+        }
     }
     public async void FirstSetup()
     {
         //pageContent.IsVisible = false;
-        ViewModel.MyTrainingFlag = false;
-        ViewModel.RequestedTrainingFlag = true;
+        ViewModel.MyTrainingFlag = (ViewModel.ActiveTab == 1);
+        ViewModel.RequestedTrainingFlag = (ViewModel.ActiveTab == 0);
         await ViewModel.FetchData();
         await ViewModel.HandleSwitchTab();
         //pageContent.IsVisible = true;
@@ -44,13 +57,6 @@ public partial class TrainingPage : ContentPage
         }
     }
 
-    private void pageContent_Scrolled(object sender, ScrolledEventArgs e)
-    {
-        if (e.ScrollY >= (pageContent.ContentSize.Height - pageContent.Height))
-        {
-            ViewModel.ScrolledToEnd(e);
-        }
-    }
 
     private async void btnMoreInfo_Clicked(object sender, EventArgs e)
     {
@@ -119,6 +125,28 @@ public partial class TrainingPage : ContentPage
                         await DisplayAlert("Lỗi", ex.Message, "OK");
                     }
                     loadingDialog.IsVisible = false;
+                }
+            }
+        }
+    }
+
+    private void CollectionView_RemainingItemsThresholdReached(object sender, EventArgs e)
+    {
+        ViewModel.ScrolledToEnd(sender);
+    }
+
+    private void tapTraineeAvatar_Tapped(object sender, TappedEventArgs e)
+    {
+        var border = sender as Border;
+        if (border != null && border.GestureRecognizers.Count > 0)
+        {
+            var tapGesture = border.GestureRecognizers[0] as TapGestureRecognizer;
+            if (tapGesture != null)
+            {
+                var boundItem = tapGesture.CommandParameter as GetTrainingWithTraineeAndPTDto;
+                if (boundItem != null)
+                {
+                    Navigation.PushModalAsync(new UserProfilePage(boundItem.PTId));
                 }
             }
         }

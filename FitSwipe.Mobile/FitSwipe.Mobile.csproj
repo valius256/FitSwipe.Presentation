@@ -144,33 +144,35 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<MauiImage Include="Resources\Images\Icons\facebook.png" />
-		<MauiImage Include="Resources\Images\Icons\favorite_color.png" />
-		<MauiImage Include="Resources\Images\Icons\filter.png" />
-		<MauiImage Include="Resources\Images\Icons\ggplay.png" />
-		<MauiImage Include="Resources\Images\Icons\google.png" />
-		<MauiImage Include="Resources\Images\Icons\home_black.png" />
-		<MauiImage Include="Resources\Images\Icons\home_white.png" />
-		<MauiImage Include="Resources\Images\Icons\house_color.png" />
-		<MauiImage Include="Resources\Images\Icons\information_icon.png" />
-		<MauiImage Include="Resources\Images\Icons\job_color.png" />
-		<MauiImage Include="Resources\Images\Icons\muscle_color.png" />
-		<MauiImage Include="Resources\Images\Icons\payos.svg" />
-		<MauiImage Include="Resources\Images\Icons\profile_blue.png" />
-		<MauiImage Include="Resources\Images\Icons\profile_green.png" />
-		<MauiImage Include="Resources\Images\Icons\profile_white.png" />
-		<MauiImage Include="Resources\Images\Icons\red_warning.png" />
-		<MauiImage Include="Resources\Images\Icons\refresh_black.png" />
-		<MauiImage Include="Resources\Images\Icons\remove_icon_white.png" />
-		<MauiImage Include="Resources\Images\Icons\target_color.png" />
-		<MauiImage Include="Resources\Images\Icons\update_icon.png" />
-		<MauiImage Include="Resources\Images\Icons\vnpay.png" />
-		<MauiImage Include="Resources\Images\Icons\wallet.png" />
-		<MauiImage Include="Resources\Images\Icons\white_warning.png" />
-		<MauiImage Include="Resources\Images\Icons\workout_color.png" />
-		<MauiImage Include="Resources\Images\Stars\star_filled.png" />
-		<MauiImage Include="Resources\Images\Stars\star_half_filled.png" />
-		<MauiImage Include="Resources\Images\Stars\star_no_fill.png" />
+	  <MauiImage Include="Resources\Images\Icons\facebook.png" />
+	  <MauiImage Include="Resources\Images\Icons\favorite_color.png" />
+	  <MauiImage Include="Resources\Images\Icons\filter.png" />
+	  <MauiImage Include="Resources\Images\Icons\ggplay.png" />
+	  <MauiImage Include="Resources\Images\Icons\google.png" />
+		<MauiImage Include="Resources\Images\Icons\goto_icon.png" />
+	  <MauiImage Include="Resources\Images\Icons\home_black.png" />
+	  <MauiImage Include="Resources\Images\Icons\home_white.png" />
+	  <MauiImage Include="Resources\Images\Icons\house_color.png" />
+	  <MauiImage Include="Resources\Images\Icons\information_icon.png" />
+	  <MauiImage Include="Resources\Images\Icons\job_color.png" />
+	  <MauiImage Include="Resources\Images\Icons\muscle_color.png" />
+	  <MauiImage Include="Resources\Images\Icons\profile_blue.png" />
+	  <MauiImage Include="Resources\Images\Icons\profile_green.png" />
+	  <MauiImage Include="Resources\Images\Icons\profile_white.png" />
+	  <MauiImage Include="Resources\Images\Icons\red_warning.png" />
+	  <MauiImage Include="Resources\Images\Icons\remove_icon_white.png" />
+	  <MauiImage Include="Resources\Images\Icons\success_icon_color.png" />
+	  <MauiImage Include="Resources\Images\Icons\target_color.png" />
+	  <MauiImage Include="Resources\Images\Icons\update_icon.png" />
+	  <MauiImage Include="Resources\Images\Icons\vnpay.png" />
+	  <MauiImage Include="Resources\Images\Icons\wallet.png" />
+	  <MauiImage Include="Resources\Images\Icons\white_warning.png" />
+	  <MauiImage Include="Resources\Images\Icons\workout_color.png" />
+	  <MauiImage Include="Resources\Images\Stars\star_filled.png" />
+	  <MauiImage Include="Resources\Images\Stars\star_half_filled.png" />
+	  <MauiImage Include="Resources\Images\Stars\star_no_fill.png" />
+	  <MauiImage Include="Resources\Images\Icons\refresh_black.png" />
+
 	</ItemGroup>
 
 	<ItemGroup>
@@ -214,6 +216,9 @@
 		</Compile>
 		<Compile Update="Pages\ProfilePages\TraineeUploadMediaModal.xaml.cs">
 			<DependentUpon>TraineeUploadMediaModal.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Pages\Splash.xaml.cs">
+		  <DependentUpon>Splash.xaml</DependentUpon>
 		</Compile>
 		<Compile Update="Pages\SchedulePages\EditWorkoutSessionDetailPage.xaml.cs">
 			<DependentUpon>EditWorkoutSessionDetailPage.xaml</DependentUpon>
@@ -271,6 +276,9 @@
 		</MauiXaml>
 		<MauiXaml Update="Pages\ProfilePages\WithdrawRequestPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\Splash.xaml">
+		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Pages\SchedulePages\CustomersRequestedSchedulePage.xaml">
 			<Generator>MSBuild:Compile</Generator>
@@ -366,6 +374,12 @@
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Pages\ProfilePages\TraineeUploadMediaModal.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\SubscriptionPages\SubscriptionPaymentView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\SubscriptionPages\SubscriptionView.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 	</ItemGroup>

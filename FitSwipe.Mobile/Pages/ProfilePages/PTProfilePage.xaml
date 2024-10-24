@@ -67,22 +67,27 @@
                                 <!--#region USER AVATAR-->
                                 <AbsoluteLayout VerticalOptions="FillAndExpand"
                                           HorizontalOptions="FillAndExpand">
-                                    <Border WidthRequest="90"
-                                    HeightRequest="90"
-                                    Stroke="#2E3192"
-                                    Grid.Column="0">
-                                        <Border.StrokeShape>
-                                            <RoundRectangle CornerRadius="50" />
-                                        </Border.StrokeShape>
-                                        <Image Source="{Binding User.AvatarUrl}"
-                                     Aspect="AspectFill" />
-                                    </Border>
-
+                                    <Grid Grid.Column="0">
+                                        <Border WidthRequest="90"
+                                                HeightRequest="90"
+                                                Stroke="#2E3192">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="50" />
+                                            </Border.StrokeShape>
+                                            <Image Source="{Binding User.AvatarUrl}"
+                                                   Aspect="AspectFill" />
+                                        </Border>
+                                        <Image WidthRequest="40" HeightRequest="40" HorizontalOptions="End" VerticalOptions="Start"
+                                               Margin="0,-10,-10,0"
+                                               Source="tilted_crown"
+                                                IsVisible="{Binding User.IsVIP}" ></Image>
+                                    </Grid>
+                                   
                                     <Border Grid.Column="1"
                                     WidthRequest="30"
                                     BackgroundColor="White"
                                     HeightRequest="30"
-                                    AbsoluteLayout.LayoutBounds="1, 0, AutoSize, AutoSize"
+                                    AbsoluteLayout.LayoutBounds="1, 1, AutoSize, AutoSize"
                                     AbsoluteLayout.LayoutFlags="PositionProportional"
                                     x:Name="btnEditAvatarSection"
                                     Stroke="#2E3192"
