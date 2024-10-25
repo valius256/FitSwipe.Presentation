@@ -38,4 +38,26 @@ public partial class SignUpView : ContentPage
             ((SignUpViewModel)BindingContext).IsAgreedWithTos = false;
         }
     }
+
+    private async void OnTermsOfServiceTapped(object sender, EventArgs e)
+    {
+        // URL for the Terms of Service
+        var url = "https://fit-swipe.vercel.app/terms-of-use";
+
+        if (Uri.IsWellFormedUriString(url, UriKind.Absolute))
+        {
+            await Launcher.OpenAsync(new Uri(url));
+        }
+    }
+
+    private async void OnPrivacyPolicyTapped(object sender, EventArgs e)
+    {
+        // URL for the Privacy Policy
+        var url = "https://fit-swipe.vercel.app/privacy-policy";
+
+        if (Uri.IsWellFormedUriString(url, UriKind.Absolute))
+        {
+            await Launcher.OpenAsync(new Uri(url));
+        }
+    }
 }

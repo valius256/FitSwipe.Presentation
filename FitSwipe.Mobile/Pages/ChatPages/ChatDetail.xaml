@@ -1,11 +1,150 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FitSwipe.Mobile.Pages.ChatPages.ChatDetail">
-    <VerticalStackLayout>
-        <Label 
-            Text="Phat1 lo3!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             x:Class="FitSwipe.Mobile.Pages.ChatPages.ChatDetail"
+             xmlns:chatPages="clr-namespace:FitSwipe.Mobile.Pages.ChatPages"
+             xmlns:converters="clr-namespace:FitSwipe.Mobile.Converters"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+             xmlns:dto="clr-namespace:FitSwipe.Shared.Dtos.Chats;assembly=FitSwipe.Shared"
+             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
+             x:DataType="chatPages:ChatDetail">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+            <converters:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter" />
+            <converters:StringToLayoutOptionConverter x:Key="StringToLayoutOptionConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <AbsoluteLayout Background="White">
+        <Grid AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <VerticalStackLayout Grid.Row="0" Margin="5">
+                <ImageButton Source="back_thicker" WidthRequest="30" HeightRequest="30" Margin="5" HorizontalOptions="Start" x:Name="btnBack" Clicked="btnBack_Clicked"></ImageButton>
+                <BoxView HeightRequest="2" BackgroundColor="{Binding Theme}"></BoxView>
+                <HorizontalStackLayout Margin="0,5">
+                    <Frame BorderColor="Transparent" CornerRadius="100" BackgroundColor="{Binding Theme}" Padding="2">
+                        <Frame BorderColor="{Binding Theme}" CornerRadius="100" Padding="0"
+                               WidthRequest="60" 
+                                HeightRequest="60" >
+                            <Image Source="{Binding Guest.AvatarUrl}" 
+                                WidthRequest="60" 
+                                HeightRequest="60" 
+                                Aspect="AspectFill" 
+                                VerticalOptions="Center"
+                                HorizontalOptions="Start" />
+                        </Frame>
+                    </Frame>
+                    <Label Text="{Binding ChatRoom.Users[0].UserName}" TextColor="Black" Margin="10,0" FontSize="20" FontAttributes="Bold"></Label>
+                </HorizontalStackLayout>
+
+                <BoxView HeightRequest="2" BackgroundColor="{Binding Theme}"></BoxView>
+                
+            </VerticalStackLayout>
+            
+            <CollectionView ItemsSource="{Binding Messages}" Grid.Row="1" x:Name="messagesList">
+                <CollectionView.Header>
+                    <StackLayout>
+                        <ActivityIndicator HorizontalOptions="Center" Color="{Binding Theme}" x:Name="loadingMessage" IsRunning="true" IsVisible="False"></ActivityIndicator>
+                        <HorizontalStackLayout Margin="5" HorizontalOptions="Center" x:Name="showMoreMessageSection">
+                            <BoxView
+                                     HeightRequest="2"
+                                     WidthRequest="50"
+                                     Margin="10,0"
+                                     BackgroundColor="#2E3192"/>
+                            <Button Text="Hiển thị tin nhắn cũ hơn"
+                                    TextColor="#2E3192"
+                                    BackgroundColor="Transparent"
+                                    x:Name="btnMoreMessage"
+                                    Clicked="btnMoreMessage_Clicked"
+                                    Padding="0"
+                                    HeightRequest="30"
+                                    FontSize="15"
+                                    FontAttributes="Bold"/>
+                            <BoxView
+                                 HeightRequest="2"
+                                 WidthRequest="50"
+                                 Margin="10,0"
+                                 BackgroundColor="#2E3192"/>
+                        </HorizontalStackLayout>
+                    </StackLayout>
+                    
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dto:GetMessageDto">
+                        <HorizontalStackLayout HorizontalOptions="{Binding Margin, Converter={StaticResource StringToLayoutOptionConverter}}" Margin="5">
+                            <Frame BorderColor="Transparent" CornerRadius="100" BackgroundColor="{Binding AvatarColor}" Padding="2"
+                                   IsVisible="{Binding LeftAvatarSource, Converter={StaticResource EmptyStringToVisibilityConverter}}"
+                                   VerticalOptions="Start">
+                                <Frame BorderColor="{Binding AvatarColor}" CornerRadius="100" Padding="0"
+                                           WidthRequest="30" 
+                                            HeightRequest="30" >
+                                    <Image Source="{Binding LeftAvatarSource}" 
+                                            WidthRequest="30" 
+                                            HeightRequest="30" 
+                                            Aspect="AspectFill" 
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Start" />
+                                </Frame>
+                            </Frame>
+                            <Frame BorderColor="{Binding BorderColor}" BackgroundColor="{Binding BackgroundColor}"
+                                   CornerRadius="10" MaximumWidthRequest="300" Padding="0">
+                                <StackLayout Padding="5">
+                                    <Label TextColor="{Binding TextColor}" Text="{Binding Content}" LineBreakMode="WordWrap"></Label>
+                                    <Label TextColor="{Binding TextColor}" Text="{Binding SentAt}" FontAttributes="Italic" FontSize="10" HorizontalTextAlignment="End"></Label>
+                                </StackLayout>
+                            </Frame>
+                            <Frame BorderColor="Transparent" CornerRadius="100" BackgroundColor="{Binding AvatarColor}" Padding="2"
+                                   IsVisible="{Binding RightAvatarSource, Converter={StaticResource EmptyStringToVisibilityConverter}}"
+                                   VerticalOptions="Start">
+                                <Frame BorderColor="{Binding AvatarColor}" CornerRadius="100" Padding="0"
+                                       WidthRequest="30" 
+                                        HeightRequest="30" >
+                                    <Image Source="{Binding RightAvatarSource}" 
+                                            WidthRequest="30" 
+                                            HeightRequest="30" 
+                                            Aspect="AspectFill" 
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Start" />
+                                </Frame>
+                            </Frame>
+                        </HorizontalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.Footer>
+                    <HorizontalStackLayout x:Name="sendingMessage" IsVisible="False" HorizontalOptions="Center">
+                        <ActivityIndicator  Color="{Binding Theme}" IsRunning="true"></ActivityIndicator>
+                        <Label TextColor="{Binding Theme}" Text="Đang gửi..." VerticalOptions="Center"></Label>
+                    </HorizontalStackLayout>
+                </CollectionView.Footer>
+            </CollectionView>
+            <StackLayout Grid.Row="2">
+                <BoxView HeightRequest="2" BackgroundColor="{Binding Theme}"></BoxView>
+                <FlexLayout Margin="0,5">
+                    <Frame BorderColor="Transparent" CornerRadius="5" BackgroundColor="{Binding Theme}" Padding="2"  FlexLayout.Grow="1"  Margin="2">
+                        <Frame BorderColor="{Binding Theme}" CornerRadius="5" Padding="0"  BackgroundColor="White">
+                            <Editor Placeholder="Nhắn tin ở đây..." TextColor="Black" x:Name="txtMessage"></Editor>
+                        </Frame>
+                    </Frame>
+                    <Border Stroke="Transparent" Margin="2" BackgroundColor="{Binding Theme}" Padding="10,0">
+                        <mi:MauiIcon Icon="{mi:Fluent ArrowReply28}" IconColor="White" WidthRequest="30" HeightRequest="30" VerticalOptions="Center"></mi:MauiIcon>
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10"></RoundRectangle>
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer x:Name="tappedSend" Tapped="tappedSend_Tapped"></TapGestureRecognizer>
+                        </Border.GestureRecognizers>
+                    </Border>
+                </FlexLayout>
+            </StackLayout>
+        </Grid>
+        <controls:LoadingDialog x:Name="loadingDialog"
+                  IsVisible="False"
+                  Message="Đang tải tin nhắn..."
+                  AbsoluteLayout.LayoutFlags="PositionProportional"
+                  AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
+    </AbsoluteLayout>
 </ContentPage>

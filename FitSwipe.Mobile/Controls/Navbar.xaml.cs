@@ -97,7 +97,7 @@ namespace FitSwipe.Mobile.Controls
 
         private void navChat_Tapped(object sender, TappedEventArgs e)
         {
-            Shell.Current.GoToAsync($"//ChatPage?flag={ChatFlag}");
+            Shell.Current.GoToAsync($"//ChatPage?flag={ChatFlag}&role=Trainee");
             ChatFlag = false;
 
 

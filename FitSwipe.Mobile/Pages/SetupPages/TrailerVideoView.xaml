@@ -68,7 +68,7 @@
                         <StackLayout Spacing="10">
                             <!-- Video Player -->
                             <toolkit:MediaElement x:Name="videoPlayer"
-                                                  Source="embed://rick_roll.mp4"
+                                                  Source=""
                                                   ShouldAutoPlay="False"
                                                   ShouldShowPlaybackControls="True"
                                                   Aspect="AspectFill"

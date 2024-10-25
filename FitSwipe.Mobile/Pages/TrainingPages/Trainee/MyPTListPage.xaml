@@ -57,21 +57,21 @@
                     <!--#endregion-->
 
                     <!--#region FILTER -->
-                    <StackLayout HorizontalOptions="Start"
+                    <!--<StackLayout HorizontalOptions="Start"
                          Margin="0, 12, 0, 0">
                         <HorizontalStackLayout>
                             <Image Source="filter.png"
                                    HeightRequest="35"
                                    Margin="0,0,6,0" />
 
-                            <!-- Filter Options -->
+                            --><!-- Filter Options --><!--
                             <VerticalStackLayout Spacing="-10"
                                      HorizontalOptions="Start">
                                 <Label Text="Sắp xếp theo:"
                                      TextColor="Black"
                                      FontSize="12" />
 
-                                <!-- Picker for the filter options -->
+                                --><!-- Picker for the filter options --><!--
                                 <Picker Title="Chọn tiêu chí"
                                           ItemsSource="{Binding FilterOptions}"
                                           SelectedItem="{Binding SelectedFilter}"
@@ -80,7 +80,7 @@
                                           TextColor="Black" />
                             </VerticalStackLayout>
                         </HorizontalStackLayout>
-                    </StackLayout>
+                    </StackLayout>-->
                     <!--#endregion-->
 
                     <StackLayout>
@@ -157,7 +157,7 @@
 
                         <StackLayout >
                             <CollectionView ItemsSource="{Binding UserList}"
-                                             HeightRequest="450"
+                                             HeightRequest="500"
                                   BackgroundColor="Transparent"
                                   SelectionMode="None"
                                   VerticalScrollBarVisibility="Never"
@@ -268,6 +268,9 @@
                                                                     BackgroundColor="#5A5EDC"
                                                                     VerticalOptions="EndAndExpand"
                                                                     TextColor="White"
+                                                                    x:Name="btnChat"
+                                                                    Clicked="btnChat_Clicked"
+                                                                    CommandParameter="{Binding}"
                                                                     CornerRadius="12" />
 
                                                             <Button Text="Đặt lịch tập"
@@ -312,6 +315,8 @@
                                                                     Margin="0, 10, 0, 0"
                                                                     BackgroundColor="#5A5EDC"
                                                                     VerticalOptions="EndAndExpand"
+                                                                    Clicked="btnChat_Clicked"
+                                                                    CommandParameter="{Binding}"
                                                                     TextColor="White"
                                                                     CornerRadius="12" />
 

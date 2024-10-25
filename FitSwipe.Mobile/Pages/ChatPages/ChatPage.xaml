@@ -2,58 +2,118 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FitSwipe.Mobile.Pages.ChatPages.ChatPage"
+             xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+             xmlns:converters="clr-namespace:FitSwipe.Mobile.Converters"
+             xmlns:dto="clr-namespace:FitSwipe.Shared.Dtos.Chats;assembly=FitSwipe.Shared"
+             xmlns:trainingConverters="clr-namespace:FitSwipe.Mobile.Converters.TrainingPageConverter"
              BackgroundColor="White">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+            <trainingConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <AbsoluteLayout >
+        <Grid Padding="10" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Frame BackgroundColor="#efefef" CornerRadius="10"  Padding="5,2">
+                <FlexLayout>
+                    <Entry Placeholder="Nhập tên để tìm kiếm..." FlexLayout.Grow="1" TextColor="Black" VerticalOptions="Center"></Entry>
+                    <Border Stroke="Transparent">
+                        <mi:MauiIcon Icon="{mi:Fluent Search16}" IconColor="Black" WidthRequest="30" HeightRequest="30" VerticalOptions="Center"></mi:MauiIcon>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer x:Name="tappedSearch" Tapped="tappedSearch_Tapped"></TapGestureRecognizer>
+                        </Border.GestureRecognizers>
+                    </Border>
+                </FlexLayout>
+            </Frame>
+            
+            <!-- ListView for displaying chat rooms -->
+            <RefreshView IsRefreshing="{Binding IsRefreshing}" Refreshing="RefreshView_Refreshing" Grid.Row="1">
+                <ListView x:Name="ChatListView" 
+                          HasUnevenRows="True" 
+                          SeparatorVisibility="None"
+                          BackgroundColor="White"
+                          Margin="0,10"
+                          ItemsSource="{Binding ChatRooms}"
+                          
+                          >
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="dto:GetChatRoomDto">
+                            <ViewCell>
+                                <StackLayout>
+                                    <Border Stroke="Transparent" Padding="0" Margin="0,10">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer x:Name="chatItem" Tapped="chatItem_Tapped" CommandParameter="{Binding}"></TapGestureRecognizer>
+                                        </Border.GestureRecognizers>
+                                        <FlexLayout>
+                                            <StackLayout Orientation="Horizontal" Padding="10" Spacing="10" FlexLayout.Grow="1">
+                                                <!-- Avatar Image -->
+                                                <Frame BorderColor="Transparent" CornerRadius="100" BackgroundColor="#52BB00" Padding="2">
+                                                    <Frame BorderColor="#52BB00" CornerRadius="100" Padding="0">
+                                                        <Image Source="{Binding Users[0].AvatarUrl}" 
+                                                                WidthRequest="50" 
+                                                                HeightRequest="50" 
+                                                                Aspect="AspectFill" 
+                                                                VerticalOptions="Center"
+                                                                HorizontalOptions="Start" />
+                                                    </Frame>
+                                                </Frame>
 
-    <StackLayout Padding="10">
-        <!-- ListView for displaying chat rooms -->
-        <ListView x:Name="ChatListView" 
-                  HasUnevenRows="True" 
-                  SeparatorVisibility="None"
-                  BackgroundColor="White"
-                  ItemsSource="{Binding ChatRooms}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Border>
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer x:Name="chatItem" Tapped="chatItem_Tapped" CommandParameter="{Binding}"></TapGestureRecognizer>
-                            </Border.GestureRecognizers>
-                            <StackLayout Orientation="Horizontal" Padding="10" Spacing="10">
-                                <!-- Avatar Image -->
-                                <Image Source="{Binding User.AvatarUrl}" 
-                                       WidthRequest="50" 
-                                       HeightRequest="50" 
-                                       Aspect="AspectFill" 
-                                       VerticalOptions="Center"
-                                       HorizontalOptions="Start"
-                                       Clip="Circle" />
 
-                                <!-- Chat Room Details -->
-                                <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand">
-                                    <!-- Room or User Name -->
-                                    <Label Text="{Binding RoomName}" 
-                                           FontAttributes="Bold" 
-                                           FontSize="Medium" />
+                                                <!-- Chat Room Details -->
+                                                <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+                                                    <!-- Room or User Name -->
+                                                    <Label Text="{Binding Users[0].UserName}" 
+                                                           FontAttributes="Bold" 
+                                                           TextColor="Black"
+                                                           FontSize="Medium" />
+                                                    <Label Text="{Binding UpdatedDate, StringFormat='Trò chuyện lần cuối vào {0:dd/MM/yyyy hh:mm:ss tt}'}" 
+                                                            FontAttributes="Italic" 
+                                                            TextColor="Gray"
+                                                            FontSize="10" />
+                                                </StackLayout>
 
-                                    <!-- Latest Message -->
-                                    <!--<Label Text="{Binding LatestMessage}" 
-                                           FontSize="Small"
-                                           TextColor="Gray"
-                                           LineBreakMode="TailTruncation" />-->
+                                            </StackLayout>
+                                            <Frame BackgroundColor="Red" WidthRequest="30" HeightRequest="30" Padding="5" CornerRadius="30"
+                                                    VerticalOptions="Center" HorizontalOptions="Center"
+                                                   HasShadow="False" BorderColor="Transparent"
+                                                    IsVisible="{Binding Users[1].UnseenMessaged, Converter={StaticResource CountToVisibilityConverter}}">
+                                                <Label TextColor="White" Text="{Binding Users[1].UnseenMessaged}" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"></Label>
+                                            </Frame>
+                                        </FlexLayout>
+                                    
+                                    </Border>
+                                    <BoxView HeightRequest="2" BackgroundColor="LightGray"></BoxView>
+
                                 </StackLayout>
-
-                                <!-- Optional: Time or Message Indicator (like unread message count) -->
-                                <!--<Label Text="{Binding Time}" 
-                                       FontSize="Small" 
-                                       TextColor="Gray"
-                                       VerticalOptions="Center" 
-                                       HorizontalOptions="End" />-->
-                            </StackLayout>
-                        </Border>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </StackLayout>
-
+                            
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </RefreshView>
+        </Grid>
+        <controls:LoadingDialog x:Name="loadingDialog"
+                IsVisible="False"
+                 Message="Đang tải..."
+                 AbsoluteLayout.LayoutFlags="PositionProportional"
+                 AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1" />
+        <controls:Navbar ActiveTab="2"
+                 x:Name="navbar"
+                 ZIndex="99"
+                 IsVisible="{Binding IsTrainee}"
+                 AbsoluteLayout.LayoutBounds="0, 1, 1, AutoSize"
+                 AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional"/>
+        <controls:NavbarPT ActiveTab="2"
+                 x:Name="navbarPT"
+                 ZIndex="99"
+                 IsVisible="{Binding IsTrainee, Converter={StaticResource InverseBooleanConverter}}"
+                 AbsoluteLayout.LayoutBounds="0, 1, 1, AutoSize"
+                 AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional" />
+    </AbsoluteLayout>
 </ContentPage>

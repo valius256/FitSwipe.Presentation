@@ -165,4 +165,29 @@ public partial class MyPTListPage : ContentPage
             }
         }
     }
+
+    private async void btnChat_Clicked(object sender, EventArgs e)
+    {
+        var button = sender as Button;
+        if (button != null)
+        {
+            var boundItem = button.CommandParameter as GetTrainingWithTraineeAndPTDto;
+            if (boundItem != null)
+            {
+                loadingDialog.IsVisible = true;
+                loadingDialog.Message = "Vui lòng chờ...";
+                try
+                {
+                    await Shortcut.CreateChatRoomSolo(_token, boundItem.PTId);
+                    await Shell.Current.GoToAsync($"//ChatPage?role=Trainee&flag=true&openId={boundItem.PTId}");
+                } catch
+                {
+                    await Shell.Current.GoToAsync($"//ChatPage?role=Trainee&flag=false&openId={boundItem.PTId}");
+
+                }
+                loadingDialog.IsVisible = false;
+
+            }
+        }
+    }
 }

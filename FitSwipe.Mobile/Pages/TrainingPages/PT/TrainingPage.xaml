@@ -54,30 +54,30 @@
                     <!--#endregion-->
 
                     <!--#region FILTER -->
-                    <StackLayout HorizontalOptions="Start"
+                    <!--<StackLayout HorizontalOptions="Start"
                      Margin="0, 12, 0, 0">
                         <HorizontalStackLayout>
                             <Image Source="filter.png"
-                   HeightRequest="35"
-                   Margin="0,0,6,0" />
+                                   HeightRequest="35"
+                                   Margin="0,0,6,0" />
 
-                            <!-- Filter Options -->
+                            --><!-- Filter Options --><!--
                             <VerticalStackLayout Spacing="-10"
                                  HorizontalOptions="Start">
                                 <Label Text="Sắp xếp theo:"
-                     TextColor="Black"
-                     FontSize="12" />
+                                         TextColor="Black"
+                                         FontSize="12" />
 
-                                <!-- Picker for the filter options -->
+                                --><!-- Picker for the filter options --><!--
                                 <Picker Title="Chọn tiêu chí"
-                      ItemsSource="{Binding FilterOptions}"
-                      SelectedItem="{Binding SelectedFilter}"
-                      FontAttributes="Bold"
-                      FontSize="14"
-                      TextColor="Black" />
+                                          ItemsSource="{Binding FilterOptions}"
+                                          SelectedItem="{Binding SelectedFilter}"
+                                          FontAttributes="Bold"
+                                          FontSize="14"
+                                          TextColor="Black" />
                             </VerticalStackLayout>
                         </HorizontalStackLayout>
-                    </StackLayout>
+                    </StackLayout>-->
                     <!--#endregion-->
                     <!--<Border  Background="#213399" Stroke="White" Padding="10,2" HorizontalOptions="End">
             <HorizontalStackLayout HorizontalOptions="End">
@@ -166,7 +166,7 @@
                             <CollectionView ItemsSource="{Binding UserList}"
                                     BackgroundColor="Transparent"
                                     SelectionMode="None"
-                                    HeightRequest="400"
+                                    HeightRequest="500"
                                     RemainingItemsThreshold="0"
                                     RemainingItemsThresholdReached="CollectionView_RemainingItemsThresholdReached"
                                    >
