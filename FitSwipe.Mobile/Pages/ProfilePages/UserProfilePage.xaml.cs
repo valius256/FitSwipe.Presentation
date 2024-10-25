@@ -1,4 +1,4 @@
-using FitSwipe.Mobile.ViewModels;
+﻿using FitSwipe.Mobile.ViewModels;
 using FitSwipe.Shared.Utils;
 using Syncfusion.Maui.Core.Carousel;
 
@@ -49,6 +49,7 @@ public partial class UserProfilePage : ContentPage
         if (_isOwner)
         {
             btnComeback.IsVisible = false;
+            btnTalk.IsVisible = false;
         }
         else
         {
@@ -163,5 +164,25 @@ public partial class UserProfilePage : ContentPage
     private void btnSeemore_Clicked(object sender, EventArgs e)
     {
         Shell.Current.GoToAsync("//TraineeSchedulePage?flag=false");
+    }
+
+    private async void btnTalk_Clicked(object sender, EventArgs e)
+    {
+        if (!loadingDialog.IsVisible)
+        {
+            loadingDialog.IsVisible = true;
+            loadingDialog.Message = "Vui lòng chờ...";
+            try
+            {
+                await Shortcut.CreateChatRoomSolo(_token, viewModel.User.FireBaseId);
+                await Shell.Current.GoToAsync($"//ChatPage?role=PT&flag=true&openId={viewModel.User.FireBaseId}");
+            }
+            catch
+            {
+                await Shell.Current.GoToAsync($"//ChatPage?role=PT&flag=false&openId={viewModel.User.FireBaseId}");
+
+            }
+            loadingDialog.IsVisible = false;
+        }
     }
 }

@@ -306,8 +306,34 @@ public partial class SwipeMatchView : ContentPage
         }
     }
 
-    private void btnRemove_Clicked(object sender, EventArgs e)
+    private async void btnRemove_Clicked(object sender, EventArgs e)
     {
+        var button = sender as Button;
+        if (button != null)
+        {
+            var boundItem = button.CommandParameter as GetUserWithTagDto;
+            if (boundItem != null)
+            {
+                loadingDialog.IsVisible = true;
+                loadingDialog.Message = "Vui lòng chờ...";
+                try
+                {
+                    var token = await SecureStorage.GetAsync("auth_token");
+                    if (token == null)
+                    {
+                        throw new Exception("Có sự cố xảy ra. Vui lòng đăng nhập lại");
+                    }
+                    await Shortcut.CreateChatRoomSolo(token, boundItem.FireBaseId);
+                    await Shell.Current.GoToAsync($"//ChatPage?role=Trainee&flag=true&openId={boundItem.FireBaseId}");
+                }
+                catch
+                {
+                    await Shell.Current.GoToAsync($"//ChatPage?role=Trainee&flag=false&openId={boundItem.FireBaseId}");
 
+                }
+                loadingDialog.IsVisible = false;
+
+            }
+        }
     }
 }

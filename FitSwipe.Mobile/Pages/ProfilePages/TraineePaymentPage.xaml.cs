@@ -16,6 +16,16 @@ public partial class TraineePaymentPage : ContentPage
     private string _token = string.Empty;
     private int pageSize = 10;
 
+    private bool _isRefreshing { get; set; }
+    public bool IsRefreshing
+    {
+        get => _isRefreshing;
+        set
+        {
+            _isRefreshing = value;
+            OnPropertyChanged(nameof(IsRefreshing));
+        }
+    }
     private int _currentPage = 1;
     public int CurrentPage
     {
@@ -105,9 +115,7 @@ public partial class TraineePaymentPage : ContentPage
     }
     public async void Setup()
 	{
-        await FetchUserData();
-		await FetchUnpaidSlots();
-        await FetchTransaction();
+        await Refresh();
     }
 
     public async Task FetchUserData()
@@ -267,8 +275,14 @@ public partial class TraineePaymentPage : ContentPage
         var answer = await DisplayAlert("Xác nhận", "Bạn có chắc chắn muốn thanh toán những buổi đã chọn hay không?", "Có", "Không");
         if (answer)
         {
-            await Navigation.PushModalAsync(new PayingCheck(AboutToPaidSlots.ToList(), FetchUnpaidSlots));
+            await Navigation.PushModalAsync(new PayingCheck(AboutToPaidSlots.ToList(), Refresh));
         }
+    }
+    private async Task Refresh()
+    {
+        await FetchUserData();
+        await FetchUnpaidSlots();
+        await FetchTransaction();
     }
 
     private async void btnNext_Clicked(object sender, EventArgs e)
@@ -287,5 +301,11 @@ public partial class TraineePaymentPage : ContentPage
             CurrentPage -= 1;
             await FetchTransaction();
         }
+    }
+
+    private async void pageContent_Refreshing(object sender, EventArgs e)
+    {
+        await Refresh();
+        IsRefreshing = false;
     }
 }

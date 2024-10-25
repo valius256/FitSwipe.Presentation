@@ -44,7 +44,7 @@
                             <VerticalStackLayout VerticalOptions="End" HeightRequest="300">
                                 <VerticalStackLayout.Background>
                                     <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
-                                        <GradientStop Color="Black" Offset="0.5" />
+                                        <GradientStop Color="Black" Offset="0.1" />
                                         <GradientStop Color="Transparent" Offset="1.0" />
                                     </LinearGradientBrush>
                                 </VerticalStackLayout.Background>
@@ -102,10 +102,10 @@
                                  TextColor="White"
                                  BackgroundColor="Transparent"/>
                                 <Label Text="{Binding Age}" Margin="10,0,0,0"
-                             FontSize="20" 
-                             HorizontalTextAlignment="Start" 
-                             TextColor="White"
-                             BackgroundColor="Transparent"/>
+                                 FontSize="20" 
+                                 HorizontalTextAlignment="Start" 
+                                 TextColor="White"
+                                 BackgroundColor="Transparent"/>
                             </HorizontalStackLayout>
 
                             <Label Text="{Binding Bio}" 
@@ -163,6 +163,7 @@
                                    BorderWidth="3"
                                    CornerRadius="30"
                                    Clicked="btnRemove_Clicked"
+                                   CommandParameter="{Binding}"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center" />
 

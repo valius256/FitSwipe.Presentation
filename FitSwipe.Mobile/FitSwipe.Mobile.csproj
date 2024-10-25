@@ -277,6 +277,9 @@
 		<MauiXaml Update="Pages\ProfilePages\WithdrawRequestPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="Pages\SetupPages\ForgotPassword.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Pages\Splash.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>

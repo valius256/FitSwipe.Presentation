@@ -16,7 +16,7 @@
     </ContentPage.Resources>
     <!--#endregion-->
 
-    <AbsoluteLayout>
+    <AbsoluteLayout Background="White">
         <!-- Background Image -->
         <Image Source="signin_background.png"
                Aspect="AspectFill"
@@ -71,6 +71,7 @@
                        HorizontalTextAlignment="Center"
                        FontAttributes="Bold,Italic"
                        WidthRequest="250"
+                       TextColor="Black"
                        FontSize="50" />
 
                 <!-- Screen Title -->
@@ -79,6 +80,7 @@
                        FontAttributes="Bold"
                        WidthRequest="150"
                        HorizontalTextAlignment="Center"
+                       TextColor="Black"
                        HorizontalOptions="Center" />
                 <!--#endregion-->
 
@@ -94,6 +96,7 @@
                                      IsChecked="True"
                                      CheckedChanged="traineeRadioButton_CheckedChanged" />
                         <Label Text="Người tập"
+                               TextColor="Black"
                                VerticalOptions="Center" />
                     </StackLayout>
 
@@ -105,6 +108,7 @@
                                      GroupName="userType"
                                      CheckedChanged="ptRadioButton_CheckedChanged" />
                         <Label Text="PT"
+                               TextColor="Black"
                                VerticalOptions="Center" />
                     </StackLayout>
                 </HorizontalStackLayout>
@@ -318,6 +322,7 @@
                                 <RoundRectangle CornerRadius="8" />
                             </Border.StrokeShape>
                             <Entry Text="{Binding LastName}"
+                                   TextColor="Black"
                                    Placeholder="Họ" />
                         </Border>
                     </StackLayout>
@@ -345,6 +350,7 @@
                                 <RoundRectangle CornerRadius="8" />
                             </Border.StrokeShape>
                             <Entry Text="{Binding FirstName}"
+                                   TextColor="Black"
                                    Placeholder="Tên" />
                         </Border>
                     </StackLayout>
@@ -372,6 +378,7 @@
                                 <RoundRectangle CornerRadius="8" />
                             </Border.StrokeShape>
                             <Entry Text="{Binding Email}"
+                                   TextColor="Black"
                                    Placeholder="Email" />
                         </Border>
                     </StackLayout>
@@ -399,6 +406,7 @@
                                 <RoundRectangle CornerRadius="8" />
                             </Border.StrokeShape>
                             <Entry Text="{Binding PhoneNumber}"
+                                   TextColor="Black"
                                    Placeholder="SĐT" />
                         </Border>
                     </StackLayout>
@@ -427,6 +435,7 @@
                             </Border.StrokeShape>
                             <Entry Text="{Binding Password}"
                                    IsPassword="True"
+                                   TextColor="Black"
                                    Placeholder="Mật khẩu" />
                         </Border>
                     </StackLayout>
@@ -455,6 +464,7 @@
                             </Border.StrokeShape>
                             <Entry Text="{Binding ConfirmPassword}"
                                    IsPassword="True"
+                                   TextColor="Black"
                                    Placeholder="Nhập lại mật khẩu" />
                         </Border>
                     </StackLayout>
@@ -489,7 +499,8 @@
                     </CheckBox>
 
                     <Label MaximumWidthRequest="300"
-                            VerticalOptions="End">
+                            VerticalOptions="End"
+                           TextColor="Black">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Bằng việc đăng ký, tôi đã đọc " />
@@ -555,7 +566,8 @@
                     <Label Text="Đã có tài khoản?"
                            FontAttributes="Bold,Italic"
                            VerticalTextAlignment="Center"
-                           WidthRequest="110" />
+                           WidthRequest="110" 
+                           TextColor="Black"/>
                     <Button Text="Đăng nhập"
                             BorderWidth="1"
                             Padding="0"

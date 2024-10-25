@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 
 namespace FitSwipe.Mobile.Pages.ProfilePages;
 
-[QueryProperty(nameof(IsTrainee), "isTrainee")]
+[QueryProperty(nameof(PassedIsTrainee), "isTrainee")]
 public partial class WithdrawRequestPage : ContentPage
 {
     private string _token = string.Empty;
@@ -46,6 +46,16 @@ public partial class WithdrawRequestPage : ContentPage
             OnPropertyChanged(nameof(Balance));
         }
     }
+    private bool isTrainee = false;
+    public bool IsTrainee
+    {
+        get => isTrainee;
+        set
+        {
+            isTrainee = value;
+            OnPropertyChanged(nameof(IsTrainee));
+        }
+    }
     private bool isRefreshing = false;
     public bool IsRefreshing
     {
@@ -56,7 +66,8 @@ public partial class WithdrawRequestPage : ContentPage
             OnPropertyChanged(nameof(IsRefreshing));
         }
     }
-    public bool IsTrainee { get; set; }
+    public bool PassedIsTrainee { get; set; }
+
     private bool isCreating = false;
     public bool IsCreating
     {
@@ -131,11 +142,6 @@ public partial class WithdrawRequestPage : ContentPage
     {
         base.OnAppearing();
 
-        navbar.IsVisible = IsTrainee;
-        navbarPT.IsVisible = !IsTrainee;
-        profileNavbar.IsVisible = IsTrainee;
-        profileNavbarPT.IsVisible = !IsTrainee;
-
         var currentToken = await SecureStorage.GetAsync("auth_token") ?? string.Empty;
         if (Helper.CheckTokenChanged(_token, currentToken))
         {
@@ -143,9 +149,16 @@ public partial class WithdrawRequestPage : ContentPage
             Setup();
             return;
         }
+
     }
     public async void Setup()
     {
+        IsTrainee = PassedIsTrainee;
+        navbar.IsVisible = IsTrainee;
+        navbarPT.IsVisible = !IsTrainee;
+        profileNavbar.IsVisible = IsTrainee;
+        profileNavbarPT.IsVisible = !IsTrainee;
+
         await FetchUserData();
         await FetchRequests();
     }

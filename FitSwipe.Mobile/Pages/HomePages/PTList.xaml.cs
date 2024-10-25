@@ -25,7 +25,25 @@ public partial class PTList : ContentPage
     private int PageSize = 8;
     private int MaxPage = 1;
     public bool PassedFlag { get; set; } = false;
-
+    private bool _isRefreshing { get; set; }
+    public bool IsRefreshing
+    {
+        get => _isRefreshing;
+        set
+        {
+            _isRefreshing = value;
+            OnPropertyChanged(nameof(IsRefreshing));
+        }
+    }
+    public bool IsFetching
+    {
+        get => isFetching;
+        set
+        {
+            isFetching = value;
+            OnPropertyChanged(nameof(IsFetching));
+        }
+    }
     public ObservableCollection<GetUserWithTagDto> Items
     {
         get => _items;
@@ -72,7 +90,7 @@ public partial class PTList : ContentPage
         CurrentPage = 1;
         loadingDialog.IsVisible = true;
         loadingDialog.Message = "Đang chuẩn bị danh sách PT cho bạn...";
-        isFetching = true;
+        IsFetching = true;
         try
         {
             var token = await SecureStorage.GetAsync("auth_token");
@@ -103,11 +121,11 @@ public partial class PTList : ContentPage
             await DisplayAlert("Lỗi","Có sự cố xảy ra. Err : " + ex.Message,"OK");
         }
         loadingDialog.IsVisible = false;
-        isFetching = false;
+        IsFetching = false;
     }
     private async Task ContinueFetchingData()
     {
-        isFetching = true;
+        IsFetching = true;
         try
         {
             var response = await Fetcher.GetAsync<PagedResult<GetUserWithTagDto>>($"api/users/match-ordered?Filter.Roles=1&page={CurrentPage}&limit={PageSize}", _token);
@@ -120,7 +138,7 @@ public partial class PTList : ContentPage
         {
             await DisplayAlert("Lỗi", "Có sự cố xảy ra. Err : " + ex.Message, "OK");
         }
-        isFetching = false;
+        IsFetching = false;
     }
     private async Task AppendList(IList<GetUserWithTagDto> users)
     {
@@ -141,7 +159,7 @@ public partial class PTList : ContentPage
         {
             loadingDialog.IsVisible = true;
             loadingDialog.Message = "Đang thực hiện...";
-            isFetching = true;
+            IsFetching = true;
             try
             {
                 await Fetcher.PostAsync($"api/trainings", new CreateTrainingDto
@@ -151,14 +169,14 @@ public partial class PTList : ContentPage
                 }, _token);
                 var toast = Toast.Make("Thành công! Bạn đã match với " + boundItem.UserName, ToastDuration.Short);
                 await toast.Show();
-                Items = Items.Where(u => u.Id != boundItem.Id).ToObservableCollection();
+                Items.Remove(boundItem);
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Lỗi", "Có sự cố xảy ra. Err : " + ex.Message, "OK");
             }
             loadingDialog.IsVisible = false;
-            isFetching = false;
+            IsFetching = false;
             navbar.TrainingFlag = true;
         }
     }
@@ -191,5 +209,12 @@ public partial class PTList : ContentPage
                 }
             }
         }
+    }
+
+    private void RefreshView_Refreshing(object sender, EventArgs e)
+    {
+        Items.Clear();
+        FetchData();
+        IsRefreshing = false;
     }
 }

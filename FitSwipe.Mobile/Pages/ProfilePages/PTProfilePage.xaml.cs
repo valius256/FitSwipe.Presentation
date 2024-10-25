@@ -1,4 +1,5 @@
-using FitSwipe.Mobile.ViewModels.UserProfile;
+﻿using FitSwipe.Mobile.ViewModels.UserProfile;
+using FitSwipe.Shared.Dtos.Trainings;
 using FitSwipe.Shared.Utils;
 
 namespace FitSwipe.Mobile.Pages.ProfilePages;
@@ -49,6 +50,7 @@ public partial class PTProfilePage : ContentPage
         if (_isOwner)
         {
             btnComeback.IsVisible = false;
+            btnTalk.IsVisible = false;
         }
         else
         {
@@ -185,5 +187,26 @@ public partial class PTProfilePage : ContentPage
     private async void btnComeback_Clicked(object sender, EventArgs e)
     {
         await Navigation.PopModalAsync();
+    }
+
+    private async void btnTalk_Clicked(object sender, EventArgs e)
+    {
+        if (!loadingDialog.IsVisible)
+        {
+            loadingDialog.IsVisible = true;
+            loadingDialog.Message = "Vui lòng chờ...";
+            try
+            {
+                await Shortcut.CreateChatRoomSolo(_token, viewModel.User.FireBaseId);
+                await Shell.Current.GoToAsync($"//ChatPage?role=Trainee&flag=true&openId={viewModel.User.FireBaseId}");
+            }
+            catch
+            {
+                await Shell.Current.GoToAsync($"//ChatPage?role=Trainee&flag=false&openId={viewModel.User.FireBaseId}");
+
+            }
+            loadingDialog.IsVisible = false;
+        }
+        
     }
 }

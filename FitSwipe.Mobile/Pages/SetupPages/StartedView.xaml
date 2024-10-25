@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FitSwipe.Mobile.Pages.StartedView">
 
-    <AbsoluteLayout>
+    <AbsoluteLayout BackgroundColor="White">
         <!-- Background Image -->
         <Image Source="signin_background.png"
                Aspect="AspectFill"
@@ -35,12 +35,14 @@
                    HorizontalTextAlignment="Center"
                    FontAttributes="Bold,Italic"
                    WidthRequest="320"
+                   TextColor="Black"
                    FontSize="30" />
             <Label Text="FitSwipe"
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center"
                    FontAttributes="Bold,Italic"
                    WidthRequest="250"
+                   TextColor="Black"
                    FontSize="50" />
 
             <!--#region ROLE CHOOSING-->
@@ -51,6 +53,7 @@
                    HorizontalTextAlignment="Center"
                    WidthRequest="300"
                    Margin="0, 30, 0, 0"
+                   TextColor="Black"
                    FontSize="16" />
 
             <!-- Buttons Contianer -->

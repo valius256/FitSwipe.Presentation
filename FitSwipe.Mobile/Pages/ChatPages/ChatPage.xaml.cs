@@ -104,8 +104,8 @@ public partial class ChatPage : ContentPage
         }
         if (Flag)
         {
-            await FetchChats();
             Flag = false;
+            await FetchChats();
         }
         if (OpenId != null)
         {
@@ -283,7 +283,7 @@ public partial class ChatPage : ContentPage
     private void tappedSearch_Tapped(object sender, TappedEventArgs e)
     {
         //OriginalChatRooms = ChatRooms.ToObservableCollection();
-        ChatRooms = OriginalChatRooms.Where(cr => cr.Users[0].UserName == Keyword).ToObservableCollection();
+        ChatRooms = OriginalChatRooms.Where(cr => cr.Users[0].UserName.Contains(Keyword)).ToObservableCollection();
     }
 
     private async void RefreshView_Refreshing(object sender, EventArgs e)

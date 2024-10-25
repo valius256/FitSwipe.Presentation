@@ -750,6 +750,15 @@
                 </VerticalStackLayout>
             </ScrollView>
         </RefreshView>
+        <Button ZIndex="99"
+                Margin="10"
+                AbsoluteLayout.LayoutBounds="0, 1, 1, AutoSize"
+                AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional"
+                BackgroundColor="#52BB00"
+                x:Name="btnTalk"
+                Clicked="btnTalk_Clicked"
+                Text="Trò chuyện 💬">
+        </Button>
         <profilePages:TraineeUploadMediaModal
                  x:Name="traineeUploadMediaModal"
                  ZIndex="100"

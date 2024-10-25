@@ -10,7 +10,7 @@
             <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <AbsoluteLayout>
+    <AbsoluteLayout BackgroundColor="White">
         <!-- Background Image -->
         <controls:LoadingDialog x:Name="loadingDialog"
              IsVisible="False"

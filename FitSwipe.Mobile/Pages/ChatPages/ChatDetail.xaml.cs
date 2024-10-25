@@ -180,13 +180,15 @@ public partial class ChatDetail : ContentPage
         }
     }
 
-    protected override void OnDisappearing()
+    protected override async void OnDisappearing()
     {
         base.OnDisappearing();
         if (_hubConnection != null)
         {
-            _hubConnection.StopAsync();
+            await _hubConnection.StopAsync();
         }
+        var role = LoginedUser.Role == Role.Trainee ? "Trainee" : "PT";
+        await Shell.Current.GoToAsync($"//ChatPage?role={role}&flag=false");
     }
 
     public void Dispose()

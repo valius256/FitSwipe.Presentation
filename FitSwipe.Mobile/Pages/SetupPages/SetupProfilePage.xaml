@@ -12,7 +12,7 @@
             <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
-    <AbsoluteLayout>
+    <AbsoluteLayout BackgroundColor="White">
         
         <Grid BackgroundColor="{Binding Source={x:Reference SetupProfilePageView}, Path=MainColor3}" x:Name="pageContent"
               AbsoluteLayout.LayoutBounds="0, 0, 1, 1"

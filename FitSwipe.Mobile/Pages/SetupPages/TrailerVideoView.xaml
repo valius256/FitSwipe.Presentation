@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="FitSwipe.Mobile.Pages.TrailerVideoView">
-    <AbsoluteLayout>
+    <AbsoluteLayout BackgroundColor="White">
         <Image Source="signin_background.png"
                Aspect="AspectFill"
                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
@@ -34,6 +34,7 @@
                    HorizontalTextAlignment="Center"
                    FontAttributes="Bold,Italic"
                    WidthRequest="250"
+                   TextColor="Black"
                    FontSize="50" />
 
             <StackLayout>
@@ -42,11 +43,13 @@
                        HorizontalTextAlignment="Center"
                        FontAttributes="Bold"
                        WidthRequest="320"
+                       TextColor="Black"
                        FontSize="18" />
                 <Label Text="Video giới thiệu chúng tôi"
                        HorizontalOptions="Center"
                        HorizontalTextAlignment="Center"
                        FontAttributes="Italic"
+                       TextColor="Black"
                        WidthRequest="320"
                        FontSize="16" />
             </StackLayout>

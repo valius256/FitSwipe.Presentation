@@ -1,4 +1,5 @@
 ﻿using FitSwipe.Mobile.Pages.PayingPages;
+using FitSwipe.Shared.Dtos;
 using FitSwipe.Shared.Dtos.Paging;
 using FitSwipe.Shared.Dtos.Payment;
 using FitSwipe.Shared.Dtos.Slots;
@@ -15,6 +16,16 @@ public partial class PayingCheck : ContentPage
     public int SelectedMethod { get; set; }
     private int _totalItems { get; set; } = 0;
 
+    private int _balance = 0;
+    public int Balance
+    {
+        get => _balance;
+        set
+        {
+            _balance = value;
+            OnPropertyChanged(nameof(Balance));
+        }
+    }
     private Func<Task>? _refresh;
     public int TotalItems {  
         get => _totalItems; 
@@ -57,7 +68,7 @@ public partial class PayingCheck : ContentPage
         _refresh = refresh;
     }
 
-    private void FetchData()
+    private async void FetchData()
     {
         TotalPrice = 0;
         TotalItems = 0;
@@ -67,7 +78,8 @@ public partial class PayingCheck : ContentPage
             TotalPrice += s.TotalPrice;
             TotalItems += 1;
         });
-        TotalPriceString = TotalPrice.ToString("C0", new System.Globalization.CultureInfo("vi-VN"));
+        TotalPriceString = TotalPrice.ToString("C0", new System.Globalization.CultureInfo("vi-VN"));     
+        await FetchBalance();
         BindingContext = this;
     }
 
@@ -88,7 +100,31 @@ public partial class PayingCheck : ContentPage
         frameWallet.BackgroundColor = Colors.Transparent;
         frameVnpay.BackgroundColor = Color.FromArgb("#FF52BB00");
     }
-
+    private async Task FetchBalance()
+    {
+        loadingDialog.IsVisible = true;
+        loadingDialog.Message = "Vui lòng chờ...";
+        try
+        {
+            var token = await SecureStorage.GetAsync("auth_token");
+            if (token == null)
+            {
+                throw new Exception();
+            }
+            var balanceResult = await Fetcher.GetAsync<GetUserBalanceDto>("api/users/balance", token);
+            if (balanceResult == null)
+            {
+                throw new Exception();
+            }
+            Balance = balanceResult.Balance;
+        }
+        catch (Exception)
+        {
+            await DisplayAlert("Lỗi", "Có lỗi xảy ra khi lấy thống tin số dư. Bạn nên thoát trang và mở lại", "OK");
+            await Navigation.PopModalAsync();
+        }
+        loadingDialog.IsVisible = false;
+    }
     private async void btnPayment_Clicked(object sender, EventArgs e)
     {
         //AUTHENTICATION
@@ -124,7 +160,26 @@ public partial class PayingCheck : ContentPage
     }
     private async Task HandleBalance(string token)
     {
-
+        var answer = await DisplayAlert("Xác nhận", "Bạn có chắc chắn muốn thanh toán bằng số dư?", "Có", "Không");
+        if (answer)
+        {
+            loadingDialog.IsVisible = true;
+            loadingDialog.Message = "Vui lòng chờ...";
+            try
+            {
+                if (Balance < TotalPrice)
+                {
+                    throw new Exception("Không đủ số dư");
+                }
+                await Fetcher.PutAsync("api/Payment/balance-payment",Cart.Select(s => s.Id).ToList(), token);
+                await HandleAfterPayment(token);
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Lỗi", "Có lỗi xảy ra. Err : " + ex.Message, "OK");
+            }
+            loadingDialog.IsVisible = false;
+        }
     }
     private async Task HandleVnPay(string token, GetUserDto currentUser)
     {

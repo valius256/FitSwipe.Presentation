@@ -12,6 +12,7 @@
         <ResourceDictionary>
             <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
             <trainingConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+            <trainingConverters:CountToVisibilityLabelConverter x:Key="CountToVisibilityLabelConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <AbsoluteLayout >
@@ -20,17 +21,26 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Frame BackgroundColor="#efefef" CornerRadius="10"  Padding="5,2">
-                <FlexLayout>
-                    <Entry Placeholder="Nhập tên để tìm kiếm..." FlexLayout.Grow="1" TextColor="Black" VerticalOptions="Center"></Entry>
-                    <Border Stroke="Transparent">
-                        <mi:MauiIcon Icon="{mi:Fluent Search16}" IconColor="Black" WidthRequest="30" HeightRequest="30" VerticalOptions="Center"></mi:MauiIcon>
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer x:Name="tappedSearch" Tapped="tappedSearch_Tapped"></TapGestureRecognizer>
-                        </Border.GestureRecognizers>
-                    </Border>
-                </FlexLayout>
-            </Frame>
+            <StackLayout>
+                <Frame BackgroundColor="#efefef" CornerRadius="10"  Padding="5,2">
+                    <FlexLayout>
+                        <Entry Placeholder="Nhập tên để tìm kiếm..." FlexLayout.Grow="1" TextColor="Black" VerticalOptions="Center" Text="{Binding Keyword}"></Entry>
+                        <Border Stroke="Transparent">
+                            <mi:MauiIcon Icon="{mi:Fluent Search16}" IconColor="Black" WidthRequest="30" HeightRequest="30" VerticalOptions="Center"></mi:MauiIcon>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer x:Name="tappedSearch" Tapped="tappedSearch_Tapped"></TapGestureRecognizer>
+                            </Border.GestureRecognizers>
+                        </Border>
+                    </FlexLayout>
+                </Frame>
+
+                <Label TextColor="Black" FontAttributes="Italic" HorizontalOptions="Center" HorizontalTextAlignment="Center" Margin="0,10"
+                       WidthRequest="300"
+                       Text="Có vẻ như bạn chưa có ai để Chat. Hãy thử ghép đôi với một vài người để có thể trò chuyện làm quen với họ nhé!"
+                       IsVisible="{Binding ChatRooms.Count, Converter={StaticResource CountToVisibilityLabelConverter}}">
+
+                </Label>
+            </StackLayout>
             
             <!-- ListView for displaying chat rooms -->
             <RefreshView IsRefreshing="{Binding IsRefreshing}" Refreshing="RefreshView_Refreshing" Grid.Row="1">

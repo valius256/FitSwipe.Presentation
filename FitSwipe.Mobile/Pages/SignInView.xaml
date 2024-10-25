@@ -4,7 +4,7 @@
              xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
              x:Class="FitSwipe.Mobile.Pages.SignInView">
 
-    <AbsoluteLayout>
+    <AbsoluteLayout BackgroundColor="White">
         <!-- Background Image -->
 
         <Image x:Name="backgroundImage"
@@ -33,6 +33,7 @@
                    WidthRequest="150"
                    HeightRequest="150" />
             <Label Text="FitSwipe"
+                   TextColor="Black"
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center"
                    FontAttributes="Bold,Italic"
@@ -42,6 +43,7 @@
             <!-- Screen Title -->
             <Label Text="Đăng nhập"
                    FontSize="20"
+                   TextColor="Black"
                    FontAttributes="Bold"
                    WidthRequest="150"
                    HorizontalTextAlignment="Center"
@@ -71,7 +73,7 @@
                             <RoundRectangle CornerRadius="8" />
                         </Border.StrokeShape>
                         <Entry Text="{Binding Email}"
-                               Placeholder="Email / SĐT"
+                               Placeholder="Email"
                                PlaceholderColor="Black" 
                                TextColor="Black"/>
                     </Border>
@@ -121,6 +123,7 @@
                              Orientation="Horizontal"
                              VerticalOptions="Center">
                     <Label Text="Ghi nhớ đăng nhập?"
+                           TextColor="Black"
                            VerticalOptions="Center" />
                     <CheckBox IsChecked="{Binding RememberMe}"
                               Color="Green" />
@@ -133,6 +136,9 @@
                        VerticalOptions="Center"
                        TextDecorations="Underline"
                        TextColor="Black">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer x:Name="tapForgotPassword" Tapped="tapForgotPassword_Tapped"></TapGestureRecognizer>
+                    </Label.GestureRecognizers>
                 </Label>
             </Grid>
             <!--#endregion-->
@@ -193,6 +199,7 @@
                 <Label Text="Chưa có tài khoản?"
                        FontAttributes="Italic,Bold"
                        VerticalOptions="Center"
+                       TextColor="Black"
                        MaximumHeightRequest="150" />
 
                 <Button Text="Đăng ký"
@@ -206,9 +213,6 @@
                         Command="{Binding NavigateSignUpCommand}" />
 
             </HorizontalStackLayout>
-
-            <Label Margin="0, 20, 0,0"
-                   Text="{Binding UserName}"></Label>
         </VerticalStackLayout>
 
         <controls:LoadingDialog x:Name="loadingDialog"

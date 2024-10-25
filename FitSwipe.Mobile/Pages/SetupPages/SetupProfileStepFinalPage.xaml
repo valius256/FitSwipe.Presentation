@@ -4,7 +4,7 @@
              x:Class="FitSwipe.Mobile.Pages.SetupPages.SetupProfileStepFinalPage"
              xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
              x:Name="SetupProfileStepFinalPageView">
-    <AbsoluteLayout>
+    <AbsoluteLayout BackgroundColor="White">
         
         <!-- Background Image -->
 
@@ -35,7 +35,7 @@
                    HorizontalTextAlignment="Center"
                     TextColor="Black"
                    ></Label>
-                <Label Text="Bạn đã sẵn sàng để tìm kiếm HLV hoàn hảo của bạn chưa?"
+                <Label Text="Bạn đã sẵn sàng để tìm kiếm bạn đồng hành hoàn hảo của bạn chưa?"
                    VerticalTextAlignment="Center"
                     HorizontalTextAlignment="Center"
                     TextColor="Black"

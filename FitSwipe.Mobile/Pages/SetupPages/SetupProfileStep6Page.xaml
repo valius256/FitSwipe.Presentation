@@ -4,7 +4,7 @@
              x:Class="FitSwipe.Mobile.Pages.SetupPages.SetupProfileStep6Page"
              xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
              x:Name="SetupProfileStep6PageView">
-    <AbsoluteLayout>
+    <AbsoluteLayout BackgroundColor="White">
         <!-- Background Image -->
         <controls:LoadingDialog x:Name="loadingDialog"
              IsVisible="False"

@@ -179,15 +179,24 @@
                                     Padding="2">
                                     <HorizontalStackLayout  HorizontalOptions="Center">
                                         <Image Source="wallet" WidthRequest="40" HeightRequest="40"></Image>
-                                        <Label Text="Qua Ví FitSwipe"
-                                            LineBreakMode="WordWrap"
-                                            FontSize="12"
-                                            Margin="5,0"
-                                            BackgroundColor="Transparent"
-                                            TextColor="Black" 
-                                            HorizontalOptions="Center"
-                                            VerticalOptions="Center"
-                                             x:Name="lblWallet"></Label>
+                                        <VerticalStackLayout>
+                                            <Label Text="Qua Ví FitSwipe"
+                                                    LineBreakMode="WordWrap"
+                                                    FontSize="12"
+                                                    Margin="5,0"
+                                                    BackgroundColor="Transparent"
+                                                    TextColor="Black" 
+                                                    HorizontalOptions="Center"
+                                                    VerticalOptions="Center"
+                                                    x:Name="lblWallet"></Label>
+                                            <Label Text="{Binding Balance, StringFormat='({0:N0} đ)'}"
+                                                    FontSize="10"
+                                                    Margin="5,0"
+                                                    BackgroundColor="Transparent"
+                                                    TextColor="Yellow" 
+                                                    HorizontalOptions="Center"
+                                                    VerticalOptions="Center"></Label>
+                                        </VerticalStackLayout>
                                     </HorizontalStackLayout>
                                     <Frame.GestureRecognizers>
                                         <TapGestureRecognizer x:Name="tapWallet" Tapped="tapWallet_Tapped"/>

@@ -11,7 +11,7 @@
             <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <AbsoluteLayout>
+    <AbsoluteLayout BackgroundColor="White">
         <controls:LoadingDialog x:Name="loadingDialog"
                      IsVisible="False"
                      Message="Vui lòng chờ..."

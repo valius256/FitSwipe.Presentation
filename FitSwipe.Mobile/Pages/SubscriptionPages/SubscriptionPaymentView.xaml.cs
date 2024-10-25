@@ -92,7 +92,7 @@ public partial class SubscriptionPaymentView : ContentPage
         catch (Exception)
         {
             await DisplayAlert("Lỗi", "Có lỗi xảy ra khi lấy thống tin số dư. Bạn nên thoát trang và mở lại", "OK");
-            await Navigation.PopAsync();
+            await Navigation.PopModalAsync();
         }
         loadingDialog.IsVisible = false;
     }
@@ -117,7 +117,7 @@ public partial class SubscriptionPaymentView : ContentPage
         catch (Exception)
         {
             await DisplayAlert("Lỗi", "Có lỗi xảy ra khi lấy thống tin gói đăng ký cũ. Bạn nên thoát trang và mở lại", "OK");
-            await Navigation.PopAsync();
+            await Navigation.PopModalAsync();
         }
         loadingDialog.IsVisible = false;       
     }
@@ -260,6 +260,6 @@ public partial class SubscriptionPaymentView : ContentPage
 
     private async void btnBack_Clicked(object sender, EventArgs e)
     {
-        await Navigation.PopAsync();
+        await Navigation.PopModalAsync();
     }
 }
