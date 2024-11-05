@@ -30,10 +30,10 @@
                 Route="SignIn" />
   <ShellContent ContentTemplate="{DataTemplate pages:SignUpView}"
                 Route="SignUp" />
-  <!--<ShellContent ContentTemplate="{DataTemplate pages:CertificateUploadView}"
+  <ShellContent ContentTemplate="{DataTemplate pages:CertificateUploadView}"
                 Route="CertificateUpload" />
   <ShellContent ContentTemplate="{DataTemplate setupPages:RegisterSucessfullyScreen}"
-                Route="RegisterSuccessfully" />-->
+                Route="RegisterSuccessfully" />
     <ShellContent ContentTemplate="{DataTemplate setupPages:SetupProfilePage}"
                 Route="SetupProfile" />
     <!--<ShellContent ContentTemplate="{DataTemplate schedulePages:PTAcceptSchedule}"
