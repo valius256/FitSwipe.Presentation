@@ -132,7 +132,7 @@ public partial class FeeedbackPage : ContentPage
 
     private async void btSubmit_Clicked(object sender, EventArgs e)
     {
-        if (!loadingDialog.IsVisible)
+        if (loadingDialog.IsVisible)
         {
             return;
         }

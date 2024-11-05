@@ -174,7 +174,7 @@
                                                             Text="&#x2022;" />
                                                     <Label Grid.Column="1"
                                                             TextColor="White"
-                                                            Text="{Binding}" />
+                                                            Text="{Binding .}" />
                                                 </Grid>
                                             </DataTemplate>
                                         </CollectionView.ItemTemplate>

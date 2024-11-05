@@ -31,7 +31,7 @@
         <ScrollView x:Name="pageContent" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" IsVisible="False">
             
             <VerticalStackLayout Margin="10" BackgroundColor="White">
-
+                
                 <HorizontalStackLayout Margin="10">
                     <Label Text="Lịch trình của bạn"
                     TextColor="Black"
@@ -44,33 +44,36 @@
                      BackgroundColor="#2E3192">
                     </BoxView>
                 </HorizontalStackLayout>
-                <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
-                    <Border Padding="15,7" BackgroundColor="#2E3192" Stroke="Transparent">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="10"></RoundRectangle>
-                        </Border.StrokeShape>
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer x:Name="btnAdd" Tapped="btnAdd_Tapped"></TapGestureRecognizer>
-                        </Border.GestureRecognizers>
-                        <HorizontalStackLayout>
-                            <Label Text="Thêm buổi mới" TextColor="White" Margin="0,5"/>
-                            <mi:MauiIcon  Icon="{mi:Fluent Add16}" IconSize="20" Padding="5" IconColor="White"></mi:MauiIcon>
-                        </HorizontalStackLayout>
-                    </Border>
-                    <Border Padding="15,7" BackgroundColor="#2E3192" Stroke="Transparent">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="10"></RoundRectangle>
-                        </Border.StrokeShape>
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer x:Name="btnDuplicate" Tapped="btnDuplicate_Tapped"></TapGestureRecognizer>
-                        </Border.GestureRecognizers>
-                        <HorizontalStackLayout>
-                            <Label Text="Copy sang tuần khác" TextColor="White" Margin="0,5"/>
-                            <mi:MauiIcon  Icon="{mi:Fluent Copy16}" IconSize="20" Padding="5" IconColor="White"></mi:MauiIcon>
-                        </HorizontalStackLayout>
-                    </Border>
-                    
-                </HorizontalStackLayout>
+                <ScrollView Orientation="Horizontal">
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                        <Border Padding="15,7" BackgroundColor="#2E3192" Stroke="Transparent">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"></RoundRectangle>
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer x:Name="btnAdd" Tapped="btnAdd_Tapped"></TapGestureRecognizer>
+                            </Border.GestureRecognizers>
+                            <HorizontalStackLayout>
+                                <Label Text="Thêm buổi mới" TextColor="White" Margin="0,5"/>
+                                <mi:MauiIcon  Icon="{mi:Fluent Add16}" IconSize="20" Padding="5" IconColor="White"></mi:MauiIcon>
+                            </HorizontalStackLayout>
+                        </Border>
+                        <Border Padding="15,7" BackgroundColor="#2E3192" Stroke="Transparent">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"></RoundRectangle>
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer x:Name="btnDuplicate" Tapped="btnDuplicate_Tapped"></TapGestureRecognizer>
+                            </Border.GestureRecognizers>
+                            <HorizontalStackLayout>
+                                <Label Text="Copy sang tuần khác" TextColor="White" Margin="0,5"/>
+                                <mi:MauiIcon  Icon="{mi:Fluent Copy16}" IconSize="20" Padding="5" IconColor="White"></mi:MauiIcon>
+                            </HorizontalStackLayout>
+                        </Border>
+
+                    </HorizontalStackLayout>
+                </ScrollView>
+                
                 
                 <controls:TimeTable x:Name="timeTable" Theme="#2E3191" WeekChanged="timeTable_WeekChanged"
                                     SlotAction="timeTable_SlotAction"></controls:TimeTable>

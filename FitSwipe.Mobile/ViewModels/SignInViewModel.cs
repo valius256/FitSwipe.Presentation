@@ -21,7 +21,7 @@ namespace FitSwipe.Mobile.ViewModels
         [ObservableProperty]
         private string _password = string.Empty;
         [ObservableProperty]
-        private bool rememberMe = false;
+        private bool rememberMe = true;
         public string UserName => _authClient.User?.Info.DisplayName;
         public LoadingDialog LoadingDialog { get; set; } = new LoadingDialog();
 

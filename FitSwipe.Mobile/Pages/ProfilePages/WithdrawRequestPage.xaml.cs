@@ -131,17 +131,16 @@ public partial class WithdrawRequestPage : ContentPage
     public WithdrawRequestPage()
 	{
 		InitializeComponent();
-        //Setup();
+        Setup();
         BankNames = new ObservableCollection<string>
         {
             "Momo","VPBank","Techcombank","BIDV","Vietcombank","VietinBank","MBBank","ACB","SHB","VIB","HDBank","SeABank","TPBank","LPBank","OCB","SCB","MSB","Sacombank","Eximbank","Nam A Bank","ABBANK","PVCombank","Bac A Bank","VietBank","NCB","BVBank","Viet A Bank","DongA Bank","PGBank","Kienlongbank","Saigonbank","Baoviet Bank"
         };
         BindingContext = this;
-	}
+    }
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-
         var currentToken = await SecureStorage.GetAsync("auth_token") ?? string.Empty;
         if (Helper.CheckTokenChanged(_token, currentToken))
         {
@@ -154,6 +153,7 @@ public partial class WithdrawRequestPage : ContentPage
     public async void Setup()
     {
         IsTrainee = PassedIsTrainee;
+
         navbar.IsVisible = IsTrainee;
         navbarPT.IsVisible = !IsTrainee;
         profileNavbar.IsVisible = IsTrainee;
@@ -168,6 +168,10 @@ public partial class WithdrawRequestPage : ContentPage
         loadingDialog.IsVisible = true;
         try
         {
+            if (string.IsNullOrEmpty(_token))
+            {
+                _token = await SecureStorage.GetAsync("auth_token") ?? string.Empty;
+            }
             var user = await Shortcut.GetLoginedUser(_token);
             if (user == null)
             {

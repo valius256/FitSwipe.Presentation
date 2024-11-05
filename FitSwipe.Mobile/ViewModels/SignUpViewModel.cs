@@ -5,6 +5,7 @@ using FitSwipe.Mobile.Controls;
 using FitSwipe.Shared.Dtos.Auth;
 using FitSwipe.Shared.Enums;
 using FitSwipe.Shared.Utils;
+using System.Net.Mail;
 
 namespace FitSwipe.Mobile.ViewModels
 {
@@ -39,6 +40,14 @@ namespace FitSwipe.Mobile.ViewModels
                 {
                     await Application.Current.MainPage.DisplayAlert("Thiếu thông tin", $"Vui lòng điền đầy đủ thông tin", "OK");
                 }
+                else if (!IsValidEmail(_email))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Sai thông tin", $"Vui lòng nhập 1 email hợp lệ", "OK");
+                }
+                else if (_password.Length < 6)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Sai thông tin", $"Mật khẩu tối thiểu 6 ký tự", "OK");
+                }
                 else if (_password != _confirmPassword)
                 {
                     await Application.Current.MainPage.DisplayAlert("Sai thông tin", $"Mật khẩu không khớp", "OK");
@@ -63,9 +72,9 @@ namespace FitSwipe.Mobile.ViewModels
                 //await _authClient.CreateUserWithEmailAndPasswordAsync(Email, Password, Username);
                 //await Application.Current.MainPage.DisplayAlert("Thành Công", $"Bạn {Email} đã đăng ký thành công ", "OK");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await Application.Current.MainPage.DisplayAlert("Lỗi", $"Email này đã được đăng ký", "OK");
+                await Application.Current.MainPage.DisplayAlert("Lỗi", $"Email này đã được đăng ký, hãy thử đăng ký với 1 email khác", "OK");
 
             }
             LoadingDialog.IsVisible = false;
@@ -77,6 +86,21 @@ namespace FitSwipe.Mobile.ViewModels
             await Shell.Current.GoToAsync("//SignIn");
         }
 
+        private bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            try
+            {
+                var addr = new MailAddress(email);
+                return addr.Address == email; // Ensures exact match
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 
 }

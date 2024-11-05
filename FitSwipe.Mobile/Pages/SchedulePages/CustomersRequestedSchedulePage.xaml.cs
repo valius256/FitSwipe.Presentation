@@ -93,6 +93,10 @@ public partial class CustomersRequestedSchedulePage : ContentPage
                 if (result != null)
                 {
                     TrainingDetails = result;
+                    if (TrainingDetails.Status != TrainingStatus.Pending && TrainingDetails.Status != TrainingStatus.Matched)
+                    {
+                        buttonSections.IsVisible = false;
+                    }
                 }
             }
         }

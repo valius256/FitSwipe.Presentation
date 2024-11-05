@@ -204,7 +204,7 @@
                                                         Text="&#x2022;" />
                                                     <Label Grid.Column="1"
                                                         TextColor="Black"
-                                                        Text="{Binding}" />
+                                                        Text="{Binding .}" />
                                                 </Grid>
                                             </DataTemplate>
                                         </CollectionView.ItemTemplate>

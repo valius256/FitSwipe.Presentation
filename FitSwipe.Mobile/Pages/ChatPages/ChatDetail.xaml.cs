@@ -176,7 +176,7 @@ public partial class ChatDetail : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Lỗi", $"Lỗi kết nối: {ex.Message}", "OK");
+            //await DisplayAlert("Lỗi", $"Lỗi kết nối: {ex.Message}", "OK");
         }
     }
 

@@ -21,10 +21,10 @@
                      IsRefreshing="{Binding IsRefreshing}" Refreshing="pageContent_Refreshing">
             <ScrollView >
                 <StackLayout>
-                    <!-- AbsoluteLayout to overlay content on the bottom of the image -->
+                     <!--AbsoluteLayout to overlay content on the bottom of the image--> 
                     <AbsoluteLayout HorizontalOptions="FillAndExpand">
 
-                        <!-- Image acting as the background -->
+                         <!--Image acting as the background--> 
                         <Image Source="default_cover"
                         HorizontalOptions="FillAndExpand"
                         Aspect="Fill"
@@ -32,7 +32,7 @@
                         AbsoluteLayout.LayoutBounds="0, 0, 1, AutoSize"
                         AbsoluteLayout.LayoutFlags="WidthProportional"/>
 
-                        <!-- Grid for profile image and details -->
+                         <!--Grid for profile image and details--> 
                         <Grid ColumnDefinitions="*, *"
                           ColumnSpacing="10"
                           Margin="10,50,0,0">
@@ -52,25 +52,25 @@
                             </AbsoluteLayout>
                             <!--#endregion-->
 
-                            <!--#region Name and Date Details -->
+                            <!--#region Name and Date Details--> 
                             <StackLayout Grid.Column="1"
                                VerticalOptions="Center"
                                Spacing="20" >
-                                <!-- Grid for Name and "20" -->
+                                 <!--Grid for Name and "20"--> 
 
                                 <Grid ColumnSpacing="5" Padding="0,0,0,30">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <!-- Name Label -->
+                                     <!--Name Label--> 
                                     <Label Text="{Binding User.UserName}"
                                         FontAttributes="Bold"
                                         TextColor="White"
                                         Grid.Column="0"
                                         x:Name="lblUsername"
                                         VerticalTextAlignment="Center" />
-                                    <!-- "20" aligned to the right of the name -->
+                                     <!--"20" aligned to the right of the name--> 
                                     <Label Text="{Binding User.Age}"
                                      TextColor="White"
                                      VerticalOptions="Center"
@@ -82,7 +82,7 @@
                         </Grid>
                     </AbsoluteLayout>
                     <StackLayout Padding="20" Spacing="15">
-                        <!-- Balance Display -->
+                         <!--Balance Display--> 
                         <Label 
                         Text="Số dư của bạn" 
                         FontSize="Large" 
@@ -97,7 +97,7 @@
                         HorizontalOptions="Center"
                         FontAttributes="Bold" />
 
-                        <!-- Buttons for Withdraw and Deposit -->
+                         <!--Buttons for Withdraw and Deposit--> 
                         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" IsVisible="{Binding IsCreating, Converter={StaticResource InverseBooleanConverter}}">
                             <Button 
                             Text="Tạo đơn mới" 
@@ -108,43 +108,43 @@
                             Clicked="btnWithdraw_Clicked" />
                         </StackLayout>
                     </StackLayout>
-                    <!-- Create Section-->
+                     <!--Create Section-->
                     <StackLayout Padding="20" Spacing="15" IsVisible="{Binding IsCreating}">
 
-                        <!-- Reason -->
+                         <!--Reason--> 
                         <Label Text="Lý do (Không bắt buộc)" FontAttributes="Bold" TextColor="Black"/>
                         <Editor Text="{Binding CreateRequest.Reason}" Placeholder="Lý do rút tiền" 
                                 AutoSize="TextChanges" 
                                 BackgroundColor="White" 
                                 HeightRequest="100"/>
 
-                        <!-- Amount -->
+                         <!--Amount--> 
                         <Label Text="Số tiền rút" FontAttributes="Bold" TextColor="Black"/>
                         <Entry Text="{Binding CreateRequest.Amount}" 
                                 Keyboard="Numeric" 
                                 Placeholder="Số lượng muốn rút"
                                 BackgroundColor="White"/>
 
-                        <!-- Account Number -->
+                         <!--Account Number--> 
                         <Label Text="Số tài khoản" FontAttributes="Bold" TextColor="Black"/>
                         <Entry Text="{Binding CreateRequest.AccountNumber}" 
                                 Placeholder="Nhập STK"
                                 Keyboard="Numeric"
                                 BackgroundColor="White"/>
 
-                        <!-- Receiver Name -->
+                         <!--Receiver Name--> 
                         <Label Text="Tên người nhận" FontAttributes="Bold" TextColor="Black"/>
                         <Entry Text="{Binding CreateRequest.ReceiverName}" 
                                 Placeholder="Tên tài khoản" 
                                 BackgroundColor="White"/>
 
-                        <!-- Bank Name (Picker) -->
+                         <!--Bank Name (Picker)--> 
                         <Label Text="Chọn ngân hàng" FontAttributes="Bold" TextColor="Black"/>
                         <Picker ItemsSource="{Binding BankNames}" 
                             SelectedItem="{Binding CreateRequest.BankName}"
                             Title="Chọn ngân hàng" />
 
-                        <!-- Submit Button -->
+                         <!--Submit Button--> 
                         <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
                             <Button Text="Tạo yêu cầu" 
                                     BackgroundColor="{Binding Theme}" 
@@ -173,7 +173,7 @@
                         <Label Text="Email hỗ trợ : fitswipecompany@gmail.com" 
                                 FontAttributes="Italic" FontSize="10" TextColor="Black"/>
                     </StackLayout>
-                    <StackLayout IsVisible="{Binding Requests.Count, Converter={StaticResource trainingConverters:CountToVisibilityConverter}}">
+                    <StackLayout  IsVisible="{Binding Requests.Count, Converter={StaticResource CountToVisibilityConverter}}">
                         <StackLayout Orientation="Horizontal"
                                  Spacing="10"
                                  Margin="10">
@@ -185,7 +185,7 @@
                                HeightRequest="1.2"
                                HorizontalOptions="FillAndExpand" />
                         </StackLayout>
-                        <!-- Transaction ListView -->
+                         <!--Transaction ListView-->
                         <ScrollView Orientation="Both" MinimumHeightRequest="300">
                             <StackLayout>
                                 <Grid ColumnSpacing="10" RowSpacing="5">
@@ -204,7 +204,7 @@
                                         <ColumnDefinition Width="120"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <!-- Table Header Row -->
+                                     <!--Table Header Row--> 
                                     <Label Grid.Row="0" Grid.Column="0" TextColor="Black" HorizontalTextAlignment="Center" Text="Trạng thái" FontAttributes="Bold" />
                                     <Label Grid.Row="0" Grid.Column="1" TextColor="Black" HorizontalTextAlignment="Center" Text="Phản hồi" FontAttributes="Bold" />
                                     <Label Grid.Row="0" Grid.Column="2" TextColor="Black" HorizontalTextAlignment="Center" Text="Số lượng" FontAttributes="Bold" />
@@ -217,7 +217,7 @@
 
                                 </Grid>
 
-                                <!-- Table Content -->
+                                 <!--Table Content--> 
                                 <CollectionView ItemsSource="{Binding Requests}" SelectionMode="None">
                                     <CollectionView.ItemTemplate>
                                         <DataTemplate x:DataType="withdrawDto:GetRequestWithdrawDto">
@@ -237,7 +237,6 @@
                                                     <ColumnDefinition Width="120"/>
                                                 </Grid.ColumnDefinitions>
 
-                                                <!-- Table Data Rows -->
                                                 <Border Padding="10,0" BackgroundColor="{Binding StatusBackground}" Grid.Row="0">
                                                     <Border.StrokeShape>
                                                         <RoundRectangle CornerRadius="4"></RoundRectangle>
@@ -258,7 +257,7 @@
                                 </CollectionView>
                             </StackLayout>
                         </ScrollView>
-                        <!-- Pagination Buttons -->
+                         <!--Pagination Buttons--> 
                         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Margin="0,10">
                             <Button BackgroundColor="Gray" ImageSource="{mi:Fluent ArrowPrevious24}" 
                                     x:Name="btnPrev" Clicked="btnPrev_Clicked"

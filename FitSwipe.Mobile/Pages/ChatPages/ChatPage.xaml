@@ -63,7 +63,9 @@
                                         <FlexLayout>
                                             <StackLayout Orientation="Horizontal" Padding="10" Spacing="10" FlexLayout.Grow="1">
                                                 <!-- Avatar Image -->
-                                                <Frame BorderColor="Transparent" CornerRadius="100" BackgroundColor="#52BB00" Padding="2">
+                                                <Frame BorderColor="Transparent" CornerRadius="100" BackgroundColor="#52BB00" Padding="2"
+                                                       WidthRequest="50" 
+                                                       HeightRequest="50" >
                                                     <Frame BorderColor="#52BB00" CornerRadius="100" Padding="0">
                                                         <Image Source="{Binding Users[0].AvatarUrl}" 
                                                                 WidthRequest="50" 

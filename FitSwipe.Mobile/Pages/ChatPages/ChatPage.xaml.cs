@@ -116,7 +116,23 @@ public partial class ChatPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await CheckFlags();
+       
+        var currentToken = await SecureStorage.GetAsync("auth_token") ?? string.Empty;
+        if (Role == "PT")
+        {
+            IsTrainee = false;
+        }
+        else
+        {
+            IsTrainee = true;
+        }
+        if (Helper.CheckTokenChanged(_token, currentToken))
+        {
+            _token = currentToken;
+            ChatRooms.Clear();
+            await FetchChats();
+            return;
+        }
     }
     private async Task FetchChats()
     {
@@ -217,7 +233,7 @@ public partial class ChatPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Lỗi", $"Lỗi kết nối: {ex.Message}", "OK");
+            //await DisplayAlert("Lỗi", $"Lỗi kết nối: {ex.Message}", "OK");
         }
     }
 

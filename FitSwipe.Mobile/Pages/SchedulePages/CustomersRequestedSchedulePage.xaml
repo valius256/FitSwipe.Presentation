@@ -125,7 +125,8 @@
           <!-- Action Buttons -->
           <StackLayout Orientation="Horizontal"
                        HorizontalOptions="CenterAndExpand"
-                       Padding="0, 10, 0, 0">
+                       Padding="0, 10, 0, 0"
+                       x:Name="buttonSections">
             <Border Stroke="Transparent"
                     StrokeThickness="2">
               <Border.StrokeShape>
