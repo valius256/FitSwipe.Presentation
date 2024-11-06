@@ -102,6 +102,7 @@
                                             FontAttributes="Bold" 
                                             HorizontalTextAlignment="Start" 
                                             BackgroundColor="Transparent"
+                                            LineBreakMode="TailTruncation"
                                             TextColor="Black"
                                                />
                                         <Label Text="{Binding Age}"

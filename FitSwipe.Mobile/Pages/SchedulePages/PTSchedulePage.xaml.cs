@@ -201,10 +201,27 @@ public partial class PTSchedulePage : ContentPage
         var answer = await DisplayAlert("Xóa hết khung giờ của tuần này", "Bạn có chắc chắn về hành động này?", "Có", "Không");
         if (answer)
         {
-            //Test delete slot
-            Slots.Clear();
-            timeTable.SetSlots(Slots);
-        }
+            loadingDialog.IsVisible = true;
+            try
+            {
+                loadingDialog.Message = "Đang thực hiện...";
+                var token = await SecureStorage.GetAsync("auth_token");
+                if (token != null)
+                {
+                    await Fetcher.DeleteAsync($"api/Slot?start={timeTable.CurrentWeek.StartDate.ToString("yyyy-MM-dd")}" +
+                        $"&end={timeTable.CurrentWeek.EndDate.ToString("yyyy-MM-dd")}", token);
+                    //Test delete slot
+                    Slots.Clear();
+                    timeTable.SetSlots(Slots);
+                    await DisplayAlert("Thành công", "Đã cập nhật thành công", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Lỗi", "Có lỗi đã xảy ra. Err : " + ex.Message, "OK");
+            }
+            loadingDialog.IsVisible = false;
+        }               
     }
 
     private async void editSlotModal_OnAdded(object sender, EventArgs e)

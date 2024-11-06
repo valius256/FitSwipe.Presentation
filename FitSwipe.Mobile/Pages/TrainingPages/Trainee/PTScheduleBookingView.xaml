@@ -21,6 +21,7 @@
                     FontAttributes="Bold"
                     TextColor="Black"
                     FontSize="30"
+                    LineBreakMode="TailTruncation"
                     VerticalOptions="Center" 
                     HorizontalOptions="Center" />
                 <BoxView
@@ -62,7 +63,8 @@
                             <Label Text="{Binding LoginedUser.UserName}"
                                 Margin="0,0,20,0"
                                 VerticalOptions="Center"
-                               TextColor="White"
+                                TextColor="White"                                 
+                                LineBreakMode="TailTruncation"                                
                                 FontAttributes="Bold"></Label>
                             <Label Text="{Binding LoginedUser.Age}"
                                 FontSize="10"
@@ -82,6 +84,7 @@
                                TextColor="White"></Label>
                             <Label Text="{Binding PTUser.UserName, StringFormat='PT. {0}'}"
                                 VerticalOptions="Center"
+                                LineBreakMode="TailTruncation"                                
                                TextColor="White"
                                 FontAttributes="Bold"></Label>
                         </FlexLayout>

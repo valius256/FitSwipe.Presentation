@@ -165,6 +165,7 @@ public partial class FeeedbackPage : ContentPage
                 }, token);
                 if (_viewModel != null)
                 {
+                    _viewModel.CurrentPageBooked = 1;
                     await _viewModel.FetchData();
                     await _viewModel.HandleSwitchTab();
                 }

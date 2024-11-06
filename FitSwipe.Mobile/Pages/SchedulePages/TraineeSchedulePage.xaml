@@ -68,6 +68,8 @@
                                     Margin="0,0,20,0"
                                     VerticalOptions="Center"
                                    TextColor="White"
+                                    LineBreakMode="TailTruncation"
+                                       
                                     FontAttributes="Bold"></Label>
                                 <Label Text="{Binding CurrentTrainingDetail.Trainee.Age}"
                                     FontSize="10"
@@ -87,6 +89,7 @@
                                    TextColor="White"></Label>
                                 <Label Text="{Binding CurrentTrainingDetail.PT.UserName}"
                                     VerticalOptions="Center"
+                                    LineBreakMode="TailTruncation"                                      
                                    TextColor="White"
                                     FontAttributes="Bold"></Label>  
                             </FlexLayout>

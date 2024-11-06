@@ -14,6 +14,7 @@
              xmlns:media="clr-namespace:FitSwipe.Shared.Dtos.Medias;assembly=FitSwipe.Shared"
              xmlns:image="clr-namespace:FitSwipe.Shared.Dtos;assembly=FitSwipe.Shared"
              xmlns:trainingDto="clr-namespace:FitSwipe.Shared.Dtos.Trainings;assembly=FitSwipe.Shared"
+             xmlns:feedbackDto="clr-namespace:FitSwipe.Shared.Dtos.FeedbackImages;assembly=FitSwipe.Shared"
              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:vm="clr-namespace:FitSwipe.Mobile.ViewModels.UserProfile">
@@ -330,6 +331,22 @@
                                                 </StackLayout>
                                                 <Label Text="{Binding Feedback}" Grid.Row="1" Margin="0,10,0,0" 
                                                         VerticalOptions="Center" LineBreakMode="WordWrap"/>
+                                                <CollectionView ItemsSource="{Binding FeedbackImages}">
+                                                    <CollectionView.ItemsLayout>
+                                                        <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10"></LinearItemsLayout>
+                                                    </CollectionView.ItemsLayout>
+                                                    <CollectionView.ItemTemplate>
+                                                        <DataTemplate x:DataType="feedbackDto:GetFeedbackImageDto">
+                                                            <Frame BorderColor="#52BB00"
+                                                                    Padding="0"
+                                                                    WidthRequest="80"
+                                                                    HeightRequest="80">
+                                                                   <Image Source="{Binding MediaUrl}"
+                                                                          Aspect="AspectFill" />
+                                                                </Frame>
+                                                        </DataTemplate>
+                                                    </CollectionView.ItemTemplate>
+                                                </CollectionView>
                                             </VerticalStackLayout>
                                            
                                         </Frame>

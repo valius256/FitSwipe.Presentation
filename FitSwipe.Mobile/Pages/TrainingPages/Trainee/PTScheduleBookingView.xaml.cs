@@ -209,6 +209,11 @@ public partial class PTScheduleBookingView : ContentPage
     }
     private async void btnApprove_Clicked(object sender, EventArgs e)
     {
+        if (Slots.Count  == 0)
+        {
+            await DisplayAlert("Lỗi", "Vui lòng đặt ít nhất 1 buổi", "OK");
+            return;
+        }
         var answer = await DisplayAlert("Xác nhận gửi cho PT", "Bạn có chắc chắn về hành động này chứ", "Có","Không");
         if (answer)
         {
@@ -227,6 +232,8 @@ public partial class PTScheduleBookingView : ContentPage
                 if (MyPTListPage != null)
                 {
                     MyPTListPage.ViewModel.BookedFlag = true;
+                    MyPTListPage.ViewModel.CurrentPageBooked = 1;
+                    MyPTListPage.ViewModel.CurrentPageMatched = 1;
                     await MyPTListPage.ViewModel.FetchData();
                     await MyPTListPage.ViewModel.HandleSwitchTab();
                 }
@@ -519,6 +526,8 @@ public partial class PTScheduleBookingView : ContentPage
                 if (MyPTListPage != null)
                 {
                     MyPTListPage.ViewModel.MatchedFlag = true;
+                    MyPTListPage.ViewModel.CurrentPageMatched = 1;
+                    MyPTListPage.ViewModel.CurrentPageBooked = 1;
                     await MyPTListPage.ViewModel.FetchData();
                     await MyPTListPage.ViewModel.HandleSwitchTab();
                 }

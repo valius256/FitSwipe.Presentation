@@ -88,7 +88,7 @@
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg">
 		  <Color>#52BB00</Color>
-		  <ForegroundFile>Resources\AppIcon\fitswipe.svg</ForegroundFile>
+		  <ForegroundFile>Resources\AppIcon\fitswipe_small.svg</ForegroundFile>
 		</MauiIcon>
 		<MauiSplashScreen Include="Resources\Splash\fitswipe_splash.svg" Color="#52BB00" />
 

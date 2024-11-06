@@ -33,8 +33,8 @@ namespace FitSwipe.Mobile.ViewModels
         private string _selectedFilter = string.Empty;
         private int _activeTab;
         private bool isFetching = false;
-        private int CurrentPageMatched = 1;
-        private int CurrentPageBooked = 1;
+        public int CurrentPageMatched = 1;
+        public int CurrentPageBooked = 1;
         private int MaxPageMatched = 1;
         private int MaxPageBooked = 1;
         private int PageSize = 3;
@@ -122,7 +122,7 @@ namespace FitSwipe.Mobile.ViewModels
                     MatchedFlag = false;
                 }
                 _userList.Clear();
-                await AppendList(_matchedTraining);
+                AppendList(_matchedTraining);
             }
             else
             {
@@ -132,7 +132,7 @@ namespace FitSwipe.Mobile.ViewModels
                     BookedFlag = false;
                 }
                 _userList.Clear();
-                await AppendList(_bookedTraining);
+                AppendList(_bookedTraining);
             }
         }
         public async Task FetchData()
@@ -168,7 +168,7 @@ namespace FitSwipe.Mobile.ViewModels
                     }
                     else
                     {
-                        MaxPageMatched = response.Total;
+                        MaxPageBooked = response.Total;
                     }
                 }
                 catch (Exception ex)
@@ -210,7 +210,7 @@ namespace FitSwipe.Mobile.ViewModels
                             GetStatuses();
                         }
                     }
-                    await AppendList(list);
+                    AppendList(list);
                     
                 }
                 catch (Exception ex)
@@ -260,12 +260,11 @@ namespace FitSwipe.Mobile.ViewModels
                 }
             }
         }
-        private async Task AppendList(IList<GetTrainingWithTraineeAndPTDto> trainings)
+        private void AppendList(IList<GetTrainingWithTraineeAndPTDto> trainings)
         {
             foreach (var training in trainings)
             {
-                _userList.Add(training);
-                await Task.Delay(100);
+                _userList.Add(training);                              
             }
         }
         public async void ScrolledToEnd(object parameter)
@@ -291,11 +290,15 @@ namespace FitSwipe.Mobile.ViewModels
         [RelayCommand]
         private async void SelectTab(object parameter)
         {
-            if (int.TryParse(parameter?.ToString(), out int tab))
+            if (!loadingDialog.IsVisible)
             {
-                ActiveTab = tab;
-                await HandleSwitchTab();
+                if (int.TryParse(parameter?.ToString(), out int tab))
+                {
+                    ActiveTab = tab;
+                    await HandleSwitchTab();
+                }
             }
+            
         }
         
         

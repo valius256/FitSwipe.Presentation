@@ -29,8 +29,8 @@ namespace FitSwipe.Mobile.ViewModels
         private string? _selectedFilter;
         private int _activeTab;
         private bool isFetching = false;
-        private int CurrentPageTraining = 1;
-        private int CurrentPageRequested = 1;
+        public int CurrentPageTraining = 1;
+        public int CurrentPageRequested = 1;
         private int MaxPageTraining = 1;
         private int MaxPageRequested = 1;
         private int PageSize = 5;
@@ -93,7 +93,7 @@ namespace FitSwipe.Mobile.ViewModels
                     RequestedTrainingFlag = false;
                 }
                 _userList.Clear();
-                await AppendList(_requestedTraining);
+                AppendList(_requestedTraining);
             }
             else if (ActiveTab == 0)
             {
@@ -103,15 +103,15 @@ namespace FitSwipe.Mobile.ViewModels
                     MyTrainingFlag = false;
                 }
                 _userList.Clear();
-                await AppendList(_myTraining);
+                AppendList(_myTraining);
             }
         }
-        private async Task AppendList(IList<GetTrainingWithTraineeAndPTDto> trainings)
+        private void AppendList(IList<GetTrainingWithTraineeAndPTDto> trainings)
         {
             foreach (var training in trainings)
             {
                 UserList.Add(training);
-                await Task.Delay(100);
+                Task.Delay(100);
             }
         }
         private async void Setup()
@@ -213,7 +213,7 @@ namespace FitSwipe.Mobile.ViewModels
                             _requestedTraining.Add(item);
                         }
                     }
-                    await AppendList(list);
+                    AppendList(list);
                 }
                 catch (Exception ex)
                 {
@@ -248,12 +248,14 @@ namespace FitSwipe.Mobile.ViewModels
         [RelayCommand]
         private async void SelectTab(object parameter)
         {
-            if (int.TryParse(parameter?.ToString(), out int tab))
+            if (!_loadingDialog.IsVisible)
             {
-                ActiveTab = tab;
-                await HandleSwitchTab();
-
-            }
+                if (int.TryParse(parameter?.ToString(), out int tab))
+                {
+                    ActiveTab = tab;
+                    await HandleSwitchTab();
+                }
+            }           
         }
     }
 }
