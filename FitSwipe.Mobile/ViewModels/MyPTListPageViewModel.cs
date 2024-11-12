@@ -73,7 +73,7 @@ namespace FitSwipe.Mobile.ViewModels
 
         public MyPTListPageViewModel()
         {
-            ActiveTab = 0;
+            ActiveTab = 1;
             RefreshCommand = new Command(Refresh);
             Setup();
         }
@@ -164,11 +164,11 @@ namespace FitSwipe.Mobile.ViewModels
                     }
                     if (ActiveTab == 0)
                     {
-                        MaxPageMatched = response.Total;
+                        MaxPageMatched = (int) Math.Ceiling((double) response.Total / PageSize);
                     }
                     else
                     {
-                        MaxPageBooked = response.Total;
+                        MaxPageBooked = (int)Math.Ceiling((double)response.Total / PageSize);
                     }
                 }
                 catch (Exception ex)

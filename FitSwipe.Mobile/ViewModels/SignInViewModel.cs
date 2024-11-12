@@ -76,7 +76,7 @@ namespace FitSwipe.Mobile.ViewModels
                             }
                             else if (user.Role == Shared.Enums.Role.Trainee)
                             {
-                                navigateTo = "//PTList";
+                                navigateTo = "//MyPTList";
                             }
                             await Shell.Current.GoToAsync(navigateTo);
                         } else

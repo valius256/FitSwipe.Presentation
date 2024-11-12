@@ -4,7 +4,14 @@
              x:Class="FitSwipe.Mobile.Pages.HomePages.PTList"
              xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+             xmlns:converter="clr-namespace:FitSwipe.Mobile.Converters"
              >
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:NegativeToVisibilityConverter x:Key="NegativeToVisibilityConverter" />
+            <converter:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <AbsoluteLayout BackgroundColor="White">
         <Grid AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
             <!-- Define the layout with two rows: first row auto, second row * -->
@@ -84,6 +91,7 @@
                                         <Frame BackgroundColor="LimeGreen" BorderColor="LimeGreen"></Frame>
                                         <Frame BackgroundColor="Yellow" BorderColor="Yellow" IsVisible="{Binding IsVIP}"></Frame>
                                         <Frame BorderColor="LimeGreen" Padding="0" CornerRadius="10" Margin="2"
+                                               BackgroundColor="White"
                                                 HeightRequest="200">
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer x:Name="tapAvatar" Tapped="tapAvatar_Tapped" CommandParameter="{Binding}"></TapGestureRecognizer>
@@ -98,7 +106,7 @@
                                     </Grid>
                                     <VerticalStackLayout>
                                         <Label Text="{Binding UserName}" 
-                                            FontSize="20" 
+                                            FontSize="15" 
                                             FontAttributes="Bold" 
                                             HorizontalTextAlignment="Start" 
                                             BackgroundColor="Transparent"
@@ -113,7 +121,7 @@
                                                />
                                         <FlexLayout HorizontalOptions="FillAndExpand">
                                             <controls:StarRatingControl 
-                                                Rating="{Binding PTRating}" Size="20" 
+                                                Rating="{Binding PTRating}" Size="15" 
                                                 ReadOnly="True"
                                                 VerticalOptions="Center"
                                                 HorizontalOptions="Start"                                        
@@ -138,15 +146,18 @@
                                                 FontAttributes="Bold" 
                                                 HorizontalTextAlignment="Start" 
                                                 BackgroundColor="Transparent"
-                                                TextColor="#2E3192"/>
+                                                TextColor="#2E3192"
+                                                IsVisible="{Binding DistanceInKm, Converter={StaticResource NegativeToVisibilityConverter}}"/>
                                         <HorizontalStackLayout>
-                                            <mi:MauiIcon Icon="{mi:Fluent Location16}" IconSize="10" IconColor="#2E3192"></mi:MauiIcon>
+                                            <mi:MauiIcon Icon="{mi:Fluent Location16}" IconSize="10" IconColor="#2E3192"
+                                                         IsVisible="{Binding City, Converter={StaticResource EmptyStringToVisibilityConverter}}"></mi:MauiIcon>
                                             <Label Text="{Binding City}" 
                                                 FontSize="10" 
                                                 FontAttributes="Italic" 
                                                 HorizontalTextAlignment="Start" 
                                                 BackgroundColor="Transparent"
-                                                TextColor="#2E3192"/>
+                                                TextColor="#2E3192"
+                                                IsVisible="{Binding City, Converter={StaticResource EmptyStringToVisibilityConverter}}"/>
                                         </HorizontalStackLayout>
                                     </VerticalStackLayout>
                                 </VerticalStackLayout>

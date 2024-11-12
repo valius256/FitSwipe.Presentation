@@ -5,6 +5,7 @@
              xmlns:homePages="clr-namespace:FitSwipe.Mobile.Pages.HomePages"
              xmlns:profilePages="clr-namespace:FitSwipe.Mobile.Pages.ProfilePages"
              xmlns:slotDto="clr-namespace:FitSwipe.Shared.Dtos.Slots;assembly=FitSwipe.Shared"
+             xmlns:subscriptionDto="clr-namespace:FitSwipe.Shared.Dtos.Subscription;assembly=FitSwipe.Shared"
              xmlns:transactionDto="clr-namespace:FitSwipe.Shared.Dtos.Transactions;assembly=FitSwipe.Shared"
              xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
              x:DataType="homePages:PTHomePage"
@@ -24,10 +25,15 @@
             <ScrollView >
                 <StackLayout>
                     <StackLayout Margin="10">
+                        
+                        <HorizontalStackLayout HorizontalOptions="Center">
+                            <Image Source="fitswipe_icon" WidthRequest="48" HeightRequest="48"/>
+                            <Label Text="FitSwipe" FontSize="Title" FontAttributes="Bold,Italic" VerticalOptions="Center" WidthRequest="100"></Label>
+                        </HorizontalStackLayout>
                         <Label 
                             Text="Chào mừng trở lại" 
                             TextColor="Black"
-                            FontSize="Title" 
+                            FontSize="15" 
                             HorizontalOptions="Center" />
                         <Label 
                             Text="{Binding User.UserName}" 
@@ -131,7 +137,7 @@
                         </StackLayout>
 
                         <Label HorizontalOptions="Center" HorizontalTextAlignment="Center" Text="Bạn chưa đăng ký gói nào"
-                               TextColor="Black" FontSize="20" HeightRequest="200" WidthRequest="250" VerticalOptions="Center" 
+                               TextColor="Black" FontSize="15" HeightRequest="80" WidthRequest="250" VerticalOptions="Center" 
                                VerticalTextAlignment="Center" FontAttributes="Italic"
                                IsVisible="{Binding IsHavingSubscriptions, Converter={StaticResource InverseBooleanConverter}}"></Label>
                         <Button BackgroundColor="#323593" TextColor="White" Text="Mua ngay" Margin="20"
@@ -191,7 +197,7 @@
                                                     SelectionMode="None"
                                                     InputTransparent="True">
                                         <CollectionView.ItemTemplate>
-                                            <DataTemplate>
+                                            <DataTemplate x:DataType="subscriptionDto:SubscriptionBenefit">
                                                 <Grid Margin="0, 0, 0, 10">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="20" />
@@ -204,7 +210,7 @@
                                                         Text="&#x2022;" />
                                                     <Label Grid.Column="1"
                                                         TextColor="Black"
-                                                        Text="{Binding .}" />
+                                                        Text="{Binding BenefitContent}" />
                                                 </Grid>
                                             </DataTemplate>
                                         </CollectionView.ItemTemplate>
@@ -230,7 +236,7 @@
                                HorizontalOptions="FillAndExpand" />
                         </StackLayout>
                         <!-- Transaction ListView -->
-                        <ScrollView Orientation="Both"  MinimumHeightRequest="300">
+                        <ScrollView Orientation="Both"  MinimumHeightRequest="300" IsVisible="{Binding Transactions.Count, Converter={StaticResource CountToVisibilityConverter}}">
                             <StackLayout>
                                 <Grid ColumnSpacing="10" RowSpacing="5">
                                     <Grid.RowDefinitions>
@@ -285,7 +291,7 @@
                             </StackLayout>
                         </ScrollView>
                         <!-- Pagination Buttons -->
-                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Margin="0,10">
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Margin="0,10"  IsVisible="{Binding Transactions.Count, Converter={StaticResource CountToVisibilityConverter}}">
                             <Button BackgroundColor="Gray" ImageSource="{mi:Fluent ArrowPrevious24}" 
                                     x:Name="btnPrev" Clicked="btnPrev_Clicked"
                                     WidthRequest="50" HeightRequest="50" TextColor="Black"/>
@@ -295,6 +301,10 @@
                                     x:Name="btnNext" Clicked="btnNext_Clicked"
                                     WidthRequest="50" HeightRequest="50" TextColor="Black"/>
                         </StackLayout>
+                        <Label IsVisible="{Binding Transactions.Count, Converter={StaticResource CountToVisibilityLabelConverter}}"
+                                HorizontalOptions="Center" HorizontalTextAlignment="Center" Text="Chưa có giao dịch nào"
+                               TextColor="Black" FontSize="15" VerticalOptions="Center" 
+                               VerticalTextAlignment="Center" FontAttributes="Italic"/>
                     </StackLayout>
                     <BoxView HeightRequest="100" BackgroundColor="Transparent"></BoxView>
                 </StackLayout>

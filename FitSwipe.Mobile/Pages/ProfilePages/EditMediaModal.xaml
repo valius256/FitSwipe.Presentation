@@ -30,14 +30,15 @@
                         HeightRequest="250" Aspect="Fill"></toolkit:MediaElement>
                     <Image Source="{Binding UserMediaDto.MediaUrl}"
                        IsVisible="{Binding UserMediaDto.IsVideo, Converter={StaticResource InverseBooleanConverter}}"
-                       HeightRequest="250" Aspect="Fill"/>
+                       HeightRequest="250" Aspect="AspectFill"/>
                 </VerticalStackLayout>
                 <VerticalStackLayout Margin="0,5" >
                     <Label Text="Mô tả" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Start"></Label>
                     <Editor x:Name="editDescription"
                         Text="{Binding UserMediaDto.Description}"
                         TextColor="Black"
-                        HeightRequest="100">
+                        HeightRequest="100"
+                        WidthRequest="300">
                     </Editor>
                 </VerticalStackLayout>
                 

@@ -146,7 +146,7 @@ public partial class TrainingPage : ContentPage
                 var boundItem = tapGesture.CommandParameter as GetTrainingWithTraineeAndPTDto;
                 if (boundItem != null)
                 {
-                    Navigation.PushModalAsync(new UserProfilePage(boundItem.PTId));
+                    Navigation.PushModalAsync(new UserProfilePage(boundItem.TraineeId));
                 }
             }
         }

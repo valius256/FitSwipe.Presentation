@@ -9,10 +9,11 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter" />
+            <converters:NegativeToVisibilityConverter x:Key="NegativeToVisibilityConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <AbsoluteLayout BackgroundColor="White">
-
+        
         <CarouselView x:Name="matchView" ItemsSource="{Binding Items}" CurrentItemChanged="OnCurrentItemChanged"
                 RemainingItemsThreshold="2" 
                 RemainingItemsThresholdReached="matchView_RemainingItemsThresholdReached"
@@ -26,7 +27,8 @@
                         <Image Source="{Binding AvatarUrl}"                       
                             Aspect="AspectFill"
                             HorizontalOptions="FillAndExpand" 
-                            VerticalOptions="FillAndExpand" 
+                            VerticalOptions="FillAndExpand"
+                            BackgroundColor="White"
                            />
                         <HorizontalStackLayout HorizontalOptions="End" VerticalOptions="Start" IsVisible="{Binding IsVIP}" Margin="20,5" x:Name="viptitle">
                             <Label Text="VIP" 
@@ -66,14 +68,7 @@
                                 </VerticalStackLayout.Background>
                             </VerticalStackLayout>
                         </Grid>
-                        <VerticalStackLayout HorizontalOptions="Start" Padding="5">
-                            <Button WidthRequest="50"
-                                    ImageSource="Images/back.png"
-                                    x:Name="btnBack"
-                                    Clicked="btnBack_Clicked"
-                                    BackgroundColor="White">
-                            </Button>
-                        </VerticalStackLayout>
+                        
                         <VerticalStackLayout VerticalOptions="End" Padding="5,70,5,5">
                             <VerticalStackLayout HorizontalOptions="End">
                                 <Label 
@@ -81,70 +76,76 @@
                                     FontSize="40"
                                     HorizontalTextAlignment="Center"
                                     TextColor="Yellow"
-                                    WidthRequest="40"></Label>
+                                    WidthRequest="40"
+                                    IsVisible="{Binding PTRating, Converter={StaticResource EmptyStringToVisibilityConverter}}"></Label>
                                 <Label Text="{Binding PTRating, StringFormat='{0}/5'}" 
                                      FontSize="20" 
                                      FontAttributes="Bold" 
                                      HorizontalTextAlignment="Center" 
                                      TextColor="White"
-                                     BackgroundColor="Transparent"/>
+                                     BackgroundColor="Transparent"
+                                     IsVisible="{Binding PTRating, Converter={StaticResource EmptyStringToVisibilityConverter}}"/>
                             </VerticalStackLayout>
                             
                             
 
                             <HorizontalStackLayout>
                                 <Button Text="{Binding UserName}" 
-                                 FontSize="40" 
+                                 FontSize="25" 
                                  FontAttributes="Bold" 
                                  x:Name="btnName"
                                  Clicked="btnName_Clicked"
                                  CommandParameter="{Binding}"
                                  TextColor="White"
                                  BackgroundColor="Transparent"/>
-                                <Label Text="{Binding Age}" Margin="10,0,0,0"
-                                 FontSize="20" 
+                                <Label Text="{Binding Age}" Margin="5,0,0,0"
+                                 FontSize="15" 
                                  HorizontalTextAlignment="Start" 
                                  TextColor="White"
                                  BackgroundColor="Transparent"/>
                             </HorizontalStackLayout>
 
                             <Label Text="{Binding Bio}" 
-                            FontSize="20" 
-                            HorizontalTextAlignment="Start" 
-                            TextColor="White"
-                            BackgroundColor="Transparent"/>
+                                    FontSize="12" 
+                                    HorizontalTextAlignment="Start" 
+                                    TextColor="White"
+                                    BackgroundColor="Transparent"
+                                    Margin="10,0"/>
                             <Label Text="{Binding DistanceInKm, StringFormat='Cách bạn {0:F2} km'}" 
                                     FontSize="12" 
                                     FontAttributes="Bold" 
                                     HorizontalTextAlignment="Start" 
                                     BackgroundColor="Transparent"
-                                    Margin="30,0"
-                                    TextColor="Cyan"/>
-                            <HorizontalStackLayout  Margin="30,0">
-                                <mi:MauiIcon Icon="{mi:Fluent Location16}" IconSize="10" IconColor="Cyan"></mi:MauiIcon>
+                                    Margin="10,0"
+                                    TextColor="Cyan"
+                                    IsVisible="{Binding DistanceInKm, Converter={StaticResource NegativeToVisibilityConverter}}"/>
+                            <HorizontalStackLayout  Margin="10,5">
+                                <mi:MauiIcon Icon="{mi:Fluent Location16}" IconSize="10" IconColor="Cyan"
+                                             IsVisible="{Binding City, Converter={StaticResource EmptyStringToVisibilityConverter}}"></mi:MauiIcon>
                                 <Label Text="{Binding City}" 
                                     FontSize="10" 
                                     FontAttributes="Italic" 
                                     HorizontalTextAlignment="Start" 
                                     BackgroundColor="Transparent"
-                                    TextColor="Cyan"/>
+                                    TextColor="Cyan"
+                                    IsVisible="{Binding City, Converter={StaticResource EmptyStringToVisibilityConverter}}"/>
                             </HorizontalStackLayout>
                             <HorizontalStackLayout HorizontalOptions="Center" Spacing="5" Margin="0,10,0,10">
                                 <Button x:Name="btnProfile" ImageSource="Images/profile.png"
-                                   HeightRequest="60"
-                                   WidthRequest="60"
+                                   HeightRequest="50"
+                                   WidthRequest="50"
                                    Padding="12"
                                    BackgroundColor="White"
                                    BorderColor="Green"
                                    BorderWidth="3"
-                                   CornerRadius="30"
+                                   CornerRadius="10"
                                    Clicked="btnName_Clicked"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center" />
                                 <Button x:Name="btnMatch"  ImageSource="Icons/heart.png" Clicked="btnMatch_Clicked"                    
-                                  HeightRequest="80"
-                                  WidthRequest="80"
-                                  Padding="5"
+                                  HeightRequest="70"
+                                  WidthRequest="70"
+                                  Padding="10"
                                   BackgroundColor="White"
                                   BorderColor="Green"
                                   BorderWidth="3"
@@ -155,13 +156,13 @@
 
 
                                 <Button x:Name="btnRemove" ImageSource="chat"
-                                   HeightRequest="60"
-                                   WidthRequest="60"
+                                   HeightRequest="50"
+                                   WidthRequest="50"
                                    Padding="12"
                                    BackgroundColor="White"
                                    BorderColor="Green"
                                    BorderWidth="3"
-                                   CornerRadius="30"
+                                   CornerRadius="10"
                                    Clicked="btnRemove_Clicked"
                                    CommandParameter="{Binding}"
                                    HorizontalOptions="Center"
@@ -170,6 +171,9 @@
                             </HorizontalStackLayout>
                         </VerticalStackLayout>
                         <StackLayout x:Name="animateFlyout" VerticalOptions="Center" Spacing="10" Margin="5,-100,0,0">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer x:Name="tapFlyout" Tapped="tapFlyout_Tapped"></TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
                             <Border IsVisible="{Binding CommonHobby, Converter={StaticResource EmptyStringToVisibilityConverter}}" x:Name="border1x"
                                 Stroke="#b30077" BackgroundColor="#ff5ec9" HorizontalOptions="Start" Opacity="0.75" Padding="5" MaximumWidthRequest="200">
                                 <Border.StrokeShape>
@@ -241,6 +245,19 @@
                 </DataTemplate>
             </CarouselView.ItemTemplate>
         </CarouselView>
+        <VerticalStackLayout HorizontalOptions="Start" 
+                     VerticalOptions="Start"
+                     Padding="5"
+                     AbsoluteLayout.LayoutBounds="0,0,AutoSize,AutoSize"
+                     AbsoluteLayout.LayoutFlags="PositionProportional">
+            <Button WidthRequest="50"
+                    ImageSource="Images/back.png"
+                    x:Name="btnBack"
+                    Clicked="btnBack_Clicked"
+                    Margin="10"
+                    BackgroundColor="White">
+            </Button>
+        </VerticalStackLayout>
         <controls:LoadingDialog x:Name="loadingDialog"
              IsVisible="False"
              Message="Đang chuẩn bị danh sách PT cho bạn..."

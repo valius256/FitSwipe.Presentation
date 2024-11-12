@@ -39,7 +39,7 @@ namespace FitSwipe.Mobile
                     var user = await Shortcut.GetLoginedUser(token);
                     if (user != null)
                     {
-                        if (user.City == null || user.Job == null || (DateTime.Now.Year - user.DateOfBirth.Year < 5))
+                        if (user.Job == null || (DateTime.Now.Year - user.DateOfBirth.Year < 5))
                         {
                             await Current.GoToAsync("//SetupProfile");
                             return;
@@ -51,7 +51,7 @@ namespace FitSwipe.Mobile
                         }
                         else
                         {
-                            await Current.GoToAsync("//PTList");
+                            await Current.GoToAsync("//MyPTList");
                             return;
                         }
                     }

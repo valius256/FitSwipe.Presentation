@@ -187,7 +187,7 @@
                                                             ColumnSpacing="5">
 
                                                             <!-- Avatar Image Section -->
-                                                            <StackLayout WidthRequest="120" />
+                                                            <StackLayout WidthRequest="60" />
 
                                                             <!-- Information Section -->
                                                             <StackLayout Grid.Column="2"
@@ -353,10 +353,11 @@
                                                 </Border>
                                             </StackLayout>
 
-                                            <Border WidthRequest="130"
-                                                    HeightRequest="130"
-                                                    AbsoluteLayout.LayoutBounds="0, -0.1, AutoSize, AutoSize"
+                                            <Border WidthRequest="80"
+                                                    HeightRequest="80"
+                                                    AbsoluteLayout.LayoutBounds="0, 0, AutoSize, AutoSize"
                                                     AbsoluteLayout.LayoutFlags="PositionProportional"
+                                                    BackgroundColor="White"
                                                     Stroke="#2E3191">
                                                 <Border.StrokeShape>
                                                     <RoundRectangle CornerRadius="65" />
@@ -365,9 +366,9 @@
                                                     <TapGestureRecognizer x:Name="tapPTAvatar" Tapped="tapPTAvatar_Tapped" CommandParameter="{Binding}"></TapGestureRecognizer>
                                                 </Border.GestureRecognizers>
                                                 <Image Source="{Binding PT.AvatarUrl}"
-                                                       WidthRequest="130"
-                                                       HeightRequest="130"
-                                                       Aspect="AspectFill" />
+                                                       WidthRequest="80"
+                                                       HeightRequest="80"
+                                                       Aspect="Fill" />
                                             </Border>
 
                                         </AbsoluteLayout>

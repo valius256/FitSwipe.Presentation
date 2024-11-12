@@ -48,50 +48,57 @@ public partial class SwipeMatchView : ContentPage
     private async void OnCurrentItemChanged(object? sender, CurrentItemChangedEventArgs e)
     {
         //matchView.CurrentItemChanged += OnCurrentItemChanged;
-        if (e.CurrentItem != null)
-        {
-            var carouselView = sender as CarouselView;
-            if (carouselView != null)
+        try
+        {     
+            if (e.CurrentItem != null)
             {
-                // Get the binding context of the current item
-                var currentItem = e.CurrentItem;
-
-                // Loop through all the visible views to find the one that matches the current item
-                var views = carouselView.VisibleViews.ToList();
-                foreach (var visibleView in views)
+                var carouselView = sender as CarouselView;
+                if (carouselView != null)
                 {
-                    if (visibleView.BindingContext == currentItem)
+                    // Get the binding context of the current item
+                    var currentItem = e.CurrentItem;
+
+                    // Loop through all the visible views to find the one that matches the current item
+                    var views = carouselView.VisibleViews.ToList();
+                    foreach (var visibleView in views)
                     {
-                        // We found the view that corresponds to the current item
-                        var flyoutLayout = visibleView.FindByName<StackLayout>("animateFlyout");
-                        var viplayout = visibleView.FindByName<HorizontalStackLayout>("viptitle");
-
-                        var tasks = new List<Task>();
-
-                        if (flyoutLayout != null)
+                        if (visibleView.BindingContext == currentItem)
                         {
-                            // Set initial position of the flyout off-screen
-                            flyoutLayout.TranslationX = -flyoutLayout.Width;
+                            // We found the view that corresponds to the current item
+                            var flyoutLayout = visibleView.FindByName<StackLayout>("animateFlyout");
+                            var viplayout = visibleView.FindByName<HorizontalStackLayout>("viptitle");
 
-                            // Add flyout animation to the task list
-                            tasks.Add(flyoutLayout.TranslateTo(0, 0, 500, Easing.CubicOut)); // 500ms animation duration
+                            var tasks = new List<Task>();
+
+                            if (flyoutLayout != null)
+                            {
+                                // Set initial position of the flyout off-screen
+                                flyoutLayout.TranslationX = -flyoutLayout.Width;
+
+                                // Add flyout animation to the task list
+                                tasks.Add(flyoutLayout.TranslateTo(0, 0, 500, Easing.CubicOut)); // 500ms animation duration
+                            }
+
+                            if (viplayout != null)
+                            {
+                                // Set initial position of the flyout off-screen
+                                viplayout.TranslationX = viplayout.Width;
+
+                                // Add viplayout animation to the task list
+                                tasks.Add(viplayout.TranslateTo(0, 0, 500, Easing.CubicIn)); // 500ms animation duration
+                            }
+
+                            // Run both animations simultaneously
+                            await Task.WhenAll(tasks);
+
                         }
-
-                        if (viplayout != null)
-                        {
-                            // Set initial position of the flyout off-screen
-                            viplayout.TranslationX = viplayout.Width;
-
-                            // Add viplayout animation to the task list
-                            tasks.Add(viplayout.TranslateTo(0, 0, 500, Easing.CubicIn)); // 500ms animation duration
-                        }
-
-                        // Run both animations simultaneously
-                        await Task.WhenAll(tasks);
-
                     }
                 }
             }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Lỗi", "Có lỗi xảy ra : " + ex.Message, "OK");
         }
     }
 
@@ -163,7 +170,14 @@ public partial class SwipeMatchView : ContentPage
     {
         foreach (var user in users)
         {
-            user.DistanceInKm = Helper.CalculateDistance(user.Latitude ?? 0, user.Longitude ?? 0, _loginedUser.Latitude ?? 0, _loginedUser.Longitude ?? 0);
+            if (_loginedUser.Latitude.HasValue && _loginedUser.Longitude.HasValue && user.Longitude.HasValue && user.Latitude.HasValue)
+            {
+                user.DistanceInKm = Helper.CalculateDistance(user.Latitude ?? 0, user.Longitude ?? 0, _loginedUser.Latitude.Value, _loginedUser.Longitude.Value);
+            }
+            else
+            {
+                user.DistanceInKm = -1;
+            }
 
             var commonHobbies = user.Tags.Where(t => _loginedUser.Tags.FirstOrDefault(loginedUserTag => loginedUserTag.Id == t.Id) != null && t.TagType == TagType.Hobby).ToList();
             var commonTrainingTypes = user.Tags.Where(t => _loginedUser.Tags.FirstOrDefault(loginedUserTag => loginedUserTag.Id == t.Id) != null && t.TagType == TagType.TrainingType).ToList();
@@ -334,6 +348,45 @@ public partial class SwipeMatchView : ContentPage
                 loadingDialog.IsVisible = false;
 
             }
+        }
+    }
+
+    private async void tapFlyout_Tapped(object sender, TappedEventArgs e)
+    {
+        try
+        {
+            if (matchView.CurrentItem != null)
+            {
+                    // Get the binding context of the current item
+                    var currentItem = matchView.CurrentItem;
+
+                    // Loop through all the visible views to find the one that matches the current item
+                    var views = matchView.VisibleViews.ToList();
+                    foreach (var visibleView in views)
+                    {
+                        if (visibleView.BindingContext == currentItem)
+                        {
+                            // We found the view that corresponds to the current item
+                            var flyoutLayout = visibleView.FindByName<StackLayout>("animateFlyout");
+                            var viplayout = visibleView.FindByName<HorizontalStackLayout>("viptitle");
+
+                            var tasks = new List<Task>();
+
+                            if (flyoutLayout != null)
+                            {
+                                // Add flyout animation to the task list
+                                tasks.Add(flyoutLayout.TranslateTo(-flyoutLayout.Width, 0, 500, Easing.CubicIn)); // 500ms animation duration
+                            }
+                            // Run both animations simultaneously
+                            await Task.WhenAll(tasks);
+
+                        }                    
+                    }
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Lỗi", "Có lỗi xảy ra : " + ex.Message, "OK");
         }
     }
 }

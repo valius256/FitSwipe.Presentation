@@ -26,8 +26,8 @@
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="20,20,0,0"></RoundRectangle>
             </Border.StrokeShape>
-            <FlexLayout JustifyContent="SpaceBetween">
-                <VerticalStackLayout HorizontalOptions="Center" Padding="5" FlexLayout.Basis="75%">
+            <FlexLayout HorizontalOptions="Center">
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Padding="5">
                     <Label Text="Bạn đang xem từ ngày" 
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center" 
@@ -49,17 +49,17 @@
                         </Button>
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
-                <HorizontalStackLayout VerticalOptions="Center">
+                <VerticalStackLayout HorizontalOptions="Center">
                     <Button ImageSource="{mi:Fluent ZoomIn24}" x:Name="btnZoomIn" Clicked="btnZoomIn_Clicked" BackgroundColor="Transparent"
                             WidthRequest="50" HeightRequest="50">
                     </Button>
                     <Button ImageSource="{mi:Fluent ZoomOut24}" x:Name="btnZoomOut" Clicked="btnZoomOut_Clicked" BackgroundColor="Transparent"
                            WidthRequest="50"  HeightRequest="50">
                     </Button>
-                </HorizontalStackLayout>
+                </VerticalStackLayout>
             </FlexLayout>
         </Border>
-        <Border Padding="0" BackgroundColor="#EEEEEE">
+        <Border Padding="0" BackgroundColor="#EEEEEE" Stroke="Transparent">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="0,0,20,20"></RoundRectangle>
             </Border.StrokeShape>

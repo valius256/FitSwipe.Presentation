@@ -97,7 +97,7 @@
                                 SelectionMode="None"
                                 InputTransparent="True">
                                 <CollectionView.ItemTemplate>
-                                    <DataTemplate>
+                                    <DataTemplate x:DataType="model:SubscriptionBenefit">
                                         <Grid Margin="0, 0, 0, 8">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="15" />
@@ -110,7 +110,7 @@
                                                    Text="&#x2022;" />
                                             <Label Grid.Column="1"
                                                    TextColor="Black"
-                                                   Text="{Binding .}" />
+                                                   Text="{Binding BenefitContent}" />
                                         </Grid>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>

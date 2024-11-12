@@ -187,6 +187,7 @@
                                                         <!-- Background Image -->
                                                         <Border WidthRequest="160"
                                                             Stroke="Transparent"
+                                                            BackgroundColor="White"
                                                             Grid.Column="0">
                                                             <Border.StrokeShape>
                                                                 <RoundRectangle CornerRadius="10" />

@@ -141,7 +141,16 @@ public partial class WithdrawRequestPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        await Task.Delay(10);
+        IsTrainee = PassedIsTrainee;
+
+        navbar.IsVisible = IsTrainee;
+        navbarPT.IsVisible = !IsTrainee;
+        profileNavbar.IsVisible = IsTrainee;
+        profileNavbarPT.IsVisible = !IsTrainee;
+
         var currentToken = await SecureStorage.GetAsync("auth_token") ?? string.Empty;
+        
         if (Helper.CheckTokenChanged(_token, currentToken))
         {
             _token = currentToken;
@@ -152,15 +161,11 @@ public partial class WithdrawRequestPage : ContentPage
     }
     public async void Setup()
     {
-        IsTrainee = PassedIsTrainee;
-
-        navbar.IsVisible = IsTrainee;
-        navbarPT.IsVisible = !IsTrainee;
-        profileNavbar.IsVisible = IsTrainee;
-        profileNavbarPT.IsVisible = !IsTrainee;
-
         await FetchUserData();
         await FetchRequests();
+
+        IsTrainee = PassedIsTrainee;
+
     }
     public async Task FetchUserData()
     {

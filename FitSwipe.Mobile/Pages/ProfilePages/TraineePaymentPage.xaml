@@ -8,7 +8,8 @@
              xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
              x:DataType="profilePages:TraineePaymentPage"
              xmlns:trainingConverters="clr-namespace:FitSwipe.Mobile.Converters.TrainingPageConverter"
-             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons">
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+             BackgroundColor="White">
     <ContentPage.Resources>
         <ResourceDictionary>
             <trainingConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />

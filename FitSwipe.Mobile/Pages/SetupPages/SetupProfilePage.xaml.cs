@@ -17,7 +17,15 @@ public partial class SetupProfilePage : ContentPage
 
     public UpdateUserProfileDto UserProfile { get; set; } = new UpdateUserProfileDto { AvatarUrl = "profile"};
 
-    public ObservableCollection<string> Jobs { get; set; } = new ObservableCollection<string>();
+    private ObservableCollection<string> _jobs = new ObservableCollection<string>();
+    public ObservableCollection<string> Jobs
+    {
+        get => _jobs;
+        set {
+            _jobs = value; 
+            OnPropertyChanged(nameof(Jobs));
+        }
+    }
     //public ObservableCollection<string> Cities { get; set; } = new ObservableCollection<string>();
     //public ObservableCollection<string> Districts { get; set; } = new ObservableCollection<string>();
     //public ObservableCollection<string> Wards { get; set; } = new ObservableCollection<string>();
@@ -50,11 +58,8 @@ public partial class SetupProfilePage : ContentPage
     public SetupProfilePage()
 	{
 		InitializeComponent();
-        // Populate Jobs and Cities lists with data
         Jobs = new ObservableCollection<string> { "Học sinh, Sinh viên", "Lao động chân tay", "Sư phạm", "Y học", "Kĩ sư", "Kinh doanh", "Công nghệ thông tin", "Làm thuê làm mướn", "Làm việc văn phòng", "Hiện tại thất nghiệp", "Khác", "Không muốn chia sẻ" };
-        //Cities = new ObservableCollection<string> { "TPHCM", "Hà Nội", "Đà Nẵng","Khác" };
-        //Districts = new ObservableCollection<string> { "Quận 1", "Quận 2", "Quận 3" };
-        //Wards = new ObservableCollection<string> { "Phường 1", "Phường 2", "Phưởng 3" };
+
         JobPicker.ItemsSource = Jobs;
         //CityPicker.ItemsSource = Cities;
         //WardPicker.ItemsSource = Wards;
@@ -94,9 +99,9 @@ public partial class SetupProfilePage : ContentPage
                         MainColor1 = "#2E3192";
                         MainColor2 = "#1f00b8";
                         MainColor3 = "#e8eeff";
+                        Jobs.Insert(0,"Huấn luyện viên cá nhân");
                     }
                 }
-               
                 //await DisplayAlert("INFO" ,"User fetched :" + user, "Oki");
             }
             catch (Exception ex)
@@ -118,16 +123,23 @@ public partial class SetupProfilePage : ContentPage
             await DisplayAlert("Thiếu thông tin", "Hãy vui lòng cung cấp ít nhất 1 giá trị cho phần Nghề Nghiệp", "OK");
             return false;
         }
-        else if (UserProfile.City == null || UserProfile.City == "Nhấn nút refresh để lấy vị trí")
-        {
-            await DisplayAlert("Thiếu thông tin", "Vui lòng vị trí để chúng tôi có thể đề xuất cho bạn những kết quả phù hợp", "OK");
-            return false;
-        } 
         else if ((DateTime.Now.Year - DateOfBirthPicker.Date.Year) <= 5)
         {
             await DisplayAlert("Thông tin sai lệch", "Người dùng cần ít nhất trên 5 tuổi", "OK");
             return false;
         }
+        else if (UserProfile.City == null || UserProfile.City == "Nhấn nút refresh để lấy vị trí")
+        {
+            var answer = await DisplayAlert("Thiếu thông tin", "Bạn chưa cung cấp vị trí vì thế những kết quả chúng tôi đề xuất có thể sẽ không phù hợp. Bạn có muốn tiếp tục không? Bạn vẫn có thể thêm vị trí của mình sau tại mục hồ sơ cá nhân", "Tôi sẽ thêm sau","Hủy");
+            if (!answer)
+            {
+                return false;
+            } else
+            {
+                UserProfile.City = null;
+            }
+        } 
+        
         return true;
     }
     private async void Button_Clicked(object sender, EventArgs e)

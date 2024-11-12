@@ -96,7 +96,7 @@ namespace FitSwipe.Mobile.ViewModels.UserProfile
             this.timeTable = timeTable;
             _guestId = guestId;
 
-            Jobs = new ObservableCollection<string> { "Học sinh, Sinh viên", "Lao động chân tay", "Sư phạm", "Y học", "Kĩ sư", "Kinh doanh", "Công nghệ thông tin", "Làm thuê làm mướn", "Làm việc văn phòng", "Hiện tại thất nghiệp", "Khác", "Không muốn chia sẻ" };
+            Jobs = new ObservableCollection<string> { "Huấn luyện viên cá nhân", "Học sinh, Sinh viên", "Lao động chân tay", "Sư phạm", "Y học", "Kĩ sư", "Kinh doanh", "Công nghệ thông tin", "Làm thuê làm mướn", "Làm việc văn phòng", "Hiện tại thất nghiệp", "Khác", "Không muốn chia sẻ" };
             // Handle property changed for CurrentImage to update SelectedImage
             PropertyChanged += (s, e) =>
             {

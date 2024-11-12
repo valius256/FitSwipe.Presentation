@@ -44,11 +44,11 @@ namespace FitSwipe.Mobile.ViewModels
                     Id = Guid.NewGuid(),
                     Name = "VIP 1",
                     RemainingTime = new TimeSpan(days: 2, hours: 0, minutes: 0, seconds: 0),
-                    Benefit = new ObservableCollection<string>
+                    Benefit = new ObservableCollection<SubscriptionBenefit>
                     {
-                        "Tăng khả năng tiếp cận học viên",
-                        "Khung ảnh đại diện nổi bật",
-                        "Đăng ảnh, video không giới hạn số lượng"
+                        new SubscriptionBenefit{ BenefitContent = "Tăng khả năng tiếp cận học viên" },
+                        new SubscriptionBenefit{ BenefitContent = "Khung ảnh đại diện nổi bật" },
+                        new SubscriptionBenefit{ BenefitContent = "Đăng ảnh, video không giới hạn số lượng" }
                     },
                     Price = 99000 // Corrected from 100.000 to 50000
                 },

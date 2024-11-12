@@ -22,8 +22,8 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
                 <StackLayout>
-                    <Label Text="Hãy nhập số lượng bạn muốn nạp"></Label>
-                    <Entry Text="{Binding Amount}"></Entry>
+                    <Label Text="Hãy nhập số lượng bạn muốn nạp" TextColor="Black"></Label>
+                    <Entry TextColor="Black" Text="{Binding Amount}"></Entry>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"></RowDefinition>

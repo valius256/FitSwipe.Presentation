@@ -10,6 +10,7 @@ using CommunityToolkit.Maui.Core.Extensions;
 using FitSwipe.Mobile.Controls;
 using FitSwipe.Shared.Utils;
 using FitSwipe.Mobile.Utils;
+using FitSwipe.Shared.Dtos.Medias;
 
 namespace FitSwipe.Mobile.ViewModels
 {
@@ -104,85 +105,65 @@ namespace FitSwipe.Mobile.ViewModels
     {
             if (!_loadingDialog.IsVisible)
             {
-                // Check if the storage permission is granted
-                var status = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
 
-                // If permission is not granted, request it
-                if (status != PermissionStatus.Granted)
+                try
                 {
-                    status = await Permissions.RequestAsync<Permissions.StorageRead>();
-                }
-
-                // Now check again if the permission is granted
-                if (status == PermissionStatus.Granted)
-                {
-                    try
+                    // Allow the user to pick a video or image file from the media library
+                    var result = await MediaPicker.PickVideoAsync();
+                    if (result != null)
                     {
-                        // Allow the user to pick a video or image file from the media library
-                        var result = await FilePicker.PickAsync(new PickOptions
+                        var fileInfo = new FileInfo(result.FullPath);
+
+                        // Get the file size in bytes
+                        long fileSizeInBytes = fileInfo.Length;
+
+                        // Convert to megabytes (optional)
+                        double fileSizeInMB = fileSizeInBytes / (1024.0 * 1024.0);
+
+                        // Check if file size exceeds 25 MB
+                        if (fileSizeInMB > 25)
                         {
-                            PickerTitle = "Hãy chọn 1 video (tối đa 25 MB)",
-                            FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
-                            {
-                                { DevicePlatform.iOS, new[] { "public.movie" } },
-                                { DevicePlatform.Android, new[] { "video/*" } },
-                                { DevicePlatform.WinUI, new[] { ".mp4"} }
-                            })
-                        });
-                        if (result != null)
-                        {
-                            var fileInfo = new FileInfo(result.FullPath);
-
-                            // Get the file size in bytes
-                            long fileSizeInBytes = fileInfo.Length;
-
-                            // Convert to megabytes (optional)
-                            double fileSizeInMB = fileSizeInBytes / (1024.0 * 1024.0);
-
-                            // Check if file size exceeds 25 MB
-                            if (fileSizeInMB > 25)
-                            {
-                                throw new Exception("Video đã vượt quá 25MB. Vui lòng chọn video khác nhỏ hơn");
-                            }
-                            if (NewVideos.Contains(result.FullPath))
-                            {
-                                throw new Exception("Bạn đã đăng file này");
-                            }
-                            // Create a new Video object and add it to the Videos collection
-                            var media = new GetSlotVideoDto
-                            {
-                                VideoUrl = result.FullPath, // Full path of the selected video/image
-                                ThumbnailUrl = result.FullPath, // Use the same path for thumbnail (or change as needed)
-                                Description = "",
-                                ThumbnailShowPlayIcon = false,
-                                IsFromFilePath = true
-                            };
-
-                            // Add new media to the collection
-                            NewVideos.Add(result.FullPath);
-                            SlotDetail.Videos.Add(media);
-                            SlotVideos.Add(media);
-
-                            OnThumbnailTapped(media); // Select the newly added media
+                            throw new Exception("Video đã vượt quá 25MB. Vui lòng chọn video khác nhỏ hơn");
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (Application.Current != null && Application.Current.MainPage != null)
+                        if (NewVideos.Contains(result.FullPath))
                         {
-                            // Handle exceptions (e.g., user canceled the operation)
-                            await Application.Current.MainPage.DisplayAlert("Lỗi", ex.Message, "OK");
+                            throw new Exception("Bạn đã đăng file này");
                         }
+                        // Create a new Video object and add it to the Videos collection
+                        var media = new GetSlotVideoDto
+                        {
+                            VideoUrl = result.FullPath, // Full path of the selected video/image
+                            ThumbnailUrl = result.FullPath, // Use the same path for thumbnail (or change as needed)
+                            Description = "",
+                            ThumbnailShowPlayIcon = false,
+                            IsFromFilePath = true
+                        };
+
+                        // Add new media to the collection
+                        NewVideos.Add(result.FullPath);
+                        SlotDetail.Videos.Add(media);
+                        SlotVideos.Add(media);
+
+                        OnThumbnailTapped(media); // Select the newly added media
                     }
                 }
-                else
+                catch (Exception ex)
                 {
                     if (Application.Current != null && Application.Current.MainPage != null)
                     {
-                        await Application.Current.MainPage.DisplayAlert("Quyền truy cập bị từ chối", "Không thể truy cập các file phương tiện. Vui lòng cho phép trong phần cài đặt", "OK");
-
+                        // Handle exceptions (e.g., user canceled the operation)
+                        await Application.Current.MainPage.DisplayAlert("Lỗi", ex.Message, "OK");
                     }
                 }
+                
+                //else
+                //{
+                //    if (Application.Current != null && Application.Current.MainPage != null)
+                //    {
+                //        await Application.Current.MainPage.DisplayAlert("Quyền truy cập bị từ chối", "Không thể truy cập các file phương tiện. Vui lòng cho phép trong phần cài đặt", "OK");
+
+                //    }
+                //}
             }
     }
 

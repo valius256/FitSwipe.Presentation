@@ -111,22 +111,22 @@ public partial class SetupProfileStep6Page : ContentPage
 
     private async void btnNext_Clicked(object sender, EventArgs e)
     {
-        if (NewTags.Count > 0)
+        //if (NewTags.Count > 0)
+        //{
+        NewTags.ForEach(t => AlreadyTags.Add(t));
+        if (_currentUser.Role == Role.PT)
         {
-            NewTags.ForEach(t => AlreadyTags.Add(t));
-            if (_currentUser.Role == Role.PT)
-            {
-                await Navigation.PushModalAsync(new CertificateUploadView(_currentUser, AlreadyTags));
-            }
-            else
-            {
-                await Navigation.PushModalAsync(new SetupProfileStepFinalPage(_currentUser, AlreadyTags));
-            }
+            await Navigation.PushModalAsync(new CertificateUploadView(_currentUser, AlreadyTags));
         }
         else
         {
-            await DisplayAlert("Thiếu thông tin", "Hãy vui lòng chọn ít nhất 1 thẻ", "OK");
+            await Navigation.PushModalAsync(new SetupProfileStepFinalPage(_currentUser, AlreadyTags));
         }
+        //}
+        //else
+        //{
+        //    await DisplayAlert("Thiếu thông tin", "Hãy vui lòng chọn ít nhất 1 thẻ", "OK");
+        //}
     }
 
     private void tagFrame_Tapped(object sender, TappedEventArgs e)

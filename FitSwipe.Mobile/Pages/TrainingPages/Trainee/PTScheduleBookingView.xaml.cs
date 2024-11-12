@@ -323,6 +323,14 @@ public partial class PTScheduleBookingView : ContentPage
             {
                 await DisplayAlert("Lỗi", "Vui lòng chọn thời gian diễn ra trong khung giờ", "OK");
             }
+            if ((endTime - startTime).TotalHours > 2.0)
+            {
+                await DisplayAlert("Lỗi", "Tổng thời lượng tối đa cho 1 buổi tập là 2 tiếng", "OK");
+            }
+            else if ((endTime - startTime).TotalMinutes < 15)
+            {
+                await DisplayAlert("Lỗi", "Tổng thời lượng tối thiểu cho 1 buổi tập là 15 phút", "OK");
+            }
             else if (startTime <= DateTime.Now)
             {
                 await DisplayAlert("Lỗi", "Vui lòng chọn khung thời gian chưa diễn ra", "OK");

@@ -116,8 +116,7 @@ public partial class ChatPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-       
-        var currentToken = await SecureStorage.GetAsync("auth_token") ?? string.Empty;
+        await Task.Delay(10);
         if (Role == "PT")
         {
             IsTrainee = false;
@@ -126,6 +125,7 @@ public partial class ChatPage : ContentPage
         {
             IsTrainee = true;
         }
+        var currentToken = await SecureStorage.GetAsync("auth_token") ?? string.Empty;
         if (Helper.CheckTokenChanged(_token, currentToken))
         {
             _token = currentToken;

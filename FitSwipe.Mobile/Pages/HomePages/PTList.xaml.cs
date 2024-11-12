@@ -62,18 +62,22 @@ public partial class PTList : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+
         var currentToken = await SecureStorage.GetAsync("auth_token") ?? string.Empty;
         if (Helper.CheckTokenChanged(_token, currentToken))
         {
             Items.Clear();
-            FetchData();
+            await FetchData();
+            await Navigation.PushModalAsync(new SwipeMatchView(this, navbar, _loginedUser));
             return;
         }
         if (PassedFlag)
         {
             Items.Clear();
-            FetchData();
+            await FetchData();
+            await Navigation.PushModalAsync(new SwipeMatchView(this, navbar, _loginedUser));
             PassedFlag = false;
+
         }
     }
 
@@ -85,7 +89,7 @@ public partial class PTList : ContentPage
     /// <summary>
     /// Fetch the data for the first time
     /// </summary>
-    private async void FetchData()
+    private async Task FetchData()
     {
         CurrentPage = 1;
         loadingDialog.IsVisible = true;
@@ -144,7 +148,13 @@ public partial class PTList : ContentPage
     {
         foreach (var user in users)
         {
-            user.DistanceInKm = Helper.CalculateDistance(user.Latitude ?? 0, user.Longitude ?? 0, _loginedUser.Latitude ?? 0, _loginedUser.Longitude ?? 0);
+            if (_loginedUser.Latitude.HasValue && _loginedUser.Longitude.HasValue && user.Longitude.HasValue && user.Latitude.HasValue)
+            {
+                user.DistanceInKm = Helper.CalculateDistance(user.Latitude.Value, user.Longitude.Value, _loginedUser.Latitude.Value, _loginedUser.Longitude.Value);
+            } else
+            {
+                user.DistanceInKm = -1;
+            }
             Items.Add(user);
             await Task.Delay(300);
         }
@@ -211,10 +221,10 @@ public partial class PTList : ContentPage
         }
     }
 
-    private void RefreshView_Refreshing(object sender, EventArgs e)
+    private async void RefreshView_Refreshing(object sender, EventArgs e)
     {
         Items.Clear();
-        FetchData();
+        await FetchData();
         IsRefreshing = false;
     }
 }

@@ -198,7 +198,7 @@ public partial class PTSchedulePage : ContentPage
 
     private async void btnDelete_Tapped(object sender, TappedEventArgs e)
     {
-        var answer = await DisplayAlert("Xóa hết khung giờ của tuần này", "Bạn có chắc chắn về hành động này?", "Có", "Không");
+        var answer = await DisplayAlert("Xóa hết khung giờ rảnh của tuần này", "Bạn có chắc chắn về hành động này?", "Có", "Không");
         if (answer)
         {
             loadingDialog.IsVisible = true;
@@ -211,7 +211,7 @@ public partial class PTSchedulePage : ContentPage
                     await Fetcher.DeleteAsync($"api/Slot?start={timeTable.CurrentWeek.StartDate.ToString("yyyy-MM-dd")}" +
                         $"&end={timeTable.CurrentWeek.EndDate.ToString("yyyy-MM-dd")}", token);
                     //Test delete slot
-                    Slots.Clear();
+                    Slots = Slots.Where(s => s.Status != SlotStatus.Unbooked).ToObservableCollection();
                     timeTable.SetSlots(Slots);
                     await DisplayAlert("Thành công", "Đã cập nhật thành công", "OK");
                 }

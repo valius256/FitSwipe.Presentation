@@ -95,13 +95,14 @@ public partial class SetupProfileStep2Page : ContentPage
 
     private async void btnNext_Clicked(object sender, EventArgs e)
     {
-        if (SelectedTags.Count > 0)
-        {
-            await Navigation.PushModalAsync(new SetupProfileStep3Page(_currentUser, SelectedTags));
-        } else
-        {
-            await DisplayAlert("Thiếu thông tin", "Hãy vui lòng chọn ít nhất 1 thẻ", "OK");
-        }
+        await Navigation.PushModalAsync(new SetupProfileStep3Page(_currentUser, SelectedTags));
+
+        //if (SelectedTags.Count > 0)
+        //{
+        //} else
+        //{
+        //    await DisplayAlert("Thiếu thông tin", "Hãy vui lòng chọn ít nhất 1 thẻ", "OK");
+        //}
     }
 
     private void tagFrame_Tapped(object sender, TappedEventArgs e)

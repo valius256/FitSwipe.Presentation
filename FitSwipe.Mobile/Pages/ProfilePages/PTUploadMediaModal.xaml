@@ -27,96 +27,102 @@
            BackgroundColor="White"
             AbsoluteLayout.LayoutBounds="0.5,0.5,0.9,0.8" 
             AbsoluteLayout.LayoutFlags="All">
-            <VerticalStackLayout>
-                <Button ImageSource="remove" BackgroundColor="#EEEEEE" Padding="10" WidthRequest="30" HeightRequest="30" HorizontalOptions="End" x:Name="btnClose" Clicked="btnClose_Clicked"></Button>
-                <!--#region Switch Button-->
-                <FlexLayout Margin="0,10"
-                                       HorizontalOptions="Center">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <VerticalStackLayout Grid.Row="0">
+                    <Button ImageSource="remove" BackgroundColor="#EEEEEE" Padding="10" WidthRequest="30" HeightRequest="30" HorizontalOptions="End" x:Name="btnClose" Clicked="btnClose_Clicked"></Button>
+                    <!--#region Switch Button-->
+                    <FlexLayout Margin="0,10"
+                                           HorizontalOptions="Center">
 
-                    <Button Text="Ảnh đại diện"
-                            TextColor="White"
-                            BorderColor="#2E3192"
-                            BackgroundColor="White"
-                            CornerRadius="50"
-                            Padding="10,0,30,0"
-                            Margin="0,0,-12,0" 
-                            x:Name="btnTabAvatar"
-                            ZIndex="1"
-                            BorderWidth="2"
-                            FontSize="12"
+                        <Button Text="Ảnh đại diện"
+                                TextColor="White"
+                                BorderColor="#2E3192"
+                                BackgroundColor="White"
+                                CornerRadius="50"
+                                Padding="10,0,35,0"
+                                Margin="0,0,-12,0" 
+                                x:Name="btnTabAvatar"
+                                ZIndex="1"
+                                BorderWidth="2"
+                                FontSize="12"
                             
-                            HeightRequest="30"
-                            Clicked="btnTabAvatar_Clicked"/>
-                    <Button Text="Tải video / ảnh"
-                            TextColor="Black"
-                            BackgroundColor="White"
-                            BorderColor="#2E3192"
-                            CornerRadius="50"
-                            Padding="20,0,20,0"
-                            BorderWidth="2"
-                            Clicked="NextPageUpload_Clicked" 
-                            HeightRequest="30"
-                            FontSize="12"
+                                HeightRequest="30"
+                                Clicked="btnTabAvatar_Clicked"/>
+                        <Button Text="Tải video / ảnh"
+                                TextColor="Black"
+                                BackgroundColor="White"
+                                BorderColor="#2E3192"
+                                CornerRadius="50"
+                                Padding="30,0,30,0"
+                                BorderWidth="2"
+                                Clicked="NextPageUpload_Clicked" 
+                                HeightRequest="30"
+                                FontSize="12"
                             
-                            x:Name="btnTabMedia"/>
-                    <Button Text="Bằng cấp"
-                            TextColor="Black"
-                            BackgroundColor="White"
-                            BorderColor="#2E3192"
-                            CornerRadius="50"
-                            Padding="30,0,10,0"
-                            Margin="-12,0,0,0"
-                            BorderWidth="2"
-                            Clicked="btnDegree_Clicked" 
-                            HeightRequest="30"
-                            FontSize="12"
-                            x:Name="btnDegree"/>
-                </FlexLayout>
+                                x:Name="btnTabMedia"/>
+                        <Button Text="Bằng cấp"
+                                TextColor="Black"
+                                BackgroundColor="White"
+                                BorderColor="#2E3192"
+                                CornerRadius="50"
+                                Padding="35,0,10,0"
+                                Margin="-12,0,0,0"
+                                BorderWidth="2"
+                                Clicked="btnDegree_Clicked" 
+                                HeightRequest="30"
+                                FontSize="12"
+                                x:Name="btnDegree"/>
+                    </FlexLayout>
+                </VerticalStackLayout>
 
-                <VerticalStackLayout x:Name="tab1Content">
+                <VerticalStackLayout x:Name="tab1Content" Grid.Row="1">
 
                     <!--Before has image upload (invisiable after has image)-->
                     <VerticalStackLayout Margin="0,5"
-                                         IsVisible="{Binding IsPhotoCaptured, Converter={StaticResource InverseBooleanConverter}}">
+                                            IsVisible="{Binding IsPhotoCaptured, Converter={StaticResource InverseBooleanConverter}}">
                         <!-- Camera Upload logo -->
 
                         <HorizontalStackLayout HorizontalOptions="Center"
-                                               Spacing="20">
+                                                Spacing="20">
                             <!--Camera Take picture-->
                             <Frame HeightRequest="-1"
-                                   BorderColor="#2E3192"
-                                   CornerRadius="600"
-                                   BackgroundColor="White"
-                                   VerticalOptions="Center"
-                                   HorizontalOptions="FillAndExpand">
+                                    BorderColor="#2E3192"
+                                    CornerRadius="600"
+                                    BackgroundColor="White"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="FillAndExpand">
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="cameraPhotoButton_Clicked" />
                                 </Frame.GestureRecognizers>
                                 <Image Source="images/camera.png"
-                                       WidthRequest="50"
-                                       HeightRequest="50"
-                                       HorizontalOptions="Start" />
+                                        WidthRequest="50"
+                                        HeightRequest="50"
+                                        HorizontalOptions="Start" />
                             </Frame>
 
                         </HorizontalStackLayout>
                         <Label Text="Hình đại diện không có"
-                               FontSize="Micro"
-                               TextColor="Black"
-                               HorizontalOptions="Center"
-                               Margin="0,3" />
+                                FontSize="Micro"
+                                TextColor="Black"
+                                HorizontalOptions="Center"
+                                Margin="0,3" />
                         <Label Text="Kích tước tối thiểu: 512 x 512"
-                               TextColor="Black"
-                               FontSize="Micro"
-                               HorizontalOptions="Center"
-                               Margin="0,3" />
+                                TextColor="Black"
+                                FontSize="Micro"
+                                HorizontalOptions="Center"
+                                Margin="0,3" />
                         <!--Button capture and upload-->
                         <VerticalStackLayout>
                             <!-- Capture Button-->
                             <Frame Padding="0,10"
-                                   CornerRadius="50"
-                                   Margin="0,10,0,5"
-                                   BackgroundColor="#2E3192"
-                                   BorderColor="Transparent">
+                                    CornerRadius="50"
+                                    Margin="0,10,0,5"
+                                    BackgroundColor="#2E3192"
+                                    BorderColor="Transparent">
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="cameraPhotoButton_Clicked" />
                                 </Frame.GestureRecognizers>
@@ -131,10 +137,10 @@
 
                             <!-- Upload Image Button-->
                             <Frame Padding="0,10"
-                                   CornerRadius="50"
-                                   Margin="0,0,0,4"
-                                   BackgroundColor="#2E3192"
-                                   BorderColor="Transparent">
+                                    CornerRadius="50"
+                                    Margin="0,0,0,4"
+                                    BackgroundColor="#2E3192"
+                                    BorderColor="Transparent">
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="galleryPhotoButton_Clicked" />
                                 </Frame.GestureRecognizers>
@@ -153,20 +159,20 @@
                     <VerticalStackLayout IsVisible="{Binding IsPhotoCaptured}">
                         <!-- Show the captured photo if available -->
                         <HorizontalStackLayout HorizontalOptions="Center"
-                                               Margin="0,0,0,8">
+                                                Margin="0,0,0,8">
                             <Frame Padding="0"
-                                   BorderColor="#2E3192"
-                                   Background="Transparent">
+                                    BorderColor="#2E3192"
+                                    Background="Transparent">
                                 <Frame BorderColor="#2E3192"
-                                       CornerRadius="600"
-                                       WidthRequest="150"
-                                       HeightRequest="150"
-                                       VerticalOptions="Center"
-                                       BackgroundColor="White"
-                                       HorizontalOptions="FillAndExpand">
+                                        CornerRadius="600"
+                                        WidthRequest="150"
+                                        HeightRequest="150"
+                                        VerticalOptions="Center"
+                                        BackgroundColor="White"
+                                        HorizontalOptions="FillAndExpand">
                                     <Image Source="{Binding CapturedImageSource}"
-                                           Aspect="Center"
-                                           WidthRequest="150"
+                                            Aspect="Center"
+                                            WidthRequest="150"
                                             HeightRequest="150"/>
                                 </Frame>
                             </Frame>
@@ -174,15 +180,15 @@
 
                         <!--Button-->
                         <VerticalStackLayout Margin="0,5"
-                                             IsVisible="{Binding IsPhotoCaptured}">
+                                                IsVisible="{Binding IsPhotoCaptured}">
                             <!-- Continue Button-->
                             <Frame HeightRequest="40"
-                                   Padding="0"
-                                   CornerRadius="50"
-                                   Margin="0,0,0,4"
-                                   BackgroundColor="#2E3192"
-                                   BorderColor="#2E3192"                               
-                                   HorizontalOptions="Center">
+                                    Padding="0"
+                                    CornerRadius="50"
+                                    Margin="0,0,0,4"
+                                    BackgroundColor="#2E3192"
+                                    BorderColor="#2E3192"                               
+                                    HorizontalOptions="Center">
                                 <Button Text="Xác nhận"
                                         FontAttributes="Bold"
                                         TextColor="White"
@@ -195,12 +201,12 @@
                             </Frame>
                             <!-- Continue Button-->
                             <Frame HeightRequest="40"
-                                   Padding="0"
-                                   CornerRadius="50"
-                                   Margin="0,0,0,2"
-                                   BackgroundColor="Transparent"
-                                   BorderColor="#2E3192"
-                                   HorizontalOptions="Center">
+                                    Padding="0"
+                                    CornerRadius="50"
+                                    Margin="0,0,0,2"
+                                    BackgroundColor="Transparent"
+                                    BorderColor="#2E3192"
+                                    HorizontalOptions="Center">
                                 <Button Text="Đổi ảnh"
                                         FontAttributes="Bold"
                                         TextColor="Black"
@@ -216,17 +222,17 @@
 
                 </VerticalStackLayout>
                 <!--Image/Video upload-->
-                <VerticalStackLayout x:Name="tab2Content">
+                <VerticalStackLayout x:Name="tab2Content" Grid.Row="1">
                     <!--Text description-->
                     <HorizontalStackLayout Margin="0,20,0,5">
                         <Label Text="Ảnh/video của bạn"
-                       FontAttributes="Bold"
-                       TextColor="Black" />
+                        FontAttributes="Bold"
+                        TextColor="Black" />
                         <Label Text="{Binding ImageVideoCount}"
-                       FontAttributes="Bold"
-                       TextColor="Black" />
+                        FontAttributes="Bold"
+                        TextColor="Black" />
                         <BoxView HeightRequest="3"
-                         BackgroundColor="#2E3192" />
+                            BackgroundColor="#2E3192" />
                     </HorizontalStackLayout>
 
                     <!--Upload-->
@@ -237,23 +243,23 @@
                                 <CollectionView x:Name="imageCollectionView" ItemsSource="{Binding Medias}">
                                     <CollectionView.ItemsLayout>
                                         <GridItemsLayout Orientation="Vertical"
-                                             Span="4"
-                                             HorizontalItemSpacing="15"
-                                             VerticalItemSpacing="15" />
+                                                Span="4"
+                                                HorizontalItemSpacing="15"
+                                                VerticalItemSpacing="15" />
                                     </CollectionView.ItemsLayout>
                                     <CollectionView.ItemTemplate>
                                         <DataTemplate>
                                             <Grid>
                                                 <Frame BorderColor="#2E3192"
-                                                       CornerRadius="5"
-                                                       Padding="0"
-                                                       WidthRequest="70"
-                                                       HeightRequest="100">
+                                                        CornerRadius="5"
+                                                        Padding="0"
+                                                        WidthRequest="70"
+                                                        HeightRequest="100">
                                                     <Frame.GestureRecognizers>
                                                         <TapGestureRecognizer x:Name="tapImge" Tapped="tapImge_Tapped" CommandParameter="{Binding}"></TapGestureRecognizer>
                                                     </Frame.GestureRecognizers>
                                                     <Image Source="{Binding MediaUrl}"
-                                                           Aspect="AspectFill" />
+                                                            Aspect="AspectFill" />
                                                 </Frame>
                                                 <!-- Overlay Play Button -->
                                                 <Border Stroke="Black"
@@ -267,23 +273,23 @@
                                                         <RoundRectangle CornerRadius="50" />
                                                     </Border.StrokeShape>
                                                     <Image Source="play.png"
-                                                         BackgroundColor="Transparent"
-                                                         HorizontalOptions="Center"
-                                                         VerticalOptions="Center"
-                                                         Opacity="1" />
+                                                            BackgroundColor="Transparent"
+                                                            HorizontalOptions="Center"
+                                                            VerticalOptions="Center"
+                                                            Opacity="1" />
                                                 </Border>
                                                 <ImageButton BorderColor="Black" 
-                                                      BackgroundColor="LightGray" 
-                                                      Padding="5" CornerRadius="20" 
-                                                      Source="remove" 
-                                                      WidthRequest="25" 
-                                                      HeightRequest="25" 
-                                                      HorizontalOptions="End" 
-                                                      VerticalOptions="Start" 
-                                                      Margin="0"
-                                                      x:Name="btnRemove"
-                                                      Clicked="btnRemove_Clicked"
-                                                      CommandParameter="{Binding}"></ImageButton>
+                                                        BackgroundColor="LightGray" 
+                                                        Padding="5" CornerRadius="20" 
+                                                        Source="remove" 
+                                                        WidthRequest="25" 
+                                                        HeightRequest="25" 
+                                                        HorizontalOptions="End" 
+                                                        VerticalOptions="Start" 
+                                                        Margin="0"
+                                                        x:Name="btnRemove"
+                                                        Clicked="btnRemove_Clicked"
+                                                        CommandParameter="{Binding}"></ImageButton>
                                             </Grid>
                                             
                                         </DataTemplate>
@@ -298,10 +304,10 @@
                         <!--Button Upload-->
                         <!-- Capture Button-->
                         <Frame Padding="0,5"
-                       CornerRadius="50"
-                       Margin="0,10,0,5"
-                       BackgroundColor="#2E3192"
-                       BorderColor="Transparent">
+                        CornerRadius="50"
+                        Margin="0,10,0,5"
+                        BackgroundColor="#2E3192"
+                        BorderColor="Transparent">
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="cameraPhotoButton_Clicked" />
                             </Frame.GestureRecognizers>
@@ -348,17 +354,17 @@
                         
                         <!--Small Description-->
                         <Label Text="*Vui lòng tuân thủ theo nguyên tắc"
-                               TextColor="Black"
-                               FontSize="Micro"
-                               HorizontalOptions="Center"
-                               Margin="0,10" />
+                                TextColor="Black"
+                                FontSize="Micro"
+                                HorizontalOptions="Center"
+                                Margin="0,10" />
                     </VerticalStackLayout>
 
                 </VerticalStackLayout>
 
-                <Grid  x:Name="tab3Content">
+                <Grid  x:Name="tab3Content" Grid.Row="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="400"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <ScrollView Grid.Row="0">
@@ -448,9 +454,9 @@
                                         FontSize="Caption"
                                         Margin="0, 10, 0, 0" />
                             </StackLayout>
-                                
+
                         </VerticalStackLayout>
-                            
+
                     </ScrollView>
                     <Button Text="Lưu thay đổi"
                         Grid.Row="1"
@@ -461,7 +467,8 @@
                         IsEnabled="{Binding IsChangedDegree}"
                         Padding="40, 0, 40, 0" />
                 </Grid>
-            </VerticalStackLayout>
+            </Grid>
+
         </Frame>
         <controls:LoadingDialog x:Name="loadingDialog"
               IsVisible="False"

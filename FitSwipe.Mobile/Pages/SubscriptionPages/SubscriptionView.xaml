@@ -161,7 +161,7 @@
                                                     SelectionMode="None"
                                                     InputTransparent="True">
                                         <CollectionView.ItemTemplate>
-                                            <DataTemplate>
+                                            <DataTemplate x:DataType="model:SubscriptionBenefit">
                                                 <Grid Margin="0, 0, 0, 10">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="20" />
@@ -174,7 +174,7 @@
                                                             Text="&#x2022;" />
                                                     <Label Grid.Column="1"
                                                             TextColor="White"
-                                                            Text="{Binding .}" />
+                                                            Text="{Binding BenefitContent}" />
                                                 </Grid>
                                             </DataTemplate>
                                         </CollectionView.ItemTemplate>
@@ -238,23 +238,24 @@
                                        Margin="0, 0, 0, 15" />
 
                                                     <CollectionView ItemsSource="{Binding Benefit}"
-                                                SelectionMode="None"
-                                                InputTransparent="True">
+                                                                    SelectionMode="None"
+                                                                    InputTransparent="True"
+                                                                    >
                                                         <CollectionView.ItemTemplate>
-                                                            <DataTemplate>
+                                                            <DataTemplate x:DataType="model:SubscriptionBenefit">
                                                                 <Grid Margin="0, 0, 0, 10">
                                                                     <Grid.ColumnDefinitions>
                                                                         <ColumnDefinition Width="20" />
-                                                                        <ColumnDefinition Width="Auto" />
+                                                                        <ColumnDefinition Width="*" />
                                                                     </Grid.ColumnDefinitions>
 
                                                                     <Label Grid.Column="0"
-                                               FontAttributes="Bold"
-                                               TextColor="White"
-                                               Text="&#x2022;" />
+                                                                           FontAttributes="Bold"
+                                                                           TextColor="White"
+                                                                           Text="&#x2022;" />
                                                                     <Label Grid.Column="1"
-                                               TextColor="White"
-                                               Text="{Binding}" />
+                                                                           TextColor="White"
+                                                                           Text="{Binding BenefitContent}" />
                                                                 </Grid>
                                                             </DataTemplate>
                                                         </CollectionView.ItemTemplate>

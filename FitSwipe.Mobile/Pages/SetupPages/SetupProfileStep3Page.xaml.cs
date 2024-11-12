@@ -101,14 +101,15 @@ public partial class SetupProfileStep3Page : ContentPage
 
     private async void btnNext_Clicked(object sender, EventArgs e)
     {
-        if (NewTags.Count > 0)
-        {
-            NewTags.ForEach(t => AlreadyTags.Add(t));
-            await Navigation.PushModalAsync(new SetupProfileStep4Page(_currentUser, AlreadyTags));
-        } else
-        {
-            await DisplayAlert("Thiếu thông tin", "Hãy vui lòng chọn ít nhất 1 thẻ", "OK");
-        }
+        NewTags.ForEach(t => AlreadyTags.Add(t));
+        await Navigation.PushModalAsync(new SetupProfileStep4Page(_currentUser, AlreadyTags));
+        //if (NewTags.Count > 0)
+        //{
+            
+        //} else
+        //{
+        //    await DisplayAlert("Thiếu thông tin", "Hãy vui lòng chọn ít nhất 1 thẻ", "OK");
+        //}
 
     }
 
