@@ -41,6 +41,7 @@
                           HorizontalOptions="FillAndExpand">
                                 <Border WidthRequest="90"
                                     HeightRequest="90"
+                                    BackgroundColor="White"
                                     Stroke="{Binding Theme}"
                                     Grid.Column="0">
                                     <Border.StrokeShape>

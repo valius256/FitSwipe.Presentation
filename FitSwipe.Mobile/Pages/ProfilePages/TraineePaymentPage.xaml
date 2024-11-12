@@ -42,6 +42,7 @@
                                 <Border WidthRequest="90"
                                     HeightRequest="90"
                                     Stroke="#52BB00"
+                                    BackgroundColor="White"
                                     Grid.Column="0">
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="50" />
