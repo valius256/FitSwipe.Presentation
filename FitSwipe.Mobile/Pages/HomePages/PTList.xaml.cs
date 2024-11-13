@@ -75,7 +75,7 @@ public partial class PTList : ContentPage
         {
             Items.Clear();
             await FetchData();
-            await Navigation.PushModalAsync(new SwipeMatchView(this, navbar, _loginedUser));
+            //await Navigation.PushModalAsync(new SwipeMatchView(this, navbar, _loginedUser));
             PassedFlag = false;
 
         }
@@ -83,6 +83,7 @@ public partial class PTList : ContentPage
 
     private void btnSwipeMatch_Clicked(object sender, EventArgs e)
     {
+        PassedFlag = false; // Ensure the flag is reset before navigating
         Navigation.PushModalAsync(new SwipeMatchView(this, navbar, _loginedUser));
         //await Shell.Current.GoToAsync("//SwipeMatchView");
     }

@@ -5,6 +5,7 @@
              xmlns:controls="clr-namespace:FitSwipe.Mobile.Controls"
              xmlns:converters="clr-namespace:FitSwipe.Mobile.Converters"
              xmlns:dtop="clr-namespace:FitSwipe.Shared.Dtos.Tags;assembly=FitSwipe.Shared"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -24,12 +25,17 @@
                 <DataTemplate x:DataType="dtop:GetUserWithTagDto">
                     <Grid BackgroundColor="ForestGreen">
                         <!-- Display the Picture -->
-                        <Image Source="{Binding AvatarUrl}"                       
+                        <ffimageloading:CachedImage
+                            Source="{Binding AvatarUrl}"
                             Aspect="AspectFill"
-                            HorizontalOptions="FillAndExpand" 
+                            HorizontalOptions="FillAndExpand"
                             VerticalOptions="FillAndExpand"
-                            BackgroundColor="White"
-                           />
+                            LoadingPlaceholder="profile"
+                            ErrorPlaceholder="profile"
+                            DownsampleToViewSize="True"
+                            CacheDuration="30"
+                            FadeAnimationEnabled="True"
+                            BackgroundColor="White" />
                         <HorizontalStackLayout HorizontalOptions="End" VerticalOptions="Start" IsVisible="{Binding IsVIP}" Margin="20,5" x:Name="viptitle">
                             <Label Text="VIP" 
                                  FontSize="30" 

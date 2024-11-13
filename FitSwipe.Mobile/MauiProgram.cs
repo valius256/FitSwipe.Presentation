@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using FFImageLoading.Maui;
 using Firebase.Auth;
 using Firebase.Auth.Providers;
 using FitSwipe.Mobile.Controls;
@@ -24,6 +25,7 @@ namespace FitSwipe.Mobile
                 .UseMauiCommunityToolkitMediaElement()
                 .UseFluentMauiIcons()
                 .UseMauiCommunityToolkit()
+                .UseFFImageLoading() // Initialize FFImageLoading
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
