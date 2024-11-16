@@ -87,14 +87,16 @@
                         <Label 
                         Text="Số dư của bạn" 
                         FontSize="Large" 
-                        HorizontalOptions="Center" />
+                        HorizontalOptions="Center"
+                            TextColor="Black"/>
 
                         <Label 
                         x:Name="BalanceLabel"
                         Text="{Binding Balance}" 
                         FontSize="32"
                         HorizontalOptions="Center"
-                        FontAttributes="Bold" />
+                        FontAttributes="Bold" 
+                            TextColor="Black"/>
 
                         <!-- Buttons for Withdraw and Deposit -->
                         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20">
@@ -103,6 +105,7 @@
                             x:Name="btnWithdraw"
                             WidthRequest="120"
                             BackgroundColor="#52BB00"
+                            TextColor="White"
                             Clicked="btnWithdraw_Clicked" />
 
                             <Button 
@@ -110,6 +113,7 @@
                             WidthRequest="120"
                             x:Name="btnDeposit"
                             BackgroundColor="#2E3192"
+                            TextColor="White"
                             Clicked="btnDeposit_Clicked"/>
                         </StackLayout>
                     </StackLayout>

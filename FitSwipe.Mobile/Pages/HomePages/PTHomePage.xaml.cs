@@ -6,7 +6,7 @@ using FitSwipe.Shared.Dtos.Subscription;
 using FitSwipe.Shared.Dtos.Transactions;
 using FitSwipe.Shared.Dtos.Users;
 using FitSwipe.Shared.Utils;
-using Syncfusion.Maui.Core.Carousel;
+using FitSwipe.Mobile.Extensions;
 using System.Collections.ObjectModel;
 
 namespace FitSwipe.Mobile.Pages.HomePages;
@@ -246,11 +246,12 @@ public partial class PTHomePage : ContentPage
 
         loadingDialog.IsVisible = false;
     }
+
     private void FormatTransactions()
     {
         foreach (var transaction in Transactions)
         {
-            transaction.AmountDisplay = transaction.Amount.ToString("C0", new System.Globalization.CultureInfo("vi-VN"));
+            transaction.AmountDisplay = (transaction.Amount * 97 / 100).ToVND();
             if (transaction.Status == Shared.Enum.TransactionStatus.Successed)
             {
                 transaction.TextColor = "#52BB00";
@@ -265,17 +266,18 @@ public partial class PTHomePage : ContentPage
                 transaction.AmountColor = "#52BB00";
                 transaction.AmountDisplay = "+ " + transaction.AmountDisplay;
             }
+            else if (transaction.Type == Shared.Enum.TransactionType.AutoDeduction || transaction.Type == Shared.Enum.TransactionType.DirectPayment)
+            {
+                transaction.AmountColor = "#52BB00";
+                transaction.AmountDisplay = "+ " + transaction.AmountDisplay;
+                transaction.CommissionFee = "(Đã trừ " + (transaction.Amount * 3 / 100).ToVND() + " phí hoa hồng)";
+            }
             else if (transaction.Type == Shared.Enum.TransactionType.Withdrawal)
             {
                 transaction.AmountColor = "Gray";
                 transaction.AmountDisplay = "- " + transaction.AmountDisplay;
             }
-            else if (transaction.Type == Shared.Enum.TransactionType.AutoDeduction)
-            {
-                transaction.AmountColor = "Gray";
-                transaction.AmountDisplay = "- " + transaction.AmountDisplay;
-            }
-            else if (transaction.Type == Shared.Enum.TransactionType.DirectPayment)
+            else
             {
                 transaction.AmountColor = "#0394fc";
             }

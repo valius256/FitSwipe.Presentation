@@ -16,6 +16,7 @@
         <ResourceDictionary>
             <trainingConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
             <trainingConverters:CountToVisibilityLabelConverter x:Key="CountToVisibilityLabelConverter" />
+            <converters:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter" />
             <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -28,7 +29,7 @@
                         
                         <HorizontalStackLayout HorizontalOptions="Center">
                             <Image Source="fitswipe_icon" WidthRequest="48" HeightRequest="48"/>
-                            <Label Text="FitSwipe" FontSize="Title" FontAttributes="Bold,Italic" VerticalOptions="Center" WidthRequest="100"></Label>
+                            <Label Text="FitSwipe" FontSize="Title" FontAttributes="Bold,Italic" VerticalOptions="Center" WidthRequest="100" TextColor="Black"></Label>
                         </HorizontalStackLayout>
                         <Label 
                             Text="Chào mừng trở lại" 
@@ -244,7 +245,7 @@
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="120"/>
-                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="120"/>
                                         <ColumnDefinition Width="70"/>
                                         <ColumnDefinition Width="100"/>
                                         <ColumnDefinition Width="120"/>
@@ -270,7 +271,7 @@
                                                 </Grid.RowDefinitions>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="120"/>
-                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="120"/>
                                                     <ColumnDefinition Width="70"/>
                                                     <ColumnDefinition Width="100"/>
                                                     <ColumnDefinition Width="120"/>
@@ -279,7 +280,11 @@
 
                                                 <!-- Table Data Rows -->
                                                 <Label Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Center" TextColor="Black" Text="{Binding TranscationCode}" />
-                                                <Label Grid.Row="0" Grid.Column="1" HorizontalTextAlignment="Center" TextColor="{Binding AmountColor}" FontAttributes="Bold" Text="{Binding AmountDisplay}" />
+                                                <VerticalStackLayout Grid.Row="0" Grid.Column="1">
+                                                    <Label  HorizontalTextAlignment="Center" TextColor="{Binding AmountColor}" FontAttributes="Bold" Text="{Binding AmountDisplay}" />
+                                                    <Label  HorizontalTextAlignment="Center" TextColor="Gray" FontAttributes="Italic" Text="{Binding CommissionFee}"
+                                                        FontSize="12" IsVisible="{Binding CommissionFee, Converter={StaticResource EmptyStringToVisibilityConverter}}"/>
+                                                </VerticalStackLayout>
                                                 <Label Grid.Row="0" Grid.Column="2" HorizontalTextAlignment="Center" TextColor="Black" Text="{Binding Method}" />
                                                 <Label Grid.Row="0" Grid.Column="3" HorizontalTextAlignment="Center" TextColor="{Binding TextColor}" FontAttributes="Bold" Text="{Binding Status}" />
                                                 <Label Grid.Row="0" Grid.Column="4" HorizontalTextAlignment="Center" TextColor="Black" Text="{Binding CreatedDate}" />

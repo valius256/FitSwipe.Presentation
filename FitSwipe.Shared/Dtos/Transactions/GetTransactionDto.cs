@@ -28,6 +28,19 @@ namespace FitSwipe.Shared.Dtos.Transactions
                 }
             }
         }
+        private string _commissionFee = string.Empty;
+        public string CommissionFee
+        {
+            get => _commissionFee;
+            set
+            {
+                if (_commissionFee != value)
+                {
+                    _commissionFee = value;
+                    OnPropertyChanged(nameof(CommissionFee));
+                }
+            }
+        }
         private string _amountColor = "#000000";
         public string AmountColor
         {
