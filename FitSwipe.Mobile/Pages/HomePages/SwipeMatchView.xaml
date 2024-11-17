@@ -176,6 +176,11 @@
 
                             </HorizontalStackLayout>
                         </VerticalStackLayout>
+                        <Button x:Name="buttonToggle" Clicked="buttonToggle_Clicked" BackgroundColor="White" ImageSource="information_icon" 
+                                ZIndex="99"
+                                Margin="15,0,0,100"
+                                WidthRequest="40" HeightRequest="40" CornerRadius="40" Padding="2" HorizontalOptions="Start"></Button>
+
                         <StackLayout x:Name="animateFlyout" VerticalOptions="Center" Spacing="10" Margin="5,-100,0,0">
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer x:Name="tapFlyout" Tapped="tapFlyout_Tapped"></TapGestureRecognizer>

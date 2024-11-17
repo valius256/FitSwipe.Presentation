@@ -40,14 +40,14 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
 		<EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
-		<DebugSymbols>False</DebugSymbols>
+		<DebugSymbols>True</DebugSymbols>
 		<ApplicationId>com.oldgold.fitswipe</ApplicationId>
 		<ApplicationTitle>FitSwipe</ApplicationTitle>
 		<AndroidKeyStore>False</AndroidKeyStore>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
-	  <DebugSymbols>False</DebugSymbols>
+	  <DebugSymbols>True</DebugSymbols>
 	  <ApplicationId>com.oldgold.fitswipe</ApplicationId>
 	  <ApplicationTitle>FitSwipe</ApplicationTitle>
 	  <AndroidKeyStore>False</AndroidKeyStore>
@@ -90,7 +90,7 @@
 		  <Color>#52BB00</Color>
 		  <ForegroundFile>Resources\AppIcon\fitswipe_small.svg</ForegroundFile>
 		</MauiIcon>
-		<MauiSplashScreen Include="Resources\Splash\fitswipe_splash.svg" Color="#52BB00" />
+		<MauiSplashScreen Include="Resources\Splash\fitswipe_splash.svg" Color="#FFFFFF" BaseSize="128,128" />
 
 		<!-- Splash Screen -->
 		<!--<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />-->

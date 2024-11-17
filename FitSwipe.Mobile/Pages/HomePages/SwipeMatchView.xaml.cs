@@ -13,6 +13,7 @@ using FitSwipe.Shared.Enums;
 using FitSwipe.Shared.Utils;
 using Microsoft.Maui.Controls;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace FitSwipe.Mobile.Pages.HomePages;
 
@@ -26,6 +27,7 @@ public partial class SwipeMatchView : ContentPage
     private PTList _ptList;
     private GetUserDetailDto _loginedUser;
     private Navbar _navbar;
+    private bool isFirstLoad = true;
     public ObservableCollection<GetUserWithTagDto> Items
     {
         get => _items;
@@ -45,61 +47,65 @@ public partial class SwipeMatchView : ContentPage
         BindingContext = this;
     }
 
-    private async void OnCurrentItemChanged(object? sender, CurrentItemChangedEventArgs e)
+
+    private async Task SetupAnimateCarosel()
     {
-        //matchView.CurrentItemChanged += OnCurrentItemChanged;
         try
-        {     
-            if (e.CurrentItem != null)
+        {
+            if (matchView != null)
             {
-                var carouselView = sender as CarouselView;
-                if (carouselView != null)
+                // Get the binding context of the current item
+                var currentItem = matchView.CurrentItem;
+
+                // Loop through all the visible views to find the one that matches the current item
+                var views = matchView.VisibleViews.ToList();
+                foreach (var visibleView in views)
                 {
-                    // Get the binding context of the current item
-                    var currentItem = e.CurrentItem;
-
-                    // Loop through all the visible views to find the one that matches the current item
-                    var views = carouselView.VisibleViews.ToList();
-                    foreach (var visibleView in views)
+                    if (visibleView.BindingContext == currentItem)
                     {
-                        if (visibleView.BindingContext == currentItem)
+                        // We found the view that corresponds to the current item
+                        var flyoutLayout = visibleView.FindByName<StackLayout>("animateFlyout");
+                        var viplayout = visibleView.FindByName<HorizontalStackLayout>("viptitle");
+                        var buttonToggle = visibleView.FindByName<Button>("buttonToggle");
+
+                        var tasks = new List<Task>();
+
+                        if (flyoutLayout != null)
                         {
-                            // We found the view that corresponds to the current item
-                            var flyoutLayout = visibleView.FindByName<StackLayout>("animateFlyout");
-                            var viplayout = visibleView.FindByName<HorizontalStackLayout>("viptitle");
+                            // Set initial position of the flyout off-screen
+                            flyoutLayout.TranslationX = -300;
+                            buttonToggle.TranslationX = -100;
 
-                            var tasks = new List<Task>();
-
-                            if (flyoutLayout != null)
-                            {
-                                // Set initial position of the flyout off-screen
-                                flyoutLayout.TranslationX = -flyoutLayout.Width;
-
-                                // Add flyout animation to the task list
-                                tasks.Add(flyoutLayout.TranslateTo(0, 0, 500, Easing.CubicOut)); // 500ms animation duration
-                            }
-
-                            if (viplayout != null)
-                            {
-                                // Set initial position of the flyout off-screen
-                                viplayout.TranslationX = viplayout.Width;
-
-                                // Add viplayout animation to the task list
-                                tasks.Add(viplayout.TranslateTo(0, 0, 500, Easing.CubicIn)); // 500ms animation duration
-                            }
-
-                            // Run both animations simultaneously
-                            await Task.WhenAll(tasks);
-
+                            // Add flyout animation to the task list
+                            tasks.Add(flyoutLayout.TranslateTo(0, 0, 500, Easing.CubicOut)); // 500ms animation duration
                         }
+
+                        if (viplayout != null)
+                        {
+                            // Set initial position of the flyout off-screen
+                            viplayout.TranslationX = viplayout.Width;
+
+                            // Add viplayout animation to the task list
+                            tasks.Add(viplayout.TranslateTo(0, 0, 500, Easing.CubicIn)); // 500ms animation duration
+                        }
+
+                        // Run both animations simultaneously
+                        await Task.WhenAll(tasks);
+
                     }
                 }
+
             }
         }
         catch (Exception ex)
         {
             await DisplayAlert("Lỗi", "Có lỗi xảy ra : " + ex.Message, "OK");
         }
+    }
+    private async void OnCurrentItemChanged(object? sender, CurrentItemChangedEventArgs e)
+    {
+        //matchView.CurrentItemChanged += OnCurrentItemChanged;
+        await SetupAnimateCarosel();
     }
 
     private async void btnMatch_Clicked(object sender, EventArgs e)
@@ -165,6 +171,7 @@ public partial class SwipeMatchView : ContentPage
         loadingDialog.IsVisible = false;
         isFetching = false;
         matchView.IsVisible = true;
+        UpdateCarosel();
     }
     private void AppendList(IList<GetUserWithTagDto> users)
     {
@@ -302,7 +309,11 @@ public partial class SwipeMatchView : ContentPage
             }
         } 
     }
-
+    private async void UpdateCarosel()
+    {
+        await Task.Delay(1000);
+        await SetupAnimateCarosel();
+    }
     private async void btnName_Clicked(object sender, EventArgs e)
     {
         var button = sender as Button;
@@ -368,20 +379,61 @@ public partial class SwipeMatchView : ContentPage
                         {
                             // We found the view that corresponds to the current item
                             var flyoutLayout = visibleView.FindByName<StackLayout>("animateFlyout");
-                            var viplayout = visibleView.FindByName<HorizontalStackLayout>("viptitle");
+                            var buttonToggle = visibleView.FindByName<Button>("buttonToggle");
 
                             var tasks = new List<Task>();
 
                             if (flyoutLayout != null)
                             {
                                 // Add flyout animation to the task list
-                                tasks.Add(flyoutLayout.TranslateTo(-flyoutLayout.Width, 0, 500, Easing.CubicIn)); // 500ms animation duration
+                                tasks.Add(flyoutLayout.TranslateTo(-300, 0, 500, Easing.CubicIn)); // 500ms animation duration
+                                tasks.Add(buttonToggle.TranslateTo(0, 0, 500, Easing.CubicOut)); // 500ms animation duration
                             }
                             // Run both animations simultaneously
                             await Task.WhenAll(tasks);
 
                         }                    
                     }
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Lỗi", "Có lỗi xảy ra : " + ex.Message, "OK");
+        }
+    }
+
+    private async void buttonToggle_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            if (matchView.CurrentItem != null)
+            {
+                // Get the binding context of the current item
+                var currentItem = matchView.CurrentItem;
+
+                // Loop through all the visible views to find the one that matches the current item
+                var views = matchView.VisibleViews.ToList();
+                foreach (var visibleView in views)
+                {
+                    if (visibleView.BindingContext == currentItem)
+                    {
+                        // We found the view that corresponds to the current item
+                        var flyoutLayout = visibleView.FindByName<StackLayout>("animateFlyout");
+                        var buttonToggle = visibleView.FindByName<Button>("buttonToggle");
+
+                        var tasks = new List<Task>();
+
+                        if (flyoutLayout != null)
+                        {
+                            // Add flyout animation to the task list
+                            tasks.Add(flyoutLayout.TranslateTo(0, 0, 500, Easing.CubicOut)); // 500ms animation duration
+                            tasks.Add(buttonToggle.TranslateTo(-100, 0, 500, Easing.CubicIn)); // 500ms animation duration
+                        }
+                        // Run both animations simultaneously
+                        await Task.WhenAll(tasks);
+
+                    }
+                }
             }
         }
         catch (Exception ex)
