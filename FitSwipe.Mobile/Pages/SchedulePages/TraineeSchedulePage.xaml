@@ -113,6 +113,43 @@
                     </BoxView>
                 </HorizontalStackLayout>
                 <controls:TimeTable x:Name="timeTable" Theme="#52BB00" SlotAction="timeTable_SlotAction" WeekChanged="timeTable_WeekChanged"></controls:TimeTable>
+                <VerticalStackLayout  Margin="0,20">
+                    <Label TextColor="Black" Text="Ghi chú" FontAttributes="Bold"></Label>
+                    <FlexLayout JustifyContent="SpaceBetween">
+                        <VerticalStackLayout>
+                            <HorizontalStackLayout Spacing="10">
+                                <BoxView CornerRadius="2" WidthRequest="10" HeightRequest="10" BackgroundColor="#52BB00"></BoxView>
+                                <Label Text="Buổi tập sắp bắt đầu" TextColor="Black" FontSize="12"></Label>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="10">
+                                <BoxView CornerRadius="2" WidthRequest="10" HeightRequest="10" BackgroundColor="#e3a702"></BoxView>
+                                <Label Text="Buổi tập đang diễn ra" TextColor="Black" FontSize="12"></Label>
+                            </HorizontalStackLayout>
+                            
+                        </VerticalStackLayout>
+                        <VerticalStackLayout>
+                            <HorizontalStackLayout Spacing="10">
+                                <BoxView CornerRadius="2" WidthRequest="10" HeightRequest="10" BackgroundColor="#628a77"></BoxView>
+                                <Label Text="Buổi tập đã hoàn tất" TextColor="Black" FontSize="12"></Label>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="10">
+                                <BoxView CornerRadius="2" WidthRequest="10" HeightRequest="10" BackgroundColor="#000000"></BoxView>
+                                <Label Text="Buổi tập đã bị hủy" TextColor="Black" FontSize="12"></Label>
+                            </HorizontalStackLayout>
+                            
+                        </VerticalStackLayout>
+                    </FlexLayout>
+                    <FlexLayout JustifyContent="SpaceBetween" Margin="0,10">
+                        <HorizontalStackLayout Spacing="10">
+                            <Image Source="white_warning" WidthRequest="15" HeightRequest="15" VerticalOptions="Center"></Image>
+                            <Label Text="Buổi tập chưa thanh toán" TextColor="Black" FontSize="12" VerticalOptions="Center"></Label>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Spacing="10">
+                            <Image Source="red_warning" WidthRequest="15" HeightRequest="15" VerticalOptions="Center"></Image>
+                            <Label Text="Buổi tập đã xong nhưng chưa thanh toán" TextColor="Black" FontSize="12" WidthRequest="150" VerticalOptions="Center"></Label>
+                        </HorizontalStackLayout>
+                    </FlexLayout>
+                </VerticalStackLayout>
                 <Border Margin="0,20"
                     Stroke="LimeGreen"
                     Padding="10"
@@ -130,12 +167,12 @@
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Label Text="Thời gian" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="0"></Label>
-                        <Label Text="Tổng số buổi" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="1"></Label>
-                        <Label Text="Tổng thời lượng" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="2"></Label>
-                        <Label x:Name="sttTimeSpan" Text="{Binding CurrentTrainingDetail.DurationString}" FontSize="12" Grid.Column="1" Grid.Row="0"></Label>
-                        <Label x:Name="sttTotalSlots" Text="{Binding CurrentTrainingDetail.Slots.Count, StringFormat='{0} buổi'}" FontSize="12" Grid.Column="1" Grid.Row="1"></Label>
-                        <Label x:Name="sttTotalDuration" Text="{Binding CurrentTrainingDetail.TotalHours, StringFormat='{0} tiếng'}" FontSize="12" Grid.Column="1" Grid.Row="2"></Label>
+                        <Label Text="Thời gian" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="0" TextColor="Black"></Label>
+                        <Label Text="Tổng số buổi" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="1" TextColor="Black"></Label>
+                        <Label Text="Tổng thời lượng" FontSize="12" FontAttributes="Bold" Grid.Column="0" Grid.Row="2" TextColor="Black"></Label>
+                        <Label x:Name="sttTimeSpan" Text="{Binding CurrentTrainingDetail.DurationString}" FontSize="12" Grid.Column="1" Grid.Row="0" TextColor="Black"></Label>
+                        <Label x:Name="sttTotalSlots" Text="{Binding CurrentTrainingDetail.Slots.Count, StringFormat='{0} buổi'}" FontSize="12" Grid.Column="1" Grid.Row="1" TextColor="Black"></Label>
+                        <Label x:Name="sttTotalDuration" Text="{Binding CurrentTrainingDetail.TotalHours, StringFormat='{0} tiếng'}" FontSize="12" Grid.Column="1" Grid.Row="2" TextColor="Black"></Label>
                     </Grid>
                 </Border>
                 <FlexLayout Margin="5" IsVisible="{Binding IsInTraining}">

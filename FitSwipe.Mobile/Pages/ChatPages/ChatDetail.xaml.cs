@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
+using FitSwipe.Mobile.Pages.ProfilePages;
 using FitSwipe.Shared.Dtos.Chats;
 using FitSwipe.Shared.Dtos.Paging;
+using FitSwipe.Shared.Dtos.Trainings;
 using FitSwipe.Shared.Dtos.Users;
 using FitSwipe.Shared.Enums;
 using FitSwipe.Shared.Utils;
@@ -23,6 +25,7 @@ public partial class ChatDetail : ContentPage
     private int newMessages = 0;
     private int total = 1;
     private int pageSize = 30;
+    private bool isVisiting = false;
     public string Theme
     {
         get => _theme;
@@ -179,16 +182,23 @@ public partial class ChatDetail : ContentPage
             //await DisplayAlert("Lỗi", $"Lỗi kết nối: {ex.Message}", "OK");
         }
     }
-
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        isVisiting = false;
+    }
     protected override async void OnDisappearing()
     {
         base.OnDisappearing();
-        if (_hubConnection != null)
+        if (!isVisiting)
         {
-            await _hubConnection.StopAsync();
+            if (_hubConnection != null)
+            {
+                await _hubConnection.StopAsync();
+            }
+            var role = LoginedUser.Role == Role.Trainee ? "Trainee" : "PT";
+            await Shell.Current.GoToAsync($"//ChatPage?role={role}&flag=false");
         }
-        var role = LoginedUser.Role == Role.Trainee ? "Trainee" : "PT";
-        await Shell.Current.GoToAsync($"//ChatPage?role={role}&flag=false");
     }
 
     public void Dispose()
@@ -261,5 +271,18 @@ public partial class ChatDetail : ContentPage
             loadingMessage.IsVisible = false;
         }
 
+    }
+
+    private async void tapAvatar_Tapped(object sender, TappedEventArgs e)
+    {
+        isVisiting = true;
+        if (ChatRoom.Users[0].Role == Role.PT)
+        {
+            await Navigation.PushModalAsync(new PTProfilePage(ChatRoom.Users[0].UserFirebaseId));
+        }
+        else
+        {
+            await Navigation.PushModalAsync(new UserProfilePage(ChatRoom.Users[0].UserFirebaseId));
+        }
     }
 }

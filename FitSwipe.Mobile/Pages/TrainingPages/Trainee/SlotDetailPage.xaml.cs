@@ -2,9 +2,7 @@
 using CommunityToolkit.Maui.Core.Primitives;
 using CommunityToolkit.Maui.Views;
 using FitSwipe.Mobile.Pages.PayingPages;
-using FitSwipe.Shared.Dtos;
 using FitSwipe.Shared.Dtos.Slots;
-using FitSwipe.Shared.Enums;
 using FitSwipe.Shared.Utils;
 using System.Collections.ObjectModel;
 
@@ -13,19 +11,10 @@ namespace FitSwipe.Mobile.Pages.TrainingPages;
 public partial class SlotDetailPage : ContentPage
 {
     public ObservableCollection<GetSlotVideoDto> _videos { get; set; } = [];
-    public List<string> ThumbnailsSource { get; set; } = new List<string>();
     private bool _isSwipe = true;
     private GetSlotDetailDto _slotDetail = new();
     private Guid _slotId;
-    private string _selectedThumbnail = string.Empty;
-    public string SelectedThumbnail {
-        get => _selectedThumbnail;
-        set
-        {
-            _selectedThumbnail = value;
-            OnPropertyChanged(nameof(SelectedThumbnail)); // Notify UI of the change
-        }
-    }
+
     public ObservableCollection<GetSlotVideoDto> Videos
     {
         get => _videos;
@@ -73,7 +62,6 @@ public partial class SlotDetailPage : ContentPage
                 Videos = SlotDetail.Videos.ToObservableCollection();
                 if (SlotDetail.Videos.Count > 0)
                 {
-                    ThumbnailsSource = Videos.Select(v => v.ThumbnailUrl).ToList();
                     ChangedVideoSelected(0);
                 }
             }
@@ -117,31 +105,38 @@ public partial class SlotDetailPage : ContentPage
         var tap = frame.GestureRecognizers[0] as TapGestureRecognizer;
         if (tap != null)
         {
-            var boundedString = tap?.CommandParameter as string;
-            if (boundedString != null)
+            var boundedItem = tap?.CommandParameter as GetSlotVideoDto;
+            if (boundedItem != null)
             {
-                SelectedThumbnail = boundedString;
+                var video = SlotDetail.Videos.FirstOrDefault(ts => ts.Id == boundedItem.Id);
+                if (video != null)
+                {
+                    ChangedVideoSelected(SlotDetail.Videos.IndexOf(video));
+                }
             }
-            var pos = ThumbnailsSource.FindIndex(ts => ts == boundedString);
-            ChangedVideoSelected(pos);
-
         }
 
     }
 
     private async void ChangedVideoSelected(int index)
     {
-        _isSwipe = false;
-        // Play or prepare the video at the new position
-        //PlayMediaElementAtPosition(index);
+        if (index >= 0)
+        {
+            _isSwipe = false;
+            // Play or prepare the video at the new position
+            //PlayMediaElementAtPosition(index);
 
-        videoCarousel.Position = index;
-        SelectedThumbnail = Videos[index].ThumbnailUrl;
-        lblDescription.Text = Videos[index].Description;
-        //SetMediaElementSource(Videos[index].VideoSource);
+            videoCarousel.Position = index;
+            for (int i = 0; i < SlotDetail.Videos.Count; i++)
+            {
+                SlotDetail.Videos[i].ThumbnailShowPlayIcon = index == i;
+            }
+            lblDescription.Text = Videos[index].Description;
+            //SetMediaElementSource(Videos[index].VideoSource);
 
-        await Task.Delay(500);
-        _isSwipe = true;
+            await Task.Delay(500);
+            _isSwipe = true;
+        }
     }
 
     private void MediaElement_StateChanged(object sender, MediaStateChangedEventArgs e)
@@ -172,7 +167,30 @@ public partial class SlotDetailPage : ContentPage
         {
             int newPosition = videoCarousel.Position;
 
-            SelectedThumbnail = Videos[newPosition].ThumbnailUrl;
+            var currentItem = videoCarousel.CurrentItem;
+
+            var views = videoCarousel.VisibleViews.ToList();
+            foreach (var visibleView in views)
+            {
+                var video = visibleView.FindByName<MediaElement>("videoPlayer");
+                // We found the view that corresponds to the current item
+                if (video != null)
+                {
+                    if (visibleView.BindingContext != currentItem)
+                    {
+                        video.Stop();
+                    }
+                }
+            }
+            var boundedItem = currentItem as GetSlotVideoDto;
+            if (boundedItem != null)
+            {
+                var video = SlotDetail.Videos.FirstOrDefault(ts => ts.Id == boundedItem.Id);
+                if (video != null)
+                {
+                    ChangedVideoSelected(SlotDetail.Videos.IndexOf(video));
+                }
+            }
             lblDescription.Text = Videos[newPosition].Description;
             //SetMediaElementSource(Videos[newPosition].VideoSource);
         }

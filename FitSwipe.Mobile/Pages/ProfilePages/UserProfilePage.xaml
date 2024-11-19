@@ -355,30 +355,34 @@
 
                                         <!-- User and PT Photos -->
                                         <Grid ColumnDefinitions="*, *"
-                                  RowDefinitions="*, *"
-                                  Padding="0, 5, 0, 0"
-                                  RowSpacing="5"
-                                  ColumnSpacing="3">
+                                              RowDefinitions="*, *"
+                                              Padding="0, 5, 0, 0"
+                                              RowSpacing="5"
+                                              ColumnSpacing="3">
                                             <Label Text="{Binding User.UserName}"
-                                     FontAttributes="Bold"
-                                     HorizontalTextAlignment="Center"
-                                     TextColor="White"
-                                     Grid.Column="0"
-                                     Grid.Row="0" />
+                                                 FontAttributes="Bold"
+                                                 HorizontalTextAlignment="Center"
+                                                 TextColor="White"
+                                                 Grid.Column="0"
+                                                 Grid.Row="0" />
                                             <Label Text="{Binding CurrentTraining.PT.UserName}"
-                                     Grid.Column="1"
-                                     FontAttributes="Bold"
-                                     TextColor="White"
-                                     HorizontalTextAlignment="Center"
-                                     Grid.Row="0" />
+                                                 Grid.Column="1"
+                                                 FontAttributes="Bold"
+                                                 TextColor="White"
+                                                 HorizontalTextAlignment="Center"
+                                                 Grid.Row="0" />
                                             <Image Source="{Binding User.AvatarUrl}"
-                                     Grid.Column="0"
-                                     Grid.Row="1"
-                                     Aspect="AspectFill" />
+                                                 Grid.Column="0"
+                                                 Grid.Row="1"
+                                                 Aspect="AspectFill" 
+                                                BackgroundColor="White"
+                                                   />
                                             <Image Source="{Binding CurrentTraining.PT.AvatarUrl}"
-                                     Grid.Column="1"
-                                     Grid.Row="1"
-                                     Aspect="AspectFill" />
+                                                 Grid.Column="1"
+                                                 Grid.Row="1"
+                                                 Aspect="AspectFill"
+                                                BackgroundColor="White"
+                                                   />
                                         </Grid>
                                     </StackLayout>
                                 </StackLayout>

@@ -29,7 +29,8 @@
                     <Frame BorderColor="Transparent" CornerRadius="100" BackgroundColor="{Binding Theme}" Padding="2">
                         <Frame BorderColor="{Binding Theme}" CornerRadius="100" Padding="0"
                                WidthRequest="60" 
-                                HeightRequest="60" >
+                                HeightRequest="60" 
+                               BackgroundColor="White">
                             <Image Source="{Binding Guest.AvatarUrl}" 
                                 WidthRequest="60" 
                                 HeightRequest="60" 
@@ -37,8 +38,12 @@
                                 VerticalOptions="Center"
                                 HorizontalOptions="Start" />
                         </Frame>
+                        
                     </Frame>
                     <Label Text="{Binding ChatRoom.Users[0].UserName}" TextColor="Black" Margin="10,0" FontSize="20" FontAttributes="Bold"></Label>
+                    <HorizontalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer x:Name="tapAvatar" Tapped="tapAvatar_Tapped"/>
+                    </HorizontalStackLayout.GestureRecognizers>
                 </HorizontalStackLayout>
 
                 <BoxView HeightRequest="2" BackgroundColor="{Binding Theme}"></BoxView>

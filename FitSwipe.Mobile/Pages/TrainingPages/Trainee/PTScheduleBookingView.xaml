@@ -103,6 +103,45 @@
                     </BoxView>
                 </HorizontalStackLayout>
                 <controls:TimeTable x:Name="timeTable" Theme="#2E3192" SlotAction="timeTable_SlotAction" WeekChanged="timeTable_WeekChanged"></controls:TimeTable>
+                <VerticalStackLayout  Margin="0,20">
+                    <Label TextColor="Black" Text="Ghi chú" FontAttributes="Bold"></Label>
+                    <FlexLayout JustifyContent="SpaceBetween">
+                        <VerticalStackLayout>
+                            <HorizontalStackLayout Spacing="10">
+                                <BoxView CornerRadius="2" WidthRequest="10" HeightRequest="10" BackgroundColor="#666666"></BoxView>
+                                <Label Text="Buổi tập yêu cầu (chưa duyệt)" TextColor="Black" FontSize="12" WidthRequest="120"></Label>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="10">
+                                <BoxView CornerRadius="2" WidthRequest="10" HeightRequest="10" BackgroundColor="#000000"></BoxView>
+                                <Label Text="Buổi tập đã bị hủy" TextColor="Black" FontSize="12"></Label>
+                            </HorizontalStackLayout>
+                            <!--<HorizontalStackLayout Spacing="10">
+                                <BoxView CornerRadius="2" WidthRequest="10" HeightRequest="10" BackgroundColor="#cdcdcd"></BoxView>
+                                <Label Text="Buổi tập yêu cầu đã qua" TextColor="Black" FontSize="12"></Label>
+                            </HorizontalStackLayout>-->
+                        </VerticalStackLayout>
+                        <VerticalStackLayout>
+                            <HorizontalStackLayout Spacing="10">
+                                <BoxView CornerRadius="2" WidthRequest="10" HeightRequest="10" BackgroundColor="#2E3192"></BoxView>
+                                <Label Text="Khung giờ rảnh sắp tới" TextColor="Black" FontSize="12"></Label>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="10">
+                                <BoxView CornerRadius="2" WidthRequest="10" HeightRequest="10" BackgroundColor="#ededed"></BoxView>
+                                <Label Text="Khung giờ rảnh đã qua" TextColor="Black" FontSize="12"></Label>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </FlexLayout>
+                    <FlexLayout JustifyContent="SpaceBetween" Margin="0,10">
+                        <HorizontalStackLayout Spacing="10">
+                            <Image Source="white_warning" WidthRequest="15" HeightRequest="15" VerticalOptions="Center"></Image>
+                            <Label Text="Buổi tập chưa thanh toán" TextColor="Black" FontSize="12" VerticalOptions="Center"></Label>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Spacing="10">
+                            <Image Source="red_warning" WidthRequest="15" HeightRequest="15" VerticalOptions="Center"></Image>
+                            <Label Text="Buổi tập đã xong nhưng chưa thanh toán" TextColor="Black" FontSize="12" WidthRequest="150" VerticalOptions="Center"></Label>
+                        </HorizontalStackLayout>
+                    </FlexLayout>
+                </VerticalStackLayout>
                 <Border Margin="0,20"
                     Stroke="LimeGreen"
                     Padding="10">

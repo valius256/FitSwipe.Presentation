@@ -26,6 +26,7 @@
             <ScrollView Grid.Row="0">
                 <VerticalStackLayout  VerticalOptions="Start">
                     <Button ImageSource="back.png" WidthRequest="60" HeightRequest="60" BackgroundColor="Transparent"
+                            Margin="5"
                             x:Name="btnBack" Clicked="btnBack_Clicked"
                             HorizontalOptions="Start" VerticalOptions="Start">
                     </Button>
@@ -111,31 +112,51 @@
                              BackgroundColor="Transparent"/>
 
                         <!-- Thumbnail CollectionView under the main Carousel -->
-                        <CollectionView ItemsSource="{Binding ThumbnailsSource}" Margin="10"
+                        <CollectionView ItemsSource="{Binding SlotDetail.Videos}" Margin="10"
                             Grid.Row="1"
                             HorizontalScrollBarVisibility="Always"
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="End"
-                            SelectionMode="Single"
-                            SelectedItem="{Binding SelectedThumbnail}">
+                            SelectionMode="Single">
                             <CollectionView.ItemsLayout>
                                 <LinearItemsLayout Orientation="Horizontal"/>
                             </CollectionView.ItemsLayout>
 
                             <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <Frame BorderColor="#52BB00" BackgroundColor="#52BB00"
-                                        Margin="5" Padding="3">
-                                        <Frame Padding="0" BorderColor="#52BB00">
-                                            <Image Source="{Binding .}" 
-                                                Aspect="AspectFill"
-                                                HeightRequest="70" 
-                                                WidthRequest="100" />
-                                            <Frame.GestureRecognizers>
-                                                <TapGestureRecognizer x:Name="thumbnailTap" Tapped="thumbnailTap_Tapped" CommandParameter="{Binding}"></TapGestureRecognizer>
-                                            </Frame.GestureRecognizers>
+                                <DataTemplate x:DataType="dto:GetSlotVideoDto">
+                                    <Grid>
+                                        
+                                        <Frame BorderColor="#52BB00" BackgroundColor="#52BB00"
+                                                Margin="5" Padding="3">
+                                            <Frame Padding="0" BorderColor="#52BB00">
+                                                <Image Source="{Binding ThumbnailUrl}" 
+                                                        Aspect="AspectFill"
+                                                        HeightRequest="70" 
+                                                        WidthRequest="100" />
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer x:Name="thumbnailTap" Tapped="thumbnailTap_Tapped" CommandParameter="{Binding}"></TapGestureRecognizer>
+                                                </Frame.GestureRecognizers>
+                                            </Frame>
                                         </Frame>
-                                    </Frame>
+                                        <!-- Overlay Play Button -->
+                                        <Border Stroke="Black"
+                                                WidthRequest="50"
+                                                HeightRequest="50"
+                                                Padding="8"
+                                                BackgroundColor="White"
+                                                Opacity="0.75"
+                                                IsVisible="{Binding ThumbnailShowPlayIcon}">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="50" />
+                                            </Border.StrokeShape>
+                                            <Image Source="play.png"
+                                                 BackgroundColor="Transparent"
+                                                 HorizontalOptions="Center"
+                                                 VerticalOptions="Center"
+                                                 Opacity="1" />
+                                        </Border>
+                                    </Grid>
+                                    
 
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>

@@ -29,7 +29,7 @@
                         
                         <HorizontalStackLayout HorizontalOptions="Center">
                             <Image Source="fitswipe_icon" WidthRequest="48" HeightRequest="48"/>
-                            <Label Text="FitSwipe" FontSize="Title" FontAttributes="Bold,Italic" VerticalOptions="Center" WidthRequest="100" TextColor="Black"></Label>
+                            <Label Text="FitSwipe" FontSize="Title" FontAttributes="Bold,Italic" VerticalOptions="Center" WidthRequest="120" TextColor="Black"></Label>
                         </HorizontalStackLayout>
                         <Label 
                             Text="Chào mừng trở lại" 
@@ -120,7 +120,7 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>
                         <FlexLayout>
-                            <Button BackgroundColor="#52BB00" Text="Xem lịch đầy đủ"
+                            <Button BackgroundColor="#52BB00" Text="Xem lịch đầy đủ" TextColor="White"
                                     x:Name="btnSchedule" Clicked="btnSchedule_Clicked" FlexLayout.Grow="1" Margin="5"></Button>
                         </FlexLayout>
                     </StackLayout>
