@@ -121,7 +121,7 @@
 
                          <!--Amount--> 
                         <Label Text="Số tiền rút" FontAttributes="Bold" TextColor="Black"/>
-                        <Entry Text="{Binding CreateRequest.Amount}" 
+                        <Entry Text="{Binding CreateRequest.Amount, StringFormat='{0:N0}'}" 
                                 Keyboard="Numeric" 
                                 Placeholder="Số lượng muốn rút"
                                 BackgroundColor="White"/>

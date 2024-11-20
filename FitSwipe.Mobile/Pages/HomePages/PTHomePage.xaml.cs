@@ -181,6 +181,10 @@ public partial class PTHomePage : ContentPage
                     Benefit = Subscriptions[subscriptionData.SubscriptionLevel.Value - 1].Benefit
                 };
 
+            } else
+            {
+                IsHavingSubscriptions = false;
+                Subscription = null;
             }
 
         }
@@ -251,7 +255,6 @@ public partial class PTHomePage : ContentPage
     {
         foreach (var transaction in Transactions)
         {
-            transaction.AmountDisplay = (transaction.Amount * 97 / 100).ToVND();
             if (transaction.Status == Shared.Enum.TransactionStatus.Successed)
             {
                 transaction.TextColor = "#52BB00";
@@ -264,22 +267,23 @@ public partial class PTHomePage : ContentPage
             if (transaction.Type == Shared.Enum.TransactionType.Deposit)
             {
                 transaction.AmountColor = "#52BB00";
-                transaction.AmountDisplay = "+ " + transaction.AmountDisplay;
+                transaction.AmountDisplay = "+ " + transaction.Amount.ToVND();
             }
             else if (transaction.Type == Shared.Enum.TransactionType.AutoDeduction || transaction.Type == Shared.Enum.TransactionType.DirectPayment)
             {
                 transaction.AmountColor = "#52BB00";
-                transaction.AmountDisplay = "+ " + transaction.AmountDisplay;
+                transaction.AmountDisplay = "+ " + (transaction.Amount * 97 / 100).ToVND();
                 transaction.CommissionFee = "(Đã trừ " + (transaction.Amount * 3 / 100).ToVND() + " phí hoa hồng)";
             }
             else if (transaction.Type == Shared.Enum.TransactionType.Withdrawal)
             {
                 transaction.AmountColor = "Gray";
-                transaction.AmountDisplay = "- " + transaction.AmountDisplay;
+                transaction.AmountDisplay = "- " + transaction.Amount.ToVND();
             }
             else
             {
                 transaction.AmountColor = "#0394fc";
+                transaction.AmountDisplay = transaction.Amount.ToVND();
             }
         }
     }

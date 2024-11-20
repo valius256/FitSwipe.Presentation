@@ -1,4 +1,5 @@
-﻿using FitSwipe.Mobile.Controls;
+﻿using CommunityToolkit.Maui.Core.Extensions;
+using FitSwipe.Mobile.Controls;
 using FitSwipe.Shared.Dtos.Slots;
 using FitSwipe.Shared.Dtos.Trainings;
 using FitSwipe.Shared.Utils;
@@ -46,6 +47,7 @@ public partial class PTAcceptSchedule : ContentPage
             if (result != null)
             {
                 TrainingDetail = result;
+                TrainingDetail.Slots = TrainingDetail.Slots.OrderBy(s => s.StartTime).ToObservableCollection();
             }
             for (var i = 0; i < TrainingDetail.Slots.Count; i++)
             {

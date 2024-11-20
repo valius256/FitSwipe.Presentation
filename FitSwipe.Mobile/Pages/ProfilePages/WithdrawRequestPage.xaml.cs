@@ -301,6 +301,7 @@ public partial class WithdrawRequestPage : ContentPage
                 IsCreating = false;
                 await DisplayAlert("Thành công", "Thành công. Đã tạo đơn thành công. Chúng tôi sẽ chuyển khoản lại bạn trong 24h", "OK");
                 await FetchRequests();
+                await FetchUserData();
             }
             catch (Exception ex)
             {
@@ -319,6 +320,7 @@ public partial class WithdrawRequestPage : ContentPage
         {
             IsRefreshing = false;
             await FetchRequests();
+            await FetchUserData();
         }
     }
 }
